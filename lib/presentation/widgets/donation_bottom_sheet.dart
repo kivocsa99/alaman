@@ -1,0 +1,589 @@
+import 'package:alaman/domain/city/model/city.model.dart';
+import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
+import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
+import 'package:alaman/presentation/widgets/auth_container.dart';
+import 'package:alaman/presentation/widgets/step_indicator.dart';
+import 'package:alaman/routes/app_route.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+class DonationBottomSheet extends HookConsumerWidget {
+  final List<ScholarshipTypesModel>? scholarships;
+  final List<EducationalYearModel>? educationalYears;
+  final List<CityModel>? cities;
+  const DonationBottomSheet({
+    required this.cities,
+    required this.educationalYears,
+    required this.scholarships,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formKey = useState(GlobalKey<FormState>());
+    var viewInsets = MediaQuery.of(context).viewInsets.bottom;
+    final controller = FixedExtentScrollController();
+    final isLoading = useState(false);
+    final selectedIndex = useState(0);
+    final currentStep = useState(0);
+    final type = useState(scholarships![selectedIndex.value].name!);
+    final typeId = useState(scholarships![selectedIndex.value].id!);
+    final year = useState("Educational Year");
+    final yearId = useState(0);
+    final gender = useState("Gender");
+    final genderId = useState(0);
+    final city = useState("Governate");
+    final cityId = useState(0);
+    final age = useState("Age");
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(50)),
+      height: MediaQuery.of(context).size.height * 0.8,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Form(
+        key: formKey.value,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: viewInsets),
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  top: -25,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(5),
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: StepIndicator(
+                        currentStep: currentStep.value, stepCount: 2),
+                  ),
+                ),
+                AnimatedSwitcher(
+                  duration: const Duration(seconds: 1),
+                  child: currentStep.value == 0
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  onPressed: () => context.router.pop(),
+                                  icon: const Icon(
+                                    Icons.arrow_back,
+                                    color: Color(0xff16437B),
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Our Programs",
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              fontSize: 20,
+                                              color: const Color(0xff16437B),
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                    Text("Choose a type of grant",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyMedium),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () => context.router.pop(),
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Color(0xff16437B),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Gap(40),
+                            ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) =>
+                                  const Gap(10),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => AuthContainer(
+                                color: selectedIndex.value == index
+                                    ? const Color(0xff2A7DE1)
+                                    : Colors.white,
+                                height: 50,
+                                raduis: 40,
+                                onTap: () async {
+                                  selectedIndex.value = index;
+                                  type.value = scholarships![index].name!;
+                                  typeId.value = scholarships![index].id!;
+                                },
+                                child: Text(
+                                  scholarships![index].name!,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: selectedIndex.value == index
+                                              ? Colors.white
+                                              : const Color(0xff16437B)),
+                                ),
+                              ),
+                              itemCount: scholarships!.length,
+                            ),
+                            const Gap(50),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: AuthContainer(
+                                raduis: 50,
+                                height: 50,
+                                onTap: () async {
+                                  currentStep.value != 1
+                                      ? currentStep.value =
+                                          currentStep.value + 1
+                                      : null;
+                                },
+                                color: const Color(0xffFFC629),
+                                child: isLoading.value == false
+                                    ? Text(
+                                        "Next",
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .titleSmall
+                                            ?.copyWith(color: Colors.white),
+                                      )
+                                    : const CircularProgressIndicator(),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  onPressed: () =>
+                                      currentStep.value = currentStep.value - 1,
+                                  icon: const Icon(
+                                    Icons.arrow_back,
+                                    color: Color(0xff16437B),
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "More Details",
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              fontSize: 20,
+                                              color: const Color(0xff16437B),
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                    Text("Fill in the filters",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyMedium),
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () => context.router.pop(),
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Color(0xff16437B),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Gap(40),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Flexible(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: ListTile(
+                                      onTap: () => showCupertinoModalPopup(
+                                          context: context,
+                                          builder: (_) => Container(
+                                                height: 250,
+                                                color: Colors.white,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 180,
+                                                      child: CupertinoPicker(
+                                                          scrollController:
+                                                              controller,
+                                                          itemExtent: 45,
+                                                          onSelectedItemChanged:
+                                                              (item) {
+                                                            age.value =
+                                                                (item + 1)
+                                                                    .toString();
+                                                          },
+                                                          children:
+                                                              List.generate(
+                                                                  99,
+                                                                  (index) =>
+                                                                      Center(
+                                                                        child: Text((index +
+                                                                                1)
+                                                                            .toString()),
+                                                                      ))),
+                                                    ),
+
+                                                    // Close the modal
+                                                    Align(
+                                                      alignment: Alignment
+                                                          .bottomCenter,
+                                                      child: SizedBox(
+                                                        height: 70,
+                                                        child: CupertinoButton(
+                                                          child: const Text(
+                                                            'confirm',
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff18447B)),
+                                                          ),
+                                                          onPressed: () async {
+                                                            if (controller
+                                                                    .selectedItem ==
+                                                                0) {
+                                                              age.value = "1";
+                                                            }
+
+                                                            context.router
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )),
+                                      trailing: const Icon(
+                                        Icons.expand_more,
+                                        color: Color(0xff18447B),
+                                      ),
+                                      title: Text(age.value,
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .titleSmall),
+                                    ),
+                                  ),
+                                ),
+                                const Gap(10),
+                                Flexible(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: ListTile(
+                                      onTap: () => showCupertinoModalPopup(
+                                        context: context,
+                                        builder: (_) => Container(
+                                          height: 250,
+                                          color: Colors.white,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 180,
+                                                child: CupertinoPicker(
+                                                  scrollController: controller,
+                                                  itemExtent: 45,
+                                                  onSelectedItemChanged:
+                                                      (item) {
+                                                    if (item == 0) {
+                                                      gender.value = "Male";
+                                                      genderId.value = 1;
+                                                    } else {
+                                                      gender.value = "Female";
+                                                      genderId.value = 2;
+                                                    }
+                                                  },
+                                                  children: const [
+                                                    Center(child: Text("Male")),
+                                                    Center(
+                                                        child: Text("Female")),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              // Close the modal
+                                              Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: SizedBox(
+                                                  height: 70,
+                                                  child: CupertinoButton(
+                                                    child: const Text(
+                                                      'confirm',
+                                                      style: TextStyle(
+                                                          color: Color(
+                                                              0xff18447B)),
+                                                    ),
+                                                    onPressed: () async {
+                                                      if (controller
+                                                              .selectedItem ==
+                                                          0) {
+                                                        gender.value = "Male";
+                                                        genderId.value = 1;
+                                                      }
+
+                                                      context.router.pop();
+                                                    },
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      trailing: const Icon(
+                                        Icons.expand_more,
+                                        color: Color(0xff18447B),
+                                      ),
+                                      title: Text(gender.value,
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .titleSmall),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Gap(10),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  type.value,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .titleSmall,
+                                ),
+                                trailing: const Icon(
+                                  Icons.expand_more,
+                                  color: Color(0xff18447B),
+                                ),
+                              ),
+                            ),
+                            const Gap(10),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: ListTile(
+                                onTap: () => showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (_) => Container(
+                                    height: 250,
+                                    color: Colors.white,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 180,
+                                          child: CupertinoPicker(
+                                            scrollController: controller,
+                                            itemExtent: 45,
+                                            onSelectedItemChanged: (item) {
+                                              city.value = cities![item].name!;
+                                              cityId.value = cities![item].id!;
+                                            },
+                                            children: cities!
+                                                .map((e) => Center(
+                                                      child: Text(e.name!),
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        ),
+
+                                        // Close the modal
+                                        Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: SizedBox(
+                                            height: 70,
+                                            child: CupertinoButton(
+                                              child: const Text(
+                                                'confirm',
+                                                style: TextStyle(
+                                                    color: Color(0xff18447B)),
+                                              ),
+                                              onPressed: () async {
+                                                if (controller.selectedItem ==
+                                                    0) {
+                                                  city.value = cities![0].name!;
+                                                  cityId.value = cities![0].id!;
+                                                }
+                                                context.router.pop();
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                title: Text(
+                                  city.value,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .titleSmall,
+                                ),
+                                trailing: const Icon(
+                                  Icons.expand_more,
+                                  color: Color(0xff18447B),
+                                ),
+                              ),
+                            ),
+                            const Gap(10),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: ListTile(
+                                onTap: () => showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (_) => Container(
+                                    height: 250,
+                                    color: Colors.white,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 180,
+                                          child: CupertinoPicker(
+                                            scrollController: controller,
+                                            itemExtent: 45,
+                                            onSelectedItemChanged: (item) {
+                                              year.value =
+                                                  educationalYears![item].name!;
+                                              yearId.value =
+                                                  educationalYears![item].id!;
+                                            },
+                                            children: educationalYears!
+                                                .map((e) => Center(
+                                                      child: Text(e.name!),
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        ),
+
+                                        // Close the modal
+                                        Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: SizedBox(
+                                            height: 70,
+                                            child: CupertinoButton(
+                                              child: const Text(
+                                                'confirm',
+                                                style: TextStyle(
+                                                    color: Color(0xff18447B)),
+                                              ),
+                                              onPressed: () async {
+                                                if (controller.selectedItem ==
+                                                    0) {
+                                                  year.value =
+                                                      educationalYears![0]
+                                                          .name!;
+                                                  yearId.value =
+                                                      educationalYears![0].id!;
+                                                }
+
+                                                context.router.pop();
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                title: Text(
+                                  year.value,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .titleSmall,
+                                ),
+                                trailing: const Icon(
+                                  Icons.expand_more,
+                                  color: Color(0xff18447B),
+                                ),
+                              ),
+                            ),
+                            const Gap(100),
+                            Align(
+                              alignment: FractionalOffset.bottomCenter,
+                              child: AuthContainer(
+                                raduis: 50,
+                                height: 50,
+                                onTap: () => context.router.push(FilteredRoute(
+                                    genderId: genderId.value,
+                                    cityId: cityId.value,
+                                    educationalYearId: yearId.value,
+                                    age: age.value,
+                                    scholarshipTypeId: typeId.value)),
+                                color: const Color(0xffFFC629),
+                                child: isLoading.value == false
+                                    ? Text(
+                                        "Search",
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .titleSmall
+                                            ?.copyWith(color: Colors.white),
+                                      )
+                                    : const CircularProgressIndicator(),
+                              ),
+                            ),
+                          ],
+                        ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

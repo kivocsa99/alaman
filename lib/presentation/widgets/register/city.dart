@@ -1,14 +1,15 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/registration.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
-import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:alaman/presentation/widgets/shimmer_affect.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,10 +22,13 @@ class CityStep extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+
     final controller = FixedExtentScrollController();
     final box = Hive.box("register");
     final register = useState<UserRegistration>(box.getAt(0));
-    final city = useState("City");
+    final city = useState("city".tr());
     final cityId = useState(0);
     final controller1 =
         useAnimationController(duration: const Duration(seconds: 1));
@@ -43,6 +47,7 @@ class CityStep extends HookConsumerWidget {
     }, const []);
     final formKey = useState(GlobalKey<FormState>());
     final generic = ref.watch(getGenericProvider);
+    
     return ResponsiveRowColumn(
       layout: ResponsiveRowColumnType.COLUMN,
       columnMainAxisAlignment: MainAxisAlignment.start,
@@ -58,12 +63,12 @@ class CityStep extends HookConsumerWidget {
             ).animate(
                 CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
             child: Text(
-              "please select your\ncity",
+              "citytitle",
               style: Theme.of(context)
                   .primaryTextTheme
                   .titleLarge
                   ?.copyWith(color: Colors.black),
-            ),
+            ).tr(),
           ),
         )),
         const ResponsiveRowColumnItem(child: Gap(10)),
@@ -80,8 +85,8 @@ class CityStep extends HookConsumerWidget {
                   key: formKey.value,
                   child: generic.maybeWhen(
                     data: (data) => data.fold(
-                        (l) => Text(l.message ??
-                            "please check your internet connection"), (r) {
+                        (l) => Text(l.message ?? "internetconnection").tr(),
+                        (r) {
                       final cities = r.Cities;
                       return GestureDetector(
                         onTap: () async {
@@ -99,7 +104,9 @@ class CityStep extends HookConsumerWidget {
                                               itemExtent: 45,
                                               onSelectedItemChanged:
                                                   (item) async {
-                                                city.value = cities[item].name!;
+                                                city.value = locale == "en"
+                                                    ? cities[item].name!
+                                                    : cities[item].name_ar!;
                                                 cityId.value = cities[item].id!;
                                                 register.value.cityId =
                                                     cities[item].id!.toString();
@@ -108,13 +115,14 @@ class CityStep extends HookConsumerWidget {
                                               },
                                               children: cities!
                                                   .map((e) => Center(
-                                                        child: Text((e.name)
+                                                        child: Text((locale ==
+                                                                    "en"
+                                                                ? e.name!
+                                                                : e.name_ar!)
                                                             .toString()),
                                                       ))
                                                   .toList()),
                                         ),
-
-                                        // Close the modal
                                         Align(
                                           alignment: Alignment.bottomCenter,
                                           child: SizedBox(
@@ -124,7 +132,7 @@ class CityStep extends HookConsumerWidget {
                                                 'confirm',
                                                 style: TextStyle(
                                                     color: Color(0xff18447B)),
-                                              ),
+                                              ).tr(),
                                               onPressed: () async {
                                                 if (controller.selectedItem ==
                                                     0) {
@@ -199,12 +207,12 @@ class CityStep extends HookConsumerWidget {
               },
               color: const Color(0xffD2D3D6),
               child: Text(
-                "Next",
+                "next",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .titleSmall
                     ?.copyWith(color: Colors.white),
-              ),
+              ).tr(),
             ),
           ),
         )),
@@ -226,12 +234,12 @@ class CityStep extends HookConsumerWidget {
                     .previousStep(),
                 color: const Color(0xffD2D3D6),
                 child: Text(
-                  "Back",
+                  "back",
                   style: Theme.of(context)
                       .primaryTextTheme
                       .titleSmall
                       ?.copyWith(color: Colors.white),
-                ),
+                ).tr(),
               ),
             ),
           ),

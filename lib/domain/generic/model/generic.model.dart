@@ -2,6 +2,7 @@
 
 import 'package:alaman/domain/accountsources/model/accountsources.model.dart';
 import 'package:alaman/domain/alamanservices/model/alamanservices.model.dart';
+import 'package:alaman/domain/avatar/model/avatar.model.dart';
 import 'package:alaman/domain/booth/model/booth.model.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/commitmentmethods/model/commitmentmethods.model.dart';
@@ -40,7 +41,10 @@ class GenericModel with _$GenericModel {
     List<DonationFrequencyModel>? DonationFrequencies,
     List<PaymentMethodModel>? PaymentMethods,
     List<DonationType>? DonationTypes,
+    List<AvatarModel>? Avatars,
     bool? EidiehEnabled,
+    bool? ONLINE_PAYMENT_ENABLED,
+    bool? SHOP_ENABLED,
   }) = _GenericModel;
   const GenericModel._();
   factory GenericModel.fromJson(Map<String, dynamic> json) =>

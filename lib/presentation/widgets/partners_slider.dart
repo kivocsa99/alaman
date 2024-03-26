@@ -1,16 +1,20 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/partner/model/partner.model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PartnerSlider extends StatelessWidget {
+class PartnerSlider extends HookConsumerWidget {
   final List<PartnerModel> partners;
   const PartnerSlider({super.key, required this.partners});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
     return SizedBox(
       width: double.infinity,
       height: 60,
@@ -47,7 +51,9 @@ class PartnerSlider extends StatelessWidget {
                 )),
                 ResponsiveRowColumnItem(
                     child: Text(
-                  partners[index].name!,
+                  locale == "en"
+                      ? partners[index].name!
+                      : partners[index].name_ar!,
                   style: Theme.of(context)
                       .primaryTextTheme
                       .bodyMedium

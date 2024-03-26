@@ -7,7 +7,7 @@ part of 'hive.setting.provider.dart';
 // **************************************************************************
 
 String _$settingHiveNotifierHash() =>
-    r'3baec51829729a55e1d3f4c2d3413af0eaae5e90';
+    r'9a3213a2987222355373b1d6cf31a5975f878c3c';
 
 /// See also [SettingHiveNotifier].
 @ProviderFor(SettingHiveNotifier)

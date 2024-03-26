@@ -1,6 +1,9 @@
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/presentation/widgets/donation_bottom_sheet.dart';
+import 'package:alaman/presentation/widgets/eid_bottom_sheet.dart';
 import 'package:alaman/presentation/widgets/sadaqa_bottom_sheet.dart';
+import 'package:alaman/presentation/widgets/zakat_bottom_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -10,34 +13,31 @@ class DonationsGridView extends HookConsumerWidget {
   final List<Map<String, dynamic>> donations = [
     {
       'id': 1,
-      'title': 'Sponsership',
-      'description':
-          'Provide financial\nassistance for a young\nperson’s education',
+      'title': 'sponsership'.tr(),
+      'description': "sponsershipdes".tr(),
       'image': 'assets/sponsership.png',
-      'donation': "Reaccuring Donation"
+      'donation': "recurring".tr()
     },
     {
       'id': 2,
-      'title': 'Zakat',
-      'description': 'Give a portion of your\nwealth to help those in\nneed',
+      'title': 'zakat'.tr(),
+      'description': "zakatdes".tr(),
       'image': 'assets/zakat.png',
-      'donation': "One Time Donation"
+      'donation': "ontime".tr()
     },
     {
       'id': 3,
-      'title': 'Donate/Sadaqa',
-      'description':
-          'Spread kindness and\ncontribute funds to\nhelp those in need',
+      'title': "sadaqa".tr(),
+      'description': "sadaqades".tr(),
       'image': 'assets/sadaqa.png',
-      'donation': "One Time & Reaccuring"
+      'donation': "onetimeandrecurring".tr()
     },
     {
       'id': 4,
-      'title': 'Ediah',
-      'description':
-          'Bring joy and festive\ncheer this eid season\nwith your donation',
+      'title': 'ediah'.tr(),
+      'description': "eidiehdes".tr(),
       'image': 'assets/eid.png',
-      'donation': "One Time Donation"
+      'donation': "ontime".tr()
     },
   ];
   @override
@@ -70,13 +70,26 @@ class DonationsGridView extends HookConsumerWidget {
                                     cities: r.Cities,
                                     educationalYears: r.EducationalYears,
                                     scholarships: r.ScholarshipTypes)
-                                : SadaqaBottomSheet(
-                                    donationTypeId: donations[index]['id'],
-                                    paymentMethods: r.PaymentMethods,
-                                    donationFrequency: r.DonationFrequencies!,
-                                    cities: r.Cities,
-                                    educationalYears: r.EducationalYears,
-                                  );
+                                : index == 2
+                                    ? SadaqaBottomSheet(
+                                        paymentMethods: r.PaymentMethods,
+                                        donationFrequency:
+                                            r.DonationFrequencies!,
+                                        cities: r.Cities,
+                                        educationalYears: r.EducationalYears,
+                                      )
+                                    : index == 1
+                                        ? ZaqatBottomSheet(
+                                            paymentMethods: r.PaymentMethods,
+                                          )
+                                        : EidBottomSheet(
+                                            paymentMethods: r.PaymentMethods,
+                                            donationFrequency:
+                                                r.DonationFrequencies!,
+                                            cities: r.Cities,
+                                            educationalYears:
+                                                r.EducationalYears,
+                                          );
                           },
                         );
                       },

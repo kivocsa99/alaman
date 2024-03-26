@@ -2,6 +2,7 @@ import 'package:alaman/application/provider/registration.provider.dart';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,8 +21,8 @@ class GenderStep extends HookConsumerWidget {
     final typeIcon =
         useState([FontAwesomeIcons.person, FontAwesomeIcons.personDress]);
     final typeName = useState([
-      "Male",
-      "Female",
+      "male".tr(),
+      "female".tr(),
     ]);
     final selectedIndex = useState(5);
     final controller1 =
@@ -58,12 +59,12 @@ class GenderStep extends HookConsumerWidget {
             ).animate(
                 CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
             child: Text(
-              "Gender\nType",
+              "gendertitle",
               style: Theme.of(context)
                   .primaryTextTheme
                   .titleLarge
                   ?.copyWith(color: Colors.black),
-            ),
+            ).tr(),
           ),
         )),
         const ResponsiveRowColumnItem(child: Gap(10)),
@@ -76,8 +77,8 @@ class GenderStep extends HookConsumerWidget {
               end: Offset.zero,
             ).animate(
                 CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
-            child: const AuthField(
-              hint: "Gender type",
+            child: AuthField(
+              hint: "genderhint".tr(),
               readOnly: true,
             ),
           ),
@@ -146,21 +147,21 @@ class GenderStep extends HookConsumerWidget {
                   await box.putAt(0, register.value);
                   ref.read(registrationNotifierProvider.notifier).nextStep();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text(
-                    "Please select gender",
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: const Text(
+                    "gendererror",
                     textAlign: TextAlign.center,
-                  )));
+                  ).tr()));
                 }
               },
               color: const Color(0xffD2D3D6),
               child: Text(
-                "Next",
+                "next",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .titleSmall
                     ?.copyWith(color: Colors.white),
-              ),
+              ).tr(),
             ),
           ),
         )),
@@ -182,12 +183,12 @@ class GenderStep extends HookConsumerWidget {
                   .previousStep(),
               color: const Color(0xffD2D3D6),
               child: Text(
-                "Back",
+                "back",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .titleSmall
                     ?.copyWith(color: Colors.white),
-              ),
+              ).tr(),
             ),
           ),
         ))

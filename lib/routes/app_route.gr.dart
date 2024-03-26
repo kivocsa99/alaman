@@ -51,6 +51,25 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    LanguageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LanguageScreen(),
+      );
+    },
+    LocationCheckerRoute.name: (routeData) {
+      final args = routeData.argsAs<LocationCheckerRouteArgs>(
+          orElse: () => const LocationCheckerRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: LocationCheckerScreen(
+          key: args.key,
+          paymentMethod: args.paymentMethod,
+          amount: args.amount,
+          donationTypeId: args.donationTypeId,
+        ),
+      );
+    },
     LocationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -64,15 +83,30 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     MainRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<MainRouteArgs>(orElse: () => const MainRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const MainScreen(),
+        child: MainScreen(
+          key: args.key,
+          isOrdered: args.isOrdered,
+        ),
       );
     },
     OnBoardingRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const OnBoardingScreen(),
+      );
+    },
+    PaymentDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentDetailScreen(
+          key: args.key,
+          history: args.history,
+        ),
       );
     },
     PaymentHistoryRoute.name: (routeData) {
@@ -82,6 +116,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: PaymentHistoryScreen(
           key: args.key,
           donationHistory: args.donationHistory,
+        ),
+      );
+    },
+    PaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRouteArgs>(
+          orElse: () => const PaymentRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentScreen(
+          key: args.key,
+          baseurl: args.baseurl,
         ),
       );
     },
@@ -110,13 +155,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SetAvatarRoute.name: (routeData) {
-      final args = routeData.argsAs<SetAvatarRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SetAvatarScreen(
-          key: args.key,
-          beneficiary: args.beneficiary,
-        ),
+        child: const SetAvatarScreen(),
       );
     },
     SplashRoute.name: (routeData) {
@@ -281,6 +322,68 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [LanguageScreen]
+class LanguageRoute extends PageRouteInfo<void> {
+  const LanguageRoute({List<PageRouteInfo>? children})
+      : super(
+          LanguageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LanguageRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LocationCheckerScreen]
+class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
+  LocationCheckerRoute({
+    Key? key,
+    int? paymentMethod,
+    double? amount,
+    int? donationTypeId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          LocationCheckerRoute.name,
+          args: LocationCheckerRouteArgs(
+            key: key,
+            paymentMethod: paymentMethod,
+            amount: amount,
+            donationTypeId: donationTypeId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'LocationCheckerRoute';
+
+  static const PageInfo<LocationCheckerRouteArgs> page =
+      PageInfo<LocationCheckerRouteArgs>(name);
+}
+
+class LocationCheckerRouteArgs {
+  const LocationCheckerRouteArgs({
+    this.key,
+    this.paymentMethod,
+    this.amount,
+    this.donationTypeId,
+  });
+
+  final Key? key;
+
+  final int? paymentMethod;
+
+  final double? amount;
+
+  final int? donationTypeId;
+
+  @override
+  String toString() {
+    return 'LocationCheckerRouteArgs{key: $key, paymentMethod: $paymentMethod, amount: $amount, donationTypeId: $donationTypeId}';
+  }
+}
+
+/// generated route for
 /// [LocationScreen]
 class LocationRoute extends PageRouteInfo<void> {
   const LocationRoute({List<PageRouteInfo>? children})
@@ -310,16 +413,39 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MainScreen]
-class MainRoute extends PageRouteInfo<void> {
-  const MainRoute({List<PageRouteInfo>? children})
-      : super(
+class MainRoute extends PageRouteInfo<MainRouteArgs> {
+  MainRoute({
+    Key? key,
+    bool? isOrdered = false,
+    List<PageRouteInfo>? children,
+  }) : super(
           MainRoute.name,
+          args: MainRouteArgs(
+            key: key,
+            isOrdered: isOrdered,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'MainRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<MainRouteArgs> page = PageInfo<MainRouteArgs>(name);
+}
+
+class MainRouteArgs {
+  const MainRouteArgs({
+    this.key,
+    this.isOrdered = false,
+  });
+
+  final Key? key;
+
+  final bool? isOrdered;
+
+  @override
+  String toString() {
+    return 'MainRouteArgs{key: $key, isOrdered: $isOrdered}';
+  }
 }
 
 /// generated route for
@@ -334,6 +460,44 @@ class OnBoardingRoute extends PageRouteInfo<void> {
   static const String name = 'OnBoardingRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PaymentDetailScreen]
+class PaymentDetailRoute extends PageRouteInfo<PaymentDetailRouteArgs> {
+  PaymentDetailRoute({
+    Key? key,
+    required DonorDonation history,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentDetailRoute.name,
+          args: PaymentDetailRouteArgs(
+            key: key,
+            history: history,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentDetailRoute';
+
+  static const PageInfo<PaymentDetailRouteArgs> page =
+      PageInfo<PaymentDetailRouteArgs>(name);
+}
+
+class PaymentDetailRouteArgs {
+  const PaymentDetailRouteArgs({
+    this.key,
+    required this.history,
+  });
+
+  final Key? key;
+
+  final DonorDonation history;
+
+  @override
+  String toString() {
+    return 'PaymentDetailRouteArgs{key: $key, history: $history}';
+  }
 }
 
 /// generated route for
@@ -371,6 +535,44 @@ class PaymentHistoryRouteArgs {
   @override
   String toString() {
     return 'PaymentHistoryRouteArgs{key: $key, donationHistory: $donationHistory}';
+  }
+}
+
+/// generated route for
+/// [PaymentScreen]
+class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute({
+    Key? key,
+    String? baseurl,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentRoute.name,
+          args: PaymentRouteArgs(
+            key: key,
+            baseurl: baseurl,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentRoute';
+
+  static const PageInfo<PaymentRouteArgs> page =
+      PageInfo<PaymentRouteArgs>(name);
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs({
+    this.key,
+    this.baseurl,
+  });
+
+  final Key? key;
+
+  final String? baseurl;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, baseurl: $baseurl}';
   }
 }
 
@@ -432,40 +634,16 @@ class RequestRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SetAvatarScreen]
-class SetAvatarRoute extends PageRouteInfo<SetAvatarRouteArgs> {
-  SetAvatarRoute({
-    Key? key,
-    required List<BeneficiaryModel> beneficiary,
-    List<PageRouteInfo>? children,
-  }) : super(
+class SetAvatarRoute extends PageRouteInfo<void> {
+  const SetAvatarRoute({List<PageRouteInfo>? children})
+      : super(
           SetAvatarRoute.name,
-          args: SetAvatarRouteArgs(
-            key: key,
-            beneficiary: beneficiary,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'SetAvatarRoute';
 
-  static const PageInfo<SetAvatarRouteArgs> page =
-      PageInfo<SetAvatarRouteArgs>(name);
-}
-
-class SetAvatarRouteArgs {
-  const SetAvatarRouteArgs({
-    this.key,
-    required this.beneficiary,
-  });
-
-  final Key? key;
-
-  final List<BeneficiaryModel> beneficiary;
-
-  @override
-  String toString() {
-    return 'SetAvatarRouteArgs{key: $key, beneficiary: $beneficiary}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

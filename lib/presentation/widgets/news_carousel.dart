@@ -1,10 +1,10 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/news.provider.dart';
-import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/presentation/widgets/news_modal_sheet.dart';
-import 'package:alaman/presentation/widgets/shimmer_affect.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +17,9 @@ class NewsCarousel extends HookConsumerWidget {
     final state = ref.watch(paginatedNewsNotifierProvider);
     final notifier = ref.watch(paginatedNewsNotifierProvider.notifier);
     final carouselController = CarouselController();
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+    
     useEffect(() {
       notifier.fetchNews();
       return null;
@@ -79,18 +82,20 @@ class NewsCarousel extends HookConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "News",
+                            "news",
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .titleSmall
                                 ?.copyWith(color: Colors.white),
-                          ),
+                          ).tr(),
                           const SizedBox(height: 10),
                           Container(
                             width: 250,
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
-                              e.title!,
+                              locale == "en"
+                                  ? e.title!
+                                  : e.title_ar!,
                               maxLines: 3,
                               style: Theme.of(context)
                                   .primaryTextTheme

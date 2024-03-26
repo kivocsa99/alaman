@@ -4,22 +4,23 @@ import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/paymentmethod/model/payment.method.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
+import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:alaman/presentation/widgets/step_indicator.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart' as locale;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class EidBottomSheet extends HookConsumerWidget {
-  final int? donationTypeId;
   final List<EducationalYearModel>? educationalYears;
   final List<CityModel>? cities;
   final List<DonationFrequencyModel> donationFrequency;
   final List<PaymentMethodModel>? paymentMethods;
   const EidBottomSheet({
     required this.cities,
-    required this.donationTypeId,
     required this.paymentMethods,
     required this.donationFrequency,
     required this.educationalYears,
@@ -96,7 +97,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Select The Amount of\nThe Sadaqa",
+                                    "Select Eidiah\nAmount",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -149,7 +150,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                           ),
                                           const SizedBox(height: 20),
                                           Text(
-                                            "${coinsList.value[index].round()} JD",
+                                            "${coinsList.value[index].round()}  ${"jod".tr()}",
                                             textAlign: TextAlign.center,
                                             style: Theme.of(context)
                                                 .primaryTextTheme
@@ -227,7 +228,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                   color: const Color(0xffFFC629),
                                   child: isLoading.value == false
                                       ? Text(
-                                          "Next",
+                                          "next",
                                           style: Theme.of(context)
                                               .primaryTextTheme
                                               .titleSmall
@@ -257,7 +258,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Setup recuring\nDonation",
+                                        "Send a Message\nwith youe Eidiah",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -277,40 +278,18 @@ class EidBottomSheet extends HookConsumerWidget {
                                     ],
                                   ),
                                   const Gap(40),
-                                  ListView.separated(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    separatorBuilder: (context, index) =>
-                                        const Gap(10),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) =>
-                                        AuthContainer(
-                                      color: selectedIndex.value == index
-                                          ? const Color(0xff2A7DE1)
-                                          : Colors.white,
-                                      height: 50,
-                                      raduis: 40,
-                                      onTap: () async {
-                                        selectedIndex.value = index;
-                                        type.value =
-                                            donationFrequency[index].name!;
-                                        typeId.value =
-                                            donationFrequency[index].id!;
-                                        print("object");
-                                      },
-                                      child: Text(
-                                        donationFrequency[index].name!,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .titleSmall!
-                                            .copyWith(
-                                                color: selectedIndex.value ==
-                                                        index
-                                                    ? Colors.white
-                                                    : const Color(0xff16437B)),
-                                      ),
-                                    ),
-                                    itemCount: donationFrequency.length,
+                                  AuthField(
+                                    alignment: Alignment.topCenter,
+                                    height: 200,
+                                    borderColor: Colors.grey.withOpacity(0.5),
+                                    borderWidth: 0.5,
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: "This field is required"),
+                                    ]),
+                                    hint: "Write Your Message",
+                                    inputAction: TextInputAction.done,
+                                    onChanged: (value) {},
                                   ),
                                   const Gap(50),
                                   Align(
@@ -325,7 +304,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                       color: const Color(0xffFFC629),
                                       child: isLoading.value == false
                                           ? Text(
-                                              "Next",
+                                              "next",
                                               style: Theme.of(context)
                                                   .primaryTextTheme
                                                   .titleSmall
@@ -417,12 +396,12 @@ class EidBottomSheet extends HookConsumerWidget {
                                       raduis: 50,
                                       height: 50,
                                       onTap: () async {
-                                        // ref.read(provider)
+                                        // ref.read(initdo)
                                       },
                                       color: const Color(0xffFFC629),
                                       child: isLoading.value == false
                                           ? Text(
-                                              "Next",
+                                              "next",
                                               style: Theme.of(context)
                                                   .primaryTextTheme
                                                   .titleSmall

@@ -60,7 +60,12 @@ _$GenericModelImpl _$$GenericModelImplFromJson(Map<String, dynamic> json) =>
       DonationTypes: (json['DonationTypes'] as List<dynamic>?)
           ?.map((e) => DonationType.fromJson(e as Map<String, dynamic>))
           .toList(),
+      Avatars: (json['Avatars'] as List<dynamic>?)
+          ?.map((e) => AvatarModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       EidiehEnabled: json['EidiehEnabled'] as bool?,
+      ONLINE_PAYMENT_ENABLED: json['ONLINE_PAYMENT_ENABLED'] as bool?,
+      SHOP_ENABLED: json['SHOP_ENABLED'] as bool?,
     );
 
 Map<String, dynamic> _$$GenericModelImplToJson(_$GenericModelImpl instance) =>
@@ -81,5 +86,8 @@ Map<String, dynamic> _$$GenericModelImplToJson(_$GenericModelImpl instance) =>
       'DonationFrequencies': instance.DonationFrequencies,
       'PaymentMethods': instance.PaymentMethods,
       'DonationTypes': instance.DonationTypes,
+      'Avatars': instance.Avatars,
       'EidiehEnabled': instance.EidiehEnabled,
+      'ONLINE_PAYMENT_ENABLED': instance.ONLINE_PAYMENT_ENABLED,
+      'SHOP_ENABLED': instance.SHOP_ENABLED,
     };

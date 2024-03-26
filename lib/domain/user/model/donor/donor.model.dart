@@ -56,7 +56,7 @@ class DonorModel with _$DonorModel {
     String? theme_color,
     GenderModel? gender,
     CityModel? city,
-    List<DonorDonation>? donor_donation,
+    List<DonorDonation>? donor_donations,
     List<DonorBeneficiaryModel>? donor_beneficiaries,
   }) = _DonorModel;
   const DonorModel._();

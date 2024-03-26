@@ -50,7 +50,6 @@ class RegistrationNotifier extends _$RegistrationNotifier {
         state = RegistrationStep.password;
         break;
       case RegistrationStep.password:
-        // Registration is complete, handle accordingly (e.g., navigate to a success page)
         break;
     }
   }
@@ -58,7 +57,6 @@ class RegistrationNotifier extends _$RegistrationNotifier {
   void previousStep() {
     switch (state) {
       case RegistrationStep.phone:
-        // Handle the case for the first step, such as showing a dialog to confirm exit
         break;
       case RegistrationStep.email:
         state = RegistrationStep.phone;

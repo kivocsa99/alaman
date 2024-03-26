@@ -1,10 +1,12 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
+import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/donationfrequency/model/donation.frequency.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/paymentmethod/model/payment.method.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
+import 'package:alaman/presentation/screens/location.checker_screen.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/step_indicator.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -15,33 +17,31 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SadaqaBottomSheet extends HookConsumerWidget {
-  final List<EducationalYearModel>? educationalYears;
-  final List<CityModel>? cities;
+class SponserBottomSheet extends HookConsumerWidget {
   final List<DonationFrequencyModel> donationFrequency;
   final List<PaymentMethodModel>? paymentMethods;
-  const SadaqaBottomSheet({
-    required this.cities,
+  const SponserBottomSheet({
     required this.paymentMethods,
     required this.donationFrequency,
-    required this.educationalYears,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+    print(paymentMethods);
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
     final controller = FixedExtentScrollController();
-    List<DonationFrequencyModel> modifiableList = List.from(donationFrequency);
-    modifiableList.insert(
-        0, DonationFrequencyModel(id: -1, name: "One time donation"));
     final isLoading = useState(false);
     final selectedIndex = useState(0);
     final selectedIndex1 = useState(0);
     final currentStep = useState(0);
-    final type = useState(modifiableList[selectedIndex.value].name!);
-    final typeId = useState(modifiableList[selectedIndex.value].id!);
+    final type = useState(locale == "en"
+        ? donationFrequency[selectedIndex.value].name!
+        : donationFrequency[selectedIndex.value].name_ar!);
+    final typeId = useState(donationFrequency[selectedIndex.value].id!);
     final type1 = useState(paymentMethods![selectedIndex1.value].name!);
     final typeId1 = useState(paymentMethods![selectedIndex1.value].id!);
     final sliderValue = useState(1.0);
@@ -49,9 +49,12 @@ class SadaqaBottomSheet extends HookConsumerWidget {
       "assets/coin1.png",
       "assets/coin2.png",
       "assets/coin3.png",
-      "assets/coin4.png"
+      "assets/coin4.png",
+      "assets/bag.png",
+      "assets/treasure.png",
     ]);
-    final coinsList = useState<List<double>>([25.0, 50.0, 75.0, 100.0]);
+    final coinsList =
+        useState<List<double>>([25.0, 50.0, 75.0, 100.0, 2500.0, 10000.0]);
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -100,7 +103,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Select The Amount of\nThe Sadaqa",
+                                    "Select The Amount of\nThe Donation",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -165,7 +168,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       ),
                                     ),
                                   ),
-                                  itemCount: 4,
+                                  itemCount: 6,
                                 ),
                               ),
                               const Gap(10),
@@ -296,14 +299,17 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       raduis: 40,
                                       onTap: () async {
                                         selectedIndex.value = index;
-                                        type.value =
-                                            modifiableList[index].name!;
+                                        type.value = locale == "en"
+                                            ? donationFrequency[index].name!
+                                            : donationFrequency[index].name_ar!;
                                         typeId.value =
-                                            modifiableList[index].id!;
+                                            donationFrequency[index].id!;
                                         print("object");
                                       },
                                       child: Text(
-                                        modifiableList[index].name!,
+                                        locale == "en"
+                                            ? donationFrequency[index].name!
+                                            : donationFrequency[index].name_ar!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .titleSmall!
@@ -314,7 +320,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                                     : const Color(0xff16437B)),
                                       ),
                                     ),
-                                    itemCount: modifiableList.length,
+                                    itemCount: donationFrequency.length,
                                   ),
                                   const Gap(50),
                                   Align(
@@ -335,7 +341,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                                   .titleSmall
                                                   ?.copyWith(
                                                       color: Colors.white),
-                                            ).tr()
+                                            )
                                           : const CircularProgressIndicator(),
                                     ),
                                   ),
@@ -394,14 +400,17 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       raduis: 40,
                                       onTap: () async {
                                         selectedIndex1.value = index;
-                                        type1.value =
-                                            donationFrequency[index].name!;
+                                        type1.value = locale == "en"
+                                            ? paymentMethods![index].name!
+                                            : paymentMethods![index].name_ar!;
                                         typeId1.value =
-                                            donationFrequency[index].id!;
+                                            paymentMethods![index].id!;
                                         print("object");
                                       },
                                       child: Text(
-                                        paymentMethods![index].name!,
+                                        locale == "en"
+                                            ? paymentMethods![index].name!
+                                            : paymentMethods![index].name_ar!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .titleSmall!
@@ -421,6 +430,18 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       raduis: 50,
                                       height: 50,
                                       onTap: () async {
+                                        if (typeId1.value ==
+                                            paymentMethods!
+                                                .firstWhere((element) =>
+                                                    element.name == "Cash")
+                                                .id) {
+                                          context.router
+                                              .push(LocationCheckerRoute(
+                                            paymentMethod: 1,
+                                            donationTypeId: 1,
+                                            amount: sliderValue.value,
+                                          ));
+                                        }
                                         isLoading.value =
                                             true; // Show loading indicator
 
@@ -430,9 +451,8 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                             .execute(
                                               InitDonationUseCaseInput(
                                                 paymentMethodId: typeId1.value,
-                                                donationTypeId: 3,
-                                                isRecurring:
-                                                    typeId.value == -1 ? 0 : 1,
+                                                donationTypeId: 1,
+                                                isRecurring: 1,
                                                 totalAmount: sliderValue.value,
                                               ),
                                             )
@@ -466,7 +486,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                                   .titleSmall
                                                   ?.copyWith(
                                                       color: Colors.white),
-                                            )
+                                            ).tr()
                                           : const CircularProgressIndicator(),
                                     ),
                                   ),

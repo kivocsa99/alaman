@@ -4,6 +4,7 @@ import 'package:alaman/presentation/widgets/eid_bottom_sheet.dart';
 import 'package:alaman/presentation/widgets/request_bottom_sheet.dart';
 import 'package:alaman/presentation/widgets/sadaqa_bottom_sheet.dart';
 import 'package:alaman/presentation/widgets/zakat_bottom_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -15,30 +16,37 @@ class DonorDonationSlider extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final grantTypes = useState([
-      "Sponsership",
-      "Zakat",
-      "Donate/Sadaqa",
-      "Eidiah",
-    ]);
-    final grantPictures = useState([
-      "assets/sponsership.png",
-      "assets/zakat.png",
-      "assets/sadaqa.png",
-      "assets/eid.png",
-    ]);
-    final grantReacurring = useState([
-      "Reaccuring Donation",
-      "One Time Donation",
-      "One Time & Reaccuring",
-      "One Time Donation",
-    ]);
-    final grantId = useState([
-      1,
-      2,
-      3,
-      4,
-    ]);
+    final List<Map<String, dynamic>> donations = [
+      {
+        'id': 1,
+        'title': 'sponsership'.tr(),
+        'description': "sponsershipdes".tr(),
+        'image': 'assets/sponsership.png',
+        'donation': "recurring".tr()
+      },
+      {
+        'id': 2,
+        'title': 'zakat'.tr(),
+        'description': "zakatdes".tr(),
+        'image': 'assets/zakat.png',
+        'donation': "ontime".tr()
+      },
+      {
+        'id': 3,
+        'title': "sadaqa".tr(),
+        'description': "sadaqades".tr(),
+        'image': 'assets/sadaqa.png',
+        'donation': "onetimeandrecurring".tr()
+      },
+      {
+        'id': 4,
+        'title': 'ediah'.tr(),
+        'description': "eidiehdes".tr(),
+        'image': 'assets/eid.png',
+        'donation': "ontime".tr()
+      },
+    ];
+
     final generic = ref.watch(getGenericProvider);
 
     return generic.when(
@@ -69,7 +77,6 @@ class DonorDonationSlider extends HookConsumerWidget {
                                       scholarships: r.ScholarshipTypes)
                                   : index == 2
                                       ? SadaqaBottomSheet(
-                                          donationTypeId: grantId.value[index],
                                           paymentMethods: r.PaymentMethods,
                                           donationFrequency:
                                               r.DonationFrequencies!,
@@ -78,17 +85,9 @@ class DonorDonationSlider extends HookConsumerWidget {
                                         )
                                       : index == 1
                                           ? ZaqatBottomSheet(
-                                              donationTypeId:
-                                                  grantId.value[index],
                                               paymentMethods: r.PaymentMethods,
-                                              donationFrequency:
-                                                  r.DonationFrequencies!,
-                                              cities: r.Cities,
-                                              educationalYears:
-                                                  r.EducationalYears)
+                                            )
                                           : EidBottomSheet(
-                                              donationTypeId:
-                                                  grantId.value[index],
                                               paymentMethods: r.PaymentMethods,
                                               donationFrequency:
                                                   r.DonationFrequencies!,
@@ -99,59 +98,91 @@ class DonorDonationSlider extends HookConsumerWidget {
                             },
                           );
                         },
-                        child: Container(
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 10, left: 10, right: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 2,
-                                  blurRadius: 7,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(15)),
-                          child: ResponsiveRowColumn(
-                            layout: ResponsiveRowColumnType.COLUMN,
-                            columnMainAxisAlignment: MainAxisAlignment.end,
-                            columnCrossAxisAlignment: CrossAxisAlignment.center,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.3,
+                          height: 120,
+                          child: Stack(
                             children: [
-                              ResponsiveRowColumnItem(
-                                  child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: Image.asset(
-                                                grantPictures.value[index])
-                                            .image,
-                                        fit: BoxFit.contain)),
-                              )),
-                              const ResponsiveRowColumnItem(
-                                child: Gap(10),
+                              Positioned.fill(
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10, left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          spreadRadius: 2,
+                                          blurRadius: 7,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: ResponsiveRowColumn(
+                                    layout: ResponsiveRowColumnType.COLUMN,
+                                    columnMainAxisAlignment:
+                                        MainAxisAlignment.end,
+                                    columnCrossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ResponsiveRowColumnItem(
+                                          child: Container(
+                                        width: 70,
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: Image.asset(
+                                                        donations[index]
+                                                            ["image"])
+                                                    .image,
+                                                fit: BoxFit.contain)),
+                                      )),
+                                      const ResponsiveRowColumnItem(
+                                        child: Gap(10),
+                                      ),
+                                      ResponsiveRowColumnItem(
+                                          child: Text(
+                                        donations[index]["title"],
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                              color: const Color(0xff16437B),
+                                            ),
+                                      )),
+                                      ResponsiveRowColumnItem(
+                                          child: Text(
+                                        donations[index]["donation"],
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyMedium
+                                            ?.copyWith(fontSize: 14),
+                                      )),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              ResponsiveRowColumnItem(
-                                  child: Text(
-                                textAlign: TextAlign.center,
-                                grantTypes.value[index],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                      color: const Color(0xff16437B),
+                              if (r.EidiehEnabled! && index == 3)
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                              )),
-                              ResponsiveRowColumnItem(
-                                  child: Text(
-                                textAlign: TextAlign.center,
-                                grantReacurring.value[index],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium
-                                    ?.copyWith(fontSize: 14),
-                              )),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: Image.asset(
+                                          "assets/lock.png",
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                         ),

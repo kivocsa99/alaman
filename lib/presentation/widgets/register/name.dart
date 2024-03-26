@@ -4,6 +4,7 @@ import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -47,35 +48,6 @@ class NameStep extends HookConsumerWidget {
       columnCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ResponsiveRowColumnItem(
-          child: FadeTransition(
-            opacity: CurvedAnimation(parent: controller5, curve: Curves.easeIn),
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 3),
-                end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
-              child: GestureDetector(
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: const Color(0xffB12732).withOpacity(0.3),
-                  ),
-                  child: Text(
-                    "Looks Like youre new!",
-                    style: Theme.of(context)
-                        .primaryTextTheme
-                        .bodyMedium
-                        ?.copyWith(color: const Color(0xff2A7DE1)),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        ResponsiveRowColumnItem(
             child: FadeTransition(
           opacity: CurvedAnimation(parent: controller1, curve: Curves.easeIn),
           child: SlideTransition(
@@ -85,12 +57,12 @@ class NameStep extends HookConsumerWidget {
             ).animate(
                 CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
             child: Text(
-              "What is your\nfull name?",
+              "nametitle",
               style: Theme.of(context)
                   .primaryTextTheme
                   .titleLarge
                   ?.copyWith(color: Colors.black),
-            ),
+            ).tr(),
           ),
         )),
         const ResponsiveRowColumnItem(child: Gap(10)),
@@ -106,9 +78,8 @@ class NameStep extends HookConsumerWidget {
             child: Form(
               key: formKey.value,
               child: AuthField(
-                validator:
-                    RequiredValidator(errorText: "This field is required"),
-                hint: "Full name",
+                validator: RequiredValidator(errorText: "reqfield".tr()),
+                hint: "fullname".tr(),
                 inputAction: TextInputAction.done,
                 onChanged: (value) async {
                   register.value.name = value;
@@ -131,12 +102,12 @@ class NameStep extends HookConsumerWidget {
               child: GestureDetector(
                 onTap: () => context.router.push(LoginRoute()),
                 child: Text(
-                  "If you already have an account, Login",
+                  "acountexists",
                   style: Theme.of(context)
                       .primaryTextTheme
                       .bodyMedium
                       ?.copyWith(color: const Color(0xff2A7DE1)),
-                ),
+                ).tr(),
               ),
             ),
           ),
@@ -161,12 +132,12 @@ class NameStep extends HookConsumerWidget {
               },
               color: const Color(0xffD2D3D6),
               child: Text(
-                "Next",
+                "next",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .titleSmall
                     ?.copyWith(color: Colors.white),
-              ),
+              ).tr(),
             ),
           ),
         )),
@@ -188,12 +159,12 @@ class NameStep extends HookConsumerWidget {
                   .previousStep(),
               color: const Color(0xffD2D3D6),
               child: Text(
-                "Back",
+                "back",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .titleSmall
                     ?.copyWith(color: Colors.white),
-              ),
+              ).tr(),
             ),
           ),
         ))

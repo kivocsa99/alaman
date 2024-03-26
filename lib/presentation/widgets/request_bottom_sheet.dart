@@ -8,6 +8,7 @@ import 'package:alaman/domain/trainingreqeust/model/training.request.model.dart'
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -210,7 +211,7 @@ class RequestBottomSheet extends HookConsumerWidget {
                     ]),
                     hint: "Notes",
                     inputAction: TextInputAction.done,
-                    onChanged: (value) {},
+                    onChanged: (value) => notes.value = value,
                   ),
                   const Gap(100),
                   Align(
@@ -221,7 +222,7 @@ class RequestBottomSheet extends HookConsumerWidget {
                       onTap: () async {
                         if (id.value != -1) {
                           isLoading.value = true;
-                          if (!isProgram) {
+                          if (isProgram) {
                             ref
                                 .read(newTrainingRequestUseCaseProvider)
                                 .execute(NewTrainingRequestUseCaseInput(
@@ -232,7 +233,8 @@ class RequestBottomSheet extends HookConsumerWidget {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(l.message ??
-                                                  "Please check your internet connection")));
+                                                      "internetconnection")
+                                                  .tr()));
                                     }, (r) {
                                       isLoading.value = false;
 
@@ -260,7 +262,7 @@ class RequestBottomSheet extends HookConsumerWidget {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
                                               content: Text(
-                                                  "You have requested the training")));
+                                                  "You have requested the request")));
                                       context.router.pop();
                                     }));
                           }

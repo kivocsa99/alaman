@@ -25,13 +25,14 @@ mixin _$PaymentModel {
   int? get donation_id => throw _privateConstructorUsedError;
   int? get donor_id => throw _privateConstructorUsedError;
   int? get payment_status_id => throw _privateConstructorUsedError;
-  int? get due_date => throw _privateConstructorUsedError;
+  String? get due_date => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   num? get amount => throw _privateConstructorUsedError;
   String? get provider_ref => throw _privateConstructorUsedError;
   String? get provider_callback => throw _privateConstructorUsedError;
   int? get is_success => throw _privateConstructorUsedError;
+  StatusModel? get status => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -54,16 +55,19 @@ abstract class $PaymentModelCopyWith<$Res> {
       int? donation_id,
       int? donor_id,
       int? payment_status_id,
-      int? due_date,
+      String? due_date,
       String? name,
       String? email,
       num? amount,
       String? provider_ref,
       String? provider_callback,
       int? is_success,
+      StatusModel? status,
       String? created_at,
       String? updated_at,
       String? deleted_at});
+
+  $StatusModelCopyWith<$Res>? get status;
 }
 
 /// @nodoc
@@ -91,6 +95,7 @@ class _$PaymentModelCopyWithImpl<$Res, $Val extends PaymentModel>
     Object? provider_ref = freezed,
     Object? provider_callback = freezed,
     Object? is_success = freezed,
+    Object? status = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -119,7 +124,7 @@ class _$PaymentModelCopyWithImpl<$Res, $Val extends PaymentModel>
       due_date: freezed == due_date
           ? _value.due_date
           : due_date // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -144,6 +149,10 @@ class _$PaymentModelCopyWithImpl<$Res, $Val extends PaymentModel>
           ? _value.is_success
           : is_success // ignore: cast_nullable_to_non_nullable
               as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as StatusModel?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -157,6 +166,18 @@ class _$PaymentModelCopyWithImpl<$Res, $Val extends PaymentModel>
           : deleted_at // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StatusModelCopyWith<$Res>? get status {
+    if (_value.status == null) {
+      return null;
+    }
+
+    return $StatusModelCopyWith<$Res>(_value.status!, (value) {
+      return _then(_value.copyWith(status: value) as $Val);
+    });
   }
 }
 
@@ -174,16 +195,20 @@ abstract class _$$PaymentModelImplCopyWith<$Res>
       int? donation_id,
       int? donor_id,
       int? payment_status_id,
-      int? due_date,
+      String? due_date,
       String? name,
       String? email,
       num? amount,
       String? provider_ref,
       String? provider_callback,
       int? is_success,
+      StatusModel? status,
       String? created_at,
       String? updated_at,
       String? deleted_at});
+
+  @override
+  $StatusModelCopyWith<$Res>? get status;
 }
 
 /// @nodoc
@@ -209,6 +234,7 @@ class __$$PaymentModelImplCopyWithImpl<$Res>
     Object? provider_ref = freezed,
     Object? provider_callback = freezed,
     Object? is_success = freezed,
+    Object? status = freezed,
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
@@ -237,7 +263,7 @@ class __$$PaymentModelImplCopyWithImpl<$Res>
       due_date: freezed == due_date
           ? _value.due_date
           : due_date // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -262,6 +288,10 @@ class __$$PaymentModelImplCopyWithImpl<$Res>
           ? _value.is_success
           : is_success // ignore: cast_nullable_to_non_nullable
               as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as StatusModel?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -294,6 +324,7 @@ class _$PaymentModelImpl extends _PaymentModel {
       this.provider_ref,
       this.provider_callback,
       this.is_success,
+      this.status,
       this.created_at,
       this.updated_at,
       this.deleted_at})
@@ -313,7 +344,7 @@ class _$PaymentModelImpl extends _PaymentModel {
   @override
   final int? payment_status_id;
   @override
-  final int? due_date;
+  final String? due_date;
   @override
   final String? name;
   @override
@@ -327,6 +358,8 @@ class _$PaymentModelImpl extends _PaymentModel {
   @override
   final int? is_success;
   @override
+  final StatusModel? status;
+  @override
   final String? created_at;
   @override
   final String? updated_at;
@@ -335,7 +368,7 @@ class _$PaymentModelImpl extends _PaymentModel {
 
   @override
   String toString() {
-    return 'PaymentModel(id: $id, mou_id: $mou_id, donation_id: $donation_id, donor_id: $donor_id, payment_status_id: $payment_status_id, due_date: $due_date, name: $name, email: $email, amount: $amount, provider_ref: $provider_ref, provider_callback: $provider_callback, is_success: $is_success, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'PaymentModel(id: $id, mou_id: $mou_id, donation_id: $donation_id, donor_id: $donor_id, payment_status_id: $payment_status_id, due_date: $due_date, name: $name, email: $email, amount: $amount, provider_ref: $provider_ref, provider_callback: $provider_callback, is_success: $is_success, status: $status, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -362,6 +395,7 @@ class _$PaymentModelImpl extends _PaymentModel {
                 other.provider_callback == provider_callback) &&
             (identical(other.is_success, is_success) ||
                 other.is_success == is_success) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
             (identical(other.updated_at, updated_at) ||
@@ -386,6 +420,7 @@ class _$PaymentModelImpl extends _PaymentModel {
       provider_ref,
       provider_callback,
       is_success,
+      status,
       created_at,
       updated_at,
       deleted_at);
@@ -411,13 +446,14 @@ abstract class _PaymentModel extends PaymentModel {
       final int? donation_id,
       final int? donor_id,
       final int? payment_status_id,
-      final int? due_date,
+      final String? due_date,
       final String? name,
       final String? email,
       final num? amount,
       final String? provider_ref,
       final String? provider_callback,
       final int? is_success,
+      final StatusModel? status,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at}) = _$PaymentModelImpl;
@@ -437,7 +473,7 @@ abstract class _PaymentModel extends PaymentModel {
   @override
   int? get payment_status_id;
   @override
-  int? get due_date;
+  String? get due_date;
   @override
   String? get name;
   @override
@@ -450,6 +486,8 @@ abstract class _PaymentModel extends PaymentModel {
   String? get provider_callback;
   @override
   int? get is_success;
+  @override
+  StatusModel? get status;
   @override
   String? get created_at;
   @override

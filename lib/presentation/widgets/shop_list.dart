@@ -1,5 +1,6 @@
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,7 +12,7 @@ class ShopGridView extends HookConsumerWidget {
     final products = ref.watch(getProductsProvider);
     return products.when(
         data: (data) => data.fold(
-            (l) => Text(l.message ?? "Please check your internet connection"),
+            (l) => Text(l.message ?? "internetconnection").tr(),
             (result) => GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),

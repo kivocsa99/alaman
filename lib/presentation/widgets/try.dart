@@ -91,7 +91,7 @@ class _DynamicPathWidgetState extends State<DynamicPathWidget>
               MediaQuery.of(context).size.width,
               (MediaQuery.of(context).size.height * 1.1073181615350292)
                   .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-          painter: RPSCustomPainter(controller: _animationController),
+          painter: RPSCustomPainter(),
         ),
       ),
     );

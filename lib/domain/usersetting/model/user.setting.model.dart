@@ -15,4 +15,8 @@ class UserSettings {
   String? role;
   @HiveField(6)
   int? id;
+  @HiveField(7)
+  bool? isavatar;
+  @HiveField(8)
+  String? language;
 }

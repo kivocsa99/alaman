@@ -1,6 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'package:alaman/application/beneficiary/new_alaman_reqeust_use_case/new_alaman_reqeust_use_case.input.dart';
 import 'package:alaman/application/beneficiary/set_avatar_use_case/set_avatar_use_case.input.dart';
 import 'package:alaman/application/core/use_cases/i.use_case.dart';
 import 'package:alaman/application/provider/beneficiary.repository.provider.dart';

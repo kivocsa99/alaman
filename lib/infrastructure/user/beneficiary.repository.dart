@@ -1,3 +1,5 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/alamanreqeust/alaman.request.model.dart';
 import 'package:alaman/domain/failures/api.failures.dart';
@@ -129,9 +131,15 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
 
   @override
   Future<Either<ApiFailures, Unit>> setAvatar({int? id}) async {
+    final setting = ref.read(settingHiveNotifierProvider);
+
     try {
-      final result = await dio.get("$baseUrl/user/setAvatar/$id");
+      final result = await dio
+          .get("$baseUrl/user/setAvatar/$id?api_token=${setting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
+        setting.isavatar = true;
+        ref.read(settingHiveNotifierProvider.notifier).addItem(setting);
+        final refresh = await ref.refresh(getProfileProvider.future);
         return right(unit);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));

@@ -24,7 +24,7 @@ abstract class IUserRepository {
     int? scholarshipTypeId,
   });
 
-  Future<Either<ApiFailures, String>> initDonations({
+  Future<Either<ApiFailures, dynamic>> initDonations({
     int? donationTypeId,
     int? paymentMethodId,
     num? totalAmount,

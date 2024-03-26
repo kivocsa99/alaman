@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
@@ -11,6 +12,8 @@ class GrantStatusContainer extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
     final profile = ref.watch(getProfileProvider);
     return profile.when(
         data: (data) => data.fold((l) => Text(l.toString()), (r) {
@@ -55,7 +58,11 @@ class GrantStatusContainer extends HookConsumerWidget {
                                     color: Colors.green,
                                     borderRadius: BorderRadius.circular(30)),
                                 child: Text(
-                                  beneficiaryModel.scholarship_status!.name!,
+                                  locale == "en"
+                                      ? beneficiaryModel
+                                          .scholarship_status!.name!
+                                      : beneficiaryModel
+                                          .scholarship_status!.name_ar!,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               )),
@@ -63,7 +70,9 @@ class GrantStatusContainer extends HookConsumerWidget {
                           )),
                           ResponsiveRowColumnItem(
                               child: Text(
-                            beneficiaryModel.scholarship_type!.name!,
+                            locale == "en"
+                                ? beneficiaryModel.scholarship_type!.name!
+                                : beneficiaryModel.scholarship_type!.name_ar!,
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .titleSmall!

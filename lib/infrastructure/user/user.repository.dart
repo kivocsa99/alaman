@@ -27,9 +27,10 @@ class UserRepository implements IUserRepository {
   @override
   Future<Either<ApiFailures, dynamic>> getMyProfile() async {
     try {
-      log(userSettings.token.toString());
       final result = await dio
           .get("$baseUrl/user/getMyProfile?api_token=${userSettings.token}");
+      print(result.realUri);
+      print(result.requestOptions.uri);
       if (result.data['AZSVR'] == "SUCCESS") {
         var model;
 
@@ -125,8 +126,7 @@ class UserRepository implements IUserRepository {
   @override
   Future<Either<ApiFailures, GenericModel>> getGeneric() async {
     try {
-      final result = await dio.get(
-          "$baseUrl/misc/getGenericFillables?api_token=${userSettings.token}");
+      final result = await dio.get("$baseUrl/misc/getGenericFillables");
       if (result.data['AZSVR'] == "SUCCESS") {
         log(result.realUri.toString());
         GenericModel response = GenericModel.fromJson(result.data);
@@ -179,7 +179,7 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, String>> initDonations(
+  Future<Either<ApiFailures, dynamic>> initDonations(
       {int? donationTypeId,
       int? paymentMethodId,
       num? totalAmount,
@@ -194,9 +194,7 @@ class UserRepository implements IUserRepository {
       final result = await dio.get(
           "$baseUrl/donation/initDonation?donation_type_id=${donationTypeId.toString()}&payment_method_id=${paymentMethodId.toString()}&total_amount=${totalAmount.toString()}&location=${location.toString()}&is_recurring=${isRecurring.toString()}&start_date=2024-03-01&end_date=2024-04-01&donation_frequency_id=1&notes=I love donating&mou_id=1&beneficiaries[]=1&api_token=${userSettings.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
-        log(result.realUri.toString());
-
-        return right(result.data['AZSVR']);
+        return right(result.data);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
       }
@@ -254,6 +252,4 @@ class UserRepository implements IUserRepository {
       }
     }
   }
-
-
 }

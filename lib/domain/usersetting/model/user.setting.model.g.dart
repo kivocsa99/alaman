@@ -22,13 +22,15 @@ class UserSettingsAdapter extends TypeAdapter<UserSettings> {
       ..isFirstTime = fields[3] as bool?
       ..isLoggedIn = fields[4] as bool?
       ..role = fields[5] as String?
-      ..id = fields[6] as int?;
+      ..id = fields[6] as int?
+      ..isavatar = fields[7] as bool?
+      ..language = fields[8] as String?;
   }
 
   @override
   void write(BinaryWriter writer, UserSettings obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.token)
       ..writeByte(1)
@@ -40,7 +42,11 @@ class UserSettingsAdapter extends TypeAdapter<UserSettings> {
       ..writeByte(5)
       ..write(obj.role)
       ..writeByte(6)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(7)
+      ..write(obj.isavatar)
+      ..writeByte(8)
+      ..write(obj.language);
   }
 
   @override

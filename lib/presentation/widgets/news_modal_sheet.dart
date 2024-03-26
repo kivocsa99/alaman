@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/news/model/news.model.dart';
 import 'package:auto_route/auto_route.dart';
@@ -13,6 +14,8 @@ class NewsBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
@@ -49,7 +52,7 @@ class NewsBottomSheet extends HookConsumerWidget {
                 ),
               ),
               const Gap(20),
-              Text(model.title!,
+              Text(locale == "en" ? model.title! : model.title_ar!,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .primaryTextTheme
@@ -63,7 +66,7 @@ class NewsBottomSheet extends HookConsumerWidget {
                       .bodyMedium!
                       .copyWith(color: const Color(0xff16437B))),
               const Gap(20),
-              HtmlWidget(model.content!)
+              HtmlWidget(locale == "en" ? model.content! : model.content_ar!)
             ],
           ),
         ),

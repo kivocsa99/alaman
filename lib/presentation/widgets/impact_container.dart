@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -108,7 +111,7 @@ class ImpactContainer extends StatelessWidget {
               )),
               ResponsiveRowColumnItem(
                   child: Text(
-                "Target: ${formatNumber(beneficiary!.donations_goal!)} JD",
+                "Target: ${formatNumber(beneficiary!.donations_goal!)}  ${"jod".tr()}",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .bodyMedium!
@@ -216,7 +219,12 @@ class _ProgressBarState extends State<ProgressBar>
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxWidth = constraints.maxWidth;
-        final progressWidth = (maxWidth * _animation.value) / widget.target;
+        // Ensure target is not zero to avoid division by zero error.
+        // Also, cap progressWidth at maxWidth to prevent overflow.
+        final progressWidth = widget.target > 0
+            ? (maxWidth * min(widget.currentProgress, widget.target)) /
+                widget.target
+            : 0.0;
 
         return SizedBox(
           width: maxWidth,

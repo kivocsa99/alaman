@@ -58,7 +58,7 @@ _$DonorModelImpl _$$DonorModelImplFromJson(Map<String, dynamic> json) =>
       city: json['city'] == null
           ? null
           : CityModel.fromJson(json['city'] as Map<String, dynamic>),
-      donor_donation: (json['donor_donation'] as List<dynamic>?)
+      donor_donations: (json['donor_donations'] as List<dynamic>?)
           ?.map((e) => DonorDonation.fromJson(e as Map<String, dynamic>))
           .toList(),
       donor_beneficiaries: (json['donor_beneficiaries'] as List<dynamic>?)
@@ -113,6 +113,6 @@ Map<String, dynamic> _$$DonorModelImplToJson(_$DonorModelImpl instance) =>
       'theme_color': instance.theme_color,
       'gender': instance.gender,
       'city': instance.city,
-      'donor_donation': instance.donor_donation,
+      'donor_donations': instance.donor_donations,
       'donor_beneficiaries': instance.donor_beneficiaries,
     };

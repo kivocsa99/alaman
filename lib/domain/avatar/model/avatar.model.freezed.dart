@@ -20,7 +20,7 @@ AvatarModel _$AvatarModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AvatarModel {
-  String? get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String? get filename => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $AvatarModelCopyWith<$Res> {
       _$AvatarModelCopyWithImpl<$Res, AvatarModel>;
   @useResult
   $Res call(
-      {String? id,
+      {int? id,
       String? filename,
       String? created_at,
       String? updated_at,
@@ -69,7 +69,7 @@ class _$AvatarModelCopyWithImpl<$Res, $Val extends AvatarModel>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       filename: freezed == filename
           ? _value.filename
           : filename // ignore: cast_nullable_to_non_nullable
@@ -99,7 +99,7 @@ abstract class _$$AvatarModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
+      {int? id,
       String? filename,
       String? created_at,
       String? updated_at,
@@ -127,7 +127,7 @@ class __$$AvatarModelImplCopyWithImpl<$Res>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       filename: freezed == filename
           ? _value.filename
           : filename // ignore: cast_nullable_to_non_nullable
@@ -163,7 +163,7 @@ class _$AvatarModelImpl extends _AvatarModel {
       _$$AvatarModelImplFromJson(json);
 
   @override
-  final String? id;
+  final int? id;
   @override
   final String? filename;
   @override
@@ -215,7 +215,7 @@ class _$AvatarModelImpl extends _AvatarModel {
 
 abstract class _AvatarModel extends AvatarModel {
   const factory _AvatarModel(
-      {final String? id,
+      {final int? id,
       final String? filename,
       final String? created_at,
       final String? updated_at,
@@ -226,7 +226,7 @@ abstract class _AvatarModel extends AvatarModel {
       _$AvatarModelImpl.fromJson;
 
   @override
-  String? get id;
+  int? get id;
   @override
   String? get filename;
   @override

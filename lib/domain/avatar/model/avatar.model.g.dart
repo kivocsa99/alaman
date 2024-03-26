@@ -8,7 +8,7 @@ part of 'avatar.model.dart';
 
 _$AvatarModelImpl _$$AvatarModelImplFromJson(Map<String, dynamic> json) =>
     _$AvatarModelImpl(
-      id: json['id'] as String?,
+      id: json['id'] as int?,
       filename: json['filename'] as String?,
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,

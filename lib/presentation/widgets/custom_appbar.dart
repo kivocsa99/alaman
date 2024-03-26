@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -40,17 +41,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   .primaryTextTheme
                   .bodyMedium
                   ?.copyWith(fontSize: 19, color: const Color(0xff16437B)),
-            ),
+            ).tr(),
             Text(description,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).primaryTextTheme.bodyMedium),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).primaryTextTheme.bodyMedium)
+                .tr(),
           ],
         ),
       ),
       centerTitle: true,
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 20.0, top: 12),
+          padding: const EdgeInsets.only(right: 20.0, top: 12, left: 20),
           child: Container(
             height: 40,
             width: 40,

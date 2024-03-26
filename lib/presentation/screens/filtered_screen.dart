@@ -6,6 +6,7 @@ import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -68,7 +69,7 @@ class FilteredScreen extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
-            title: "Donate", description: "Choose a beneficiary"),
+            title: "donate", description: "choosebeneficiary"),
         body: ResponsiveWidget(
           child: GridView.builder(
             padding: const EdgeInsets.all(10),

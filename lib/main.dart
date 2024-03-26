@@ -18,7 +18,6 @@ void main() async {
   await Hive.openBox("setting");
   await Hive.openBox("register");
   await Hive.openBox("login");
-
   runApp(EasyLocalization(
       supportedLocales: const [Locale('ar'), Locale('en')],
       path: 'assets',

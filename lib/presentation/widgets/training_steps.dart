@@ -88,7 +88,7 @@
 //                   },
 //                   color: const Color(0xffFFC629),
 //                   child: Text(
-//                     "Next",
+//                     "next",
 //                     style: Theme.of(context)
 //                         .primaryTextTheme
 //                         .bodyMedium

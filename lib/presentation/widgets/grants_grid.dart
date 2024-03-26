@@ -1,5 +1,6 @@
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/presentation/widgets/request_bottom_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -40,9 +41,8 @@ class GrantsGridView extends HookConsumerWidget {
           onTap: () async {
             final result = await ref.read(getGenericProvider.future);
             return result.fold(
-                (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        l.message ?? "Please check your internet connection"))),
+                (l) => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l.message ?? "internetconnection").tr())),
                 (r) async {
               index != 1
                   ? showModalBottomSheet(

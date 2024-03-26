@@ -5,6 +5,7 @@ import 'package:alaman/presentation/widgets/impact_container.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -150,7 +151,7 @@ class YourBeneficiariesScreen extends HookConsumerWidget {
                           )),
                           ResponsiveRowColumnItem(
                               child: Text(
-                            "Target: ${formatNumber(beneficiary[index].donations_goal!)} JD",
+                            "Target: ${formatNumber(beneficiary[index].donations_goal!)}  ${"jod".tr()}",
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .bodyMedium!

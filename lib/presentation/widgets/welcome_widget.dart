@@ -1,6 +1,7 @@
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -33,9 +34,9 @@ class WelcomeWidget extends HookWidget {
       controller5.forward();
       controller6.forward();
       controller7.forward();
-
       return null;
     }, const []);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: ResponsiveRowColumn(
@@ -53,9 +54,9 @@ class WelcomeWidget extends HookWidget {
               ).animate(
                   CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
               child: Text(
-                "Let's Get Started",
+                "welcometitle",
                 style: Theme.of(context).primaryTextTheme.titleLarge,
-              ),
+              ).tr(),
             ),
           )),
           ResponsiveRowColumnItem(
@@ -68,62 +69,12 @@ class WelcomeWidget extends HookWidget {
               ).animate(
                   CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
               child: Text(
-                "Unlock the power of giving",
+                "welcomedescription",
                 style: Theme.of(context).primaryTextTheme.bodyLarge,
-              ),
+              ).tr(),
             ),
           )),
           const ResponsiveRowColumnItem(child: Gap(50)),
-          ResponsiveRowColumnItem(
-              child: FadeTransition(
-            opacity: CurvedAnimation(parent: controller3, curve: Curves.easeIn),
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 0.5),
-                end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
-              child: AuthContainer(
-                height: 60,
-                raduis: 50,
-                onTap: () {},
-                color: const Color(0xff2A7DE1),
-                child: Text(
-                  "Continue with google",
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .titleSmall
-                      ?.copyWith(color: Colors.white),
-                ),
-              ),
-            ),
-          )),
-          const ResponsiveRowColumnItem(child: Gap(20)),
-          ResponsiveRowColumnItem(
-              child: FadeTransition(
-            opacity: CurvedAnimation(parent: controller4, curve: Curves.easeIn),
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 0.5),
-                end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller4, curve: Curves.easeOut)),
-              child: AuthContainer(
-                height: 60,
-                raduis: 50,
-                onTap: () {},
-                color: const Color(0xff16437B),
-                child: Text(
-                  "Continue with Apple",
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .titleSmall
-                      ?.copyWith(color: Colors.white),
-                ),
-              ),
-            ),
-          )),
-          const ResponsiveRowColumnItem(child: Gap(20)),
           ResponsiveRowColumnItem(
               child: FadeTransition(
             opacity: CurvedAnimation(parent: controller5, curve: Curves.easeIn),
@@ -134,9 +85,9 @@ class WelcomeWidget extends HookWidget {
               ).animate(
                   CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
               child: Text(
-                "Fast and easy. No password required.",
+                "welcometitle2",
                 style: Theme.of(context).primaryTextTheme.bodyLarge,
-              ),
+              ).tr(),
             ),
           )),
           const ResponsiveRowColumnItem(child: Gap(20)),
@@ -157,12 +108,12 @@ class WelcomeWidget extends HookWidget {
                 },
                 color: const Color(0xffFFC629),
                 child: Text(
-                  "Sign up with email",
+                  "signupemail",
                   style: Theme.of(context)
                       .primaryTextTheme
                       .titleSmall
                       ?.copyWith(color: Colors.white),
-                ),
+                ).tr(),
               ),
             ),
           )),
@@ -185,13 +136,13 @@ class WelcomeWidget extends HookWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Do you have an account Already?",
+                      "doyouhaveaccount",
                       style: Theme.of(context)
                           .primaryTextTheme
                           .titleSmall
                           ?.copyWith(color: Colors.black),
                       textAlign: TextAlign.center,
-                    ),
+                    ).tr(),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Container(
@@ -201,12 +152,12 @@ class WelcomeWidget extends HookWidget {
                           color: const Color(0xffB12732).withOpacity(0.3),
                         ),
                         child: Text(
-                          "If yes, Login",
+                          "ifyes",
                           style: Theme.of(context)
                               .primaryTextTheme
                               .bodyMedium
                               ?.copyWith(color: const Color(0xff2A7DE1)),
-                        ),
+                        ).tr(),
                       ),
                     ),
                   ],

@@ -8,7 +8,7 @@ part 'avatar.model.g.dart';
 @freezed
 class AvatarModel with _$AvatarModel {
   const factory AvatarModel({
-    String? id,
+    int? id,
     String? filename,
     String? created_at,
     String? updated_at,

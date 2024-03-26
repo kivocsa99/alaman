@@ -17,10 +17,12 @@ class AuthField extends HookWidget {
   final Color? borderColor;
   final double? borderWidth;
   final int? maxlines;
+  final Alignment alignment;
   final double? height;
   const AuthField(
       {this.hint,
       this.maxlines,
+      this.alignment = Alignment.center,
       this.height,
       this.borderColor,
       this.borderWidth,
@@ -43,7 +45,7 @@ class AuthField extends HookWidget {
     return Container(
       width: width,
       height: height ?? 70,
-      alignment: Alignment.center,
+      alignment: alignment,
       decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
@@ -74,7 +76,7 @@ class AuthField extends HookWidget {
           errorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.red)),
           contentPadding:
-              const EdgeInsets.only(left: 30, top: 10, bottom: 10, right: 10),
+              const EdgeInsets.only(left: 30, top: 10, bottom: 10, right: 30),
           hintText: hint,
           hintStyle: const TextStyle(
             color: Colors.black26,

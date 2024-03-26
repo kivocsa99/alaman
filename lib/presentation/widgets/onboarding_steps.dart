@@ -1,17 +1,23 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class OnBoardingSteps extends HookWidget {
+class OnBoardingSteps extends HookConsumerWidget {
   final int index;
   final VoidCallback next;
   const OnBoardingSteps({super.key, required this.index, required this.next});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
     final controller1 =
         useAnimationController(duration: const Duration(seconds: 1));
     final controller2 =
@@ -34,9 +40,40 @@ class OnBoardingSteps extends HookWidget {
       columnMainAxisAlignment: MainAxisAlignment.start,
       children: [
         ResponsiveRowColumnItem(
-            child: Image.asset(
-          'assets/Asset 6.png',
-          scale: 5,
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: ResponsiveRowColumn(
+            layout: ResponsiveRowColumnType.ROW,
+            rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ResponsiveRowColumnItem(
+                child: GestureDetector(
+                  child: Text(
+                    locale == "en" ? "EN" : "AR",
+                    style: Theme.of(context).primaryTextTheme.bodyMedium,
+                  ),
+                  onTap: () {
+                    context.setLocale(locale == "en"
+                        ? const Locale("ar")
+                        : const Locale("en"));
+                    ref
+                        .read(settingHiveNotifierProvider.notifier)
+                        .setLanguage(locale == "en" ? "ar" : "en");
+                  },
+                ),
+              ),
+              ResponsiveRowColumnItem(
+                child: Image.asset(
+                  'assets/Asset 6.png',
+                  scale: 5,
+                ),
+              ),
+              const ResponsiveRowColumnItem(
+                  child: Gap(
+                20,
+              ))
+            ],
+          ),
         )),
         const ResponsiveRowColumnItem(child: Gap(10)),
         ResponsiveRowColumnItem(

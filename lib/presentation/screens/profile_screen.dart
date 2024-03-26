@@ -3,11 +3,15 @@ import 'dart:math';
 import 'package:alaman/application/provider/auth.repository.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
+import 'package:alaman/constants.dart';
+import 'package:alaman/presentation/screens/filtered_screen.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -40,9 +44,7 @@ class ProfileScreen extends HookConsumerWidget {
         ),
         body: profile.when(
             data: (data) => data.fold(
-                    (l) => Text(
-                        l.message ?? "Please check your internet connection"),
-                    (r) {
+                    (l) => Text(l.message ?? "internetconnection").tr(), (r) {
                   var model = r;
                   return ResponsiveWidget(
                     child: Padding(
@@ -158,9 +160,54 @@ class ProfileScreen extends HookConsumerWidget {
                                 child: Container(
                                   width: 70,
                                   height: 70,
-                                  decoration: const BoxDecoration(
+                                  padding: EdgeInsets.only(top: 10),
+                                  decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.red),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                        stops: [0, 5],
+                                        colors: [
+                                          // Brighten function is not native, you'd have to implement it
+                                          Colors.white,
+                                          colorsList.value[randomNumber]
+                                              .brighten(5)
+                                              .withOpacity(0.3),
+                                        ],
+                                      )),
+                                  child: setting?.role == "Beneficiary"
+                                      ? model!.image != null
+                                          ? CachedNetworkImage(
+                                              imageUrl:
+                                                  "$storageUrl/${model.image}",
+                                              placeholder: (context, url) =>
+                                                  const Center(
+                                                      child:
+                                                          CircularProgressIndicator()),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      Container(
+                                                width: 70,
+                                                height: 70,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    scale: 2.5,
+                                                    fit: BoxFit
+                                                        .contain, // Adjust to your needs
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : const Icon(
+                                              Icons.person,
+                                              color: Colors.white,
+                                            )
+                                      : Container(),
                                 ),
                               ),
                             ],
@@ -201,6 +248,8 @@ class ProfileScreen extends HookConsumerWidget {
                           ),
                           const Gap(20),
                           ListTile(
+                            onTap: () =>
+                                context.router.push(ProfileDetailsRoute()),
                             title: Text(
                               "Profile Details",
                               style: Theme.of(context)
@@ -241,8 +290,7 @@ class ProfileScreen extends HookConsumerWidget {
                             ListTile(
                               onTap: () => context.router.push(
                                   PaymentHistoryRoute(
-                                      donationHistory:
-                                          r.User.donor_donation ?? [])),
+                                      donationHistory: r.User.donor_donations)),
                               title: Text(
                                 "History",
                                 style: Theme.of(context)
@@ -261,15 +309,31 @@ class ProfileScreen extends HookConsumerWidget {
                             ),
                           const Gap(10),
                           ListTile(
+                            onTap: () async =>
+                                await context.router.push(LanguageRoute()),
+                            title: Text(
+                              "Language",
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: const Color(0xff18447B)),
+                            ),
+                            leading: const Icon(
+                              Icons.language,
+                              color: Color(0xff18447B),
+                            ),
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color(0xff18447B),
+                            ),
+                          ),
+                          const Gap(10),
+                          ListTile(
                             onTap: () async {
                               if (!await launchUrl(
                                   Uri.parse("https://alamanfund.jo/contact"))) {
                                 throw Exception('Could not launch ');
                               }
-                              // Execute logout logic first, ensuring Hive boxes are cleared.
-                              // await ref.read(logOutProvider.future).then(
-                              //     (value) async => await context.router
-                              //         .replaceAll([const OnBoardingRoute()]));
                             },
                             title: Text(
                               "Help",

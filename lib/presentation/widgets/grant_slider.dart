@@ -1,5 +1,6 @@
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/presentation/widgets/request_bottom_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -12,9 +13,9 @@ class GranstSlider extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final grantTypes = useState([
-      "Request\nFrom Al Aman",
-      "Eligibility\nSystem",
-      "Training\nRequest",
+      "alamanreq".tr(),
+      "elegibility".tr(),
+      "trainingreq".tr(),
     ]);
     final grantPictures = useState([
       "assets/amanreq.png",
@@ -35,8 +36,7 @@ class GranstSlider extends HookConsumerWidget {
               final result = await ref.read(getGenericProvider.future);
               return result.fold(
                   (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(l.message ??
-                          "Please check your internet connection"))),
+                      content: Text(l.message ?? "internetconnection").tr())),
                   (r) async => index != 1
                       ? showModalBottomSheet(
                           context: context,

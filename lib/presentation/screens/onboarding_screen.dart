@@ -7,6 +7,7 @@ import 'package:alaman/presentation/widgets/onboarding_steps.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/presentation/widgets/welcome_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -146,10 +147,11 @@ class OnBoardingScreen extends HookConsumerWidget {
                                         ),
                                         height: 40,
                                         width: 150,
-                                        child: Text("Terms of use",
-                                            style: Theme.of(context)
-                                                .primaryTextTheme
-                                                .titleSmall)),
+                                        child: Text("termsofuse",
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .titleSmall)
+                                            .tr()),
                                   ),
                                 ),
                                 ResponsiveRowColumnItem(
@@ -162,10 +164,11 @@ class OnBoardingScreen extends HookConsumerWidget {
                                         ),
                                         height: 40,
                                         width: 150,
-                                        child: Text("Privacy Policy",
-                                            style: Theme.of(context)
-                                                .primaryTextTheme
-                                                .titleSmall)),
+                                        child: Text("privacypolicy",
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .titleSmall)
+                                            .tr()),
                                   ),
                                 ),
                               ],

@@ -9,6 +9,7 @@ import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -64,14 +65,12 @@ class PasswordStep extends HookConsumerWidget {
             ).animate(
                 CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
             child: Text(
-              isLogin == false
-                  ? "Enter a Password\nto join us"
-                  : "Enter your Password",
+              isLogin == false ? "passwordtitle1" : "passwordtitle2",
               style: Theme.of(context)
                   .primaryTextTheme
                   .titleLarge
                   ?.copyWith(color: Colors.black),
-            ),
+            ).tr(),
           ),
         )),
         const ResponsiveRowColumnItem(child: Gap(10)),
@@ -88,9 +87,9 @@ class PasswordStep extends HookConsumerWidget {
               key: formKey.value,
               child: AuthField(
                 validator: MultiValidator([
-                  RequiredValidator(errorText: 'This Field is required'),
+                  RequiredValidator(errorText: "reqfield".tr()),
                 ]),
-                hint: "Password",
+                hint: "passwordhint".tr(),
                 obsecuretext: true,
                 inputAction: TextInputAction.done,
                 onChanged: (value) async {
@@ -112,12 +111,12 @@ class PasswordStep extends HookConsumerWidget {
               ).animate(
                   CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
               child: Text(
-                "By entering you information and tapping join,\nyou agree to the Terms & Privacy Policy",
+                "agreement",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .bodyMedium
                     ?.copyWith(color: const Color(0xff2A7DE1)),
-              ),
+              ).tr(),
             ),
           ),
         ),
@@ -150,11 +149,10 @@ class PasswordStep extends HookConsumerWidget {
                                   SnackBar(content: Text("${l.message}")));
                             }, (r) {
                               isLoading.value = false;
-                              context.router.replaceAll([const MainRoute()]);
+                              context.router.replaceAll([MainRoute()]);
                             }));
                   } else {
                     isLoading.value = true;
-
                     ref
                         .read(signInWithEmailAndPasswordUseCaseProvider)
                         .execute(SignInWithEmailAndPasswordUseCaseInput(
@@ -167,7 +165,7 @@ class PasswordStep extends HookConsumerWidget {
                             }, (r) {
                               isLoading.value = false;
 
-                              context.router.replaceAll([const MainRoute()]);
+                              context.router.replaceAll([MainRoute()]);
                             }));
                   }
                 }
@@ -175,12 +173,12 @@ class PasswordStep extends HookConsumerWidget {
               color: const Color(0xffD2D3D6),
               child: isLoading.value == false
                   ? Text(
-                      "Next",
+                      "next",
                       style: Theme.of(context)
                           .primaryTextTheme
                           .titleSmall
                           ?.copyWith(color: Colors.white),
-                    )
+                    ).tr()
                   : const CircularProgressIndicator(),
             ),
           ),
@@ -205,7 +203,7 @@ class PasswordStep extends HookConsumerWidget {
                   : ref.read(loginNotifierProvider.notifier).previousStep(),
               color: const Color(0xffD2D3D6),
               child: Text(
-                "Back",
+                "back".tr(),
                 style: Theme.of(context)
                     .primaryTextTheme
                     .titleSmall

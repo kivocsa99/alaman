@@ -9,27 +9,31 @@ class AuthGuard extends AutoRouteGuard {
   AuthGuard();
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final UserSettings settings =
-        settingBox.isNotEmpty ? settingBox.getAt(0) : UserSettings();
-    print(settings.isLoggedIn);
-    if (settings.isLoggedIn == null || false) {
+    final UserSettings? settings =
+        settingBox.isNotEmpty ? settingBox.getAt(0) : null;
+
+    if (settings?.isLoggedIn == null || false) {
       resolver.next(true);
     } else {
-      router.replaceAll([const MainRoute()]);
+      router.replaceAll([MainRoute()]);
     }
   }
 }
 
-class OnBoardingGuard extends AutoRouteGuard {
-  OnBoardingGuard();
+class MainRouteGuard extends AutoRouteGuard {
+  final Box settingBox = Hive.box('setting');
+
+  MainRouteGuard();
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final Box settingBox = Hive.box('setting');
-
-    if ((settingBox.isNotEmpty)) {
-      resolver.next(true);
+    final UserSettings settings =
+        settingBox.isNotEmpty ? settingBox.getAt(0) : UserSettings();
+    print("-------------------${settings.isavatar}");
+    if ((settings.isavatar == null || false) &&
+        settings.role == "Beneficiary") {
+      router.replaceAll([const SetAvatarRoute()]);
     } else {
-      router.replaceAll([const OnBoardingRoute()]);
+      resolver.next(true);
     }
   }
 }

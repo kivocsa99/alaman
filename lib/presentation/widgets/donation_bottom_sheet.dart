@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
@@ -5,6 +6,7 @@ import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/step_indicator.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,21 +27,25 @@ class DonationBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
     final controller = FixedExtentScrollController();
     final isLoading = useState(false);
     final selectedIndex = useState(0);
     final currentStep = useState(0);
-    final type = useState(scholarships![selectedIndex.value].name!);
+    final type = useState(locale == "en"
+        ? scholarships![selectedIndex.value].name!
+        : scholarships![selectedIndex.value].name_ar!);
     final typeId = useState(scholarships![selectedIndex.value].id!);
-    final year = useState("Educational Year");
+    final year = useState("year".tr());
     final yearId = useState(0);
-    final gender = useState("Gender");
+    final gender = useState("gender".tr());
     final genderId = useState(0);
-    final city = useState("Governate");
+    final city = useState("governate".tr());
     final cityId = useState(0);
-    final age = useState("Age");
+    final age = useState("age".tr());
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -89,7 +95,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 Column(
                                   children: [
                                     Text(
-                                      "Our Programs",
+                                      "ourprograms",
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .primaryTextTheme
@@ -98,12 +104,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                                               fontSize: 20,
                                               color: const Color(0xff16437B),
                                               fontWeight: FontWeight.w500),
-                                    ),
-                                    Text("Choose a type of grant",
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium),
+                                    ).tr(),
+                                    Text("choosegrant",
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyMedium)
+                                        .tr(),
                                   ],
                                 ),
                                 IconButton(
@@ -129,11 +136,15 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 raduis: 40,
                                 onTap: () async {
                                   selectedIndex.value = index;
-                                  type.value = scholarships![index].name!;
+                                  type.value = locale == "en"
+                                      ? scholarships![index].name!
+                                      : scholarships![index].name_ar!;
                                   typeId.value = scholarships![index].id!;
                                 },
                                 child: Text(
-                                  scholarships![index].name!,
+                                  locale == "en"
+                                      ? scholarships![index].name!
+                                      : scholarships![index].name_ar!,
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context)
                                       .primaryTextTheme
@@ -161,12 +172,12 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 color: const Color(0xffFFC629),
                                 child: isLoading.value == false
                                     ? Text(
-                                        "Next",
+                                        "next",
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .titleSmall
                                             ?.copyWith(color: Colors.white),
-                                      )
+                                      ).tr()
                                     : const CircularProgressIndicator(),
                               ),
                             ),
@@ -271,7 +282,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                             style: TextStyle(
                                                                 color: Color(
                                                                     0xff18447B)),
-                                                          ),
+                                                          ).tr(),
                                                           onPressed: () async {
                                                             if (controller
                                                                     .selectedItem ==
@@ -325,17 +336,24 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                   onSelectedItemChanged:
                                                       (item) {
                                                     if (item == 0) {
-                                                      gender.value = "Male";
+                                                      gender.value =
+                                                          "male".tr();
                                                       genderId.value = 1;
                                                     } else {
-                                                      gender.value = "Female";
+                                                      gender.value =
+                                                          "female".tr();
                                                       genderId.value = 2;
                                                     }
                                                   },
-                                                  children: const [
-                                                    Center(child: Text("Male")),
+                                                  children: [
                                                     Center(
-                                                        child: Text("Female")),
+                                                        child:
+                                                            const Text("male")
+                                                                .tr()),
+                                                    Center(
+                                                        child:
+                                                            const Text("female")
+                                                                .tr()),
                                                   ],
                                                 ),
                                               ),
@@ -352,12 +370,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                       style: TextStyle(
                                                           color: Color(
                                                               0xff18447B)),
-                                                    ),
+                                                    ).tr(),
                                                     onPressed: () async {
                                                       if (controller
                                                               .selectedItem ==
                                                           0) {
-                                                        gender.value = "Male";
+                                                        gender.value =
+                                                            "male".tr();
                                                         genderId.value = 1;
                                                       }
 
@@ -426,12 +445,16 @@ class DonationBottomSheet extends HookConsumerWidget {
                                             scrollController: controller,
                                             itemExtent: 45,
                                             onSelectedItemChanged: (item) {
-                                              city.value = cities![item].name!;
+                                              city.value = locale == "en"
+                                                  ? cities![item].name!
+                                                  : cities![item].name_ar!;
                                               cityId.value = cities![item].id!;
                                             },
                                             children: cities!
                                                 .map((e) => Center(
-                                                      child: Text(e.name!),
+                                                      child: Text(locale == "en"
+                                                          ? e.name!
+                                                          : e.name_ar!),
                                                     ))
                                                 .toList(),
                                           ),
@@ -447,11 +470,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                 'confirm',
                                                 style: TextStyle(
                                                     color: Color(0xff18447B)),
-                                              ),
+                                              ).tr(),
                                               onPressed: () async {
                                                 if (controller.selectedItem ==
                                                     0) {
-                                                  city.value = cities![0].name!;
+                                                  city.value = locale == "en"
+                                                      ? cities![0].name!
+                                                      : cities![0].name_ar!;
                                                   cityId.value = cities![0].id!;
                                                 }
                                                 context.router.pop();
@@ -497,14 +522,19 @@ class DonationBottomSheet extends HookConsumerWidget {
                                             scrollController: controller,
                                             itemExtent: 45,
                                             onSelectedItemChanged: (item) {
-                                              year.value =
-                                                  educationalYears![item].name!;
+                                              year.value = locale == "en"
+                                                  ? educationalYears![item]
+                                                      .name!
+                                                  : educationalYears![item]
+                                                      .name_ar!;
                                               yearId.value =
                                                   educationalYears![item].id!;
                                             },
                                             children: educationalYears!
                                                 .map((e) => Center(
-                                                      child: Text(e.name!),
+                                                      child: Text(locale == "en"
+                                                          ? e.name!
+                                                          : e.name_ar!),
                                                     ))
                                                 .toList(),
                                           ),
@@ -520,13 +550,15 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                 'confirm',
                                                 style: TextStyle(
                                                     color: Color(0xff18447B)),
-                                              ),
+                                              ).tr(),
                                               onPressed: () async {
                                                 if (controller.selectedItem ==
                                                     0) {
-                                                  year.value =
-                                                      educationalYears![0]
-                                                          .name!;
+                                                  year.value = locale == "en"
+                                                      ? educationalYears![0]
+                                                          .name!
+                                                      : educationalYears![0]
+                                                          .name_ar!;
                                                   yearId.value =
                                                       educationalYears![0].id!;
                                                 }
@@ -567,12 +599,12 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 color: const Color(0xffFFC629),
                                 child: isLoading.value == false
                                     ? Text(
-                                        "Search",
+                                        "search",
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .titleSmall
                                             ?.copyWith(color: Colors.white),
-                                      )
+                                      ).tr()
                                     : const CircularProgressIndicator(),
                               ),
                             ),

@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/domain/booth/model/booth.model.dart';
 import 'package:alaman/presentation/widgets/gps_container.dart';
@@ -13,6 +14,8 @@ class NearestLocation extends HookConsumerWidget {
   const NearestLocation({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
     final generic = ref.watch(getGenericProvider);
     final currentPosition = useState<Position?>(null);
     final nearestBoothFuture = useFuture(
@@ -93,7 +96,9 @@ class NearestLocation extends HookConsumerWidget {
                   children: [
                     ResponsiveRowColumnItem(
                         child: Text(
-                      nearestBooth.name!,
+                      locale == "en"
+                          ? nearestBooth.name!
+                          : nearestBooth.name_ar!,
                       style: Theme.of(context)
                           .primaryTextTheme
                           .bodyMedium!
@@ -101,7 +106,9 @@ class NearestLocation extends HookConsumerWidget {
                     )),
                     ResponsiveRowColumnItem(
                         child: Text(
-                      nearestBooth.name!,
+                      locale == "en"
+                          ? nearestBooth.name!
+                          : nearestBooth.name_ar!,
                       style: Theme.of(context)
                           .primaryTextTheme
                           .bodyMedium!

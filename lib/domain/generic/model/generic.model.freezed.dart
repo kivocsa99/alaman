@@ -46,7 +46,10 @@ mixin _$GenericModel {
   List<PaymentMethodModel>? get PaymentMethods =>
       throw _privateConstructorUsedError;
   List<DonationType>? get DonationTypes => throw _privateConstructorUsedError;
+  List<AvatarModel>? get Avatars => throw _privateConstructorUsedError;
   bool? get EidiehEnabled => throw _privateConstructorUsedError;
+  bool? get ONLINE_PAYMENT_ENABLED => throw _privateConstructorUsedError;
+  bool? get SHOP_ENABLED => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -77,7 +80,10 @@ abstract class $GenericModelCopyWith<$Res> {
       List<DonationFrequencyModel>? DonationFrequencies,
       List<PaymentMethodModel>? PaymentMethods,
       List<DonationType>? DonationTypes,
-      bool? EidiehEnabled});
+      List<AvatarModel>? Avatars,
+      bool? EidiehEnabled,
+      bool? ONLINE_PAYMENT_ENABLED,
+      bool? SHOP_ENABLED});
 }
 
 /// @nodoc
@@ -109,7 +115,10 @@ class _$GenericModelCopyWithImpl<$Res, $Val extends GenericModel>
     Object? DonationFrequencies = freezed,
     Object? PaymentMethods = freezed,
     Object? DonationTypes = freezed,
+    Object? Avatars = freezed,
     Object? EidiehEnabled = freezed,
+    Object? ONLINE_PAYMENT_ENABLED = freezed,
+    Object? SHOP_ENABLED = freezed,
   }) {
     return _then(_value.copyWith(
       AccountSources: freezed == AccountSources
@@ -176,9 +185,21 @@ class _$GenericModelCopyWithImpl<$Res, $Val extends GenericModel>
           ? _value.DonationTypes
           : DonationTypes // ignore: cast_nullable_to_non_nullable
               as List<DonationType>?,
+      Avatars: freezed == Avatars
+          ? _value.Avatars
+          : Avatars // ignore: cast_nullable_to_non_nullable
+              as List<AvatarModel>?,
       EidiehEnabled: freezed == EidiehEnabled
           ? _value.EidiehEnabled
           : EidiehEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      ONLINE_PAYMENT_ENABLED: freezed == ONLINE_PAYMENT_ENABLED
+          ? _value.ONLINE_PAYMENT_ENABLED
+          : ONLINE_PAYMENT_ENABLED // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      SHOP_ENABLED: freezed == SHOP_ENABLED
+          ? _value.SHOP_ENABLED
+          : SHOP_ENABLED // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -209,7 +230,10 @@ abstract class _$$GenericModelImplCopyWith<$Res>
       List<DonationFrequencyModel>? DonationFrequencies,
       List<PaymentMethodModel>? PaymentMethods,
       List<DonationType>? DonationTypes,
-      bool? EidiehEnabled});
+      List<AvatarModel>? Avatars,
+      bool? EidiehEnabled,
+      bool? ONLINE_PAYMENT_ENABLED,
+      bool? SHOP_ENABLED});
 }
 
 /// @nodoc
@@ -239,7 +263,10 @@ class __$$GenericModelImplCopyWithImpl<$Res>
     Object? DonationFrequencies = freezed,
     Object? PaymentMethods = freezed,
     Object? DonationTypes = freezed,
+    Object? Avatars = freezed,
     Object? EidiehEnabled = freezed,
+    Object? ONLINE_PAYMENT_ENABLED = freezed,
+    Object? SHOP_ENABLED = freezed,
   }) {
     return _then(_$GenericModelImpl(
       AccountSources: freezed == AccountSources
@@ -306,9 +333,21 @@ class __$$GenericModelImplCopyWithImpl<$Res>
           ? _value._DonationTypes
           : DonationTypes // ignore: cast_nullable_to_non_nullable
               as List<DonationType>?,
+      Avatars: freezed == Avatars
+          ? _value._Avatars
+          : Avatars // ignore: cast_nullable_to_non_nullable
+              as List<AvatarModel>?,
       EidiehEnabled: freezed == EidiehEnabled
           ? _value.EidiehEnabled
           : EidiehEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      ONLINE_PAYMENT_ENABLED: freezed == ONLINE_PAYMENT_ENABLED
+          ? _value.ONLINE_PAYMENT_ENABLED
+          : ONLINE_PAYMENT_ENABLED // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      SHOP_ENABLED: freezed == SHOP_ENABLED
+          ? _value.SHOP_ENABLED
+          : SHOP_ENABLED // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -334,7 +373,10 @@ class _$GenericModelImpl extends _GenericModel {
       final List<DonationFrequencyModel>? DonationFrequencies,
       final List<PaymentMethodModel>? PaymentMethods,
       final List<DonationType>? DonationTypes,
-      this.EidiehEnabled})
+      final List<AvatarModel>? Avatars,
+      this.EidiehEnabled,
+      this.ONLINE_PAYMENT_ENABLED,
+      this.SHOP_ENABLED})
       : _AccountSources = AccountSources,
         _AlamanServices = AlamanServices,
         _Cities = Cities,
@@ -351,6 +393,7 @@ class _$GenericModelImpl extends _GenericModel {
         _DonationFrequencies = DonationFrequencies,
         _PaymentMethods = PaymentMethods,
         _DonationTypes = DonationTypes,
+        _Avatars = Avatars,
         super._();
 
   factory _$GenericModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -522,12 +565,26 @@ class _$GenericModelImpl extends _GenericModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<AvatarModel>? _Avatars;
+  @override
+  List<AvatarModel>? get Avatars {
+    final value = _Avatars;
+    if (value == null) return null;
+    if (_Avatars is EqualUnmodifiableListView) return _Avatars;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final bool? EidiehEnabled;
+  @override
+  final bool? ONLINE_PAYMENT_ENABLED;
+  @override
+  final bool? SHOP_ENABLED;
 
   @override
   String toString() {
-    return 'GenericModel(AccountSources: $AccountSources, AlamanServices: $AlamanServices, Cities: $Cities, CommitmentMethods: $CommitmentMethods, ScholarshipStatuses: $ScholarshipStatuses, ScholarshipTypes: $ScholarshipTypes, Booths: $Booths, Partners: $Partners, TopDonors: $TopDonors, EducationalYears: $EducationalYears, Genders: $Genders, MeetingMethods: $MeetingMethods, TrainingPrograms: $TrainingPrograms, DonationFrequencies: $DonationFrequencies, PaymentMethods: $PaymentMethods, DonationTypes: $DonationTypes, EidiehEnabled: $EidiehEnabled)';
+    return 'GenericModel(AccountSources: $AccountSources, AlamanServices: $AlamanServices, Cities: $Cities, CommitmentMethods: $CommitmentMethods, ScholarshipStatuses: $ScholarshipStatuses, ScholarshipTypes: $ScholarshipTypes, Booths: $Booths, Partners: $Partners, TopDonors: $TopDonors, EducationalYears: $EducationalYears, Genders: $Genders, MeetingMethods: $MeetingMethods, TrainingPrograms: $TrainingPrograms, DonationFrequencies: $DonationFrequencies, PaymentMethods: $PaymentMethods, DonationTypes: $DonationTypes, Avatars: $Avatars, EidiehEnabled: $EidiehEnabled, ONLINE_PAYMENT_ENABLED: $ONLINE_PAYMENT_ENABLED, SHOP_ENABLED: $SHOP_ENABLED)';
   }
 
   @override
@@ -563,31 +620,40 @@ class _$GenericModelImpl extends _GenericModel {
                 .equals(other._PaymentMethods, _PaymentMethods) &&
             const DeepCollectionEquality()
                 .equals(other._DonationTypes, _DonationTypes) &&
+            const DeepCollectionEquality().equals(other._Avatars, _Avatars) &&
             (identical(other.EidiehEnabled, EidiehEnabled) ||
-                other.EidiehEnabled == EidiehEnabled));
+                other.EidiehEnabled == EidiehEnabled) &&
+            (identical(other.ONLINE_PAYMENT_ENABLED, ONLINE_PAYMENT_ENABLED) ||
+                other.ONLINE_PAYMENT_ENABLED == ONLINE_PAYMENT_ENABLED) &&
+            (identical(other.SHOP_ENABLED, SHOP_ENABLED) ||
+                other.SHOP_ENABLED == SHOP_ENABLED));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_AccountSources),
-      const DeepCollectionEquality().hash(_AlamanServices),
-      const DeepCollectionEquality().hash(_Cities),
-      const DeepCollectionEquality().hash(_CommitmentMethods),
-      const DeepCollectionEquality().hash(_ScholarshipStatuses),
-      const DeepCollectionEquality().hash(_ScholarshipTypes),
-      const DeepCollectionEquality().hash(_Booths),
-      const DeepCollectionEquality().hash(_Partners),
-      const DeepCollectionEquality().hash(_TopDonors),
-      const DeepCollectionEquality().hash(_EducationalYears),
-      const DeepCollectionEquality().hash(_Genders),
-      const DeepCollectionEquality().hash(_MeetingMethods),
-      const DeepCollectionEquality().hash(_TrainingPrograms),
-      const DeepCollectionEquality().hash(_DonationFrequencies),
-      const DeepCollectionEquality().hash(_PaymentMethods),
-      const DeepCollectionEquality().hash(_DonationTypes),
-      EidiehEnabled);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(_AccountSources),
+        const DeepCollectionEquality().hash(_AlamanServices),
+        const DeepCollectionEquality().hash(_Cities),
+        const DeepCollectionEquality().hash(_CommitmentMethods),
+        const DeepCollectionEquality().hash(_ScholarshipStatuses),
+        const DeepCollectionEquality().hash(_ScholarshipTypes),
+        const DeepCollectionEquality().hash(_Booths),
+        const DeepCollectionEquality().hash(_Partners),
+        const DeepCollectionEquality().hash(_TopDonors),
+        const DeepCollectionEquality().hash(_EducationalYears),
+        const DeepCollectionEquality().hash(_Genders),
+        const DeepCollectionEquality().hash(_MeetingMethods),
+        const DeepCollectionEquality().hash(_TrainingPrograms),
+        const DeepCollectionEquality().hash(_DonationFrequencies),
+        const DeepCollectionEquality().hash(_PaymentMethods),
+        const DeepCollectionEquality().hash(_DonationTypes),
+        const DeepCollectionEquality().hash(_Avatars),
+        EidiehEnabled,
+        ONLINE_PAYMENT_ENABLED,
+        SHOP_ENABLED
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -621,7 +687,10 @@ abstract class _GenericModel extends GenericModel {
       final List<DonationFrequencyModel>? DonationFrequencies,
       final List<PaymentMethodModel>? PaymentMethods,
       final List<DonationType>? DonationTypes,
-      final bool? EidiehEnabled}) = _$GenericModelImpl;
+      final List<AvatarModel>? Avatars,
+      final bool? EidiehEnabled,
+      final bool? ONLINE_PAYMENT_ENABLED,
+      final bool? SHOP_ENABLED}) = _$GenericModelImpl;
   const _GenericModel._() : super._();
 
   factory _GenericModel.fromJson(Map<String, dynamic> json) =
@@ -660,7 +729,13 @@ abstract class _GenericModel extends GenericModel {
   @override
   List<DonationType>? get DonationTypes;
   @override
+  List<AvatarModel>? get Avatars;
+  @override
   bool? get EidiehEnabled;
+  @override
+  bool? get ONLINE_PAYMENT_ENABLED;
+  @override
+  bool? get SHOP_ENABLED;
   @override
   @JsonKey(ignore: true)
   _$$GenericModelImplCopyWith<_$GenericModelImpl> get copyWith =>

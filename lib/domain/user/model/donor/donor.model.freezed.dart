@@ -66,7 +66,8 @@ mixin _$DonorModel {
   String? get theme_color => throw _privateConstructorUsedError;
   GenderModel? get gender => throw _privateConstructorUsedError;
   CityModel? get city => throw _privateConstructorUsedError;
-  List<DonorDonation>? get donor_donation => throw _privateConstructorUsedError;
+  List<DonorDonation>? get donor_donations =>
+      throw _privateConstructorUsedError;
   List<DonorBeneficiaryModel>? get donor_beneficiaries =>
       throw _privateConstructorUsedError;
 
@@ -127,7 +128,7 @@ abstract class $DonorModelCopyWith<$Res> {
       String? theme_color,
       GenderModel? gender,
       CityModel? city,
-      List<DonorDonation>? donor_donation,
+      List<DonorDonation>? donor_donations,
       List<DonorBeneficiaryModel>? donor_beneficiaries});
 
   $GenderModelCopyWith<$Res>? get gender;
@@ -191,7 +192,7 @@ class _$DonorModelCopyWithImpl<$Res, $Val extends DonorModel>
     Object? theme_color = freezed,
     Object? gender = freezed,
     Object? city = freezed,
-    Object? donor_donation = freezed,
+    Object? donor_donations = freezed,
     Object? donor_beneficiaries = freezed,
   }) {
     return _then(_value.copyWith(
@@ -371,9 +372,9 @@ class _$DonorModelCopyWithImpl<$Res, $Val extends DonorModel>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as CityModel?,
-      donor_donation: freezed == donor_donation
-          ? _value.donor_donation
-          : donor_donation // ignore: cast_nullable_to_non_nullable
+      donor_donations: freezed == donor_donations
+          ? _value.donor_donations
+          : donor_donations // ignore: cast_nullable_to_non_nullable
               as List<DonorDonation>?,
       donor_beneficiaries: freezed == donor_beneficiaries
           ? _value.donor_beneficiaries
@@ -460,7 +461,7 @@ abstract class _$$DonorModelImplCopyWith<$Res>
       String? theme_color,
       GenderModel? gender,
       CityModel? city,
-      List<DonorDonation>? donor_donation,
+      List<DonorDonation>? donor_donations,
       List<DonorBeneficiaryModel>? donor_beneficiaries});
 
   @override
@@ -524,7 +525,7 @@ class __$$DonorModelImplCopyWithImpl<$Res>
     Object? theme_color = freezed,
     Object? gender = freezed,
     Object? city = freezed,
-    Object? donor_donation = freezed,
+    Object? donor_donations = freezed,
     Object? donor_beneficiaries = freezed,
   }) {
     return _then(_$DonorModelImpl(
@@ -704,9 +705,9 @@ class __$$DonorModelImplCopyWithImpl<$Res>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as CityModel?,
-      donor_donation: freezed == donor_donation
-          ? _value._donor_donation
-          : donor_donation // ignore: cast_nullable_to_non_nullable
+      donor_donations: freezed == donor_donations
+          ? _value._donor_donations
+          : donor_donations // ignore: cast_nullable_to_non_nullable
               as List<DonorDonation>?,
       donor_beneficiaries: freezed == donor_beneficiaries
           ? _value._donor_beneficiaries
@@ -764,9 +765,9 @@ class _$DonorModelImpl extends _DonorModel {
       this.theme_color,
       this.gender,
       this.city,
-      final List<DonorDonation>? donor_donation,
+      final List<DonorDonation>? donor_donations,
       final List<DonorBeneficiaryModel>? donor_beneficiaries})
-      : _donor_donation = donor_donation,
+      : _donor_donations = donor_donations,
         _donor_beneficiaries = donor_beneficiaries,
         super._();
 
@@ -861,12 +862,12 @@ class _$DonorModelImpl extends _DonorModel {
   final GenderModel? gender;
   @override
   final CityModel? city;
-  final List<DonorDonation>? _donor_donation;
+  final List<DonorDonation>? _donor_donations;
   @override
-  List<DonorDonation>? get donor_donation {
-    final value = _donor_donation;
+  List<DonorDonation>? get donor_donations {
+    final value = _donor_donations;
     if (value == null) return null;
-    if (_donor_donation is EqualUnmodifiableListView) return _donor_donation;
+    if (_donor_donations is EqualUnmodifiableListView) return _donor_donations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -884,7 +885,7 @@ class _$DonorModelImpl extends _DonorModel {
 
   @override
   String toString() {
-    return 'DonorModel(id: $id, name: $name, phone: $phone, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donation: $donor_donation, donor_beneficiaries: $donor_beneficiaries)';
+    return 'DonorModel(id: $id, name: $name, phone: $phone, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donations: $donor_donations, donor_beneficiaries: $donor_beneficiaries)';
   }
 
   @override
@@ -968,7 +969,7 @@ class _$DonorModelImpl extends _DonorModel {
             (identical(other.theme_color, theme_color) || other.theme_color == theme_color) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.city, city) || other.city == city) &&
-            const DeepCollectionEquality().equals(other._donor_donation, _donor_donation) &&
+            const DeepCollectionEquality().equals(other._donor_donations, _donor_donations) &&
             const DeepCollectionEquality().equals(other._donor_beneficiaries, _donor_beneficiaries));
   }
 
@@ -1020,7 +1021,7 @@ class _$DonorModelImpl extends _DonorModel {
         theme_color,
         gender,
         city,
-        const DeepCollectionEquality().hash(_donor_donation),
+        const DeepCollectionEquality().hash(_donor_donations),
         const DeepCollectionEquality().hash(_donor_beneficiaries)
       ]);
 
@@ -1084,7 +1085,7 @@ abstract class _DonorModel extends DonorModel {
           final String? theme_color,
           final GenderModel? gender,
           final CityModel? city,
-          final List<DonorDonation>? donor_donation,
+          final List<DonorDonation>? donor_donations,
           final List<DonorBeneficiaryModel>? donor_beneficiaries}) =
       _$DonorModelImpl;
   const _DonorModel._() : super._();
@@ -1181,7 +1182,7 @@ abstract class _DonorModel extends DonorModel {
   @override
   CityModel? get city;
   @override
-  List<DonorDonation>? get donor_donation;
+  List<DonorDonation>? get donor_donations;
   @override
   List<DonorBeneficiaryModel>? get donor_beneficiaries;
   @override

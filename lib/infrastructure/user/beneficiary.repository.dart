@@ -14,15 +14,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class BeneficiaryRepository implements IBeneficiaryRepository {
   final Ref ref;
   var dio = Dio();
-  final UserSettings userSettings = Hive.box('setting').getAt(0);
 
   BeneficiaryRepository({required this.ref});
   @override
   Future<Either<ApiFailures, List<AlamanRequestModel>>>
       getAlamanReqeusts() async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
     try {
       final result = await dio.get(
-          "$baseUrl/alamanRequest/getRequests?api_token=${userSettings.token}");
+          "$baseUrl/alamanRequest/getRequests?api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
         List<dynamic> data = map["AlamanRequests"];
@@ -50,9 +51,11 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
   @override
   Future<Either<ApiFailures, List<TrainingRequestModel>>>
       getTrainingReqeusts() async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
     try {
       final result = await dio.get(
-          "$baseUrl/trainingRequest/getRequests?api_token=${userSettings.token}");
+          "$baseUrl/trainingRequest/getRequests?api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
         List<dynamic> data = map["TrainingRequests"];
@@ -80,9 +83,11 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
   @override
   Future<Either<ApiFailures, dynamic>> placeAlamanReqeusts(
       {String? notes, int? sercviceID}) async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
     try {
       final result = await dio.get(
-          "$baseUrl/alamanRequest/placeRequest?alaman_service_id=$sercviceID&notes=$notes&api_token=${userSettings.token}");
+          "$baseUrl/alamanRequest/placeRequest?alaman_service_id=$sercviceID&notes=$notes&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         return right(result.data);
       } else {
@@ -106,9 +111,11 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
   @override
   Future<Either<ApiFailures, dynamic>> placeTrainingReqeusts(
       {String? notes, int? programId}) async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
     try {
       final result = await dio.get(
-          "$baseUrl/trainingRequest/placeRequest?training_program_id=$programId&notes=$notes&api_token=${userSettings.token}");
+          "$baseUrl/trainingRequest/placeRequest?training_program_id=$programId&notes=$notes&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         return right(result.data);
       } else {

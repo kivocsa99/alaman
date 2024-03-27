@@ -8,7 +8,8 @@ import 'package:tuple/tuple.dart';
 
 abstract class IUserRepository {
   Future<Either<ApiFailures, dynamic>> getMyProfile();
-  Future<Either<ApiFailures, dynamic>> updateProfile();
+  Future<Either<ApiFailures, dynamic>> updateProfile(
+      {String? value, String? field});
   Future<Either<ApiFailures, BeneficiaryModel>> getProfileById(
       {String? profileId});
   Future<Either<ApiFailures, List<NewsModel>>> getNews({int page = 1});

@@ -10,22 +10,8 @@ class SettingHiveNotifier extends _$SettingHiveNotifier {
   UserSettings? build() => Hive.box("setting").isNotEmpty
       ? Hive.box("setting").getAt(0)
       : UserSettings();
-  void setLanguage(String language) async {
-    var currentRegistration = getItemFromBox();
-    currentRegistration!.language = language;
-    await addItemToBox(currentRegistration);
-    state = getItemFromBox();
-  }
 
-  String? getLanguage() {
-    final userSettings = getItemFromBox();
-    if (userSettings == null || userSettings.language == null) {
-      return "en"; // Default to English if no settings or no language set.
-    }
-    return userSettings.language ?? "en";
-  }
-
-  void addItem(UserSettings setting) async {
+  Future<void> addItem(UserSettings setting) async {
     try {
       await addItemToBox(setting);
       state = getItemFromBox();
@@ -50,11 +36,12 @@ UserSettings? getItemFromBox() {
 }
 
 Future<void> addItemToBox(UserSettings item) async {
-  Hive.box('setting').isNotEmpty
+  return Hive.box('setting').isNotEmpty
       ? await Hive.box('setting').putAt(0, item)
       : await Hive.box('setting').add(item);
 }
 
 Future<void> clearBox() async {
-  await Hive.box('setting').clear();
+  await Hive.box('setting').clear().then((value) => print(value));
+await Hive.box('setting').compact();
 }

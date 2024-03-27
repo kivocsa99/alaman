@@ -17,8 +17,10 @@ class BeneficiaryModel with _$BeneficiaryModel {
   const factory BeneficiaryModel({
     dynamic id,
     String? name,
+    String? name_ar,
     String? phone,
     String? bio,
+    String? bio_ar,
     String? email,
     String? email_verified_at,
     String? account_type,

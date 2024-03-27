@@ -1,6 +1,7 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/donationfrequency/model/donation.frequency.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
@@ -29,7 +30,7 @@ class SponserBottomSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     print(paymentMethods);
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
@@ -44,7 +45,7 @@ class SponserBottomSheet extends HookConsumerWidget {
     final typeId = useState(donationFrequency[selectedIndex.value].id!);
     final type1 = useState(paymentMethods![selectedIndex1.value].name!);
     final typeId1 = useState(paymentMethods![selectedIndex1.value].id!);
-    final sliderValue = useState(1.0);
+    final sliderValue = useState(10.0);
     final imagesList = useState<List<String>>([
       "assets/coin1.png",
       "assets/coin2.png",

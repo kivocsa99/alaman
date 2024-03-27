@@ -8,7 +8,8 @@ import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/commitmentmethods/model/commitmentmethods.model.dart';
 import 'package:alaman/domain/donationfrequency/model/donation.frequency.model.dart';
 import 'package:alaman/domain/donationtype/model/donation.type.model.dart';
-import 'package:alaman/domain/donortypes/model/topdonor.model.dart';
+import 'package:alaman/domain/donortype/model/donor.type.model.dart';
+import 'package:alaman/domain/topdonor/model/topdonor.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/gender/model/gender.model.dart';
 import 'package:alaman/domain/meetingmethod/model/meetingmethods.model.dart';
@@ -36,6 +37,7 @@ class GenericModel with _$GenericModel {
     List<TopDonorModel>? TopDonors,
     List<EducationalYearModel>? EducationalYears,
     List<GenderModel>? Genders,
+    List<DonorTypeModel>? DonorTypes,
     List<MeetingMethodsModel>? MeetingMethods,
     List<ProgramModel>? TrainingPrograms,
     List<DonationFrequencyModel>? DonationFrequencies,

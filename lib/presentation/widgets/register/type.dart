@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/hive.register.provider.dart';
 import 'package:alaman/application/provider/registration.provider.dart';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
@@ -18,7 +19,7 @@ class TypeStep extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final box = Hive.box("register");
-    final register = useState<UserRegistration>(box.getAt(0));
+    final register = ref.watch(registerHiveNotifierProvider);
     final typeIcon = useState([
       "assets/beneficiary.svg",
       "assets/donor.svg",
@@ -175,8 +176,10 @@ class TypeStep extends HookConsumerWidget {
               height: 60,
               onTap: () async {
                 if (selectedIndex.value != 5) {
-                  register.value.role = typeName.value[selectedIndex.value];
-                  await box.putAt(0, register.value);
+                  register!.role = typeName.value[selectedIndex.value];
+                  ref
+                      .read(registerHiveNotifierProvider.notifier)
+                      .addItem(register);
                   ref.read(registrationNotifierProvider.notifier).nextStep();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

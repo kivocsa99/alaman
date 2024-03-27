@@ -2,6 +2,8 @@ import 'package:alaman/application/auth/sign_in_with_email_password/sign_in_with
 import 'package:alaman/application/auth/sign_in_with_email_password/sign_in_with_email_and_password.use_case.dart';
 import 'package:alaman/application/auth/sign_up_with_email_password/sign_up_with_email_and_password.input.dart';
 import 'package:alaman/application/auth/sign_up_with_email_password/sign_up_with_email_and_password.use_case.dart';
+import 'package:alaman/application/provider/hive.login.provider.dart';
+import 'package:alaman/application/provider/hive.register.provider.dart';
 import 'package:alaman/application/provider/login.provider.dart';
 import 'package:alaman/application/provider/registration.provider.dart';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
@@ -28,8 +30,11 @@ class PasswordStep extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final box = Hive.box(isLogin == false ? "register" : "login");
+    final register = ref.watch(isLogin == false
+        ? registerHiveNotifierProvider
+        : loginHiveNotifierProvider);
+
     final isLoading = useState(false);
-    final register = useState<UserRegistration>(box.getAt(0));
     final formKey = useState(GlobalKey<FormState>());
     final controller1 =
         useAnimationController(duration: const Duration(seconds: 1));
@@ -93,8 +98,10 @@ class PasswordStep extends HookConsumerWidget {
                 obsecuretext: true,
                 inputAction: TextInputAction.done,
                 onChanged: (value) async {
-                  register.value.password = value;
-                  await box.putAt(0, register.value);
+                  register!.password = value;
+                  ref
+                      .read(registerHiveNotifierProvider.notifier)
+                      .addItem(register);
                 },
               ),
             ),
@@ -141,7 +148,7 @@ class PasswordStep extends HookConsumerWidget {
                     ref
                         .read(signUpWithEmailAndPasswordUseCaseProvider)
                         .execute(SignUpWithEmailAndPasswordUseCaseInput(
-                            model: box.getAt(0)))
+                            model: ref.read(registerHiveNotifierProvider)!))
                         .then((value) => value.fold((l) {
                               isLoading.value = false;
 
@@ -156,7 +163,7 @@ class PasswordStep extends HookConsumerWidget {
                     ref
                         .read(signInWithEmailAndPasswordUseCaseProvider)
                         .execute(SignInWithEmailAndPasswordUseCaseInput(
-                            model: box.getAt(0)))
+                            model: ref.read(loginHiveNotifierProvider)!))
                         .then((value) => value.fold((l) {
                               isLoading.value = false;
 

@@ -32,4 +32,5 @@ Future<void> addItemToBox(UserRegistration item) async {
 
 Future<void> clearBox() async {
   await Hive.box('login').clear();
+  await Hive.box('login').compact();
 }

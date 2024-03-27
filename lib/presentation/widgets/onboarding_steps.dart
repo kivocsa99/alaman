@@ -17,7 +17,7 @@ class OnBoardingSteps extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final controller1 =
         useAnimationController(duration: const Duration(seconds: 1));
     final controller2 =
@@ -57,7 +57,7 @@ class OnBoardingSteps extends HookConsumerWidget {
                         ? const Locale("ar")
                         : const Locale("en"));
                     ref
-                        .read(settingHiveNotifierProvider.notifier)
+                        .read(languageHiveNotifierProvider.notifier)
                         .setLanguage(locale == "en" ? "ar" : "en");
                   },
                 ),

@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/partner/model/partner.model.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class PartnerSlider extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     return SizedBox(
       width: double.infinity,
       height: 60,

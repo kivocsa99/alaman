@@ -7,9 +7,8 @@ part 'hive.register.provider.g.dart';
 @riverpod
 class RegisterHiveNotifier extends _$RegisterHiveNotifier {
   @override
-  UserRegistration? build() => Hive.box("register").isNotEmpty
-      ? Hive.box("register").getAt(0)
-      : UserRegistration();
+  UserRegistration? build() =>
+      Hive.box("register").isNotEmpty ? Hive.box("register").getAt(0) : null;
   void addItem(UserRegistration registration) async {
     await addItemToBox(registration);
     state = getItemFromBox();
@@ -33,4 +32,5 @@ Future<void> addItemToBox(UserRegistration item) async {
 
 Future<void> clearBox() async {
   await Hive.box('register').clear();
+  await Hive.box('register').compact();
 }

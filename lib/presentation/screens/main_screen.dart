@@ -63,7 +63,7 @@ class MainScreen extends HookConsumerWidget {
       return null; // Return a null cleanup function
     }, [isOrdered]);
     final userSetting = ref.watch(settingHiveNotifierProvider);
-
+    print(userSetting?.role);
     return AutoTabsRouter(
       routes: userSetting?.role == "Beneficiary"
           ? const [

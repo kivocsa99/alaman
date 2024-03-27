@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/domain/usersetting/model/user.setting.model.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -18,6 +17,7 @@ void main() async {
   await Hive.openBox("setting");
   await Hive.openBox("register");
   await Hive.openBox("login");
+  await Hive.openBox("lan");
   runApp(EasyLocalization(
       supportedLocales: const [Locale('ar'), Locale('en')],
       path: 'assets',

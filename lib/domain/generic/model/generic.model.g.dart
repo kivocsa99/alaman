@@ -44,6 +44,9 @@ _$GenericModelImpl _$$GenericModelImplFromJson(Map<String, dynamic> json) =>
       Genders: (json['Genders'] as List<dynamic>?)
           ?.map((e) => GenderModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      DonorTypes: (json['DonorTypes'] as List<dynamic>?)
+          ?.map((e) => DonorTypeModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       MeetingMethods: (json['MeetingMethods'] as List<dynamic>?)
           ?.map((e) => MeetingMethodsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -81,6 +84,7 @@ Map<String, dynamic> _$$GenericModelImplToJson(_$GenericModelImpl instance) =>
       'TopDonors': instance.TopDonors,
       'EducationalYears': instance.EducationalYears,
       'Genders': instance.Genders,
+      'DonorTypes': instance.DonorTypes,
       'MeetingMethods': instance.MeetingMethods,
       'TrainingPrograms': instance.TrainingPrograms,
       'DonationFrequencies': instance.DonationFrequencies,

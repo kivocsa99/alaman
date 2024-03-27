@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
+import 'package:alaman/routes/app_route.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +105,7 @@ class ImpactContainer extends StatelessWidget {
             children: [
               ResponsiveRowColumnItem(
                   child: Text(
-                "Started: what date ? ",
+                "Started: ${convertApiDate(beneficiary!.alaman_join_date!)} ",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .bodyMedium!
@@ -150,20 +152,24 @@ class ImpactContainer extends StatelessWidget {
               const ResponsiveRowColumnItem(child: Gap(5)),
               ResponsiveRowColumnItem(
                   rowFlex: 1,
-                  child: Container(
-                    height: 35,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: .5),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Text(
-                      "View Profile",
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .bodyMedium
-                          ?.copyWith(color: const Color(0xff58595B)),
+                  child: GestureDetector(
+                    onTap: () => context.router.push(BeneficiaryProfileRoute(
+                        profileId: beneficiary!.id.toString())),
+                    child: Container(
+                      height: 35,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: .5),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Text(
+                        "View Profile",
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .bodyMedium
+                            ?.copyWith(color: const Color(0xff58595B)),
+                      ),
                     ),
                   ))
             ],
@@ -219,13 +225,13 @@ class _ProgressBarState extends State<ProgressBar>
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxWidth = constraints.maxWidth;
+        // Use _animation.value here instead of widget.currentProgress
+        final animationProgress = _animation.value;
         // Ensure target is not zero to avoid division by zero error.
         // Also, cap progressWidth at maxWidth to prevent overflow.
         final progressWidth = widget.target > 0
-            ? (maxWidth * min(widget.currentProgress, widget.target)) /
-                widget.target
+            ? (maxWidth * min(animationProgress, widget.target)) / widget.target
             : 0.0;
-
         return SizedBox(
           width: maxWidth,
           child: Stack(

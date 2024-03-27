@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
@@ -28,7 +29,7 @@ class DonationBottomSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
     final controller = FixedExtentScrollController();

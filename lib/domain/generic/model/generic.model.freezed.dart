@@ -37,6 +37,7 @@ mixin _$GenericModel {
   List<EducationalYearModel>? get EducationalYears =>
       throw _privateConstructorUsedError;
   List<GenderModel>? get Genders => throw _privateConstructorUsedError;
+  List<DonorTypeModel>? get DonorTypes => throw _privateConstructorUsedError;
   List<MeetingMethodsModel>? get MeetingMethods =>
       throw _privateConstructorUsedError;
   List<ProgramModel>? get TrainingPrograms =>
@@ -75,6 +76,7 @@ abstract class $GenericModelCopyWith<$Res> {
       List<TopDonorModel>? TopDonors,
       List<EducationalYearModel>? EducationalYears,
       List<GenderModel>? Genders,
+      List<DonorTypeModel>? DonorTypes,
       List<MeetingMethodsModel>? MeetingMethods,
       List<ProgramModel>? TrainingPrograms,
       List<DonationFrequencyModel>? DonationFrequencies,
@@ -110,6 +112,7 @@ class _$GenericModelCopyWithImpl<$Res, $Val extends GenericModel>
     Object? TopDonors = freezed,
     Object? EducationalYears = freezed,
     Object? Genders = freezed,
+    Object? DonorTypes = freezed,
     Object? MeetingMethods = freezed,
     Object? TrainingPrograms = freezed,
     Object? DonationFrequencies = freezed,
@@ -165,6 +168,10 @@ class _$GenericModelCopyWithImpl<$Res, $Val extends GenericModel>
           ? _value.Genders
           : Genders // ignore: cast_nullable_to_non_nullable
               as List<GenderModel>?,
+      DonorTypes: freezed == DonorTypes
+          ? _value.DonorTypes
+          : DonorTypes // ignore: cast_nullable_to_non_nullable
+              as List<DonorTypeModel>?,
       MeetingMethods: freezed == MeetingMethods
           ? _value.MeetingMethods
           : MeetingMethods // ignore: cast_nullable_to_non_nullable
@@ -225,6 +232,7 @@ abstract class _$$GenericModelImplCopyWith<$Res>
       List<TopDonorModel>? TopDonors,
       List<EducationalYearModel>? EducationalYears,
       List<GenderModel>? Genders,
+      List<DonorTypeModel>? DonorTypes,
       List<MeetingMethodsModel>? MeetingMethods,
       List<ProgramModel>? TrainingPrograms,
       List<DonationFrequencyModel>? DonationFrequencies,
@@ -258,6 +266,7 @@ class __$$GenericModelImplCopyWithImpl<$Res>
     Object? TopDonors = freezed,
     Object? EducationalYears = freezed,
     Object? Genders = freezed,
+    Object? DonorTypes = freezed,
     Object? MeetingMethods = freezed,
     Object? TrainingPrograms = freezed,
     Object? DonationFrequencies = freezed,
@@ -313,6 +322,10 @@ class __$$GenericModelImplCopyWithImpl<$Res>
           ? _value._Genders
           : Genders // ignore: cast_nullable_to_non_nullable
               as List<GenderModel>?,
+      DonorTypes: freezed == DonorTypes
+          ? _value._DonorTypes
+          : DonorTypes // ignore: cast_nullable_to_non_nullable
+              as List<DonorTypeModel>?,
       MeetingMethods: freezed == MeetingMethods
           ? _value._MeetingMethods
           : MeetingMethods // ignore: cast_nullable_to_non_nullable
@@ -368,6 +381,7 @@ class _$GenericModelImpl extends _GenericModel {
       final List<TopDonorModel>? TopDonors,
       final List<EducationalYearModel>? EducationalYears,
       final List<GenderModel>? Genders,
+      final List<DonorTypeModel>? DonorTypes,
       final List<MeetingMethodsModel>? MeetingMethods,
       final List<ProgramModel>? TrainingPrograms,
       final List<DonationFrequencyModel>? DonationFrequencies,
@@ -388,6 +402,7 @@ class _$GenericModelImpl extends _GenericModel {
         _TopDonors = TopDonors,
         _EducationalYears = EducationalYears,
         _Genders = Genders,
+        _DonorTypes = DonorTypes,
         _MeetingMethods = MeetingMethods,
         _TrainingPrograms = TrainingPrograms,
         _DonationFrequencies = DonationFrequencies,
@@ -513,6 +528,16 @@ class _$GenericModelImpl extends _GenericModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<DonorTypeModel>? _DonorTypes;
+  @override
+  List<DonorTypeModel>? get DonorTypes {
+    final value = _DonorTypes;
+    if (value == null) return null;
+    if (_DonorTypes is EqualUnmodifiableListView) return _DonorTypes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<MeetingMethodsModel>? _MeetingMethods;
   @override
   List<MeetingMethodsModel>? get MeetingMethods {
@@ -584,7 +609,7 @@ class _$GenericModelImpl extends _GenericModel {
 
   @override
   String toString() {
-    return 'GenericModel(AccountSources: $AccountSources, AlamanServices: $AlamanServices, Cities: $Cities, CommitmentMethods: $CommitmentMethods, ScholarshipStatuses: $ScholarshipStatuses, ScholarshipTypes: $ScholarshipTypes, Booths: $Booths, Partners: $Partners, TopDonors: $TopDonors, EducationalYears: $EducationalYears, Genders: $Genders, MeetingMethods: $MeetingMethods, TrainingPrograms: $TrainingPrograms, DonationFrequencies: $DonationFrequencies, PaymentMethods: $PaymentMethods, DonationTypes: $DonationTypes, Avatars: $Avatars, EidiehEnabled: $EidiehEnabled, ONLINE_PAYMENT_ENABLED: $ONLINE_PAYMENT_ENABLED, SHOP_ENABLED: $SHOP_ENABLED)';
+    return 'GenericModel(AccountSources: $AccountSources, AlamanServices: $AlamanServices, Cities: $Cities, CommitmentMethods: $CommitmentMethods, ScholarshipStatuses: $ScholarshipStatuses, ScholarshipTypes: $ScholarshipTypes, Booths: $Booths, Partners: $Partners, TopDonors: $TopDonors, EducationalYears: $EducationalYears, Genders: $Genders, DonorTypes: $DonorTypes, MeetingMethods: $MeetingMethods, TrainingPrograms: $TrainingPrograms, DonationFrequencies: $DonationFrequencies, PaymentMethods: $PaymentMethods, DonationTypes: $DonationTypes, Avatars: $Avatars, EidiehEnabled: $EidiehEnabled, ONLINE_PAYMENT_ENABLED: $ONLINE_PAYMENT_ENABLED, SHOP_ENABLED: $SHOP_ENABLED)';
   }
 
   @override
@@ -610,6 +635,8 @@ class _$GenericModelImpl extends _GenericModel {
             const DeepCollectionEquality()
                 .equals(other._EducationalYears, _EducationalYears) &&
             const DeepCollectionEquality().equals(other._Genders, _Genders) &&
+            const DeepCollectionEquality()
+                .equals(other._DonorTypes, _DonorTypes) &&
             const DeepCollectionEquality()
                 .equals(other._MeetingMethods, _MeetingMethods) &&
             const DeepCollectionEquality()
@@ -644,6 +671,7 @@ class _$GenericModelImpl extends _GenericModel {
         const DeepCollectionEquality().hash(_TopDonors),
         const DeepCollectionEquality().hash(_EducationalYears),
         const DeepCollectionEquality().hash(_Genders),
+        const DeepCollectionEquality().hash(_DonorTypes),
         const DeepCollectionEquality().hash(_MeetingMethods),
         const DeepCollectionEquality().hash(_TrainingPrograms),
         const DeepCollectionEquality().hash(_DonationFrequencies),
@@ -682,6 +710,7 @@ abstract class _GenericModel extends GenericModel {
       final List<TopDonorModel>? TopDonors,
       final List<EducationalYearModel>? EducationalYears,
       final List<GenderModel>? Genders,
+      final List<DonorTypeModel>? DonorTypes,
       final List<MeetingMethodsModel>? MeetingMethods,
       final List<ProgramModel>? TrainingPrograms,
       final List<DonationFrequencyModel>? DonationFrequencies,
@@ -718,6 +747,8 @@ abstract class _GenericModel extends GenericModel {
   List<EducationalYearModel>? get EducationalYears;
   @override
   List<GenderModel>? get Genders;
+  @override
+  List<DonorTypeModel>? get DonorTypes;
   @override
   List<MeetingMethodsModel>? get MeetingMethods;
   @override

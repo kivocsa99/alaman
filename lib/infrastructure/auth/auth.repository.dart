@@ -30,7 +30,7 @@ class AuthRepository implements IAuthRepository {
           ..isLoggedIn = true
           ..token = result.data["API_Token"]
           ..role = result.data["AccountType"];
-        ref!.read(settingHiveNotifierProvider.notifier).addItem(setting);
+        await ref!.read(settingHiveNotifierProvider.notifier).addItem(setting);
         print(ref!.read(settingHiveNotifierProvider));
         return right(result.data["API_Token"]);
       } else {
@@ -54,8 +54,6 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<Either<ApiFailures, String>> signUpWithEmailAndPassword(
       {required UserRegistration model}) async {
-    print(model);
-
     var dio = Dio();
     try {
       final result = await dio.get(
@@ -66,8 +64,11 @@ class AuthRepository implements IAuthRepository {
 
         userSettings!
           ..isLoggedIn = true
+          ..role = result.data["AccountType"]
           ..token = result.data["API_Token"];
-        ref!.read(settingHiveNotifierProvider.notifier).addItem(userSettings);
+        await ref!
+            .read(settingHiveNotifierProvider.notifier)
+            .addItem(userSettings);
         return right(result.data["API_Token"]);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));

@@ -22,8 +22,10 @@ BeneficiaryModel _$BeneficiaryModelFromJson(Map<String, dynamic> json) {
 mixin _$BeneficiaryModel {
   dynamic get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
+  String? get name_ar => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
+  String? get bio_ar => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get email_verified_at => throw _privateConstructorUsedError;
   String? get account_type => throw _privateConstructorUsedError;
@@ -92,8 +94,10 @@ abstract class $BeneficiaryModelCopyWith<$Res> {
   $Res call(
       {dynamic id,
       String? name,
+      String? name_ar,
       String? phone,
       String? bio,
+      String? bio_ar,
       String? email,
       String? email_verified_at,
       String? account_type,
@@ -164,8 +168,10 @@ class _$BeneficiaryModelCopyWithImpl<$Res, $Val extends BeneficiaryModel>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? name_ar = freezed,
     Object? phone = freezed,
     Object? bio = freezed,
+    Object? bio_ar = freezed,
     Object? email = freezed,
     Object? email_verified_at = freezed,
     Object? account_type = freezed,
@@ -222,6 +228,10 @@ class _$BeneficiaryModelCopyWithImpl<$Res, $Val extends BeneficiaryModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      name_ar: freezed == name_ar
+          ? _value.name_ar
+          : name_ar // ignore: cast_nullable_to_non_nullable
+              as String?,
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
@@ -229,6 +239,10 @@ class _$BeneficiaryModelCopyWithImpl<$Res, $Val extends BeneficiaryModel>
       bio: freezed == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio_ar: freezed == bio_ar
+          ? _value.bio_ar
+          : bio_ar // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
@@ -504,8 +518,10 @@ abstract class _$$BeneficiaryModelImplCopyWith<$Res>
   $Res call(
       {dynamic id,
       String? name,
+      String? name_ar,
       String? phone,
       String? bio,
+      String? bio_ar,
       String? email,
       String? email_verified_at,
       String? account_type,
@@ -580,8 +596,10 @@ class __$$BeneficiaryModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? name_ar = freezed,
     Object? phone = freezed,
     Object? bio = freezed,
+    Object? bio_ar = freezed,
     Object? email = freezed,
     Object? email_verified_at = freezed,
     Object? account_type = freezed,
@@ -638,6 +656,10 @@ class __$$BeneficiaryModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      name_ar: freezed == name_ar
+          ? _value.name_ar
+          : name_ar // ignore: cast_nullable_to_non_nullable
+              as String?,
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
@@ -645,6 +667,10 @@ class __$$BeneficiaryModelImplCopyWithImpl<$Res>
       bio: freezed == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio_ar: freezed == bio_ar
+          ? _value.bio_ar
+          : bio_ar // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
@@ -840,8 +866,10 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
   const _$BeneficiaryModelImpl(
       {this.id,
       this.name,
+      this.name_ar,
       this.phone,
       this.bio,
+      this.bio_ar,
       this.email,
       this.email_verified_at,
       this.account_type,
@@ -899,9 +927,13 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
   @override
   final String? name;
   @override
+  final String? name_ar;
+  @override
   final String? phone;
   @override
   final String? bio;
+  @override
+  final String? bio_ar;
   @override
   final String? email;
   @override
@@ -1005,7 +1037,7 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
 
   @override
   String toString() {
-    return 'BeneficiaryModel(id: $id, name: $name, phone: $phone, bio: $bio, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donation: $donor_donation, educational_year: $educational_year, scholarship_status: $scholarship_status, scholarship_type: $scholarship_type, beneficiary_payments: $beneficiary_payments)';
+    return 'BeneficiaryModel(id: $id, name: $name, name_ar: $name_ar, phone: $phone, bio: $bio, bio_ar: $bio_ar, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donation: $donor_donation, educational_year: $educational_year, scholarship_status: $scholarship_status, scholarship_type: $scholarship_type, beneficiary_payments: $beneficiary_payments)';
   }
 
   @override
@@ -1015,8 +1047,10 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
             other is _$BeneficiaryModelImpl &&
             const DeepCollectionEquality().equals(other.id, id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.name_ar, name_ar) || other.name_ar == name_ar) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.bio_ar, bio_ar) || other.bio_ar == bio_ar) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.email_verified_at, email_verified_at) ||
                 other.email_verified_at == email_verified_at) &&
@@ -1105,8 +1139,10 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
         runtimeType,
         const DeepCollectionEquality().hash(id),
         name,
+        name_ar,
         phone,
         bio,
+        bio_ar,
         email,
         email_verified_at,
         account_type,
@@ -1174,8 +1210,10 @@ abstract class _BeneficiaryModel extends BeneficiaryModel {
   const factory _BeneficiaryModel(
           {final dynamic id,
           final String? name,
+          final String? name_ar,
           final String? phone,
           final String? bio,
+          final String? bio_ar,
           final String? email,
           final String? email_verified_at,
           final String? account_type,
@@ -1233,9 +1271,13 @@ abstract class _BeneficiaryModel extends BeneficiaryModel {
   @override
   String? get name;
   @override
+  String? get name_ar;
+  @override
   String? get phone;
   @override
   String? get bio;
+  @override
+  String? get bio_ar;
   @override
   String? get email;
   @override

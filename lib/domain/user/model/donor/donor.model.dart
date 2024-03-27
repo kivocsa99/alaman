@@ -3,7 +3,9 @@
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/donorbeneficiary/model/donor.beneficiary.model.dart';
 import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
+import 'package:alaman/domain/donortype/model/donor.type.model.dart';
 import 'package:alaman/domain/gender/model/gender.model.dart';
+import 'package:alaman/domain/mou/model/mou.model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'donor.model.freezed.dart';
@@ -56,8 +58,10 @@ class DonorModel with _$DonorModel {
     String? theme_color,
     GenderModel? gender,
     CityModel? city,
+    DonorTypeModel? donor_type,
     List<DonorDonation>? donor_donations,
     List<DonorBeneficiaryModel>? donor_beneficiaries,
+    List<MouModel>? mous,
   }) = _DonorModel;
   const DonorModel._();
   factory DonorModel.fromJson(Map<String, dynamic> json) =>

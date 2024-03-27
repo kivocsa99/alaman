@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/domain/booth/model/booth.model.dart';
 import 'package:alaman/presentation/widgets/gps_container.dart';
@@ -15,7 +16,7 @@ class NearestLocation extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final generic = ref.watch(getGenericProvider);
     final currentPosition = useState<Position?>(null);
     final nearestBoothFuture = useFuture(

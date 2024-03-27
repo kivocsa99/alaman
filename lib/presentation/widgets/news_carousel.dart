@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/news.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/presentation/widgets/news_modal_sheet.dart';
@@ -18,8 +19,8 @@ class NewsCarousel extends HookConsumerWidget {
     final notifier = ref.watch(paginatedNewsNotifierProvider.notifier);
     final carouselController = CarouselController();
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
-    
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+
     useEffect(() {
       notifier.fetchNews();
       return null;
@@ -93,9 +94,7 @@ class NewsCarousel extends HookConsumerWidget {
                             width: 250,
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
-                              locale == "en"
-                                  ? e.title!
-                                  : e.title_ar!,
+                              locale == "en" ? e.title! : e.title_ar!,
                               maxLines: 3,
                               style: Theme.of(context)
                                   .primaryTextTheme

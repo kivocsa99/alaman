@@ -27,7 +27,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
     final currentStep = useState(0);
     final type1 = useState(paymentMethods![selectedIndex1.value].name!);
     final typeId1 = useState(paymentMethods![selectedIndex1.value].id!);
-    final sliderValue = useState(1.0);
+    final sliderValue = useState(10.0);
     final imagesList = useState<List<String>>([
       "assets/coin1.png",
       "assets/coin2.png",

@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -18,7 +19,7 @@ class LocationScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final MapController mapController = MapController();
     final generic = ref.watch(getGenericProvider);
     return generic.when(
@@ -126,7 +127,10 @@ class LocationScreen extends HookConsumerWidget {
                 ),
               );
             }),
-        error: (error, stackTrace) => Text(error.toString()),
+        error: (error, stackTrace) {
+          print(stackTrace);
+          return Text(stackTrace.toString());
+        },
         loading: () => const CircularProgressIndicator());
   }
 }

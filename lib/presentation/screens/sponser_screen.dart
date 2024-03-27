@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
@@ -26,7 +27,7 @@ class SposnerScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final beneficiary =
         ref.watch(getProfileByIDProvider(profileId: profileById));
     return SafeArea(
@@ -81,7 +82,9 @@ class SposnerScreen extends HookConsumerWidget {
                                                 fontWeight: FontWeight.bold,
                                                 color: const Color(0xff16437B)),
                                       ),
-                                      HtmlWidget(model.bio ?? ""),
+                                      HtmlWidget(locale == "en"
+                                          ? model.bio ?? ""
+                                          : model.bio_ar ?? ""),
                                     ],
                                   ),
                                 ),
@@ -141,7 +144,9 @@ class SposnerScreen extends HookConsumerWidget {
                                 const Gap(10),
                               ],
                             ),
-                            HtmlWidget(model.bio ?? ""),
+                            HtmlWidget(locale == "en"
+                                ? model.bio ?? ""
+                                : model.bio_ar ?? ""),
                             Gap(15),
                             Container(
                               padding: const EdgeInsets.all(15),

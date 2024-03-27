@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:alaman/application/provider/auth.repository.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/presentation/screens/filtered_screen.dart';
@@ -27,7 +28,8 @@ class ProfileScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(getProfileProvider);
-
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final setting = ref.read(settingHiveNotifierProvider);
     Random random = Random();
     int randomNumber = random.nextInt(3);
@@ -84,7 +86,9 @@ class ProfileScreen extends HookConsumerWidget {
                                     ),
                                     const Gap(10),
                                     if (setting?.role == "Beneficiary")
-                                      HtmlWidget(model.bio ?? ""),
+                                      HtmlWidget(locale == "en"
+                                          ? model.bio ?? ""
+                                          : model.bio_ar ?? ""),
                                     if (setting?.role != "Beneficiary")
                                       Padding(
                                         padding: const EdgeInsets.symmetric(

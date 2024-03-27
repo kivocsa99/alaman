@@ -10,15 +10,14 @@ import 'package:alaman/presentation/widgets/nearest_location_container.dart';
 import 'package:alaman/presentation/widgets/news_carousel.dart';
 import 'package:alaman/presentation/widgets/partners_slider.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
-import 'package:alaman/presentation/widgets/shop_list.dart';
 import 'package:alaman/presentation/widgets/slideandfadeanimation.dart';
+import 'package:alaman/presentation/widgets/sponsership_slider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -30,7 +29,7 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final generic = ref.watch(getGenericProvider);
     final profile = ref.watch(getProfileProvider);
-    final userSetting = ref.read(settingHiveNotifierProvider);
+    final userSetting = ref.watch(settingHiveNotifierProvider);
     final controller1 =
         useAnimationController(duration: const Duration(seconds: 2));
     final controller2 =
@@ -205,50 +204,35 @@ class HomeScreen extends HookConsumerWidget {
                                       ? const GranstSlider()
                                       : const DonorDonationSlider()),
                               const Gap(20),
-                              SlideAndFadeAnimation(
-                                controller: controller3,
-                                offset: const Offset(-1, 0),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: Text(
-                                    userSetting?.role == "Beneficiary"
-                                        ? "Grant status"
-                                        : "Impact Status",
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            color: const Color(0xff16437B)),
+                              if (userSetting?.role == "Corporate")
+                                SlideAndFadeAnimation(
+                                  controller: controller3,
+                                  offset: const Offset(-1, 0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: Text(
+                                      userSetting?.role == "Beneficiary"
+                                          ? "Grant status"
+                                          : "Impact Status",
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                              color: const Color(0xff16437B)),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              if (userSetting?.role == "Corporate")
+                                const Gap(20),
+                              if (userSetting?.role == "Corporate")
+                                SlideAndFadeAnimation(
+                                    controller: controller7,
+                                    offset: const Offset(0, -4),
+                                    child: (userSetting?.role == "Beneficiary")
+                                        ? const GrantStatusContainer()
+                                        : const ImpactSlider()),
                               const Gap(20),
-                              SlideAndFadeAnimation(
-                                  controller: controller7,
-                                  offset: const Offset(0, -4),
-                                  child: (userSetting?.role == "Beneficiary")
-                                      ? const GrantStatusContainer()
-                                      : const ImpactSlider()),
-                              const Gap(20),
-                              // if (userSetting?.role != "Beneficiary")
-                              //   Padding(
-                              //     padding: const EdgeInsets.symmetric(
-                              //         horizontal: 20.0),
-                              //     child: Text(
-                              //       "Shop",
-                              //       style: Theme.of(context)
-                              //           .primaryTextTheme
-                              //           .bodyMedium
-                              //           ?.copyWith(
-                              //               color: const Color(0xff16437B)),
-                              //     ),
-                              //   ),
-                              // if (userSetting?.role != "Beneficiary")
-                              //   const Gap(20),
-                              // if (userSetting?.role != "Beneficiary")
-                              //   const ShopGridView(),
-
                               if (userSetting?.role != "Beneficiary")
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -273,7 +257,7 @@ class HomeScreen extends HookConsumerWidget {
                                     400,
                                     (400 * 1.1073181615350292)
                                         .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                                painter: RPSCustomPainter(),
+                                painter: RPSCustomPainter1(stepNumber: 5),
                                 // Use your custom painter here
                               ),
                               Gap(100)
@@ -281,7 +265,10 @@ class HomeScreen extends HookConsumerWidget {
                           ),
                         ),
                       )),
-              error: (error, stackTrace) => Text(error.toString()),
+              error: (error, stackTrace) {
+                print(stackTrace);
+                return Text(stackTrace.toString());
+              },
               loading: () => const CircularProgressIndicator()),
         ),
       ),

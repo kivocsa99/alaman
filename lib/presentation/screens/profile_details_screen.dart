@@ -6,6 +6,7 @@ import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/presentation/screens/filtered_screen.dart';
+import 'package:alaman/presentation/widgets/change_field_bottom_sheet.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/news_modal_sheet.dart';
 import 'package:alaman/presentation/widgets/profile.container.dart';
@@ -51,89 +52,53 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListView(
                         children: [
-                          const Gap(50),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 70,
-                                height: 70,
-                                padding: const EdgeInsets.only(top: 10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      stops: [0, 5],
-                                      colors: [
-                                        // Brighten function is not native, you'd have to implement it
-                                        Colors.white,
-                                        colorsList.value[randomNumber]
-                                            .brighten(5)
-                                            .withOpacity(0.3),
-                                      ],
-                                    )),
-                                child: setting?.role == "Beneficiary" &&
-                                        model!.image != null
-                                    ? CachedNetworkImage(
-                                        imageUrl: "$storageUrl/${model.image}",
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                                child:
-                                                    CircularProgressIndicator()),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                        imageBuilder:
-                                            (context, imageProvider) =>
-                                                Container(
-                                          width: 70,
-                                          height: 70,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: imageProvider,
-                                              scale: 2.5,
-                                              fit: BoxFit
-                                                  .contain, // Adjust to your needs
-                                            ),
+                          if (setting?.role == "Beneficiary") const Gap(50),
+                          if (setting?.role == "Beneficiary")
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    width: 70,
+                                    height: 70,
+                                    padding: const EdgeInsets.only(top: 10),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                          stops: [0, 5],
+                                          colors: [
+                                            // Brighten function is not native, you'd have to implement it
+                                            Colors.white,
+                                            colorsList.value[randomNumber]
+                                                .brighten(5)
+                                                .withOpacity(0.3),
+                                          ],
+                                        )),
+                                    child: CachedNetworkImage(
+                                      imageUrl: "$storageUrl/${model.image}",
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: 70,
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            scale: 2.5,
+                                            fit: BoxFit
+                                                .contain, // Adjust to your needs
                                           ),
                                         ),
-                                      )
-                                    : setting?.role == "Donor" &&
-                                            model.User.image != null
-                                        ? CachedNetworkImage(
-                                            imageUrl:
-                                                "$storageUrl/${model.User.image}",
-                                            placeholder: (context, url) =>
-                                                const Center(
-                                                    child:
-                                                        CircularProgressIndicator()),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(Icons.error),
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              width: 70,
-                                              height: 70,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                  image: imageProvider,
-                                                  scale: 2.5,
-                                                  fit: BoxFit
-                                                      .contain, // Adjust to your needs
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : const Icon(
-                                            Icons.person,
-                                            color: Colors.white,
-                                          ),
-                              ),
-                              const Gap(20),
-                              if (setting?.role == "Beneficiary")
+                                      ),
+                                    )),
+                                const Gap(20),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +116,18 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                                       const Color(0xff2A7DE1)),
                                         )),
                                     GestureDetector(
-                                      onTap: () => null,
+                                      onTap: () => showModalBottomSheet(
+                                          context: context,
+                                          backgroundColor: Colors.white,
+                                          enableDrag: true,
+                                          isScrollControlled: true,
+                                          barrierColor:
+                                              Colors.grey.withOpacity(0.7),
+                                          builder: (BuildContext ctx) {
+                                            return const ChangeFieldBottomSheet(
+                                              field: "bio",
+                                            );
+                                          }),
                                       child: Text(
                                         "Edit Bio",
                                         style: Theme.of(context)
@@ -161,8 +137,8 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                     )
                                   ],
                                 ),
-                            ],
-                          ),
+                              ],
+                            ),
                           const Gap(20),
                           Align(
                             alignment: Alignment.centerLeft,
@@ -175,11 +151,33 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                             ),
                           ),
                           ProfileContainer(
+                              ontap: () => showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  enableDrag: true,
+                                  isScrollControlled: true,
+                                  barrierColor: Colors.grey.withOpacity(0.7),
+                                  builder: (BuildContext ctx) {
+                                    return const ChangeFieldBottomSheet(
+                                      field: "name",
+                                    );
+                                  }),
                               title: "Name",
                               description:
                                   "${setting?.role != "Beneficiary" ? model.User.name : model.name}"),
                           const Gap(10),
                           ProfileContainer(
+                              ontap: () => showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  enableDrag: true,
+                                  isScrollControlled: true,
+                                  barrierColor: Colors.grey.withOpacity(0.7),
+                                  builder: (BuildContext ctx) {
+                                    return const ChangeFieldBottomSheet(
+                                      field: "email",
+                                    );
+                                  }),
                               title: "Email",
                               description:
                                   "${setting?.role != "Beneficiary" ? model.User.email : model.email}"),
@@ -197,17 +195,6 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                   .primaryTextTheme
                                   .titleSmall
                                   ?.copyWith(color: const Color(0xff16437B)),
-                            ),
-                          ),
-                          const Gap(10),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Change Phone Number",
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .titleSmall
-                                  ?.copyWith(color: const Color(0xff2A7DE1)),
                             ),
                           ),
                           const Gap(10),
@@ -258,18 +245,18 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                             const ProfileContainer(
                                 title: "Estimated Graduation Date",
                                 description: "no data"),
-                          if (setting?.role == "Beneficiary") Gap(10),
+                          if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "Educational Organization Name",
                                 description:
                                     "${model.educational_organization_name}"),
-                          if (setting?.role == "Beneficiary") Gap(10),
+                          if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "Specialization",
                                 description: "${model.specialization}"),
-                          if (setting?.role == "Beneficiary") Gap(20),
+                          if (setting?.role == "Beneficiary") const Gap(20),
                           if (setting?.role == "Beneficiary")
                             Align(
                               alignment: Alignment.centerLeft,
@@ -278,19 +265,19 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .titleSmall!
-                                    .copyWith(color: Color(0xff16437B)),
+                                    .copyWith(color: const Color(0xff16437B)),
                               ),
                             ),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "E Wallet Number",
                                 description: "${model.e_wallet_number}"),
-                          if (setting?.role == "Beneficiary") Gap(10),
+                          if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "E Wallet Status",
                                 description: "${model.e_wallet_status}"),
-                          if (setting?.role == "Beneficiary") Gap(20),
+                          if (setting?.role == "Beneficiary") const Gap(20),
                           if (setting?.role == "Beneficiary")
                             Align(
                               alignment: Alignment.centerLeft,
@@ -299,7 +286,7 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .titleSmall!
-                                    .copyWith(color: Color(0xff16437B)),
+                                    .copyWith(color: const Color(0xff16437B)),
                               ),
                             ),
                           if (setting?.role == "Beneficiary")
@@ -307,30 +294,46 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                 title: "Type of Scholarship",
                                 description:
                                     "${model.scholarship_type?.name ?? ""}"),
-                          Gap(10),
+                          const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "Status of the Scholarship",
                                 description:
                                     "${model.scholarship_status?.name ?? ""}"),
-                          if (setting?.role == "Beneficiary") Gap(10),
+                          if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "Rent Expiration Date",
                                 description: convertApiDate(
                                     model.rent_expiration_date ?? "")),
-                          if (setting?.role == "Beneficiary") Gap(10),
+                          if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "Insurance Covering",
                                 description: "${model.insurance_covering}"),
-                          if (setting?.role == "Beneficiary") Gap(10),
+                          if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
                                 title: "Insurance Covering Date ",
                                 description: convertApiDate(
                                     model.insurance_covering_to_date ?? "")),
-                          Gap(50),
+                          const Gap(50),
+                          // GestureDetector(
+                          //   onTap: () async => await ref
+                          //       .read(logOutProvider.future)
+                          //       .then((value) async => await context.router
+                          //           .replaceAll([const OnBoardingRoute()])),
+                          //   child: Align(
+                          //     alignment: Alignment.centerLeft,
+                          //     child: Text(
+                          //       "Change password",
+                          //       style: Theme.of(context)
+                          //           .primaryTextTheme
+                          //           .bodyMedium
+                          //           ?.copyWith(color: const Color(0xff2A7DE1)),
+                          //     ),
+                          //   ),
+                          // ),
                           GestureDetector(
                             onTap: () async => await ref
                                 .read(logOutProvider.future)
@@ -343,11 +346,11 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium
-                                    ?.copyWith(color: Color(0xff2A7DE1)),
+                                    ?.copyWith(color: const Color(0xff2A7DE1)),
                               ),
                             ),
                           ),
-                          Gap(50),
+                          const Gap(50),
                         ],
                       ),
                     ),

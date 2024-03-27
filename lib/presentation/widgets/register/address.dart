@@ -60,7 +60,7 @@ class AddressStep extends HookConsumerWidget {
                   .primaryTextTheme
                   .titleLarge
                   ?.copyWith(color: Colors.black),
-            ),
+            ).tr(),
           ),
         )),
         const ResponsiveRowColumnItem(child: Gap(10)),
@@ -108,7 +108,7 @@ class AddressStep extends HookConsumerWidget {
                       .primaryTextTheme
                       .bodyMedium
                       ?.copyWith(color: const Color(0xff2A7DE1)),
-                ),
+                ).tr(),
               ),
             ),
           ),

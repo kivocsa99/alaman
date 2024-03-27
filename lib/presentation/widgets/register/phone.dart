@@ -1,3 +1,5 @@
+import 'package:alaman/application/provider/hive.login.provider.dart';
+import 'package:alaman/application/provider/hive.register.provider.dart';
 import 'package:alaman/application/provider/login.provider.dart';
 import 'package:alaman/application/provider/registration.provider.dart';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
@@ -24,7 +26,9 @@ class PhoneStep extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = useTextEditingController();
     final box = Hive.box(isLogin == false ? "register" : "login");
-    final register = useState<UserRegistration>(box.getAt(0));
+    final register = ref.watch(isLogin == false
+        ? registerHiveNotifierProvider
+        : loginHiveNotifierProvider);
     final controller1 =
         useAnimationController(duration: const Duration(seconds: 1));
     final controller2 =
@@ -85,8 +89,10 @@ class PhoneStep extends HookConsumerWidget {
                 inputType: TextInputType.number,
                 inputAction: TextInputAction.done,
                 onChanged: (value) async {
-                  register.value.phone = value;
-                  await box.putAt(0, register.value);
+                  register!.phone = value;
+                  ref
+                      .read(registerHiveNotifierProvider.notifier)
+                      .addItem(register);
                 },
               ),
             ),

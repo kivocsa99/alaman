@@ -143,7 +143,7 @@ class YourBeneficiariesScreen extends HookConsumerWidget {
                         children: [
                           ResponsiveRowColumnItem(
                               child: Text(
-                            "Started: what date ? ",
+                            "Started: ${convertApiDate(beneficiary[index].alaman_join_date!)} ",
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .bodyMedium!

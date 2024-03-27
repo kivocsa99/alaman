@@ -23,7 +23,7 @@ class CityStep extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
 
     final controller = FixedExtentScrollController();
     final box = Hive.box("register");
@@ -47,7 +47,7 @@ class CityStep extends HookConsumerWidget {
     }, const []);
     final formKey = useState(GlobalKey<FormState>());
     final generic = ref.watch(getGenericProvider);
-    
+
     return ResponsiveRowColumn(
       layout: ResponsiveRowColumnType.COLUMN,
       columnMainAxisAlignment: MainAxisAlignment.start,

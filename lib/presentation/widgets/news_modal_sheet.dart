@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/news/model/news.model.dart';
 import 'package:auto_route/auto_route.dart';
@@ -15,7 +16,7 @@ class NewsBottomSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(

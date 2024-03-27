@@ -11,8 +11,10 @@ _$BeneficiaryModelImpl _$$BeneficiaryModelImplFromJson(
     _$BeneficiaryModelImpl(
       id: json['id'],
       name: json['name'] as String?,
+      name_ar: json['name_ar'] as String?,
       phone: json['phone'] as String?,
       bio: json['bio'] as String?,
+      bio_ar: json['bio_ar'] as String?,
       email: json['email'] as String?,
       email_verified_at: json['email_verified_at'] as String?,
       account_type: json['account_type'] as String?,
@@ -87,8 +89,10 @@ Map<String, dynamic> _$$BeneficiaryModelImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'name_ar': instance.name_ar,
       'phone': instance.phone,
       'bio': instance.bio,
+      'bio_ar': instance.bio_ar,
       'email': instance.email,
       'email_verified_at': instance.email_verified_at,
       'account_type': instance.account_type,

@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -46,7 +47,7 @@ class LanguageScreen extends HookConsumerWidget {
                                 selectedLanguage.value =
                                     context.locale.languageCode;
                                 ref
-                                    .read(settingHiveNotifierProvider.notifier)
+                                    .read(languageHiveNotifierProvider.notifier)
                                     .setLanguage("en");
                               });
                       },
@@ -96,7 +97,7 @@ class LanguageScreen extends HookConsumerWidget {
                                 selectedLanguage.value =
                                     context.locale.languageCode;
                                 ref
-                                    .read(settingHiveNotifierProvider.notifier)
+                                    .read(languageHiveNotifierProvider.notifier)
                                     .setLanguage("ar");
                               });
                       },

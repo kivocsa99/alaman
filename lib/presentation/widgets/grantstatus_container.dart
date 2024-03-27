@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
@@ -13,7 +14,7 @@ class GrantStatusContainer extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale =
-        ref.watch(settingHiveNotifierProvider.notifier).getLanguage();
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final profile = ref.watch(getProfileProvider);
     return profile.when(
         data: (data) => data.fold((l) => Text(l.toString()), (r) {

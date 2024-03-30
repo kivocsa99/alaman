@@ -12,8 +12,7 @@ _$TrainingRequestModelImpl _$$TrainingRequestModelImplFromJson(
       id: json['id'] as int?,
       beneficiary_id: json['beneficiary_id'] as int?,
       training_program_id: json['training_program_id'] as int?,
-      ematraining_request_status_idil:
-          json['ematraining_request_status_idil'] as int?,
+      training_request_status_id: json['training_request_status_id'] as int?,
       training_date: json['training_date'] as String?,
       training_time: json['training_time'] as String?,
       notes: json['notes'] as String?,
@@ -36,8 +35,7 @@ Map<String, dynamic> _$$TrainingRequestModelImplToJson(
       'id': instance.id,
       'beneficiary_id': instance.beneficiary_id,
       'training_program_id': instance.training_program_id,
-      'ematraining_request_status_idil':
-          instance.ematraining_request_status_idil,
+      'training_request_status_id': instance.training_request_status_id,
       'training_date': instance.training_date,
       'training_time': instance.training_time,
       'notes': instance.notes,
@@ -65,9 +63,6 @@ _$ProgramModelImpl _$$ProgramModelImplFromJson(Map<String, dynamic> json) =>
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,
-      status: json['status'] == null
-          ? null
-          : StatusModel.fromJson(json['status'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ProgramModelImplToJson(_$ProgramModelImpl instance) =>
@@ -85,5 +80,4 @@ Map<String, dynamic> _$$ProgramModelImplToJson(_$ProgramModelImpl instance) =>
       'created_at': instance.created_at,
       'updated_at': instance.updated_at,
       'deleted_at': instance.deleted_at,
-      'status': instance.status,
     };

@@ -8,21 +8,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class GranstSlider extends HookConsumerWidget {
-  const GranstSlider({super.key});
-
+  GranstSlider({super.key});
+  final grantPictures = [
+    "assets/amanreq.png",
+    "assets/elegibity.png",
+    "assets/training.png",
+  ];
+  final grantTypes = useState<List<String>>([
+    "alamanreq",
+    "elegibility",
+    "trainingreq",
+  ]);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final grantTypes = useState([
-      "alamanreq".tr(),
-      "elegibility".tr(),
-      "trainingreq".tr(),
-    ]);
-    final grantPictures = useState([
-      "assets/amanreq.png",
-      "assets/elegibity.png",
-      "assets/training.png",
-    ]);
-
     return SizedBox(
       width: double.infinity,
       height: 150,
@@ -79,8 +77,7 @@ class GranstSlider extends HookConsumerWidget {
                     height: 40,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image:
-                                Image.asset(grantPictures.value[index]).image,
+                            image: Image.asset(grantPictures[index]).image,
                             fit: BoxFit.contain)),
                   )),
                   ResponsiveRowColumnItem(
@@ -91,7 +88,7 @@ class GranstSlider extends HookConsumerWidget {
                         .primaryTextTheme
                         .bodyMedium
                         ?.copyWith(color: const Color(0xff16437B)),
-                  )),
+                  ).tr()),
                 ],
               ),
             ),

@@ -8,12 +8,14 @@ class InitDonationUseCaseInput {
   final String? endDate;
   final int? donationFrequencyId;
   final String? notes;
+  List<int>? beneficiaryIds;
   final String? mouId;
 
   InitDonationUseCaseInput(
       {this.donationTypeId,
       this.paymentMethodId,
       this.totalAmount,
+      this.beneficiaryIds,
       this.location,
       this.isRecurring,
       this.startDate,

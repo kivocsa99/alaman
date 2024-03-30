@@ -1,5 +1,6 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/domain/paymentmethod/model/payment.method.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/step_indicator.dart';
@@ -20,6 +21,8 @@ class ZaqatBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
     final isLoading = useState(false);
@@ -83,7 +86,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Select The Amount of\nThe Zakat",
+                                    "zakatamount",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -92,7 +95,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                             fontSize: 20,
                                             color: const Color(0xff16437B),
                                             fontWeight: FontWeight.w500),
-                                  ),
+                                  ).tr(),
                                   IconButton(
                                     onPressed: () => context.router.pop(),
                                     icon: const Icon(
@@ -142,7 +145,8 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                                 .primaryTextTheme
                                                 .bodyMedium!
                                                 .copyWith(
-                                                    color: Color(0xff16437B)),
+                                                    color: const Color(
+                                                        0xff16437B)),
                                           ),
                                         ],
                                       ),
@@ -159,15 +163,15 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                     .primaryTextTheme
                                     .bodyMedium!
                                     .copyWith(color: const Color(0xff16437B)),
-                              ),
+                              ).tr(),
                               const Gap(10),
                               Text(
-                                "Slide for a specific amount",
+                                "slidefor",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium,
-                              ),
+                              ).tr(),
                               const Gap(15),
                               Container(
                                 decoration: BoxDecoration(
@@ -188,14 +192,12 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                 data: SliderTheme.of(context).copyWith(
                                   thumbShape: SliderThumbImage(
                                       Image.asset('assets/coin1.png')),
-                                  // Adjust other theme properties as needed
                                 ),
                                 child: Slider(
                                   value: sliderValue.value,
                                   min: 1,
                                   max: 10000,
-                                  divisions:
-                                      9999, // Optional: This enables discrete values
+                                  divisions: 9999,
                                   label: sliderValue.value.round().toString(),
                                   onChanged: (value) {
                                     sliderValue.value = value;
@@ -218,7 +220,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                         .primaryTextTheme
                                         .titleSmall
                                         ?.copyWith(color: Colors.white),
-                                  ),
+                                  ).tr(),
                                 ),
                               ),
                             ],
@@ -240,7 +242,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Choose a Payment\nMethod",
+                                    "choosepayment",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -249,7 +251,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                             fontSize: 20,
                                             color: const Color(0xff16437B),
                                             fontWeight: FontWeight.bold),
-                                  ),
+                                  ).tr(),
                                   IconButton(
                                     onPressed: () => context.router.pop(),
                                     icon: const Icon(
@@ -273,11 +275,15 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                   raduis: 40,
                                   onTap: () async {
                                     selectedIndex1.value = index;
-                                    type1.value = paymentMethods![index].name!;
+                                    type1.value = locale == "en"
+                                        ? paymentMethods![index].name!
+                                        : paymentMethods![index].name_ar!;
                                     typeId1.value = paymentMethods![index].id!;
                                   },
                                   child: Text(
-                                    paymentMethods![index].name!,
+                                    locale == "en"
+                                        ? paymentMethods![index].name!
+                                        : paymentMethods![index].name_ar!,
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .titleSmall!
@@ -296,40 +302,51 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                   raduis: 50,
                                   height: 50,
                                   onTap: () async {
-                                    isLoading.value =
-                                        true; // Show loading indicator
+                                    isLoading.value = true;
+                                    if (typeId1.value ==
+                                        paymentMethods!
+                                            .firstWhere((element) =>
+                                                element.name == "Cash")
+                                            .id) {
+                                      isLoading.value = false;
+                                      context.router.pop();
+                                      context.router.push(LocationCheckerRoute(
+                                        paymentMethod: 1,
+                                        donationTypeId: 2,
+                                        amount: sliderValue.value,
+                                      ));
+                                    } else {
+                                      await ref
+                                          .read(initDonationUseCaseProvider)
+                                          .execute(
+                                            InitDonationUseCaseInput(
+                                              paymentMethodId: typeId1.value,
+                                              donationTypeId: 2,
+                                              isRecurring: 0,
+                                              totalAmount: sliderValue.value,
+                                            ),
+                                          )
+                                          .then((value) => value.fold(
+                                                (l) async {
+                                                  isLoading.value = false;
+                                                  context.router.pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(const SnackBar(
+                                                          content: Text(
+                                                              "error occured please try again")));
+                                                },
+                                                (r) async {
+                                                  isLoading.value = false;
 
-                                    // Perform your logic here, for example, initiating a donation
-                                    await ref
-                                        .read(initDonationUseCaseProvider)
-                                        .execute(
-                                          InitDonationUseCaseInput(
-                                            paymentMethodId: typeId1.value,
-                                            donationTypeId: 2,
-                                            isRecurring: 0,
-                                            totalAmount: sliderValue.value,
-                                          ),
-                                        )
-                                        .then((value) => value.fold(
-                                              (l) async {
-                                                // Handle error
-                                                isLoading.value =
-                                                    false; // Hide loading indicator
-                                                Navigator.of(context)
-                                                    .pop(); // Close the bottom sheet
-                                              },
-                                              (r) async {
-                                                isLoading.value =
-                                                    false; // Hide loading indicator
-                                                // Navigate to PaymentRoute
-                                                // First, pop the bottom sheet
-                                                context.router.pop();
-                                                // Then navigate to PaymentRoute
-                                                AutoRouter.of(context).push(
-                                                    PaymentRoute(
-                                                        baseurl: r["url"]));
-                                              },
-                                            ));
+                                                  context.router.pop();
+
+                                                  context.router.push(
+                                                      PaymentRoute(
+                                                          baseurl: r["url"]));
+                                                },
+                                              ));
+                                      ;
+                                    }
                                   },
                                   color: const Color(0xffFFC629),
                                   child: isLoading.value == false
@@ -339,7 +356,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                               .primaryTextTheme
                                               .titleSmall
                                               ?.copyWith(color: Colors.white),
-                                        )
+                                        ).tr()
                                       : const CircularProgressIndicator(),
                                 ),
                               ),
@@ -356,13 +373,13 @@ class ZaqatBottomSheet extends HookConsumerWidget {
 
 class SliderThumbImage extends SliderComponentShape {
   final Image image;
-  final double thumbSize; // Added thumbSize for scaling
+  final double thumbSize;
 
-  SliderThumbImage(this.image, {this.thumbSize = 20.0}); // Default size
+  SliderThumbImage(this.image, {this.thumbSize = 20.0});
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size(thumbSize, thumbSize); // Use thumbSize for the thumb size
+    return Size(thumbSize, thumbSize);
   }
 
   @override
@@ -380,18 +397,17 @@ class SliderThumbImage extends SliderComponentShape {
     required double textScaleFactor,
     required Size sizeWithOverflow,
   }) {
-    final ImageStream imageStream = image.image.resolve(ImageConfiguration());
+    final ImageStream imageStream =
+        image.image.resolve(const ImageConfiguration());
     final ImageStreamListener listener =
         ImageStreamListener((ImageInfo info, bool _) {
       final image = info.image;
       final paint = Paint();
 
-      // Scale the image to fit the thumbSize while maintaining aspect ratio
       double scale = thumbSize / image.width;
       double newWidth = image.width * scale;
       double newHeight = image.height * scale;
 
-      // Center the scaled image on the slider's thumb position
       Offset imageOffset = Offset(
         center.dx - (newWidth / 2),
         center.dy - (newHeight / 2),
@@ -399,16 +415,14 @@ class SliderThumbImage extends SliderComponentShape {
 
       context.canvas.drawImageRect(
         image,
-        Rect.fromLTWH(0, 0, image.width.toDouble(),
-            image.height.toDouble()), // Source rectangle
-        Rect.fromLTWH(imageOffset.dx, imageOffset.dy, newWidth,
-            newHeight), // Destination rectangle
+        Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+        Rect.fromLTWH(imageOffset.dx, imageOffset.dy, newWidth, newHeight),
         paint,
       );
     });
 
     imageStream.addListener(listener);
-    // Important: Remove the listener once the painting is done to prevent memory leaks
+
     imageStream.removeListener(listener);
   }
 }

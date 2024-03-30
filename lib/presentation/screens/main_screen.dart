@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/connection.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -63,6 +64,7 @@ class MainScreen extends HookConsumerWidget {
       return null; // Return a null cleanup function
     }, [isOrdered]);
     final userSetting = ref.watch(settingHiveNotifierProvider);
+    final internet = ref.watch(internetConnectionProvider);
     print(userSetting?.role);
     return AutoTabsRouter(
       routes: userSetting?.role == "Beneficiary"

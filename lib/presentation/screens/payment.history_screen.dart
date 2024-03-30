@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
@@ -20,6 +21,8 @@ class PaymentHistoryScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     List<DonorDonation> modifiableList = List.from(donationHistory);
     modifiableList.sort((a, b) {
       return b.id!.compareTo(a.id!);
@@ -27,7 +30,7 @@ class PaymentHistoryScreen extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
-          title: "History",
+          title: "paymenthistory",
           description: "",
         ),
         body: ResponsiveWidget(
@@ -64,7 +67,7 @@ class PaymentHistoryScreen extends HookConsumerWidget {
                                 const ResponsiveRowColumnItem(child: Gap(10)),
                                 ResponsiveRowColumnItem(
                                     child: Text(
-                                  "${modifiableList[index].type!.name}",
+                                  "${locale == "en" ? modifiableList[index].type!.name : modifiableList[index].type!.name_ar}",
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .bodyMedium!

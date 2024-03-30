@@ -35,6 +35,8 @@ abstract class _$AppRouter extends RootStackRouter {
           educationalYearId: args.educationalYearId,
           age: args.age,
           scholarshipTypeId: args.scholarshipTypeId,
+          isCorporate: args.isCorporate,
+          endAmount: args.endAmount,
           key: args.key,
         ),
       );
@@ -67,6 +69,7 @@ abstract class _$AppRouter extends RootStackRouter {
           paymentMethod: args.paymentMethod,
           amount: args.amount,
           donationTypeId: args.donationTypeId,
+          recurring: args.recurring,
         ),
       );
     },
@@ -90,6 +93,26 @@ abstract class _$AppRouter extends RootStackRouter {
         child: MainScreen(
           key: args.key,
           isOrdered: args.isOrdered,
+        ),
+      );
+    },
+    MarksHistoryRoute.name: (routeData) {
+      final args = routeData.argsAs<MarksHistoryRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MarksHistoryScreen(
+          key: args.key,
+          marks: args.marks,
+        ),
+      );
+    },
+    MeetingHistoryRoute.name: (routeData) {
+      final args = routeData.argsAs<MeetingHistoryRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MeetingHistoryScreen(
+          key: args.key,
+          marks: args.marks,
         ),
       );
     },
@@ -244,6 +267,8 @@ class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
     required int educationalYearId,
     required String age,
     required int scholarshipTypeId,
+    bool? isCorporate,
+    int? endAmount,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -254,6 +279,8 @@ class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
             educationalYearId: educationalYearId,
             age: age,
             scholarshipTypeId: scholarshipTypeId,
+            isCorporate: isCorporate,
+            endAmount: endAmount,
             key: key,
           ),
           initialChildren: children,
@@ -272,6 +299,8 @@ class FilteredRouteArgs {
     required this.educationalYearId,
     required this.age,
     required this.scholarshipTypeId,
+    this.isCorporate,
+    this.endAmount,
     this.key,
   });
 
@@ -285,11 +314,15 @@ class FilteredRouteArgs {
 
   final int scholarshipTypeId;
 
+  final bool? isCorporate;
+
+  final int? endAmount;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'FilteredRouteArgs{genderId: $genderId, cityId: $cityId, educationalYearId: $educationalYearId, age: $age, scholarshipTypeId: $scholarshipTypeId, key: $key}';
+    return 'FilteredRouteArgs{genderId: $genderId, cityId: $cityId, educationalYearId: $educationalYearId, age: $age, scholarshipTypeId: $scholarshipTypeId, isCorporate: $isCorporate, endAmount: $endAmount, key: $key}';
   }
 }
 
@@ -343,6 +376,7 @@ class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
     int? paymentMethod,
     double? amount,
     int? donationTypeId,
+    int? recurring,
     List<PageRouteInfo>? children,
   }) : super(
           LocationCheckerRoute.name,
@@ -351,6 +385,7 @@ class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
             paymentMethod: paymentMethod,
             amount: amount,
             donationTypeId: donationTypeId,
+            recurring: recurring,
           ),
           initialChildren: children,
         );
@@ -367,6 +402,7 @@ class LocationCheckerRouteArgs {
     this.paymentMethod,
     this.amount,
     this.donationTypeId,
+    this.recurring,
   });
 
   final Key? key;
@@ -377,9 +413,11 @@ class LocationCheckerRouteArgs {
 
   final int? donationTypeId;
 
+  final int? recurring;
+
   @override
   String toString() {
-    return 'LocationCheckerRouteArgs{key: $key, paymentMethod: $paymentMethod, amount: $amount, donationTypeId: $donationTypeId}';
+    return 'LocationCheckerRouteArgs{key: $key, paymentMethod: $paymentMethod, amount: $amount, donationTypeId: $donationTypeId, recurring: $recurring}';
   }
 }
 
@@ -445,6 +483,82 @@ class MainRouteArgs {
   @override
   String toString() {
     return 'MainRouteArgs{key: $key, isOrdered: $isOrdered}';
+  }
+}
+
+/// generated route for
+/// [MarksHistoryScreen]
+class MarksHistoryRoute extends PageRouteInfo<MarksHistoryRouteArgs> {
+  MarksHistoryRoute({
+    Key? key,
+    required List<MarksModel> marks,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MarksHistoryRoute.name,
+          args: MarksHistoryRouteArgs(
+            key: key,
+            marks: marks,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MarksHistoryRoute';
+
+  static const PageInfo<MarksHistoryRouteArgs> page =
+      PageInfo<MarksHistoryRouteArgs>(name);
+}
+
+class MarksHistoryRouteArgs {
+  const MarksHistoryRouteArgs({
+    this.key,
+    required this.marks,
+  });
+
+  final Key? key;
+
+  final List<MarksModel> marks;
+
+  @override
+  String toString() {
+    return 'MarksHistoryRouteArgs{key: $key, marks: $marks}';
+  }
+}
+
+/// generated route for
+/// [MeetingHistoryScreen]
+class MeetingHistoryRoute extends PageRouteInfo<MeetingHistoryRouteArgs> {
+  MeetingHistoryRoute({
+    Key? key,
+    required List<MarksModel> marks,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MeetingHistoryRoute.name,
+          args: MeetingHistoryRouteArgs(
+            key: key,
+            marks: marks,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MeetingHistoryRoute';
+
+  static const PageInfo<MeetingHistoryRouteArgs> page =
+      PageInfo<MeetingHistoryRouteArgs>(name);
+}
+
+class MeetingHistoryRouteArgs {
+  const MeetingHistoryRouteArgs({
+    this.key,
+    required this.marks,
+  });
+
+  final Key? key;
+
+  final List<MarksModel> marks;
+
+  @override
+  String toString() {
+    return 'MeetingHistoryRouteArgs{key: $key, marks: $marks}';
   }
 }
 

@@ -4,6 +4,7 @@ import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/gender/model/gender.model.dart';
+import 'package:alaman/domain/marks/model/marks.model.dart';
 import 'package:alaman/domain/scholarshipstatuses/model/scholarshipstatuses.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.payment.model.dart';
@@ -67,6 +68,7 @@ class BeneficiaryModel with _$BeneficiaryModel {
     ScholarshipStatusesModel? scholarship_status,
     ScholarshipTypesModel? scholarship_type,
     List<BeneficiaryPaymentModel>? beneficiary_payments,
+    List<MarksModel>? marks,
   }) = _BeneficiaryModel;
   const BeneficiaryModel._();
   factory BeneficiaryModel.fromJson(Map<String, dynamic> json) =>

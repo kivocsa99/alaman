@@ -22,6 +22,23 @@ final getNewsProvider =
 
 typedef GetNewsRef
     = AutoDisposeFutureProviderRef<Either<ApiFailures, List<NewsModel>>>;
+String _$deleteMyAccountHash() => r'02185772dff9473397d3da30a83fb378e8218957';
+
+/// See also [deleteMyAccount].
+@ProviderFor(deleteMyAccount)
+final deleteMyAccountProvider =
+    AutoDisposeFutureProvider<Either<ApiFailures, dynamic>>.internal(
+  deleteMyAccount,
+  name: r'deleteMyAccountProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$deleteMyAccountHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef DeleteMyAccountRef
+    = AutoDisposeFutureProviderRef<Either<ApiFailures, dynamic>>;
 String _$getGenericHash() => r'69cda37d3eb7f5e23620ed160edee4c43b2724d9';
 
 /// See also [getGeneric].
@@ -225,8 +242,40 @@ final getProductsProvider =
 
 typedef GetProductsRef
     = AutoDisposeFutureProviderRef<Either<ApiFailures, List<ProductModel>>>;
+String _$getRequestsHash() => r'f164b3fbc481a2c46165e3acbc0b8854a13dfce3';
+
+/// See also [getRequests].
+@ProviderFor(getRequests)
+final getRequestsProvider = AutoDisposeFutureProvider<
+    Either<ApiFailures, List<AlamanRequestModel>>>.internal(
+  getRequests,
+  name: r'getRequestsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getRequestsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetRequestsRef = AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<AlamanRequestModel>>>;
+String _$gettrainingHash() => r'f0b93e4071e2a35e2cba1cd31cdf1ae5843b2b2d';
+
+/// See also [gettraining].
+@ProviderFor(gettraining)
+final gettrainingProvider = AutoDisposeFutureProvider<
+    Either<ApiFailures, List<TrainingRequestModel>>>.internal(
+  gettraining,
+  name: r'gettrainingProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$gettrainingHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GettrainingRef = AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<TrainingRequestModel>>>;
 String _$searchBeneficiariesHash() =>
-    r'568dcee5b6cb225f0459f1787e4b7ae5a30c13ef';
+    r'05ab4129f868563e6a80eecf4830523832baf849';
 
 /// See also [searchBeneficiaries].
 @ProviderFor(searchBeneficiaries)
@@ -234,7 +283,8 @@ const searchBeneficiariesProvider = SearchBeneficiariesFamily();
 
 /// See also [searchBeneficiaries].
 class SearchBeneficiariesFamily extends Family<
-    AsyncValue<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>> {
+    AsyncValue<
+        Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>>> {
   /// See also [searchBeneficiaries].
   const SearchBeneficiariesFamily();
 
@@ -285,7 +335,7 @@ class SearchBeneficiariesFamily extends Family<
 
 /// See also [searchBeneficiaries].
 class SearchBeneficiariesProvider extends AutoDisposeFutureProvider<
-    Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> {
+    Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>> {
   /// See also [searchBeneficiaries].
   SearchBeneficiariesProvider({
     int? genderId,
@@ -340,7 +390,9 @@ class SearchBeneficiariesProvider extends AutoDisposeFutureProvider<
 
   @override
   Override overrideWith(
-    FutureOr<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
+    FutureOr<
+                Either<ApiFailures,
+                    Tuple3<List<BeneficiaryModel>, String?, bool?>>>
             Function(SearchBeneficiariesRef provider)
         create,
   ) {
@@ -364,7 +416,7 @@ class SearchBeneficiariesProvider extends AutoDisposeFutureProvider<
 
   @override
   AutoDisposeFutureProviderElement<
-          Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
+          Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>>
       createElement() {
     return _SearchBeneficiariesProviderElement(this);
   }
@@ -393,7 +445,7 @@ class SearchBeneficiariesProvider extends AutoDisposeFutureProvider<
 }
 
 mixin SearchBeneficiariesRef on AutoDisposeFutureProviderRef<
-    Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> {
+    Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>> {
   /// The parameter `genderId` of this provider.
   int? get genderId;
 
@@ -412,7 +464,7 @@ mixin SearchBeneficiariesRef on AutoDisposeFutureProviderRef<
 
 class _SearchBeneficiariesProviderElement
     extends AutoDisposeFutureProviderElement<
-        Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
+        Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>>
     with SearchBeneficiariesRef {
   _SearchBeneficiariesProviderElement(super.provider);
 

@@ -6,15 +6,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final String description;
-  const CustomAppBar({
-    super.key,
-    required this.title,
-    required this.description,
-  });
+  final PreferredSizeWidget? tabbar;
+  const CustomAppBar(
+      {super.key, required this.title, required this.description, this.tabbar});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      bottom: tabbar,
       toolbarHeight: 65,
       shadowColor: Colors.white,
       elevation: 1,
@@ -71,5 +70,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(75);
+  Size get preferredSize => Size.fromHeight(tabbar == null ? 75 : 120);
 }

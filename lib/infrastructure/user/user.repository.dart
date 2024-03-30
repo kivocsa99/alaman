@@ -1,19 +1,23 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:alaman/application/provider/hive.login.provider.dart';
+import 'package:alaman/application/provider/hive.register.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
+import 'package:alaman/domain/alamanreqeust/alaman.request.model.dart';
+import 'package:alaman/domain/campaigns/model/campaign.model.dart';
 import 'package:alaman/domain/failures/api.failures.dart';
 import 'package:alaman/domain/generic/model/generic.model.dart';
 import 'package:alaman/domain/news/model/news.model.dart';
 import 'package:alaman/domain/product/model/product.model.dart';
+import 'package:alaman/domain/trainingreqeust/model/training.request.model.dart';
 import 'package:alaman/domain/user/interface/i.user.repository.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/domain/user/model/donor/shared.donor.model.dart';
-import 'package:alaman/domain/usersetting/model/user.setting.model.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
@@ -29,8 +33,8 @@ class UserRepository implements IUserRepository {
     try {
       final result = await dio
           .get("$baseUrl/user/getMyProfile?api_token=${userSetting!.token}");
-      print(result.realUri);
-      print(result.requestOptions.uri);
+      log(result.requestOptions.uri.toString());
+
       if (result.data['AZSVR'] == "SUCCESS") {
         var model;
 
@@ -47,7 +51,6 @@ class UserRepository implements IUserRepository {
       }
     } on DioException catch (error) {
       final String reason = error.response!.data["Reason"];
-      print(error.stackTrace);
       switch (error.type) {
         case DioExceptionType.connectionTimeout:
           return left(ApiFailures.connectionTimeOut(message: reason));
@@ -69,6 +72,7 @@ class UserRepository implements IUserRepository {
     try {
       final result = await dio.get(
           "$baseUrl/user/getProfile?id=$profileId&api_token=${userSetting!.token}");
+      print(result.requestOptions.uri);
       if (result.data['AZSVR'] == "SUCCESS") {
         final model = BeneficiaryModel.fromJson(result.data["User"]);
         return right(model);
@@ -209,24 +213,151 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, dynamic>> initDonations(
-      {int? donationTypeId,
-      int? paymentMethodId,
-      num? totalAmount,
-      Map<String, dynamic>? location,
-      int? isRecurring,
-      String? startDate,
-      String? endDate,
-      int? donationFrequencyId,
-      String? notes,
-      String? mouId}) async {
+  Future<Either<ApiFailures, dynamic>> initDonations({
+    int? donationTypeId,
+    int? paymentMethodId,
+    num? totalAmount,
+    Map<String, dynamic>? location,
+    int? isRecurring,
+    String? startDate,
+    String? endDate,
+    int? donationFrequencyId,
+    String? notes,
+    String? mouId,
+    List<int>? beneficiaryIds,
+  }) async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
+    var queryParams = StringBuffer("$baseUrl/donation/initDonation?");
+
+    if (donationTypeId != null)
+      queryParams.write("donation_type_id=$donationTypeId&");
+    if (paymentMethodId != null)
+      queryParams.write("payment_method_id=$paymentMethodId&");
+    if (totalAmount != null) queryParams.write("total_amount=$totalAmount&");
+    if (location != null)
+      queryParams
+          .write("location=${Uri.encodeComponent(jsonEncode(location))}&");
+    if (isRecurring != null) queryParams.write("is_recurring=$isRecurring&");
+    if (startDate != null) queryParams.write("start_date=$startDate&");
+    if (endDate != null) queryParams.write("end_date=$endDate&");
+    if (donationFrequencyId != null)
+      queryParams.write("donation_frequency_id=$donationFrequencyId&");
+    if (notes != null)
+      queryParams.write("notes=${Uri.encodeComponent(notes)}&");
+    if (mouId != null) queryParams.write("mou_id=$mouId&");
+    if (beneficiaryIds != null && beneficiaryIds.isNotEmpty) {
+      for (var id in beneficiaryIds) {
+        queryParams.write("beneficiaries[]=$id&");
+      }
+    }
+
+    queryParams.write("api_token=${userSetting?.token}");
+
+    String finalUrl = queryParams.toString();
+
+    try {
+      final result = await dio.get(finalUrl);
+      print(result.requestOptions.uri);
+      if (result.data['AZSVR'] == "SUCCESS") {
+        return right(result.data);
+      } else {
+        return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      final String reason = error.response?.data["Reason"] ?? "Unknown error";
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+          return left(ApiFailures.connectionTimeOut(message: reason));
+        case DioExceptionType.cancel:
+          return left(ApiFailures.cancel(message: reason));
+        case DioExceptionType.unknown:
+          return left(ApiFailures.noResponse(message: reason));
+        default:
+          return left(ApiFailures.noResponse(message: reason));
+      }
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>>
+      searchBeneficiaries({
+    int? genderId,
+    int? cityId,
+    int? educationalYearId,
+    String? age,
+    int? scholarshipTypeId,
+  }) async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
+    // Start building the URL with the base path
+    var queryParams = StringBuffer("$baseUrl/beneficiary/search?");
+
+    // Append each parameter if it's not null
+    if (genderId != null) queryParams.write("gender_id=$genderId&");
+    if (cityId != null) queryParams.write("city_id=$cityId&");
+    if (educationalYearId != null)
+      queryParams.write("educational_year_id=$educationalYearId&");
+    if (age != null) queryParams.write("age=$age&");
+    if (scholarshipTypeId != null)
+      queryParams.write("scholarship_type_id=$scholarshipTypeId&");
+
+    // Always append the token at the end
+    queryParams.write("api_token=${userSetting?.token}");
+
+    // Final URL
+    String finalUrl = queryParams.toString();
+
+    try {
+      final result = await dio.get(finalUrl);
+      log(result.requestOptions.uri
+          .toString()); // Ensure logging is appropriate for your use case
+      if (result.data['AZSVR'] == "SUCCESS") {
+        Map<String, dynamic> map = result.data;
+        List<dynamic> data = map["Beneficiaries"]["data"];
+        List<BeneficiaryModel> response =
+            data.map((e) => BeneficiaryModel.fromJson(e)).toList();
+        String? nextUrl = map["Beneficiaries"]["next_page_url"];
+        bool? iscriteria = map["search_adjusted"];
+        final Tuple3<List<BeneficiaryModel>, String?,bool?> finalData =
+            Tuple3(response, nextUrl,iscriteria);
+        return right(finalData);
+      } else {
+        return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      final String reason = error.response?.data["Reason"] ?? "Unknown error";
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+          return left(ApiFailures.connectionTimeOut(message: reason));
+        case DioExceptionType.cancel:
+          return left(ApiFailures.cancel(message: reason));
+        case DioExceptionType.unknown:
+          return left(ApiFailures.cancel(message: reason));
+        default:
+          return left(ApiFailures.cancel(message: reason));
+      }
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, Tuple2<List<CampaignModel>, String?>>>
+      getCampaigns({int page = 1}) async {
     final userSetting = ref.read(settingHiveNotifierProvider);
 
     try {
-      final result = await dio.get(
-          "$baseUrl/donation/initDonation?donation_type_id=${donationTypeId.toString()}&payment_method_id=${paymentMethodId.toString()}&total_amount=${totalAmount.toString()}&location=${location.toString()}&is_recurring=${isRecurring.toString()}&start_date=2024-03-01&end_date=2024-04-01&donation_frequency_id=1&notes=I love donating&mou_id=1&beneficiaries[]=1&api_token=${userSetting!.token}");
+      final result = await dio
+          .get("$baseUrl/misc/getCampaigns?api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
-        return right(result.data);
+        Map<String, dynamic> map = result.data;
+        log(result.realUri.toString());
+        List<dynamic> data = map["Campaigns"]["data"];
+        List<CampaignModel> response =
+            data.map((e) => CampaignModel.fromJson(e)).toList();
+        String? nextUrl = map["Campaigns"]["next_page_url"];
+        final Tuple2<List<CampaignModel>, String?> finaldata =
+            Tuple2(response, nextUrl);
+        return right(finaldata);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
       }
@@ -246,29 +377,82 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
-      searchBeneficiaries({
-    int? genderId,
-    int? cityId,
-    int? educationalYearId,
-    String? age,
-    int? scholarshipTypeId,
-  }) async {
+  Future<Either<ApiFailures, List<AlamanRequestModel>>> getservices() async {
     final userSetting = ref.read(settingHiveNotifierProvider);
 
     try {
       final result = await dio.get(
-          "$baseUrl/beneficiary/search?gender_id=$genderId&city_id=$cityId&educational_year_id=$educationalYearId&age=$age&scholarship_type_id=$scholarshipTypeId&api_token=${userSetting!.token}");
+          "$baseUrl/alamanRequest/getRequests?api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
-        log(result.realUri.toString());
-        List<dynamic> data = map["Beneficiaries"]["data"];
-        List<BeneficiaryModel> response =
-            data.map((e) => BeneficiaryModel.fromJson(e)).toList();
-        String? nextUrl = map["Beneficiaries"]["next_page_url"];
-        final Tuple2<List<BeneficiaryModel>, String?> finaldata =
-            Tuple2(response, nextUrl);
-        return right(finaldata);
+        List<dynamic> data = map["AlamanRequests"];
+        List<AlamanRequestModel> response =
+            data.map((e) => AlamanRequestModel.fromJson(e)).toList();
+        return right(response);
+      } else {
+        return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      final String reason = error.response!.data["Reason"];
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+          return left(ApiFailures.connectionTimeOut(message: reason));
+        case DioException.requestCancelled:
+          return left(ApiFailures.cancel(message: reason));
+        case DioExceptionType.badResponse:
+          return left(ApiFailures.noResponse(message: reason));
+        default:
+          return left(ApiFailures.noResponse(message: reason));
+      }
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining() async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
+    try {
+      final result = await dio.get(
+          "$baseUrl/trainingRequest/getRequests?api_token=${userSetting!.token}");
+      print(result.requestOptions.uri);
+      if (result.data['AZSVR'] == "SUCCESS") {
+        Map<String, dynamic> map = result.data;
+        List<dynamic> data = map["TrainingRequests"];
+        List<TrainingRequestModel> response =
+            data.map((e) => TrainingRequestModel.fromJson(e)).toList();
+        return right(response);
+      } else {
+        return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      final String reason = error.response!.data["Reason"];
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+          return left(ApiFailures.connectionTimeOut(message: reason));
+        case DioException.requestCancelled:
+          return left(ApiFailures.cancel(message: reason));
+        case DioExceptionType.badResponse:
+          return left(ApiFailures.noResponse(message: reason));
+        default:
+          return left(ApiFailures.noResponse(message: reason));
+      }
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, dynamic>> deleteAccount() async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
+    try {
+      final result = await dio
+          .get("$baseUrl/user/removeMyAccount?api_token=${userSetting!.token}");
+      if (result.data['AZSVR'] == "SUCCESS") {
+        await Future.sync((() async {
+          await ref.read(settingHiveNotifierProvider.notifier).deleteAll();
+          await ref.read(loginHiveNotifierProvider.notifier).deleteAll();
+          await ref.read(registerHiveNotifierProvider.notifier).deleteAll();
+        }));
+        return right(result.data);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
       }

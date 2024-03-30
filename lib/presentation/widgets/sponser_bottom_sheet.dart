@@ -1,13 +1,8 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
-import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
-import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/donationfrequency/model/donation.frequency.model.dart';
-import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/paymentmethod/model/payment.method.model.dart';
-import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
-import 'package:alaman/presentation/screens/location.checker_screen.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/step_indicator.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -21,9 +16,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SponserBottomSheet extends HookConsumerWidget {
   final List<DonationFrequencyModel> donationFrequency;
   final List<PaymentMethodModel>? paymentMethods;
+  final double? endAmount;
+  final String? id;
   const SponserBottomSheet({
     required this.paymentMethods,
     required this.donationFrequency,
+    required this.endAmount,
+    required this.id,
     super.key,
   });
 
@@ -43,19 +42,11 @@ class SponserBottomSheet extends HookConsumerWidget {
         ? donationFrequency[selectedIndex.value].name!
         : donationFrequency[selectedIndex.value].name_ar!);
     final typeId = useState(donationFrequency[selectedIndex.value].id!);
-    final type1 = useState(paymentMethods![selectedIndex1.value].name!);
+    final type1 = useState(locale == "en"
+        ? paymentMethods![selectedIndex1.value].name!
+        : paymentMethods![selectedIndex1.value].name_ar!);
     final typeId1 = useState(paymentMethods![selectedIndex1.value].id!);
     final sliderValue = useState(10.0);
-    final imagesList = useState<List<String>>([
-      "assets/coin1.png",
-      "assets/coin2.png",
-      "assets/coin3.png",
-      "assets/coin4.png",
-      "assets/bag.png",
-      "assets/treasure.png",
-    ]);
-    final coinsList =
-        useState<List<double>>([25.0, 50.0, 75.0, 100.0, 2500.0, 10000.0]);
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -104,7 +95,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Select The Amount of\nThe Donation",
+                                    "donationamount",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -113,7 +104,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                             fontSize: 20,
                                             color: const Color(0xff16437B),
                                             fontWeight: FontWeight.bold),
-                                  ),
+                                  ).tr(),
                                   IconButton(
                                     onPressed: () => context.router.pop(),
                                     icon: const Icon(
@@ -123,72 +114,14 @@ class SponserBottomSheet extends HookConsumerWidget {
                                   ),
                                 ],
                               ),
-                              const Gap(40),
-                              SizedBox(
-                                height: 130,
-                                width: double.infinity,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (context, index) =>
-                                      const Gap(10),
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) =>
-                                      GestureDetector(
-                                    onTap: () => sliderValue.value =
-                                        coinsList.value[index],
-                                    child: Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 20, left: 10, right: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          border: Border.all(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              width: 1)),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            imagesList.value[index],
-                                            width: 80,
-                                            height: 60,
-                                          ),
-                                          const SizedBox(height: 20),
-                                          Text(
-                                            "${coinsList.value[index].round()}  ${"jod".tr()}",
-                                            textAlign: TextAlign.center,
-                                            style: Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                    color: Color(0xff16437B)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: 6,
-                                ),
-                              ),
                               const Gap(10),
                               Text(
-                                "or",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium!
-                                    .copyWith(color: const Color(0xff16437B)),
-                              ),
-                              const Gap(10),
-                              Text(
-                                "Slide for a specific amount",
+                                "slidefor",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium,
-                              ),
+                              ).tr(),
                               const Gap(15),
                               Container(
                                 decoration: BoxDecoration(
@@ -214,7 +147,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                 child: Slider(
                                   value: sliderValue.value,
                                   min: 1,
-                                  max: 10000,
+                                  max: endAmount!,
                                   divisions:
                                       9999, // Optional: This enables discrete values
                                   label: sliderValue.value.round().toString(),
@@ -265,7 +198,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Setup recuring\nDonation",
+                                        "setuprecuring",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -274,7 +207,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                                 fontSize: 20,
                                                 color: const Color(0xff16437B),
                                                 fontWeight: FontWeight.bold),
-                                      ),
+                                      ).tr(),
                                       IconButton(
                                         onPressed: () => context.router.pop(),
                                         icon: const Icon(
@@ -342,7 +275,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                                   .titleSmall
                                                   ?.copyWith(
                                                       color: Colors.white),
-                                            )
+                                            ).tr()
                                           : const CircularProgressIndicator(),
                                     ),
                                   ),
@@ -366,7 +299,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Choose a Payment\nMethod",
+                                        "choosepayment",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -375,7 +308,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                                 fontSize: 20,
                                                 color: const Color(0xff16437B),
                                                 fontWeight: FontWeight.bold),
-                                      ),
+                                      ).tr(),
                                       IconButton(
                                         onPressed: () => context.router.pop(),
                                         icon: const Icon(
@@ -431,52 +364,58 @@ class SponserBottomSheet extends HookConsumerWidget {
                                       raduis: 50,
                                       height: 50,
                                       onTap: () async {
+                                        isLoading.value =
+                                            true; // Show loading indicator
                                         if (typeId1.value ==
                                             paymentMethods!
                                                 .firstWhere((element) =>
                                                     element.name == "Cash")
                                                 .id) {
+                                          isLoading.value =
+                                              true; // Show loading indicator
                                           context.router
                                               .push(LocationCheckerRoute(
                                             paymentMethod: 1,
                                             donationTypeId: 1,
                                             amount: sliderValue.value,
                                           ));
+                                        } else {
+                                          await ref
+                                              .read(initDonationUseCaseProvider)
+                                              .execute(
+                                                InitDonationUseCaseInput(
+                                                  paymentMethodId:
+                                                      typeId1.value,
+                                                  donationTypeId: 1,
+                                                  isRecurring: 1,
+                                                  totalAmount:
+                                                      sliderValue.value,
+                                                ),
+                                              )
+                                              .then((value) => value.fold(
+                                                    (l) async {
+                                                      // Handle error
+                                                      isLoading.value =
+                                                          false; // Hide loading indicator
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the bottom sheet
+                                                    },
+                                                    (r) async {
+                                                      isLoading.value =
+                                                          false; // Hide loading indicator
+                                                      // Navigate to PaymentRoute
+                                                      // First, pop the bottom sheet
+                                                      context.router.pop();
+                                                      // Then navigate to PaymentRoute
+                                                      AutoRouter.of(context)
+                                                          .push(PaymentRoute(
+                                                              baseurl:
+                                                                  r["url"]));
+                                                    },
+                                                  ));
                                         }
-                                        isLoading.value =
-                                            true; // Show loading indicator
 
                                         // Perform your logic here, for example, initiating a donation
-                                        await ref
-                                            .read(initDonationUseCaseProvider)
-                                            .execute(
-                                              InitDonationUseCaseInput(
-                                                paymentMethodId: typeId1.value,
-                                                donationTypeId: 1,
-                                                isRecurring: 1,
-                                                totalAmount: sliderValue.value,
-                                              ),
-                                            )
-                                            .then((value) => value.fold(
-                                                  (l) async {
-                                                    // Handle error
-                                                    isLoading.value =
-                                                        false; // Hide loading indicator
-                                                    Navigator.of(context)
-                                                        .pop(); // Close the bottom sheet
-                                                  },
-                                                  (r) async {
-                                                    isLoading.value =
-                                                        false; // Hide loading indicator
-                                                    // Navigate to PaymentRoute
-                                                    // First, pop the bottom sheet
-                                                    context.router.pop();
-                                                    // Then navigate to PaymentRoute
-                                                    AutoRouter.of(context).push(
-                                                        PaymentRoute(
-                                                            baseurl: r["url"]));
-                                                  },
-                                                ));
                                       },
                                       color: const Color(0xffFFC629),
                                       child: isLoading.value == false
@@ -559,4 +498,14 @@ class SliderThumbImage extends SliderComponentShape {
     // Important: Remove the listener once the painting is done to prevent memory leaks
     imageStream.removeListener(listener);
   }
+}
+
+double calculateDynamicTopPosition(double availableHeight, int currentStep) {
+  // Implement logic to adjust 'top' based on availableHeight and currentStep
+  // This is a placeholder logic, adjust it according to your UI needs
+  double baseTop = -30; // Your current fixed top value
+  // Example adjustment, you might want to replace this with your actual logic
+  double adjustedTop =
+      baseTop - (currentStep * 10); // Example dynamic adjustment
+  return adjustedTop;
 }

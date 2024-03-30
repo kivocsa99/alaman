@@ -78,6 +78,7 @@ mixin _$BeneficiaryModel {
       throw _privateConstructorUsedError;
   List<BeneficiaryPaymentModel>? get beneficiary_payments =>
       throw _privateConstructorUsedError;
+  List<MarksModel>? get marks => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -143,7 +144,8 @@ abstract class $BeneficiaryModelCopyWith<$Res> {
       EducationalYearModel? educational_year,
       ScholarshipStatusesModel? scholarship_status,
       ScholarshipTypesModel? scholarship_type,
-      List<BeneficiaryPaymentModel>? beneficiary_payments});
+      List<BeneficiaryPaymentModel>? beneficiary_payments,
+      List<MarksModel>? marks});
 
   $GenderModelCopyWith<$Res>? get gender;
   $CityModelCopyWith<$Res>? get city;
@@ -218,6 +220,7 @@ class _$BeneficiaryModelCopyWithImpl<$Res, $Val extends BeneficiaryModel>
     Object? scholarship_status = freezed,
     Object? scholarship_type = freezed,
     Object? beneficiary_payments = freezed,
+    Object? marks = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -428,6 +431,10 @@ class _$BeneficiaryModelCopyWithImpl<$Res, $Val extends BeneficiaryModel>
           ? _value.beneficiary_payments
           : beneficiary_payments // ignore: cast_nullable_to_non_nullable
               as List<BeneficiaryPaymentModel>?,
+      marks: freezed == marks
+          ? _value.marks
+          : marks // ignore: cast_nullable_to_non_nullable
+              as List<MarksModel>?,
     ) as $Val);
   }
 
@@ -567,7 +574,8 @@ abstract class _$$BeneficiaryModelImplCopyWith<$Res>
       EducationalYearModel? educational_year,
       ScholarshipStatusesModel? scholarship_status,
       ScholarshipTypesModel? scholarship_type,
-      List<BeneficiaryPaymentModel>? beneficiary_payments});
+      List<BeneficiaryPaymentModel>? beneficiary_payments,
+      List<MarksModel>? marks});
 
   @override
   $GenderModelCopyWith<$Res>? get gender;
@@ -646,6 +654,7 @@ class __$$BeneficiaryModelImplCopyWithImpl<$Res>
     Object? scholarship_status = freezed,
     Object? scholarship_type = freezed,
     Object? beneficiary_payments = freezed,
+    Object? marks = freezed,
   }) {
     return _then(_$BeneficiaryModelImpl(
       id: freezed == id
@@ -856,6 +865,10 @@ class __$$BeneficiaryModelImplCopyWithImpl<$Res>
           ? _value._beneficiary_payments
           : beneficiary_payments // ignore: cast_nullable_to_non_nullable
               as List<BeneficiaryPaymentModel>?,
+      marks: freezed == marks
+          ? _value._marks
+          : marks // ignore: cast_nullable_to_non_nullable
+              as List<MarksModel>?,
     ));
   }
 }
@@ -915,8 +928,10 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
       this.educational_year,
       this.scholarship_status,
       this.scholarship_type,
-      final List<BeneficiaryPaymentModel>? beneficiary_payments})
+      final List<BeneficiaryPaymentModel>? beneficiary_payments,
+      final List<MarksModel>? marks})
       : _beneficiary_payments = beneficiary_payments,
+        _marks = marks,
         super._();
 
   factory _$BeneficiaryModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -1035,9 +1050,19 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<MarksModel>? _marks;
+  @override
+  List<MarksModel>? get marks {
+    final value = _marks;
+    if (value == null) return null;
+    if (_marks is EqualUnmodifiableListView) return _marks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'BeneficiaryModel(id: $id, name: $name, name_ar: $name_ar, phone: $phone, bio: $bio, bio_ar: $bio_ar, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donation: $donor_donation, educational_year: $educational_year, scholarship_status: $scholarship_status, scholarship_type: $scholarship_type, beneficiary_payments: $beneficiary_payments)';
+    return 'BeneficiaryModel(id: $id, name: $name, name_ar: $name_ar, phone: $phone, bio: $bio, bio_ar: $bio_ar, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donation: $donor_donation, educational_year: $educational_year, scholarship_status: $scholarship_status, scholarship_type: $scholarship_type, beneficiary_payments: $beneficiary_payments, marks: $marks)';
   }
 
   @override
@@ -1130,7 +1155,8 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
             (identical(other.educational_year, educational_year) || other.educational_year == educational_year) &&
             (identical(other.scholarship_status, scholarship_status) || other.scholarship_status == scholarship_status) &&
             (identical(other.scholarship_type, scholarship_type) || other.scholarship_type == scholarship_type) &&
-            const DeepCollectionEquality().equals(other._beneficiary_payments, _beneficiary_payments));
+            const DeepCollectionEquality().equals(other._beneficiary_payments, _beneficiary_payments) &&
+            const DeepCollectionEquality().equals(other._marks, _marks));
   }
 
   @JsonKey(ignore: true)
@@ -1188,7 +1214,8 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
         educational_year,
         scholarship_status,
         scholarship_type,
-        const DeepCollectionEquality().hash(_beneficiary_payments)
+        const DeepCollectionEquality().hash(_beneficiary_payments),
+        const DeepCollectionEquality().hash(_marks)
       ]);
 
   @JsonKey(ignore: true)
@@ -1208,59 +1235,59 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
 
 abstract class _BeneficiaryModel extends BeneficiaryModel {
   const factory _BeneficiaryModel(
-          {final dynamic id,
-          final String? name,
-          final String? name_ar,
-          final String? phone,
-          final String? bio,
-          final String? bio_ar,
-          final String? email,
-          final String? email_verified_at,
-          final String? account_type,
-          final bool? active,
-          final String? image,
-          final String? national_id_number,
-          final String? address,
-          final dynamic gender_id,
-          final String? first_donation_date,
-          final num? total_donation_amount,
-          final String? sector,
-          final dynamic account_source_id,
-          final dynamic city_id,
-          final dynamic commitment_method_id,
-          final String? area,
-          final String? contact_person,
-          final String? contact_person_phone,
-          final dynamic alaman_contact_person_id,
-          final String? alaman_join_date,
-          final String? educational_organization_name,
-          final String? specialization,
-          final dynamic place_of_residence,
-          final dynamic educational_year_id,
-          final String? birthdate,
-          final String? e_wallet_number,
-          final dynamic e_wallet_status,
-          final dynamic scholarship_type_id,
-          final dynamic scholarship_status_id,
-          final String? scholarship_status_notes,
-          final String? rent_expiration_date,
-          final String? insurance_covering,
-          final String? insurance_covering_from_date,
-          final String? insurance_covering_to_date,
-          final int? donations_goal,
-          final String? created_at,
-          final String? updated_at,
-          final String? deleted_at,
-          final String? theme,
-          final String? theme_color,
-          final GenderModel? gender,
-          final CityModel? city,
-          final DonorDonation? donor_donation,
-          final EducationalYearModel? educational_year,
-          final ScholarshipStatusesModel? scholarship_status,
-          final ScholarshipTypesModel? scholarship_type,
-          final List<BeneficiaryPaymentModel>? beneficiary_payments}) =
-      _$BeneficiaryModelImpl;
+      {final dynamic id,
+      final String? name,
+      final String? name_ar,
+      final String? phone,
+      final String? bio,
+      final String? bio_ar,
+      final String? email,
+      final String? email_verified_at,
+      final String? account_type,
+      final bool? active,
+      final String? image,
+      final String? national_id_number,
+      final String? address,
+      final dynamic gender_id,
+      final String? first_donation_date,
+      final num? total_donation_amount,
+      final String? sector,
+      final dynamic account_source_id,
+      final dynamic city_id,
+      final dynamic commitment_method_id,
+      final String? area,
+      final String? contact_person,
+      final String? contact_person_phone,
+      final dynamic alaman_contact_person_id,
+      final String? alaman_join_date,
+      final String? educational_organization_name,
+      final String? specialization,
+      final dynamic place_of_residence,
+      final dynamic educational_year_id,
+      final String? birthdate,
+      final String? e_wallet_number,
+      final dynamic e_wallet_status,
+      final dynamic scholarship_type_id,
+      final dynamic scholarship_status_id,
+      final String? scholarship_status_notes,
+      final String? rent_expiration_date,
+      final String? insurance_covering,
+      final String? insurance_covering_from_date,
+      final String? insurance_covering_to_date,
+      final int? donations_goal,
+      final String? created_at,
+      final String? updated_at,
+      final String? deleted_at,
+      final String? theme,
+      final String? theme_color,
+      final GenderModel? gender,
+      final CityModel? city,
+      final DonorDonation? donor_donation,
+      final EducationalYearModel? educational_year,
+      final ScholarshipStatusesModel? scholarship_status,
+      final ScholarshipTypesModel? scholarship_type,
+      final List<BeneficiaryPaymentModel>? beneficiary_payments,
+      final List<MarksModel>? marks}) = _$BeneficiaryModelImpl;
   const _BeneficiaryModel._() : super._();
 
   factory _BeneficiaryModel.fromJson(Map<String, dynamic> json) =
@@ -1370,6 +1397,8 @@ abstract class _BeneficiaryModel extends BeneficiaryModel {
   ScholarshipTypesModel? get scholarship_type;
   @override
   List<BeneficiaryPaymentModel>? get beneficiary_payments;
+  @override
+  List<MarksModel>? get marks;
   @override
   @JsonKey(ignore: true)
   _$$BeneficiaryModelImplCopyWith<_$BeneficiaryModelImpl> get copyWith =>

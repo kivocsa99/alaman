@@ -1,12 +1,12 @@
 import 'dart:math';
 
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/search.beneficiary.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +17,8 @@ class FilteredScreen extends HookConsumerWidget {
   final int cityId;
   final int educationalYearId;
   final String age;
+  final int? endAmount;
+  final bool? isCorporate;
   final int scholarshipTypeId;
   const FilteredScreen(
       {required this.genderId,
@@ -24,12 +26,17 @@ class FilteredScreen extends HookConsumerWidget {
       required this.educationalYearId,
       required this.age,
       required this.scholarshipTypeId,
+      this.isCorporate,
+      this.endAmount,
       super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(age);
     final state = ref.watch(paginatedBeneficiaryNotifierProvider);
     final notifier = ref.watch(paginatedBeneficiaryNotifierProvider.notifier);
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final scrollController = useScrollController();
     Random random = Random();
     int randomNumber = random.nextInt(3);
@@ -37,31 +44,29 @@ class FilteredScreen extends HookConsumerWidget {
       const Color(0xff4379BD),
       const Color(0xffFEE596),
       const Color(0xff93C1E8),
-    ]);
+    final scrollController = useScrollController();
+    final paginatedData = ref.watch(yourPaginatedDataNotifierProvider);
+
     useEffect(() {
-      void onScroll() {
+      Future<void> onScroll() async {
         if (scrollController.position.atEdge) {
-          bool isBottom = scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent;
-          if (isBottom && !state.hasReachedMax) {
-            notifier.fetchsearch(
-                genderId: genderId,
-                cityId: cityId,
-                educationalYearId: educationalYearId,
-                age: age,
-                scholarshipTypeId: scholarshipTypeId);
+          final bool isBottom = scrollController.position.pixels == scrollController.position.maxScrollExtent;
+          if (isBottom && !(paginatedData.value?.item3 ?? true)) { // Assuming item3 is hasReachedMax
+            // Trigger to fetch next page
+            ref.read(yourPaginatedDataNotifierProvider.notifier).fetchMoreData();
           }
         }
       }
 
-      notifier.fetchsearch(
-          genderId: genderId,
-          cityId: cityId,
-          educationalYearId: educationalYearId,
-          age: age,
-          scholarshipTypeId: scholarshipTypeId);
-
       scrollController.addListener(onScroll);
+      // Initial fetch
+      ref.read(yourPaginatedDataNotifierProvider.notifier).initialFetch(
+        genderId: genderId,
+        cityId: cityId,
+        educationalYearId: educationalYearId,
+        age: age,
+        scholarshipTypeId: scholarshipTypeId,
+      );
 
       return () => scrollController.removeListener(onScroll);
     }, [scrollController]);
@@ -92,11 +97,15 @@ class FilteredScreen extends HookConsumerWidget {
 
               return GestureDetector(
                 onTap: () => context.router.push(SposnerRoute(
-                    profileById: beneficaryItem.id.toString(), isdonor: false)),
+                    profileById: beneficaryItem.id.toString(),
+                    isdonor: isCorporate ?? false)),
                 child: Container(
-                  color: colorsList.value[randomNumber],
                   width: double.infinity,
-                  height: 250.0, // Set a fixed height for the container
+                  height: 250.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: colorsList.value[randomNumber],
+                  ),
                   child: Stack(
                     children: <Widget>[
                       Align(
@@ -118,7 +127,7 @@ class FilteredScreen extends HookConsumerWidget {
                                 // Brighten function is not native, you'd have to implement it
                                 Colors.white,
                                 colorsList.value[randomNumber]
-                                    .brighten(5)
+                                    .brighten(0)
                                     .withOpacity(0.3),
                               ],
                             ),
@@ -133,7 +142,9 @@ class FilteredScreen extends HookConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                beneficaryItem.name!,
+                                locale == "en"
+                                    ? beneficaryItem.name!
+                                    : beneficaryItem.name_ar!,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

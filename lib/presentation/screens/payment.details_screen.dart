@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
 import 'package:alaman/domain/paymentmodel/model/payment.model.dart';
@@ -20,8 +21,9 @@ class PaymentDetailScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final PaymentHistory = useState<DonorDonation>(history);
-
+    final paymentHistory = useState<DonorDonation>(history);
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
@@ -59,7 +61,9 @@ class PaymentDetailScreen extends HookConsumerWidget {
                               const ResponsiveRowColumnItem(child: Gap(10)),
                               ResponsiveRowColumnItem(
                                   child: Text(
-                                "${history.type!.name}",
+                                locale == "en"
+                                    ? history.type!.name!
+                                    : history.type!.name_ar!,
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium!
@@ -100,7 +104,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                       ),
                       itemBuilder: (context, index) {
                         final PaymentModel model =
-                            PaymentHistory.value.payments![index];
+                            paymentHistory.value.payments![index];
                         return Container(
                           padding: const EdgeInsets.all(15),
                           width: double.infinity,
@@ -128,7 +132,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                                           child: Gap(10)),
                                       ResponsiveRowColumnItem(
                                           child: Text(
-                                        "Payment #${PaymentHistory.value.payments![index].id}",
+                                        "Payment #${paymentHistory.value.payments![index].id}",
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyMedium!
@@ -139,7 +143,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                                           child: Gap(10)),
                                       ResponsiveRowColumnItem(
                                           child: Text(
-                                        "Payment amount : ${PaymentHistory.value.payments![index].amount} JD",
+                                        "Payment amount : ${paymentHistory.value.payments![index].amount} JD",
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyMedium!,
@@ -149,7 +153,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                                   ResponsiveRowColumnItem(
                                     child: Text(
                                       convertApiDate(
-                                          PaymentHistory.value.created_at!),
+                                          paymentHistory.value.created_at!),
                                       style: Theme.of(context)
                                           .primaryTextTheme
                                           .bodyMedium,
@@ -166,7 +170,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                                 children: [
                                   ResponsiveRowColumnItem(
                                       child: Text(
-                                    "Status : ${model.status!.name}",
+                                    "Status : ${locale == "en" ? model.status!.name : model.status!.name_ar}",
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .bodyMedium!
@@ -187,7 +191,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                               )),
                               ResponsiveRowColumnItem(
                                   child: Text(
-                                "Provider refrence : ${PaymentHistory.value.payments![index].provider_ref}",
+                                "Provider refrence : ${paymentHistory.value.payments![index].provider_ref}",
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium!
@@ -197,7 +201,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                           ),
                         );
                       },
-                      itemCount: PaymentHistory.value.payments!.length,
+                      itemCount: paymentHistory.value.payments!.length,
                     ))
               ],
             ),

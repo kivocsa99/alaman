@@ -16,6 +16,16 @@ class OnBoardingSteps extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final onBoardingTitle = [
+      "onboardingtitle1".tr(),
+      "onboardingtitle2".tr(),
+      "onboardingtitle3".tr(),
+    ];
+    final onBoardingDescription = [
+      "onboardingdescription1".tr(),
+      "onboardingdescription2".tr(),
+      "onboardingdescription3".tr(),
+    ];
     final locale =
         ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final controller1 =
@@ -157,11 +167,12 @@ class OnBoardingSteps extends HookConsumerWidget {
                     ),
                     height: 40,
                     width: 150,
-                    child: Text(index == 2 ? "Get started" : "Continue",
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .titleSmall
-                            ?.copyWith(color: Colors.white))),
+                    child: Text(index == 2 ? "getsarted" : "continue",
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .titleSmall
+                                ?.copyWith(color: Colors.white))
+                        .tr()),
               ),
             ),
           ),

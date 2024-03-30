@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -8,14 +9,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class ImpactContainer extends StatelessWidget {
+class ImpactContainer extends HookConsumerWidget {
   final BeneficiaryModel? beneficiary;
   const ImpactContainer({super.key, this.beneficiary});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     return Container(
       padding: const EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width < 400
@@ -72,7 +76,7 @@ class ImpactContainer extends StatelessWidget {
                 children: [
                   ResponsiveRowColumnItem(
                       child: Text(
-                    "${beneficiary!.name}",
+                    "${locale == "en" ? beneficiary!.name : beneficiary!.name_ar}",
                     style: Theme.of(context)
                         .primaryTextTheme
                         .bodyMedium!
@@ -80,7 +84,7 @@ class ImpactContainer extends StatelessWidget {
                   )),
                   ResponsiveRowColumnItem(
                       child: Text(
-                    "${beneficiary!.scholarship_type?.name}",
+                    "${locale == "en" ? beneficiary!.scholarship_type?.name : beneficiary!.scholarship_type?.name_ar}",
                     maxLines: 2,
                     style: Theme.of(context)
                         .primaryTextTheme
@@ -105,7 +109,7 @@ class ImpactContainer extends StatelessWidget {
             children: [
               ResponsiveRowColumnItem(
                   child: Text(
-                "Started: ${convertApiDate(beneficiary!.alaman_join_date!)} ",
+                "${"started".tr()}: ${convertApiDate(beneficiary!.alaman_join_date)} ",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .bodyMedium!
@@ -113,7 +117,7 @@ class ImpactContainer extends StatelessWidget {
               )),
               ResponsiveRowColumnItem(
                   child: Text(
-                "Target: ${formatNumber(beneficiary!.donations_goal!)}  ${"jod".tr()}",
+                "${"target".tr()}: ${formatNumber(beneficiary!.donations_goal!)}  ${"jod".tr()}",
                 style: Theme.of(context)
                     .primaryTextTheme
                     .bodyMedium!
@@ -137,7 +141,7 @@ class ImpactContainer extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
-                      " Impact Pathway",
+                      "impactpathway",
                       style: Theme.of(context)
                           .primaryTextTheme
                           .bodyMedium
@@ -147,7 +151,7 @@ class ImpactContainer extends StatelessWidget {
                             backgroundColor:
                                 const Color(0xffB2A1A1).withOpacity(0.3),
                           ),
-                    ),
+                    ).tr(),
                   )),
               const ResponsiveRowColumnItem(child: Gap(5)),
               ResponsiveRowColumnItem(
@@ -164,12 +168,12 @@ class ImpactContainer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: Text(
-                        "View Profile",
+                        "viewprofile",
                         style: Theme.of(context)
                             .primaryTextTheme
                             .bodyMedium
                             ?.copyWith(color: const Color(0xff58595B)),
-                      ),
+                      ).tr(),
                     ),
                   ))
             ],

@@ -28,6 +28,7 @@ class PaymentScreen extends HookConsumerWidget {
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) async {
+            print(url);
             if (url.contains("PaymentSuccess")) {
               context.router.replaceAll([MainRoute(isOrdered: true)]);
             }

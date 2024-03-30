@@ -24,11 +24,12 @@ class AuthRepository implements IAuthRepository {
     try {
       final result = await dio
           .get("$baseUrl/user/getToken?phone=$phone&password=$password");
-      print(result.realUri);
+
       if (result.data['AZSVR'] == "SUCCESS") {
         setting!
           ..isLoggedIn = true
           ..token = result.data["API_Token"]
+          ..isavatar = result.data["Image"] == null ? false : true
           ..role = result.data["AccountType"];
         await ref!.read(settingHiveNotifierProvider.notifier).addItem(setting);
         print(ref!.read(settingHiveNotifierProvider));
@@ -65,6 +66,7 @@ class AuthRepository implements IAuthRepository {
         userSettings!
           ..isLoggedIn = true
           ..role = result.data["AccountType"]
+          ..isavatar = result.data["Image"] == null ? false : true
           ..token = result.data["API_Token"];
         await ref!
             .read(settingHiveNotifierProvider.notifier)

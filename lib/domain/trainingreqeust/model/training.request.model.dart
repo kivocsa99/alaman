@@ -12,7 +12,7 @@ class TrainingRequestModel with _$TrainingRequestModel {
     int? id,
     int? beneficiary_id,
     int? training_program_id,
-    int? ematraining_request_status_idil,
+    int? training_request_status_id,
     String? training_date,
     String? training_time,
     String? notes,
@@ -45,7 +45,6 @@ class ProgramModel with _$ProgramModel {
     String? created_at,
     String? updated_at,
     String? deleted_at,
-    StatusModel? status,
   }) = _ProgramModel;
   const ProgramModel._();
   factory ProgramModel.fromJson(Map<String, dynamic> json) =>

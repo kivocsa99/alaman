@@ -27,6 +27,7 @@ class InitDonationUseCase
       location: input.location,
       isRecurring: input.isRecurring,
       startDate: input.startDate,
+      beneficiaryIds: input.beneficiaryIds,
       endDate: input.endDate,
       donationFrequencyId: input.donationFrequencyId,
       notes: input.notes,

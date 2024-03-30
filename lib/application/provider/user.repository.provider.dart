@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:alaman/domain/alamanreqeust/alaman.request.model.dart';
 import 'package:alaman/domain/failures/api.failures.dart';
 import 'package:alaman/domain/generic/model/generic.model.dart';
 import 'package:alaman/domain/news/model/news.model.dart';
 import 'package:alaman/domain/product/model/product.model.dart';
+import 'package:alaman/domain/trainingreqeust/model/training.request.model.dart';
 import 'package:alaman/domain/user/interface/i.user.repository.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/infrastructure/user/user.repository.dart';
@@ -17,6 +19,11 @@ final userRepositoryProvider =
 @riverpod
 Future<Either<ApiFailures, List<NewsModel>>> getNews(Ref ref) {
   return ref.watch(userRepositoryProvider).getNews();
+}
+
+@riverpod
+Future<Either<ApiFailures, dynamic>> deleteMyAccount(Ref ref) {
+  return ref.watch(userRepositoryProvider).deleteAccount();
 }
 
 @riverpod
@@ -41,7 +48,17 @@ Future<Either<ApiFailures, List<ProductModel>>> getProducts(Ref ref) {
 }
 
 @riverpod
-Future<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
+Future<Either<ApiFailures, List<AlamanRequestModel>>> getRequests(ref) {
+  return ref.watch(userRepositoryProvider).getservices();
+}
+
+@riverpod
+Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining(Ref ref) {
+  return ref.watch(userRepositoryProvider).gettraining();
+}
+
+@riverpod
+Future<Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?,bool?>>>
     searchBeneficiaries(
   Ref ref, {
   int? genderId,

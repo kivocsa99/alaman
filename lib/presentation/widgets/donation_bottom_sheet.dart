@@ -201,7 +201,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 Column(
                                   children: [
                                     Text(
-                                      "More Details",
+                                      "moredetails",
                                       textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .primaryTextTheme
@@ -210,12 +210,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                                               fontSize: 20,
                                               color: const Color(0xff16437B),
                                               fontWeight: FontWeight.w500),
-                                    ),
-                                    Text("Fill in the filters",
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium),
+                                    ).tr(),
+                                    Text("fillfilters",
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyMedium)
+                                        .tr(),
                                   ],
                                 ),
                                 IconButton(
@@ -257,16 +258,16 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                           onSelectedItemChanged:
                                                               (item) {
                                                             age.value =
-                                                                (item + 1)
+                                                                (item + 18)
                                                                     .toString();
                                                           },
                                                           children:
                                                               List.generate(
-                                                                  99,
+                                                                  7,
                                                                   (index) =>
                                                                       Center(
                                                                         child: Text((index +
-                                                                                1)
+                                                                                18)
                                                                             .toString()),
                                                                       ))),
                                                     ),
@@ -288,7 +289,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                             if (controller
                                                                     .selectedItem ==
                                                                 0) {
-                                                              age.value = "1";
+                                                              age.value = "18";
                                                             }
 
                                                             context.router
@@ -595,7 +596,9 @@ class DonationBottomSheet extends HookConsumerWidget {
                                     genderId: genderId.value,
                                     cityId: cityId.value,
                                     educationalYearId: yearId.value,
-                                    age: age.value,
+                                    age: age.value == "age".tr()
+                                        ? "18"
+                                        : age.value,
                                     scholarshipTypeId: typeId.value)),
                                 color: const Color(0xffFFC629),
                                 child: isLoading.value == false

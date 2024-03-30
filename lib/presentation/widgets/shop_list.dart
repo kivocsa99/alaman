@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -9,6 +10,8 @@ class ShopGridView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final products = ref.watch(getProductsProvider);
     return products.when(
         data: (data) => data.fold(
@@ -41,7 +44,9 @@ class ShopGridView extends HookConsumerWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              result[index].name!,
+                              locale == "en"
+                                  ? result[index].name!
+                                  : result[index].name_ar!,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,

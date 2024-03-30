@@ -4,6 +4,7 @@ import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/presentation/widgets/shimmer_affect.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -44,7 +45,9 @@ class GrantStatusContainer extends HookConsumerWidget {
                             children: [
                               ResponsiveRowColumnItem(
                                   child: Text(
-                                beneficiaryModel.name!,
+                                locale == "en"
+                                    ? beneficiaryModel.name!
+                                    : beneficiaryModel.name_ar!,
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium
@@ -80,7 +83,7 @@ class GrantStatusContainer extends HookConsumerWidget {
                                 .copyWith(fontWeight: FontWeight.w400),
                           )),
                           ResponsiveRowColumnItem(
-                              child: Text("Started : $date")),
+                              child: Text("${"started".tr()} : $date")),
                           ResponsiveRowColumnItem(
                               child: Container(
                             height: 30,
@@ -90,14 +93,14 @@ class GrantStatusContainer extends HookConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Text(
-                              "View",
+                              "view",
                               style: TextStyle(color: Colors.white),
-                            ),
+                            ).tr(),
                           )),
                         ],
                       ),
                     )
-                  : const Center(child: Text("you don't have any new Grants"));
+                  : Center(child: const Text("nogrants").tr());
             }),
         error: (error, stacktrace) => Text(error.toString()),
         loading: () => Container(

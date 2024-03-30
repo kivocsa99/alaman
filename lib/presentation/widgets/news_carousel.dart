@@ -1,7 +1,7 @@
-import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/news.provider.dart';
 import 'package:alaman/constants.dart';
+import 'package:alaman/presentation/screens/filtered_screen.dart';
 import 'package:alaman/presentation/widgets/news_modal_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -40,8 +40,9 @@ class NewsCarousel extends HookConsumerWidget {
             return Container(
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.symmetric(horizontal: 10),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
               child: GestureDetector(
                 onTap: () => showModalBottomSheet(
                   context: context,
@@ -51,35 +52,60 @@ class NewsCarousel extends HookConsumerWidget {
                   barrierColor: Colors.grey.withOpacity(0.7),
                   builder: (BuildContext context) {
                     return NewsBottomSheet(
-                      model: e,
+                      title: e.title!,
+                      titleAr: e.title_ar!,
+                      des: e.content!,
+                      desAr: e.content_ar!,
+                      createdAt: e.created_at!,
+                      image: e.image!,
                     );
                   },
                 ),
                 child: Stack(
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: "$storageUrl${e.image!}",
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                      imageBuilder: (context, imageProvider) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image(
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(
+                        imageUrl: "$storageUrl${e.image!}",
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        imageBuilder: (context, imageProvider) {
+                          return Image(
                             image: imageProvider,
                             fit: BoxFit.fill,
                             width: double.infinity,
                             height: double.infinity,
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xff4379BD).brighten(15),
+                              Colors.transparent
+                            ],
+                            begin: locale == "en"
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
+                            end: locale == "en"
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
                     Positioned(
                       top: 10,
                       left: 20,
                       bottom: 0,
+                      right: 20,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -87,12 +113,14 @@ class NewsCarousel extends HookConsumerWidget {
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .titleSmall
-                                ?.copyWith(color: Colors.white),
+                                ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal),
                           ).tr(),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
                           Container(
                             width: 250,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 0),
                             child: Text(
                               locale == "en" ? e.title! : e.title_ar!,
                               maxLines: 3,
@@ -100,13 +128,14 @@ class NewsCarousel extends HookConsumerWidget {
                                   .primaryTextTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                      color: Colors.white,
-                                      backgroundColor: const Color(0xffB12732)
-                                          .withOpacity(0.3)),
+                                    color: Colors.white,
+                                  ),
                             ),
                           ),
                           Align(
-                            alignment: Alignment.bottomLeft,
+                            alignment: locale == "en"
+                                ? Alignment.bottomLeft
+                                : Alignment.bottomRight,
                             child: Text(
                               date,
                               style: Theme.of(context)

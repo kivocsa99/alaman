@@ -82,6 +82,9 @@ _$BeneficiaryModelImpl _$$BeneficiaryModelImplFromJson(
           ?.map((e) =>
               BeneficiaryPaymentModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      marks: (json['marks'] as List<dynamic>?)
+          ?.map((e) => MarksModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$BeneficiaryModelImplToJson(
@@ -139,4 +142,5 @@ Map<String, dynamic> _$$BeneficiaryModelImplToJson(
       'scholarship_status': instance.scholarship_status,
       'scholarship_type': instance.scholarship_type,
       'beneficiary_payments': instance.beneficiary_payments,
+      'marks': instance.marks,
     };

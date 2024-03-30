@@ -23,8 +23,7 @@ mixin _$TrainingRequestModel {
   int? get id => throw _privateConstructorUsedError;
   int? get beneficiary_id => throw _privateConstructorUsedError;
   int? get training_program_id => throw _privateConstructorUsedError;
-  int? get ematraining_request_status_idil =>
-      throw _privateConstructorUsedError;
+  int? get training_request_status_id => throw _privateConstructorUsedError;
   String? get training_date => throw _privateConstructorUsedError;
   String? get training_time => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
@@ -52,7 +51,7 @@ abstract class $TrainingRequestModelCopyWith<$Res> {
       {int? id,
       int? beneficiary_id,
       int? training_program_id,
-      int? ematraining_request_status_idil,
+      int? training_request_status_id,
       String? training_date,
       String? training_time,
       String? notes,
@@ -85,7 +84,7 @@ class _$TrainingRequestModelCopyWithImpl<$Res,
     Object? id = freezed,
     Object? beneficiary_id = freezed,
     Object? training_program_id = freezed,
-    Object? ematraining_request_status_idil = freezed,
+    Object? training_request_status_id = freezed,
     Object? training_date = freezed,
     Object? training_time = freezed,
     Object? notes = freezed,
@@ -110,10 +109,9 @@ class _$TrainingRequestModelCopyWithImpl<$Res,
           ? _value.training_program_id
           : training_program_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      ematraining_request_status_idil: freezed ==
-              ematraining_request_status_idil
-          ? _value.ematraining_request_status_idil
-          : ematraining_request_status_idil // ignore: cast_nullable_to_non_nullable
+      training_request_status_id: freezed == training_request_status_id
+          ? _value.training_request_status_id
+          : training_request_status_id // ignore: cast_nullable_to_non_nullable
               as int?,
       training_date: freezed == training_date
           ? _value.training_date
@@ -195,7 +193,7 @@ abstract class _$$TrainingRequestModelImplCopyWith<$Res>
       {int? id,
       int? beneficiary_id,
       int? training_program_id,
-      int? ematraining_request_status_idil,
+      int? training_request_status_id,
       String? training_date,
       String? training_time,
       String? notes,
@@ -227,7 +225,7 @@ class __$$TrainingRequestModelImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? beneficiary_id = freezed,
     Object? training_program_id = freezed,
-    Object? ematraining_request_status_idil = freezed,
+    Object? training_request_status_id = freezed,
     Object? training_date = freezed,
     Object? training_time = freezed,
     Object? notes = freezed,
@@ -252,10 +250,9 @@ class __$$TrainingRequestModelImplCopyWithImpl<$Res>
           ? _value.training_program_id
           : training_program_id // ignore: cast_nullable_to_non_nullable
               as int?,
-      ematraining_request_status_idil: freezed ==
-              ematraining_request_status_idil
-          ? _value.ematraining_request_status_idil
-          : ematraining_request_status_idil // ignore: cast_nullable_to_non_nullable
+      training_request_status_id: freezed == training_request_status_id
+          ? _value.training_request_status_id
+          : training_request_status_id // ignore: cast_nullable_to_non_nullable
               as int?,
       training_date: freezed == training_date
           ? _value.training_date
@@ -308,7 +305,7 @@ class _$TrainingRequestModelImpl extends _TrainingRequestModel {
       {this.id,
       this.beneficiary_id,
       this.training_program_id,
-      this.ematraining_request_status_idil,
+      this.training_request_status_id,
       this.training_date,
       this.training_time,
       this.notes,
@@ -331,7 +328,7 @@ class _$TrainingRequestModelImpl extends _TrainingRequestModel {
   @override
   final int? training_program_id;
   @override
-  final int? ematraining_request_status_idil;
+  final int? training_request_status_id;
   @override
   final String? training_date;
   @override
@@ -355,7 +352,7 @@ class _$TrainingRequestModelImpl extends _TrainingRequestModel {
 
   @override
   String toString() {
-    return 'TrainingRequestModel(id: $id, beneficiary_id: $beneficiary_id, training_program_id: $training_program_id, ematraining_request_status_idil: $ematraining_request_status_idil, training_date: $training_date, training_time: $training_time, notes: $notes, national_id_number: $national_id_number, address: $address, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, status: $status, program: $program)';
+    return 'TrainingRequestModel(id: $id, beneficiary_id: $beneficiary_id, training_program_id: $training_program_id, training_request_status_id: $training_request_status_id, training_date: $training_date, training_time: $training_time, notes: $notes, national_id_number: $national_id_number, address: $address, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, status: $status, program: $program)';
   }
 
   @override
@@ -368,10 +365,10 @@ class _$TrainingRequestModelImpl extends _TrainingRequestModel {
                 other.beneficiary_id == beneficiary_id) &&
             (identical(other.training_program_id, training_program_id) ||
                 other.training_program_id == training_program_id) &&
-            (identical(other.ematraining_request_status_idil,
-                    ematraining_request_status_idil) ||
-                other.ematraining_request_status_idil ==
-                    ematraining_request_status_idil) &&
+            (identical(other.training_request_status_id,
+                    training_request_status_id) ||
+                other.training_request_status_id ==
+                    training_request_status_id) &&
             (identical(other.training_date, training_date) ||
                 other.training_date == training_date) &&
             (identical(other.training_time, training_time) ||
@@ -397,7 +394,7 @@ class _$TrainingRequestModelImpl extends _TrainingRequestModel {
       id,
       beneficiary_id,
       training_program_id,
-      ematraining_request_status_idil,
+      training_request_status_id,
       training_date,
       training_time,
       notes,
@@ -430,7 +427,7 @@ abstract class _TrainingRequestModel extends TrainingRequestModel {
       {final int? id,
       final int? beneficiary_id,
       final int? training_program_id,
-      final int? ematraining_request_status_idil,
+      final int? training_request_status_id,
       final String? training_date,
       final String? training_time,
       final String? notes,
@@ -453,7 +450,7 @@ abstract class _TrainingRequestModel extends TrainingRequestModel {
   @override
   int? get training_program_id;
   @override
-  int? get ematraining_request_status_idil;
+  int? get training_request_status_id;
   @override
   String? get training_date;
   @override
@@ -499,7 +496,6 @@ mixin _$ProgramModel {
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
-  StatusModel? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -526,10 +522,7 @@ abstract class $ProgramModelCopyWith<$Res> {
       int? Active,
       String? created_at,
       String? updated_at,
-      String? deleted_at,
-      StatusModel? status});
-
-  $StatusModelCopyWith<$Res>? get status;
+      String? deleted_at});
 }
 
 /// @nodoc
@@ -558,7 +551,6 @@ class _$ProgramModelCopyWithImpl<$Res, $Val extends ProgramModel>
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
-    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -613,23 +605,7 @@ class _$ProgramModelCopyWithImpl<$Res, $Val extends ProgramModel>
           ? _value.deleted_at
           : deleted_at // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as StatusModel?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $StatusModelCopyWith<$Res>? get status {
-    if (_value.status == null) {
-      return null;
-    }
-
-    return $StatusModelCopyWith<$Res>(_value.status!, (value) {
-      return _then(_value.copyWith(status: value) as $Val);
-    });
   }
 }
 
@@ -654,11 +630,7 @@ abstract class _$$ProgramModelImplCopyWith<$Res>
       int? Active,
       String? created_at,
       String? updated_at,
-      String? deleted_at,
-      StatusModel? status});
-
-  @override
-  $StatusModelCopyWith<$Res>? get status;
+      String? deleted_at});
 }
 
 /// @nodoc
@@ -685,7 +657,6 @@ class __$$ProgramModelImplCopyWithImpl<$Res>
     Object? created_at = freezed,
     Object? updated_at = freezed,
     Object? deleted_at = freezed,
-    Object? status = freezed,
   }) {
     return _then(_$ProgramModelImpl(
       id: freezed == id
@@ -740,10 +711,6 @@ class __$$ProgramModelImplCopyWithImpl<$Res>
           ? _value.deleted_at
           : deleted_at // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as StatusModel?,
     ));
   }
 }
@@ -764,8 +731,7 @@ class _$ProgramModelImpl extends _ProgramModel {
       this.Active,
       this.created_at,
       this.updated_at,
-      this.deleted_at,
-      this.status})
+      this.deleted_at})
       : super._();
 
   factory _$ProgramModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -797,12 +763,10 @@ class _$ProgramModelImpl extends _ProgramModel {
   final String? updated_at;
   @override
   final String? deleted_at;
-  @override
-  final StatusModel? status;
 
   @override
   String toString() {
-    return 'ProgramModel(id: $id, name: $name, name_ar: $name_ar, date_from: $date_from, date_to: $date_to, time_from: $time_from, national_id_number: $national_id_number, time_to: $time_to, notes: $notes, Active: $Active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, status: $status)';
+    return 'ProgramModel(id: $id, name: $name, name_ar: $name_ar, date_from: $date_from, date_to: $date_to, time_from: $time_from, national_id_number: $national_id_number, time_to: $time_to, notes: $notes, Active: $Active, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -828,8 +792,7 @@ class _$ProgramModelImpl extends _ProgramModel {
             (identical(other.updated_at, updated_at) ||
                 other.updated_at == updated_at) &&
             (identical(other.deleted_at, deleted_at) ||
-                other.deleted_at == deleted_at) &&
-            (identical(other.status, status) || other.status == status));
+                other.deleted_at == deleted_at));
   }
 
   @JsonKey(ignore: true)
@@ -848,8 +811,7 @@ class _$ProgramModelImpl extends _ProgramModel {
       Active,
       created_at,
       updated_at,
-      deleted_at,
-      status);
+      deleted_at);
 
   @JsonKey(ignore: true)
   @override
@@ -879,8 +841,7 @@ abstract class _ProgramModel extends ProgramModel {
       final int? Active,
       final String? created_at,
       final String? updated_at,
-      final String? deleted_at,
-      final StatusModel? status}) = _$ProgramModelImpl;
+      final String? deleted_at}) = _$ProgramModelImpl;
   const _ProgramModel._() : super._();
 
   factory _ProgramModel.fromJson(Map<String, dynamic> json) =
@@ -912,8 +873,6 @@ abstract class _ProgramModel extends ProgramModel {
   String? get updated_at;
   @override
   String? get deleted_at;
-  @override
-  StatusModel? get status;
   @override
   @JsonKey(ignore: true)
   _$$ProgramModelImplCopyWith<_$ProgramModelImpl> get copyWith =>

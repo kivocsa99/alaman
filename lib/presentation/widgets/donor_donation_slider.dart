@@ -16,36 +16,36 @@ class DonorDonationSlider extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<Map<String, dynamic>> donations = [
+    final donations = useState<List<Map<String, dynamic>>>([
       {
         'id': 1,
-        'title': 'sponsership'.tr(),
-        'description': "sponsershipdes".tr(),
+        'title': 'sponsership',
+        'description': "sponsershipdes",
         'image': 'assets/sponsership.png',
-        'donation': "recurring".tr()
+        'donation': "recurring"
       },
       {
         'id': 2,
-        'title': 'zakat'.tr(),
-        'description': "zakatdes".tr(),
+        'title': 'zakat',
+        'description': "zakatdes",
         'image': 'assets/zakat.png',
-        'donation': "ontime".tr()
+        'donation': "ontime"
       },
       {
         'id': 3,
-        'title': "sadaqa".tr(),
-        'description': "sadaqades".tr(),
+        'title': "sadaqa",
+        'description': "sadaqades",
         'image': 'assets/sadaqa.png',
-        'donation': "onetimeandrecurring".tr()
+        'donation': "onetimeandrecurring"
       },
       {
         'id': 4,
-        'title': 'ediah'.tr(),
-        'description': "eidiehdes".tr(),
+        'title': 'ediah',
+        'description': "eidiehdes",
         'image': 'assets/eid.png',
-        'donation': "ontime".tr()
+        'donation': "ontime"
       },
-    ];
+    ]);
 
     final generic = ref.watch(getGenericProvider);
 
@@ -131,9 +131,8 @@ class DonorDonationSlider extends HookConsumerWidget {
                                         height: 70,
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                                image: Image.asset(
-                                                        donations[index]
-                                                            ["image"])
+                                                image: Image.asset(donations
+                                                        .value[index]["image"])
                                                     .image,
                                                 fit: BoxFit.contain)),
                                       )),
@@ -142,7 +141,7 @@ class DonorDonationSlider extends HookConsumerWidget {
                                       ),
                                       ResponsiveRowColumnItem(
                                           child: Text(
-                                        donations[index]["title"],
+                                        donations.value[index]["title"],
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -150,16 +149,16 @@ class DonorDonationSlider extends HookConsumerWidget {
                                             ?.copyWith(
                                               color: const Color(0xff16437B),
                                             ),
-                                      )),
+                                      ).tr()),
                                       ResponsiveRowColumnItem(
                                           child: Text(
-                                        donations[index]["donation"],
+                                        donations.value[index]["donation"],
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyMedium
                                             ?.copyWith(fontSize: 14),
-                                      )),
+                                      ).tr()),
                                     ],
                                   ),
                                 ),

@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
@@ -17,11 +18,13 @@ class YourBeneficiariesScreen extends HookConsumerWidget {
   const YourBeneficiariesScreen({super.key, required this.beneficiary});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
-          title: "View",
-          description: "Beneficiaries Progress",
+          title: "view",
+          description: "beneficiaryprogress",
         ),
         body: ResponsiveWidget(
           child: Padding(
@@ -97,7 +100,7 @@ class YourBeneficiariesScreen extends HookConsumerWidget {
                                 children: [
                                   ResponsiveRowColumnItem(
                                       child: Text(
-                                    "${beneficiary[index].name}",
+                                    "${locale == "en" ? beneficiary[index].name : beneficiary[index].name_ar}",
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .bodyMedium!
@@ -106,7 +109,7 @@ class YourBeneficiariesScreen extends HookConsumerWidget {
                                   )),
                                   ResponsiveRowColumnItem(
                                       child: Text(
-                                    "${beneficiary[index].scholarship_type?.name}",
+                                    "${locale == "en" ? beneficiary[index].scholarship_type?.name : beneficiary[index].scholarship_type?.name_ar}",
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .bodyMedium!
@@ -143,7 +146,7 @@ class YourBeneficiariesScreen extends HookConsumerWidget {
                         children: [
                           ResponsiveRowColumnItem(
                               child: Text(
-                            "Started: ${convertApiDate(beneficiary[index].alaman_join_date!)} ",
+                            "${"started".tr()}: ${convertApiDate(beneficiary[index].alaman_join_date!)} ",
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .bodyMedium!
@@ -151,7 +154,7 @@ class YourBeneficiariesScreen extends HookConsumerWidget {
                           )),
                           ResponsiveRowColumnItem(
                               child: Text(
-                            "Target: ${formatNumber(beneficiary[index].donations_goal!)}  ${"jod".tr()}",
+                            "${"target".tr()}:: ${formatNumber(beneficiary[index].donations_goal!)}  ${"jod".tr()}",
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .bodyMedium!

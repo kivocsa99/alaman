@@ -5,43 +5,44 @@ import 'package:alaman/presentation/widgets/sadaqa_bottom_sheet.dart';
 import 'package:alaman/presentation/widgets/zakat_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DonationsGridView extends HookConsumerWidget {
-  DonationsGridView({super.key});
+  const DonationsGridView({super.key});
 
-  final List<Map<String, dynamic>> donations = [
-    {
-      'id': 1,
-      'title': 'sponsership'.tr(),
-      'description': "sponsershipdes".tr(),
-      'image': 'assets/sponsership.png',
-      'donation': "recurring".tr()
-    },
-    {
-      'id': 2,
-      'title': 'zakat'.tr(),
-      'description': "zakatdes".tr(),
-      'image': 'assets/zakat.png',
-      'donation': "ontime".tr()
-    },
-    {
-      'id': 3,
-      'title': "sadaqa".tr(),
-      'description': "sadaqades".tr(),
-      'image': 'assets/sadaqa.png',
-      'donation': "onetimeandrecurring".tr()
-    },
-    {
-      'id': 4,
-      'title': 'ediah'.tr(),
-      'description': "eidiehdes".tr(),
-      'image': 'assets/eid.png',
-      'donation': "ontime".tr()
-    },
-  ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final donations = useState<List<Map<String, dynamic>>>([
+      {
+        'id': 1,
+        'title': 'sponsership',
+        'description': "sponsershipdes",
+        'image': 'assets/sponsership.png',
+        'donation': "recurring"
+      },
+      {
+        'id': 2,
+        'title': 'zakat',
+        'description': "zakatdes",
+        'image': 'assets/zakat.png',
+        'donation': "ontime"
+      },
+      {
+        'id': 3,
+        'title': "sadaqa",
+        'description': "sadaqades",
+        'image': 'assets/sadaqa.png',
+        'donation': "onetimeandrecurring"
+      },
+      {
+        'id': 4,
+        'title': 'ediah',
+        'description': "eidiehdes",
+        'image': 'assets/eid.png',
+        'donation': "ontime"
+      },
+    ]);
     final generic = ref.watch(getGenericProvider);
     return generic.when(
         data: (data) => data.fold(
@@ -54,7 +55,7 @@ class DonationsGridView extends HookConsumerWidget {
                     mainAxisSpacing: 10,
                     childAspectRatio: 0.8,
                   ),
-                  itemCount: donations.length,
+                  itemCount: donations.value.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {
@@ -115,13 +116,13 @@ class DonationsGridView extends HookConsumerWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    donations[index]['donation'],
+                                    donations.value[index]['donation'],
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.grey,
                                       fontSize: 14,
                                     ),
-                                  ),
+                                  ).tr(),
                                   const SizedBox(height: 20),
                                   SizedBox(
                                     width: 70,
@@ -129,28 +130,28 @@ class DonationsGridView extends HookConsumerWidget {
                                     child: Image.asset(
                                       (index == 3 && r.EidiehEnabled!)
                                           ? "assets/eid_black.png"
-                                          : donations[index]['image'],
+                                          : donations.value[index]['image'],
                                       fit: BoxFit.contain,
                                     ),
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    donations[index]['title'],
+                                    donations.value[index]['title'],
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
-                                  ),
+                                  ).tr(),
                                   const SizedBox(height: 5),
                                   Text(
-                                    donations[index]['description'],
+                                    donations.value[index]['description'],
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.grey,
                                       fontSize: 14,
                                     ),
-                                  ),
+                                  ).tr(),
                                 ],
                               ),
                             ),

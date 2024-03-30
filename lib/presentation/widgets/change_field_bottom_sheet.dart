@@ -3,6 +3,7 @@ import 'package:alaman/application/auth/change_field/change_field.use_case.dart'
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart' as easy_localization;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -46,7 +47,7 @@ class ChangeFieldBottomSheet extends HookConsumerWidget {
                       ),
                     ),
                     Text(
-                      "Change $field",
+                      "${"change".tr()} ${"$field".tr()}",
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .primaryTextTheme
@@ -72,7 +73,7 @@ class ChangeFieldBottomSheet extends HookConsumerWidget {
                   validator: MultiValidator([
                     RequiredValidator(errorText: "This field is required"),
                   ]),
-                  hint: "New $field",
+                  hint: "${"new".tr()} ${"$field".tr()}",
                   inputAction: TextInputAction.done,
                   onChanged: (value) => textValue.value = value,
                 ),

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:alaman/application/provider/auth.repository.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
@@ -41,8 +40,8 @@ class ProfileScreen extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
-          title: "Profile",
-          description: "Your Profile",
+          title: "profile",
+          description: "yourprofile",
         ),
         body: profile.when(
             data: (data) => data.fold(
@@ -74,7 +73,9 @@ class ProfileScreen extends HookConsumerWidget {
                                     const Gap(30),
                                     Text(
                                       setting?.role == "Beneficiary"
-                                          ? model.name!
+                                          ? locale == "en"
+                                              ? model.name!
+                                              : model.name_ar!
                                           : model.User.name,
                                       style: Theme.of(context)
                                           .primaryTextTheme
@@ -115,11 +116,11 @@ class ProfileScreen extends HookConsumerWidget {
                                                 )),
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
-                                                  "Beneficiaries",
+                                                  "beneficiaries",
                                                   style: Theme.of(context)
                                                       .primaryTextTheme
                                                       .bodyMedium,
-                                                )),
+                                                ).tr()),
                                               ],
                                             )),
                                             ResponsiveRowColumnItem(
@@ -146,11 +147,11 @@ class ProfileScreen extends HookConsumerWidget {
                                                 )),
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
-                                                  "Total Giving",
+                                                  "totalgiving",
                                                   style: Theme.of(context)
                                                       .primaryTextTheme
                                                       .bodyMedium,
-                                                )),
+                                                ).tr()),
                                               ],
                                             )),
                                           ],
@@ -237,16 +238,16 @@ class ProfileScreen extends HookConsumerWidget {
                                 const Gap(10),
                                 Text(
                                   setting?.role == "Beneficiary"
-                                      ? "Manage Grants"
+                                      ? "managegrants"
                                       : setting?.role == "Donor"
-                                          ? "Your Beneficiaries"
-                                          : "Manage MOU",
+                                          ? "yourbeneficairies"
+                                          : "manageagreement",
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .titleSmall!
                                       .copyWith(
                                           color: Colors.white, fontSize: 16),
-                                )
+                                ).tr()
                               ],
                             ),
                           ),
@@ -255,12 +256,12 @@ class ProfileScreen extends HookConsumerWidget {
                             onTap: () =>
                                 context.router.push(ProfileDetailsRoute()),
                             title: Text(
-                              "Profile Details",
+                              "profiledetails",
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .bodyMedium
                                   ?.copyWith(color: const Color(0xff18447B)),
-                            ),
+                            ).tr(),
                             leading: const Icon(
                               Icons.person,
                               color: Color(0xff18447B),
@@ -270,25 +271,25 @@ class ProfileScreen extends HookConsumerWidget {
                               color: Color(0xff18447B),
                             ),
                           ),
-                          if (setting?.role != "Beneficiary") const Gap(10),
-                          if (setting?.role != "Beneficiary")
-                            ListTile(
-                              title: Text(
-                                "Scheduled Donations",
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium
-                                    ?.copyWith(color: const Color(0xff18447B)),
-                              ),
-                              leading: const Icon(
-                                Icons.calendar_month,
-                                color: Color(0xff18447B),
-                              ),
-                              trailing: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color(0xff18447B),
-                              ),
-                            ),
+                          // if (setting?.role != "Beneficiary") const Gap(10),
+                          // if (setting?.role != "Beneficiary")
+                          //   ListTile(
+                          //     title: Text(
+                          //       "Scheduled Donations",
+                          //       style: Theme.of(context)
+                          //           .primaryTextTheme
+                          //           .bodyMedium
+                          //           ?.copyWith(color: const Color(0xff18447B)),
+                          //     ),
+                          //     leading: const Icon(
+                          //       Icons.calendar_month,
+                          //       color: Color(0xff18447B),
+                          //     ),
+                          //     trailing: const Icon(
+                          //       Icons.arrow_forward_ios,
+                          //       color: Color(0xff18447B),
+                          //     ),
+                          //   ),
                           if (setting?.role != "Beneficiary") const Gap(10),
                           if (setting?.role != "Beneficiary")
                             ListTile(
@@ -296,12 +297,12 @@ class ProfileScreen extends HookConsumerWidget {
                                   PaymentHistoryRoute(
                                       donationHistory: r.User.donor_donations)),
                               title: Text(
-                                "History",
+                                "paymenthistory",
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium
                                     ?.copyWith(color: const Color(0xff18447B)),
-                              ),
+                              ).tr(),
                               leading: const Icon(
                                 Icons.history,
                                 color: Color(0xff18447B),
@@ -316,12 +317,12 @@ class ProfileScreen extends HookConsumerWidget {
                             onTap: () async =>
                                 await context.router.push(LanguageRoute()),
                             title: Text(
-                              "Language",
+                              "language",
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .bodyMedium
                                   ?.copyWith(color: const Color(0xff18447B)),
-                            ),
+                            ).tr(),
                             leading: const Icon(
                               Icons.language,
                               color: Color(0xff18447B),
@@ -340,12 +341,12 @@ class ProfileScreen extends HookConsumerWidget {
                               }
                             },
                             title: Text(
-                              "Help",
+                              "help",
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .bodyMedium
                                   ?.copyWith(color: const Color(0xff18447B)),
-                            ),
+                            ).tr(),
                             leading: const Icon(
                               Icons.help,
                               color: Color(0xff18447B),

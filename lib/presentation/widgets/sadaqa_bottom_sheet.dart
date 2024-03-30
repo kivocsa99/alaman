@@ -1,5 +1,6 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/donationfrequency/model/donation.frequency.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
@@ -35,21 +36,29 @@ class SadaqaBottomSheet extends HookConsumerWidget {
     final controller = FixedExtentScrollController();
     List<DonationFrequencyModel> modifiableList = List.from(donationFrequency);
     modifiableList.insert(
-        0, DonationFrequencyModel(id: -1, name: "One time donation"));
+        0,
+        const DonationFrequencyModel(
+            id: -1, name: "One time donation", name_ar: "التبرع لمرة واحدة"));
     final isLoading = useState(false);
     final selectedIndex = useState(0);
     final selectedIndex1 = useState(0);
     final currentStep = useState(0);
-    final type = useState(modifiableList[selectedIndex.value].name!);
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final type = useState(locale == "en"
+        ? modifiableList[selectedIndex.value].name!
+        : modifiableList[selectedIndex.value].name_ar!);
     final typeId = useState(modifiableList[selectedIndex.value].id!);
-    final type1 = useState(paymentMethods![selectedIndex1.value].name!);
+    final type1 = useState(locale == "en"
+        ? paymentMethods![selectedIndex1.value].name!
+        : paymentMethods![selectedIndex1.value].name_ar!);
     final typeId1 = useState(paymentMethods![selectedIndex1.value].id!);
     final sliderValue = useState(10.0);
     final imagesList = useState<List<String>>([
       "assets/coin1.png",
       "assets/coin2.png",
       "assets/coin3.png",
-      "assets/coin4.png"
+      "assets/coin4.png",
     ]);
     final coinsList = useState<List<double>>([25.0, 50.0, 75.0, 100.0]);
     return Container(
@@ -100,7 +109,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Select The Amount of\nThe Sadaqa",
+                                    "sadaqaamount",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -109,7 +118,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                             fontSize: 20,
                                             color: const Color(0xff16437B),
                                             fontWeight: FontWeight.bold),
-                                  ),
+                                  ).tr(),
                                   IconButton(
                                     onPressed: () => context.router.pop(),
                                     icon: const Icon(
@@ -176,15 +185,15 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                     .primaryTextTheme
                                     .bodyMedium!
                                     .copyWith(color: const Color(0xff16437B)),
-                              ),
+                              ).tr(),
                               const Gap(10),
                               Text(
-                                "Slide for a specific amount",
+                                "slidefor",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium,
-                              ),
+                              ).tr(),
                               const Gap(15),
                               Container(
                                 decoration: BoxDecoration(
@@ -261,7 +270,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Setup recuring\nDonation",
+                                        "setuprecuring",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -270,7 +279,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                                 fontSize: 20,
                                                 color: const Color(0xff16437B),
                                                 fontWeight: FontWeight.bold),
-                                      ),
+                                      ).tr(),
                                       IconButton(
                                         onPressed: () => context.router.pop(),
                                         icon: const Icon(
@@ -296,14 +305,17 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       raduis: 40,
                                       onTap: () async {
                                         selectedIndex.value = index;
-                                        type.value =
-                                            modifiableList[index].name!;
+                                        type.value = locale == "en"
+                                            ? modifiableList[index].name!
+                                            : modifiableList[index].name_ar!;
                                         typeId.value =
                                             modifiableList[index].id!;
                                         print("object");
                                       },
                                       child: Text(
-                                        modifiableList[index].name!,
+                                        locale == "en"
+                                            ? modifiableList[index].name!
+                                            : modifiableList[index].name_ar!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .titleSmall!
@@ -359,7 +371,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Choose a Payment\nMethod",
+                                        "choosepayment",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -368,7 +380,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                                 fontSize: 20,
                                                 color: const Color(0xff16437B),
                                                 fontWeight: FontWeight.bold),
-                                      ),
+                                      ).tr(),
                                       IconButton(
                                         onPressed: () => context.router.pop(),
                                         icon: const Icon(
@@ -394,14 +406,17 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       raduis: 40,
                                       onTap: () async {
                                         selectedIndex1.value = index;
-                                        type1.value =
-                                            donationFrequency[index].name!;
+                                        type1.value = locale == "en"
+                                            ? paymentMethods![index].name!
+                                            : paymentMethods![index].name_ar!;
                                         typeId1.value =
-                                            donationFrequency[index].id!;
+                                            paymentMethods![index].id!;
                                         print("object");
                                       },
                                       child: Text(
-                                        paymentMethods![index].name!,
+                                        locale == "en"
+                                            ? paymentMethods![index].name!
+                                            : paymentMethods![index].name_ar!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .titleSmall!
@@ -423,39 +438,59 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       onTap: () async {
                                         isLoading.value =
                                             true; // Show loading indicator
-
-                                        // Perform your logic here, for example, initiating a donation
-                                        await ref
-                                            .read(initDonationUseCaseProvider)
-                                            .execute(
-                                              InitDonationUseCaseInput(
-                                                paymentMethodId: typeId1.value,
-                                                donationTypeId: 3,
-                                                isRecurring:
-                                                    typeId.value == -1 ? 0 : 1,
-                                                totalAmount: sliderValue.value,
-                                              ),
-                                            )
-                                            .then((value) => value.fold(
-                                                  (l) async {
-                                                    // Handle error
-                                                    isLoading.value =
-                                                        false; // Hide loading indicator
-                                                    Navigator.of(context)
-                                                        .pop(); // Close the bottom sheet
-                                                  },
-                                                  (r) async {
-                                                    isLoading.value =
-                                                        false; // Hide loading indicator
-                                                    // Navigate to PaymentRoute
-                                                    // First, pop the bottom sheet
-                                                    context.router.pop();
-                                                    // Then navigate to PaymentRoute
-                                                    AutoRouter.of(context).push(
-                                                        PaymentRoute(
-                                                            baseurl: r["url"]));
-                                                  },
-                                                ));
+                                        if (typeId1.value ==
+                                            paymentMethods!
+                                                .firstWhere((element) =>
+                                                    element.name == "Cash")
+                                                .id) {
+                                          isLoading.value = false;
+                                          context.router.pop();
+                                          context.router
+                                              .push(LocationCheckerRoute(
+                                            paymentMethod: 1,
+                                            donationTypeId: 3,
+                                            recurring:
+                                                typeId.value == -1 ? 0 : 1,
+                                            amount: sliderValue.value,
+                                          ));
+                                        } else {
+                                          await ref
+                                              .read(initDonationUseCaseProvider)
+                                              .execute(
+                                                InitDonationUseCaseInput(
+                                                  paymentMethodId:
+                                                      typeId1.value,
+                                                  donationTypeId: 3,
+                                                  isRecurring:
+                                                      typeId.value == -1
+                                                          ? 0
+                                                          : 1,
+                                                  totalAmount:
+                                                      sliderValue.value,
+                                                ),
+                                              )
+                                              .then((value) => value.fold(
+                                                    (l) async {
+                                                      // Handle error
+                                                      isLoading.value =
+                                                          false; // Hide loading indicator
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the bottom sheet
+                                                    },
+                                                    (r) async {
+                                                      isLoading.value =
+                                                          false; // Hide loading indicator
+                                                      // Navigate to PaymentRoute
+                                                      // First, pop the bottom sheet
+                                                      context.router.pop();
+                                                      // Then navigate to PaymentRoute
+                                                      AutoRouter.of(context)
+                                                          .push(PaymentRoute(
+                                                              baseurl:
+                                                                  r["url"]));
+                                                    },
+                                                  ));
+                                        }
                                       },
                                       color: const Color(0xffFFC629),
                                       child: isLoading.value == false

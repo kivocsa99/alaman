@@ -1,3 +1,6 @@
+import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
+import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/donationfrequency/model/donation.frequency.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
@@ -6,6 +9,7 @@ import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:alaman/presentation/widgets/step_indicator.dart';
+import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart' as locale;
 import 'package:flutter/material.dart';
@@ -33,13 +37,16 @@ class EidBottomSheet extends HookConsumerWidget {
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
     final controller = FixedExtentScrollController();
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final isLoading = useState(false);
     final selectedIndex = useState(0);
     final selectedIndex1 = useState(0);
     final currentStep = useState(0);
-    final type = useState(donationFrequency[selectedIndex.value].name!);
-    final typeId = useState(donationFrequency[selectedIndex.value].id!);
-    final type1 = useState(paymentMethods![selectedIndex1.value].name!);
+
+    final type1 = useState(locale == "en"
+        ? paymentMethods![selectedIndex1.value].name!
+        : paymentMethods![selectedIndex1.value].name_ar!);
     final typeId1 = useState(paymentMethods![selectedIndex1.value].id!);
     final sliderValue = useState(10.0);
     final imagesList = useState<List<String>>([
@@ -97,7 +104,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Select Eidiah\nAmount",
+                                    "eidamount",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -106,7 +113,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                             fontSize: 20,
                                             color: const Color(0xff16437B),
                                             fontWeight: FontWeight.bold),
-                                  ),
+                                  ).tr(),
                                   IconButton(
                                     onPressed: () => context.router.pop(),
                                     icon: const Icon(
@@ -173,15 +180,15 @@ class EidBottomSheet extends HookConsumerWidget {
                                     .primaryTextTheme
                                     .bodyMedium!
                                     .copyWith(color: const Color(0xff16437B)),
-                              ),
+                              ).tr(),
                               const Gap(10),
                               Text(
-                                "Slide for a specific amount",
+                                "slidefor",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium,
-                              ),
+                              ).tr(),
                               const Gap(15),
                               Container(
                                 decoration: BoxDecoration(
@@ -233,7 +240,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                               .primaryTextTheme
                                               .titleSmall
                                               ?.copyWith(color: Colors.white),
-                                        )
+                                        ).tr()
                                       : const CircularProgressIndicator(),
                                 ),
                               ),
@@ -258,7 +265,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Send a Message\nwith youe Eidiah",
+                                        "messageeid",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -267,7 +274,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                                 fontSize: 20,
                                                 color: const Color(0xff16437B),
                                                 fontWeight: FontWeight.bold),
-                                      ),
+                                      ).tr(),
                                       IconButton(
                                         onPressed: () => context.router.pop(),
                                         icon: const Icon(
@@ -287,7 +294,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                       RequiredValidator(
                                           errorText: "This field is required"),
                                     ]),
-                                    hint: "Write Your Message",
+                                    hint: "writemessage",
                                     inputAction: TextInputAction.done,
                                     onChanged: (value) {},
                                   ),
@@ -310,7 +317,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                                   .titleSmall
                                                   ?.copyWith(
                                                       color: Colors.white),
-                                            )
+                                            ).tr()
                                           : const CircularProgressIndicator(),
                                     ),
                                   ),
@@ -334,7 +341,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Choose a Payment\nMethod",
+                                        "choosepayment",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .primaryTextTheme
@@ -343,7 +350,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                                 fontSize: 20,
                                                 color: const Color(0xff16437B),
                                                 fontWeight: FontWeight.bold),
-                                      ),
+                                      ).tr(),
                                       IconButton(
                                         onPressed: () => context.router.pop(),
                                         icon: const Icon(
@@ -369,14 +376,17 @@ class EidBottomSheet extends HookConsumerWidget {
                                       raduis: 40,
                                       onTap: () async {
                                         selectedIndex1.value = index;
-                                        type1.value =
-                                            donationFrequency[index].name!;
+                                        type1.value = locale == "en"
+                                            ? paymentMethods![index].name!
+                                            : paymentMethods![index].name_ar!;
                                         typeId1.value =
-                                            donationFrequency[index].id!;
+                                            paymentMethods![index].id!;
                                         print("object");
                                       },
                                       child: Text(
-                                        paymentMethods![index].name!,
+                                        locale == "en"
+                                            ? paymentMethods![index].name!
+                                            : paymentMethods![index].name_ar!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .titleSmall!
@@ -396,7 +406,58 @@ class EidBottomSheet extends HookConsumerWidget {
                                       raduis: 50,
                                       height: 50,
                                       onTap: () async {
-                                        // ref.read(initdo)
+                                        isLoading.value =
+                                            true; // Show loading indicator
+
+                                        // Perform your logic here, for example, initiating a donation
+                                        if (typeId1.value ==
+                                            paymentMethods!
+                                                .firstWhere((element) =>
+                                                    element.name == "Cash")
+                                                .id) {
+                                          isLoading.value = false;
+                                          context.router.pop();
+                                          context.router
+                                              .push(LocationCheckerRoute(
+                                            paymentMethod: 1,
+                                            donationTypeId: 4,
+                                            amount: sliderValue.value,
+                                          ));
+                                        } else {
+                                          await ref
+                                              .read(initDonationUseCaseProvider)
+                                              .execute(
+                                                InitDonationUseCaseInput(
+                                                  paymentMethodId:
+                                                      typeId1.value,
+                                                  donationTypeId: 4,
+                                                  isRecurring: 0,
+                                                  totalAmount:
+                                                      sliderValue.value,
+                                                ),
+                                              )
+                                              .then((value) => value.fold(
+                                                    (l) async {
+                                                      // Handle error
+                                                      isLoading.value =
+                                                          false; // Hide loading indicator
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the bottom sheet
+                                                    },
+                                                    (r) async {
+                                                      isLoading.value =
+                                                          false; // Hide loading indicator
+                                                      // Navigate to PaymentRoute
+                                                      // First, pop the bottom sheet
+                                                      context.router.pop();
+                                                      // Then navigate to PaymentRoute
+                                                      AutoRouter.of(context)
+                                                          .push(PaymentRoute(
+                                                              baseurl:
+                                                                  r["url"]));
+                                                    },
+                                                  ));
+                                        }
                                       },
                                       color: const Color(0xffFFC629),
                                       child: isLoading.value == false
@@ -407,7 +468,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                                   .titleSmall
                                                   ?.copyWith(
                                                       color: Colors.white),
-                                            )
+                                            ).tr()
                                           : const CircularProgressIndicator(),
                                     ),
                                   ),

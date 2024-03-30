@@ -136,7 +136,9 @@ class CityStep extends HookConsumerWidget {
                                               onPressed: () async {
                                                 if (controller.selectedItem ==
                                                     0) {
-                                                  city.value = cities[0].name!;
+                                                  city.value = locale == "en"
+                                                      ? cities[0].name!
+                                                      : cities[0].name_ar!;
                                                   cityId.value = cities[0].id!;
                                                   register.value.cityId =
                                                       cities[0].id!.toString();

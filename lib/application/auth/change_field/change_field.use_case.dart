@@ -1,9 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:alaman/application/core/use_cases/i.use_case.dart';
-import 'package:alaman/application/provider/auth.repository.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
-import 'package:alaman/domain/auth/interface/i.auth.repository.dart';
 import 'package:alaman/domain/failures/api.failures.dart';
 import 'package:alaman/domain/user/interface/i.user.repository.dart';
 import "package:fpdart/fpdart.dart";

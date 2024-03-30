@@ -102,7 +102,7 @@ class EmailStep extends HookConsumerWidget {
               ).animate(
                   CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
               child: GestureDetector(
-                onTap: () => context.router.push(LoginRoute()),
+                onTap: () => context.router.push(const LoginRoute()),
                 child: Text(
                   "acountexists",
                   style: Theme.of(context)

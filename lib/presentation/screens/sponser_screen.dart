@@ -1,4 +1,3 @@
-import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
@@ -40,6 +39,11 @@ class SposnerScreen extends HookConsumerWidget {
             data: (data) => data.fold(
                     (l) => Text(l.message ?? "internetconnection").tr(), (r) {
                   final BeneficiaryModel model = r;
+                  final endamount = model.donations_goal! -
+                      (model.beneficiary_payments!.fold(0.0,
+                          (sum, current) => sum + current.amount!.toDouble()));
+
+                  print(endamount);
                   return ResponsiveWidget(
                     child: Container(
                       width: double.infinity,
@@ -73,7 +77,9 @@ class SposnerScreen extends HookConsumerWidget {
                                     children: <Widget>[
                                       const Gap(30),
                                       Text(
-                                        model.name!,
+                                        locale == "en"
+                                            ? model.name!
+                                            : model.name_ar!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyMedium
@@ -90,12 +96,26 @@ class SposnerScreen extends HookConsumerWidget {
                                 ),
                                 Positioned(
                                   top: -30,
-                                  child: Container(
-                                    width: 70,
-                                    height: 70,
-                                    decoration: const BoxDecoration(
+                                  child: CachedNetworkImage(
+                                    imageUrl: "$storageUrl/${model.image}",
+                                    placeholder: (context, url) => const Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      width: 70,
+                                      height: 70,
+                                      decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Colors.red),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          scale: 2.5,
+                                          fit: BoxFit
+                                              .contain, // Adjust to your needs
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -105,7 +125,7 @@ class SposnerScreen extends HookConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${"years".tr()}${model.birthdate}",
+                                  "${model.birthdate}",
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .bodyMedium!
@@ -198,9 +218,7 @@ class SposnerScreen extends HookConsumerWidget {
                                   color: const Color(0xffF9F9F9)),
                               child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.ROW,
-                                rowMainAxisAlignment: locale == "en"
-                                    ? MainAxisAlignment.end
-                                    : MainAxisAlignment.start,
+                                rowMainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   ResponsiveRowColumnItem(
                                     child: Container(
@@ -289,7 +307,9 @@ class SposnerScreen extends HookConsumerWidget {
                                     children: [
                                       ResponsiveRowColumnItem(
                                           child: Text(
-                                        model.name!,
+                                        locale == "en"
+                                            ? model.name!
+                                            : model.name_ar!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyMedium!
@@ -311,42 +331,46 @@ class SposnerScreen extends HookConsumerWidget {
                               ),
                             ),
                             Gap(40),
-                            AuthContainer(
-                              color: const Color(0xffFFC629),
-                              height: 50,
-                              raduis: 40,
-                              onTap: () async => await ref
-                                  .read(getGenericProvider.future)
-                                  .then((value) => value.fold(
-                                      (l) => ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content:
-                                                  Text("internetconnection")
-                                                      .tr())),
-                                      (r) => showModalBottomSheet(
-                                          context: context,
-                                          backgroundColor: Colors.white,
-                                          enableDrag: true,
-                                          isScrollControlled: true,
-                                          barrierColor:
-                                              Colors.grey.withOpacity(0.7),
-                                          builder: (BuildContext ctx) {
-                                            return SponserBottomSheet(
-                                                paymentMethods:
-                                                    r.PaymentMethods,
-                                                donationFrequency:
-                                                    r.DonationFrequencies!);
-                                          }))),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "sponser",
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                        color: Colors.white, fontSize: 16),
-                              ).tr(),
-                            )
+                            if (isdonor == false)
+                              AuthContainer(
+                                color: const Color(0xffFFC629),
+                                height: 50,
+                                raduis: 40,
+                                onTap: () async => await ref
+                                    .read(getGenericProvider.future)
+                                    .then((value) => value.fold(
+                                        (l) => ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text("internetconnection")
+                                                        .tr())),
+                                        (r) => showModalBottomSheet(
+                                            context: context,
+                                            backgroundColor: Colors.white,
+                                            enableDrag: true,
+                                            isScrollControlled: true,
+                                            barrierColor:
+                                                Colors.grey.withOpacity(0.7),
+                                            builder: (BuildContext ctx) {
+                                              return SponserBottomSheet(
+                                                  id: profileById,
+                                                  endAmount:
+                                                      endamount.toDouble(),
+                                                  paymentMethods:
+                                                      r.PaymentMethods,
+                                                  donationFrequency:
+                                                      r.DonationFrequencies!);
+                                            }))),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "sponser",
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: Colors.white, fontSize: 16),
+                                ).tr(),
+                              )
                           ],
                         ),
                       ),

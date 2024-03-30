@@ -1,4 +1,3 @@
-import 'package:alaman/domain/usersetting/model/user.setting.model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,7 +29,6 @@ class LanguageHiveNotifier extends _$LanguageHiveNotifier {
       state = getItemFromBox();
     } catch (e) {
       // Handle the error, maybe log it or show a user-friendly message
-      print('Error adding item to box: $e');
     }
   }
 }

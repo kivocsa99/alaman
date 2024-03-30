@@ -2,6 +2,7 @@ import 'package:alaman/application/beneficiary/new_alaman_reqeust_use_case/new_a
 import 'package:alaman/application/beneficiary/new_alaman_reqeust_use_case/new_alaman_reqeust_use_case.input.dart';
 import 'package:alaman/application/beneficiary/new_training_reqeust_use_case/new_training_reqeust_use_case.dart';
 import 'package:alaman/application/beneficiary/new_training_reqeust_use_case/new_training_reqeust_use_case.input.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/alamanservices/model/alamanservices.model.dart';
 import 'package:alaman/domain/trainingreqeust/model/training.request.model.dart';
@@ -29,16 +30,19 @@ class RequestBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final formKey = useState(GlobalKey<FormState>());
     final scrollcontroller = FixedExtentScrollController(initialItem: 0);
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
-    final notes = useState("");
+    final notes = useState("notes".tr());
     final id = useState(-1);
-    final date = useState("Date");
-    final time = useState("Time");
+    final date = useState("date".tr());
+    final time = useState("time".tr());
     final isLoading = useState(false);
-    final availabe = useState(
-        isProgram == false ? "Available Services" : "Available Training");
+    final availabe = useState(isProgram == false
+        ? "availableservices".tr()
+        : "availabletraining".tr());
 
     return Padding(
       padding: EdgeInsets.only(
@@ -61,19 +65,18 @@ class RequestBottomSheet extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    isProgram == true
-                        ? 'Request a Training'
-                        : "Request Service",
+                    isProgram == true ? 'reqtraining' : 'reqservice',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .primaryTextTheme
                         .bodyLarge
                         ?.copyWith(
                             fontSize: 23, color: const Color(0xff16437B)),
-                  ),
-                  Text("Fill in the Request",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).primaryTextTheme.bodyMedium),
+                  ).tr(),
+                  Text("fillrequest",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).primaryTextTheme.bodyMedium)
+                      .tr(),
                   const Gap(40),
                   Container(
                     decoration: BoxDecoration(
@@ -102,19 +105,27 @@ class RequestBottomSheet extends HookConsumerWidget {
                                             date.value = convertApiDate(
                                                 model.date_from!);
                                             time.value = model.time_from!;
-                                            availabe.value = model.name!;
+                                            availabe.value = locale == "en"
+                                                ? model.name!
+                                                : model.name_ar!;
                                           } else {
                                             final model = services![value];
                                             id.value = model.id!;
-                                            availabe.value = model.name!;
+                                            availabe.value = locale == "en"
+                                                ? model.name!
+                                                : model.name_ar!;
                                           }
                                         },
                                         children: isProgram == true
                                             ? programs!
-                                                .map((e) => Text(e.name!))
+                                                .map((e) => Text(locale == "en"
+                                                    ? e.name!
+                                                    : e.name_ar!))
                                                 .toList()
                                             : services!
-                                                .map((e) => Text(e.name!))
+                                                .map((e) => Text(locale == "en"
+                                                    ? e.name!
+                                                    : e.name_ar!))
                                                 .toList(),
                                       ),
                                     ),
@@ -131,24 +142,26 @@ class RequestBottomSheet extends HookConsumerWidget {
                                                   programs![0].date_from!);
                                               time.value =
                                                   programs![0].time_from!;
-                                              availabe.value =
-                                                  programs![0].name!;
+                                              availabe.value = locale == "en"
+                                                  ? programs![0].name!
+                                                  : programs![0].name_ar!;
                                             } else {
                                               id.value = services![0].id!;
-                                              availabe.value =
-                                                  services![0].name!;
+                                              availabe.value = locale == "en"
+                                                  ? services![0].name!
+                                                  : services![0].name_ar!;
                                             }
                                           }
                                           context.router.pop();
                                         },
                                         color: const Color(0xffFFC629),
                                         child: Text(
-                                          "Confirm",
+                                          "confirm",
                                           style: Theme.of(context)
                                               .primaryTextTheme
                                               .titleSmall
                                               ?.copyWith(color: Colors.white),
-                                        ),
+                                        ).tr(),
                                       ),
                                     )
                                   ],
@@ -209,7 +222,7 @@ class RequestBottomSheet extends HookConsumerWidget {
                     validator: MultiValidator([
                       RequiredValidator(errorText: "This field is required"),
                     ]),
-                    hint: "Notes",
+                    hint: notes.value,
                     inputAction: TextInputAction.done,
                     onChanged: (value) => notes.value = value,
                   ),
@@ -240,9 +253,9 @@ class RequestBottomSheet extends HookConsumerWidget {
 
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                              content: Text(isProgram
-                                                  ? "You have requested the training"
-                                                  : "You have requested the service")));
+                                              content:
+                                                  const Text("selectedtrainig")
+                                                      .tr()));
                                       context.router.pop();
                                     }));
                           } else {
@@ -260,27 +273,30 @@ class RequestBottomSheet extends HookConsumerWidget {
                                       isLoading.value = false;
 
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "You have requested the request")));
+                                          .showSnackBar(SnackBar(
+                                              content:
+                                                  const Text("selectedservice")
+                                                      .tr()));
                                       context.router.pop();
                                     }));
                           }
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Please select a training")));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(isProgram
+                                      ? "selecttraining"
+                                      : "selectservice")
+                                  .tr()));
                         }
                       },
                       color: const Color(0xffFFC629),
                       child: isLoading.value == false
                           ? Text(
-                              "Submit Request",
+                              "sumbitreq",
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .titleSmall
                                   ?.copyWith(color: Colors.black),
-                            )
+                            ).tr()
                           : const CircularProgressIndicator(),
                     ),
                   ),

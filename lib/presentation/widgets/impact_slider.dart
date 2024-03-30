@@ -12,7 +12,7 @@ class ImpactSlider extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(getProfileProvider);
     return profile.when(
-        data: (data) => data.fold((l) => Text("internetconnection").tr(), (r) {
+        data: (data) => data.fold((l) => const Text("internetconnection").tr(), (r) {
               final SharedDonorModel model = r;
               final List<BeneficiaryModel> beneficiaries =
                   model.beneficiaries ?? [];

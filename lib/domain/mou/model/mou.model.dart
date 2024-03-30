@@ -1,10 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
 
-import 'package:alaman/domain/city/model/city.model.dart';
-import 'package:alaman/domain/donorbeneficiary/model/donor.beneficiary.model.dart';
-import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
-import 'package:alaman/domain/donortype/model/donor.type.model.dart';
-import 'package:alaman/domain/gender/model/gender.model.dart';
 import 'package:alaman/domain/status/model/status.model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

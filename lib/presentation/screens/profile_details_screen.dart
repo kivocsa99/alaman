@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:alaman/application/provider/auth.repository.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
@@ -27,6 +28,8 @@ class ProfileDetailsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     Random random = Random();
     int randomNumber = random.nextInt(3);
     final colorsList = useState<List<Color>>([
@@ -40,9 +43,9 @@ class ProfileDetailsScreen extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
-          title: "Profile",
-          description: "Profile Details",
-        ),
+          title: "profile",
+          description: "profiledetails",
+      ),
         body: profile.when(
             data: (data) => data.fold(
                     (l) => Text(l.message ?? "internetconnection").tr(), (r) {
@@ -107,14 +110,14 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                         onTap: () => context.router
                                             .push(const SetAvatarRoute()),
                                         child: Text(
-                                          "Change your Character",
+                                          "changecharacter",
                                           style: Theme.of(context)
                                               .primaryTextTheme
                                               .bodyMedium
                                               ?.copyWith(
                                                   color:
                                                       const Color(0xff2A7DE1)),
-                                        )),
+                                        ).tr()),
                                     GestureDetector(
                                       onTap: () => showModalBottomSheet(
                                           context: context,
@@ -129,11 +132,11 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                             );
                                           }),
                                       child: Text(
-                                        "Edit Bio",
+                                        "editbio",
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyMedium,
-                                      ),
+                                      ).tr(),
                                     )
                                   ],
                                 ),
@@ -141,14 +144,16 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                             ),
                           const Gap(20),
                           Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: locale == "en"
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
                             child: Text(
-                              "Contact Info",
+                              "contactinfo",
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .titleSmall!
                                   .copyWith(color: const Color(0xff16437B)),
-                            ),
+                            ).tr(),
                           ),
                           ProfileContainer(
                               ontap: () => showModalBottomSheet(
@@ -159,12 +164,12 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                   barrierColor: Colors.grey.withOpacity(0.7),
                                   builder: (BuildContext ctx) {
                                     return const ChangeFieldBottomSheet(
-                                      field: "name",
+                                      field: "fullname",
                                     );
                                   }),
-                              title: "Name",
+                              title: "fullname",
                               description:
-                                  "${setting?.role != "Beneficiary" ? model.User.name : model.name}"),
+                                  "${setting?.role != "Beneficiary" ? model.User.name : (locale == "en") ? model.name : model.name_ar}"),
                           const Gap(10),
                           ProfileContainer(
                               ontap: () => showModalBottomSheet(
@@ -178,95 +183,103 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                       field: "email",
                                     );
                                   }),
-                              title: "Email",
+                              title: "email",
                               description:
                                   "${setting?.role != "Beneficiary" ? model.User.email : model.email}"),
                           const Gap(10),
                           ProfileContainer(
-                              title: "Mobile Number",
+                              title: "phonenumber",
                               description:
                                   "${setting?.role != "Beneficiary" ? model.User.phone : model.phone}"),
                           const Gap(10),
                           Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: locale == "en"
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
                             child: Text(
-                              "Your phone number is kept completely confidential",
+                              "confidintialphone",
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .titleSmall
                                   ?.copyWith(color: const Color(0xff16437B)),
-                            ),
+                            ).tr(),
                           ),
                           const Gap(10),
                           Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: locale == "en"
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
                             child: Text(
-                              "Details",
+                              "details",
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .titleSmall!
                                   .copyWith(color: const Color(0xff16437B)),
-                            ),
+                            ).tr(),
                           ),
                           ProfileContainer(
-                              title: "Gender",
+                              title: "gender",
                               description:
-                                  "${setting?.role != "Beneficiary" ? model.User.gender!.name : model.gender!.name}"),
+                                  "${setting?.role != "Beneficiary" ? (locale == "en") ? model.User.gender.name : model.User.gender.name_ar : (locale == "en") ? model.gender.name : model.gender.name_ar}"),
                           const Gap(10),
                           ProfileContainer(
-                              title: "Date Joind",
+                              title: "joindate",
                               description: convertApiDate(
                                   setting?.role != "Beneficiary"
                                       ? model.User.created_at ?? ""
                                       : model.alaman_join_date ?? "")),
                           const Gap(10),
                           ProfileContainer(
-                              title: "National Id",
+                              title: "nationalid",
                               description:
                                   "${setting?.role != "Beneficiary" ? model.User.national_id_number ?? "" : model.national_id_number ?? ""}"),
                           const Gap(10),
                           ProfileContainer(
-                              title: "Address",
+                              title: "address",
                               description:
                                   "${setting?.role != "Beneficiary" ? model.User.address ?? "" : model.address ?? ""}"),
                           const Gap(10),
                           if (setting?.role == "Beneficiary")
                             Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: locale == "en"
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
                               child: Text(
-                                "Education",
+                                "education",
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .titleSmall!
                                     .copyWith(color: const Color(0xff16437B)),
-                              ),
+                              ).tr(),
                             ),
                           if (setting?.role == "Beneficiary")
                             const ProfileContainer(
-                                title: "Estimated Graduation Date",
+                                title: "estimatedgraduation",
                                 description: "no data"),
                           if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
-                                title: "Educational Organization Name",
+                                title: "educationalorgname",
                                 description:
                                     "${model.educational_organization_name}"),
                           if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
-                                title: "Specialization",
+                                title: "specialization",
                                 description: "${model.specialization}"),
                           if (setting?.role == "Beneficiary") const Gap(20),
                           if (setting?.role == "Beneficiary")
                             Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: locale == "en"
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
                               child: Text(
-                                "EWallet",
+                                "ewallet",
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .titleSmall!
                                     .copyWith(color: const Color(0xff16437B)),
-                              ),
+                              ).tr(),
                             ),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
@@ -280,41 +293,43 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                           if (setting?.role == "Beneficiary") const Gap(20),
                           if (setting?.role == "Beneficiary")
                             Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: locale == "en"
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
                               child: Text(
-                                "Details",
+                                "education",
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .titleSmall!
                                     .copyWith(color: const Color(0xff16437B)),
-                              ),
+                              ).tr(),
                             ),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
-                                title: "Type of Scholarship",
+                                title: "typeofscholarship",
                                 description:
                                     "${model.scholarship_type?.name ?? ""}"),
                           const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
-                                title: "Status of the Scholarship",
+                                title: "statusofscholarship",
                                 description:
                                     "${model.scholarship_status?.name ?? ""}"),
                           if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
-                                title: "Rent Expiration Date",
+                                title: "statusofscholarship",
                                 description: convertApiDate(
                                     model.rent_expiration_date ?? "")),
                           if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
-                                title: "Insurance Covering",
+                                title: "insurance",
                                 description: "${model.insurance_covering}"),
                           if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(
-                                title: "Insurance Covering Date ",
+                                title: "insurancedate",
                                 description: convertApiDate(
                                     model.insurance_covering_to_date ?? "")),
                           const Gap(50),
@@ -324,7 +339,7 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                           //       .then((value) async => await context.router
                           //           .replaceAll([const OnBoardingRoute()])),
                           //   child: Align(
-                          //     alignment: Alignment.centerLeft,
+                          //     alignment: locale =="en"?Alignment.centerLeft:Alignment.centerRight,
                           //     child: Text(
                           //       "Change password",
                           //       style: Theme.of(context)
@@ -336,18 +351,39 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                           // ),
                           GestureDetector(
                             onTap: () async => await ref
-                                .read(logOutProvider.future)
+                                .read(deleteMyAccountProvider.future)
                                 .then((value) async => await context.router
                                     .replaceAll([const OnBoardingRoute()])),
                             child: Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: locale == "en"
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
                               child: Text(
-                                "Sign Out",
+                                "deleteaccount",
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .bodyMedium
                                     ?.copyWith(color: const Color(0xff2A7DE1)),
-                              ),
+                              ).tr(),
+                            ),
+                          ),
+                          Gap(10),
+                          GestureDetector(
+                            onTap: () async => await ref
+                                .read(logOutProvider.future)
+                                .then((value) async => await context.router
+                                    .replaceAll([const OnBoardingRoute()])),
+                            child: Align(
+                              alignment: locale == "en"
+                                  ? Alignment.centerLeft
+                                  : Alignment.centerRight,
+                              child: Text(
+                                "signout",
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: const Color(0xff2A7DE1)),
+                              ).tr(),
                             ),
                           ),
                           const Gap(50),
@@ -356,7 +392,7 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                     ),
                   );
                 }),
-            error: (error, stackTrace) => Text(error.toString()),
+            error: (error, stackTrace) => Text(stackTrace.toString()),
             loading: () => const CircularProgressIndicator()),
       ),
     );

@@ -1,14 +1,14 @@
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
-import 'package:alaman/presentation/widgets/impact_container.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/presentation/widgets/shimmer_affect.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -17,118 +17,273 @@ class YourGrantsScreen extends HookConsumerWidget {
   const YourGrantsScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(getProfileProvider);
-    return SafeArea(
-      child: Scaffold(
-        appBar: const CustomAppBar(
-          title: "View",
-          description: "View your Grants",
-        ),
-        body: ResponsiveWidget(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: profile.when(
-                data: (data) => data.fold((l) => Text(l.toString()), (r) {
-                      final BeneficiaryModel beneficiaryModel = r;
-
-                      final date = beneficiaryModel.alaman_join_date != null
-                          ? convertApiDate(beneficiaryModel.alaman_join_date!)
-                          : "";
-                      return beneficiaryModel.scholarship_type != null
-                          ? Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                width: double.infinity,
-                                height: 130,
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: ResponsiveRowColumn(
-                                  layout: ResponsiveRowColumnType.COLUMN,
-                                  columnCrossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  columnMainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    ResponsiveRowColumnItem(
+    final training = ref.watch(gettrainingProvider);
+    final requests = ref.watch(getRequestsProvider);
+    final locale =
+        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final controller = usePageController();
+    return ResponsiveWidget(
+      child: SafeArea(
+        child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: CustomAppBar(
+              title: "view",
+              description: "viewgrants",
+              tabbar: TabBar(
+                  labelColor: const Color(0xff16437B),
+                  indicatorColor: const Color(0xff16437B),
+                  tabs: [
+                    Tab(
+                      text: "training".tr(),
+                    ),
+                    Tab(
+                      text: "services".tr(),
+                    )
+                  ]),
+            ),
+            body: TabBarView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: training.when(
+                      data: (data) => data.fold((l) => Text(l.toString()), (r) {
+                            return r.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: r.length,
+                                    itemBuilder: (context, index) => Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 130,
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
                                         child: ResponsiveRowColumn(
-                                      layout: ResponsiveRowColumnType.ROW,
-                                      rowMainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ResponsiveRowColumnItem(
-                                            child: Text(
-                                          beneficiaryModel.name!,
-                                          style: Theme.of(context)
-                                              .primaryTextTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                  color:
-                                                      const Color(0xff16437B)),
-                                        )),
-                                        const ResponsiveRowColumnItem(
-                                          child: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Color(0xff16437B),
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                                    ResponsiveRowColumnItem(
-                                        child: Text(
-                                      beneficiaryModel.scholarship_type!.name!,
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .titleSmall!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w400),
-                                    )),
-                                    ResponsiveRowColumnItem(
+                                          layout:
+                                              ResponsiveRowColumnType.COLUMN,
+                                          columnCrossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          columnMainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ResponsiveRowColumnItem(
+                                                child: ResponsiveRowColumn(
+                                              layout:
+                                                  ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ResponsiveRowColumnItem(
+                                                    child: Text(
+                                                  locale == "en"
+                                                      ? r[index].program!.name!
+                                                      : r[index]
+                                                          .program!
+                                                          .name_ar!,
+                                                  style: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(
+                                                          color: const Color(
+                                                              0xff16437B)),
+                                                )),
+                                                const ResponsiveRowColumnItem(
+                                                  child: Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    color: Color(0xff16437B),
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                            ResponsiveRowColumnItem(
+                                                child: Text(
+                                              "",
+                                              style: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                            )),
+                                            ResponsiveRowColumnItem(
+                                                child: ResponsiveRowColumn(
+                                              layout:
+                                                  ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ResponsiveRowColumnItem(
+                                                    child: Text(
+                                                        "${"orderhistory".tr()} :${convertApiDate(r[index].created_at!)}")),
+                                                ResponsiveRowColumnItem(
+                                                    child: Container(
+                                                  alignment: Alignment.center,
+                                                  height: 25,
+                                                  width: 70,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.green,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30)),
+                                                  child: Text(
+                                                    locale == "en"
+                                                        ? r[index].status!.name!
+                                                        : r[index]
+                                                            .status!
+                                                            .name_ar!,
+                                                    style: const TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ))
+                                              ],
+                                            ))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : const Center(
+                                    child:
+                                        Text("you don't have any new Grants"));
+                          }),
+                      error: (error, stacktrace) => Text(error.toString()),
+                      loading: () => Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15)),
+                            width: double.infinity,
+                            height: 150,
+                            child: ShimmerAffect(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(15)),
+                            ),
+                          )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: requests.when(
+                      data: (data) => data.fold((l) => Text(l.toString()), (r) {
+                            return r.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: r.length,
+                                    itemBuilder: (context, index) => Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 130,
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
                                         child: ResponsiveRowColumn(
-                                      layout: ResponsiveRowColumnType.ROW,
-                                      rowMainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ResponsiveRowColumnItem(
-                                            child: Text("Started : $date")),
-                                        ResponsiveRowColumnItem(
-                                            child: Container(
-                                          alignment: Alignment.center,
-                                          height: 20,
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                              color: Colors.green,
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          child: Text(
-                                            beneficiaryModel
-                                                .scholarship_status!.name!,
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ))
-                                      ],
-                                    ))
-                                  ],
-                                ),
-                              ),
-                            )
-                          : const Center(
-                              child: Text("you don't have any new Grants"));
-                    }),
-                error: (error, stacktrace) => Text(error.toString()),
-                loading: () => Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15)),
-                      width: double.infinity,
-                      height: 150,
-                      child: ShimmerAffect(
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(15)),
-                      ),
-                    )),
+                                          layout:
+                                              ResponsiveRowColumnType.COLUMN,
+                                          columnCrossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          columnMainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ResponsiveRowColumnItem(
+                                                child: ResponsiveRowColumn(
+                                              layout:
+                                                  ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ResponsiveRowColumnItem(
+                                                    child: Text(
+                                                  locale == "en"
+                                                      ? r[index].type!.name!
+                                                      : r[index].type!.name_ar!,
+                                                  style: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(
+                                                          color: const Color(
+                                                              0xff16437B)),
+                                                )),
+                                                const ResponsiveRowColumnItem(
+                                                  child: Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    color: Color(0xff16437B),
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                            ResponsiveRowColumnItem(
+                                                child: Text(
+                                              "${"notes".tr()} : ${r[index].notes ?? ""}",
+                                              style: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                            )),
+                                            ResponsiveRowColumnItem(
+                                                child: ResponsiveRowColumn(
+                                              layout:
+                                                  ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ResponsiveRowColumnItem(
+                                                    child: Text(
+                                                        "${"orderhistory".tr()} :${convertApiDate(r[index].created_at!)}")),
+                                                ResponsiveRowColumnItem(
+                                                    child: Container(
+                                                  alignment: Alignment.center,
+                                                  height: 25,
+                                                  width: 70,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.green,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30)),
+                                                  child: Text(
+                                                    locale == "en"
+                                                        ? r[index].status!.name!
+                                                        : r[index]
+                                                            .status!
+                                                            .name_ar!,
+                                                    style: const TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ))
+                                              ],
+                                            ))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : const Center(
+                                    child:
+                                        Text("you don't have any new Grants"));
+                          }),
+                      error: (error, stacktrace) => Text(error.toString()),
+                      loading: () => Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15)),
+                            width: double.infinity,
+                            height: 150,
+                            child: ShimmerAffect(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(15)),
+                            ),
+                          )),
+                )
+              ],
+            ),
           ),
         ),
       ),

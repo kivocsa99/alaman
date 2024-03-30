@@ -13,10 +13,15 @@ import 'package:latlong2/latlong.dart';
 class LocationCheckerScreen extends HookConsumerWidget {
   final int? paymentMethod;
   final int? donationTypeId;
+  final int? recurring;
 
   final double? amount;
   const LocationCheckerScreen(
-      {super.key, this.paymentMethod, this.amount, this.donationTypeId});
+      {super.key,
+      this.paymentMethod,
+      this.amount,
+      this.donationTypeId,
+      this.recurring});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,9 +37,11 @@ class LocationCheckerScreen extends HookConsumerWidget {
                 InitDonationUseCaseInput(
                   paymentMethodId: paymentMethod,
                   donationTypeId: donationTypeId,
-                  isRecurring: 0,
-                  // startDate: ,
-                  // endDate: ,
+                  isRecurring: recurring,
+                  location: {
+                    "lat": "${markpointer.value.latitude}",
+                    "lng": "${markpointer.value.longitude}"
+                  },
                   totalAmount: amount,
                 ),
               )
@@ -42,15 +49,13 @@ class LocationCheckerScreen extends HookConsumerWidget {
                     (l) async {
                       // Handle error
                       isLoading.value = false; // Hide loading indicator
-                      Navigator.of(context).pop(); // Close the bottom sheet
                     },
                     (r) async {
                       isLoading.value = false; // Hide loading indicator
                       // Navigate to PaymentRoute
                       // First, pop the bottom sheet
                       // Then navigate to PaymentRoute
-                      AutoRouter.of(context)
-                          .replaceAll([MainRoute(isOrdered: true)]);
+                      context.router.replaceAll([MainRoute(isOrdered: true)]);
                     },
                   ));
         },

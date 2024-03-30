@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/domain/usersetting/model/user.setting.model.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -8,15 +7,15 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-  await Hive.initFlutter();
-  Hive.registerAdapter(UserSettingsAdapter());
-  Hive.registerAdapter(UserRegistrationAdapter());
-  await Hive.openBox("setting");
-  await Hive.openBox("register");
-  await Hive.openBox("login");
+  void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await EasyLocalization.ensureInitialized();
+    await Hive.initFlutter();
+    Hive.registerAdapter(UserSettingsAdapter());
+    Hive.registerAdapter(UserRegistrationAdapter());
+    await Hive.openBox("setting");
+    await Hive.openBox("register");
+    await Hive.openBox("login");
   await Hive.openBox("lan");
   runApp(EasyLocalization(
       supportedLocales: const [Locale('ar'), Locale('en')],
@@ -31,7 +30,6 @@ class MyAppScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
         bottomSheetTheme: const BottomSheetThemeData(
             surfaceTintColor: Colors.white, modalBackgroundColor: Colors.white),
@@ -97,12 +95,4 @@ class MyAppScreen extends HookConsumerWidget {
       routerConfig: appRouter.config(),
     );
   }
-}
-
-class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      };
 }

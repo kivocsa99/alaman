@@ -23,8 +23,9 @@ mixin _$DonorTypeModel {
   int? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get name_ar => throw _privateConstructorUsedError;
-  double? get start_amount => throw _privateConstructorUsedError;
-  double? get end_amount => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
+  String? get start_amount => throw _privateConstructorUsedError;
+  String? get end_amount => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   String? get updated_at => throw _privateConstructorUsedError;
   String? get deleted_at => throw _privateConstructorUsedError;
@@ -45,8 +46,9 @@ abstract class $DonorTypeModelCopyWith<$Res> {
       {int? id,
       String? name,
       String? name_ar,
-      double? start_amount,
-      double? end_amount,
+      String? image,
+      String? start_amount,
+      String? end_amount,
       String? created_at,
       String? updated_at,
       String? deleted_at});
@@ -68,6 +70,7 @@ class _$DonorTypeModelCopyWithImpl<$Res, $Val extends DonorTypeModel>
     Object? id = freezed,
     Object? name = freezed,
     Object? name_ar = freezed,
+    Object? image = freezed,
     Object? start_amount = freezed,
     Object? end_amount = freezed,
     Object? created_at = freezed,
@@ -87,14 +90,18 @@ class _$DonorTypeModelCopyWithImpl<$Res, $Val extends DonorTypeModel>
           ? _value.name_ar
           : name_ar // ignore: cast_nullable_to_non_nullable
               as String?,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
       start_amount: freezed == start_amount
           ? _value.start_amount
           : start_amount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       end_amount: freezed == end_amount
           ? _value.end_amount
           : end_amount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -123,8 +130,9 @@ abstract class _$$DonorTypeModelImplCopyWith<$Res>
       {int? id,
       String? name,
       String? name_ar,
-      double? start_amount,
-      double? end_amount,
+      String? image,
+      String? start_amount,
+      String? end_amount,
       String? created_at,
       String? updated_at,
       String? deleted_at});
@@ -144,6 +152,7 @@ class __$$DonorTypeModelImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? name_ar = freezed,
+    Object? image = freezed,
     Object? start_amount = freezed,
     Object? end_amount = freezed,
     Object? created_at = freezed,
@@ -163,14 +172,18 @@ class __$$DonorTypeModelImplCopyWithImpl<$Res>
           ? _value.name_ar
           : name_ar // ignore: cast_nullable_to_non_nullable
               as String?,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
       start_amount: freezed == start_amount
           ? _value.start_amount
           : start_amount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       end_amount: freezed == end_amount
           ? _value.end_amount
           : end_amount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -194,6 +207,7 @@ class _$DonorTypeModelImpl extends _DonorTypeModel {
       {this.id,
       this.name,
       this.name_ar,
+      this.image,
       this.start_amount,
       this.end_amount,
       this.created_at,
@@ -211,9 +225,11 @@ class _$DonorTypeModelImpl extends _DonorTypeModel {
   @override
   final String? name_ar;
   @override
-  final double? start_amount;
+  final String? image;
   @override
-  final double? end_amount;
+  final String? start_amount;
+  @override
+  final String? end_amount;
   @override
   final String? created_at;
   @override
@@ -223,7 +239,7 @@ class _$DonorTypeModelImpl extends _DonorTypeModel {
 
   @override
   String toString() {
-    return 'DonorTypeModel(id: $id, name: $name, name_ar: $name_ar, start_amount: $start_amount, end_amount: $end_amount, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
+    return 'DonorTypeModel(id: $id, name: $name, name_ar: $name_ar, image: $image, start_amount: $start_amount, end_amount: $end_amount, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at)';
   }
 
   @override
@@ -234,6 +250,7 @@ class _$DonorTypeModelImpl extends _DonorTypeModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.name_ar, name_ar) || other.name_ar == name_ar) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.start_amount, start_amount) ||
                 other.start_amount == start_amount) &&
             (identical(other.end_amount, end_amount) ||
@@ -248,8 +265,8 @@ class _$DonorTypeModelImpl extends _DonorTypeModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, name_ar, start_amount,
-      end_amount, created_at, updated_at, deleted_at);
+  int get hashCode => Object.hash(runtimeType, id, name, name_ar, image,
+      start_amount, end_amount, created_at, updated_at, deleted_at);
 
   @JsonKey(ignore: true)
   @override
@@ -271,8 +288,9 @@ abstract class _DonorTypeModel extends DonorTypeModel {
       {final int? id,
       final String? name,
       final String? name_ar,
-      final double? start_amount,
-      final double? end_amount,
+      final String? image,
+      final String? start_amount,
+      final String? end_amount,
       final String? created_at,
       final String? updated_at,
       final String? deleted_at}) = _$DonorTypeModelImpl;
@@ -288,9 +306,11 @@ abstract class _DonorTypeModel extends DonorTypeModel {
   @override
   String? get name_ar;
   @override
-  double? get start_amount;
+  String? get image;
   @override
-  double? get end_amount;
+  String? get start_amount;
+  @override
+  String? get end_amount;
   @override
   String? get created_at;
   @override

@@ -1,4 +1,5 @@
 import 'package:alaman/presentation/widgets/change_field_bottom_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -13,6 +14,7 @@ class ProfileContainer extends HookConsumerWidget {
     return GestureDetector(
       onTap: ontap,
       child: Container(
+        width: double.infinity,
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -25,7 +27,7 @@ class ProfileContainer extends HookConsumerWidget {
             Text(
               title!,
               style: Theme.of(context).primaryTextTheme.bodyMedium,
-            ),
+            ).tr(),
             Text(
               description!,
               style: Theme.of(context)

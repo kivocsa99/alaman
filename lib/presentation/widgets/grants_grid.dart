@@ -2,31 +2,31 @@ import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/presentation/widgets/request_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GrantsGridView extends HookConsumerWidget {
-  GrantsGridView({super.key});
+  const GrantsGridView({super.key});
 
-  final List<Map<String, dynamic>> grants = [
-    {
-      'title': 'Request\nFrom Al Aman',
-      'description': 'Providing financial\nassistance for teens',
-      'image': 'assets/amanreq.png',
-    },
-    {
-      'title': 'Eligibility\nSystem',
-      'description': 'Give a portion of your\nwealth to help those in',
-      'image': 'assets/elegibity.png',
-    },
-    {
-      'title': 'Training\nRequest',
-      'description': 'Spread kindness and\ncontribute funds to help',
-      'image': 'assets/training.png',
-    },
-  ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final generic = ref.watch(getGenericProvider);
+    final grants = useState<List<Map<String, dynamic>>>([
+      {
+        'title': "alamanreq",
+        'description': 'Providing financial\nassistance for teens',
+        'image': 'assets/amanreq.png',
+      },
+      {
+        'title': "elegibility",
+        'description': 'Give a portion of your\nwealth to help those in',
+        'image': 'assets/elegibity.png',
+      },
+      {
+        'title': 'trainingreq',
+        'description': 'Spread kindness and\ncontribute funds to help',
+        'image': 'assets/training.png',
+      },
+    ]);
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -35,14 +35,14 @@ class GrantsGridView extends HookConsumerWidget {
         mainAxisSpacing: 10,
         childAspectRatio: 0.8,
       ),
-      itemCount: grants.length,
+      itemCount: grants.value.length,
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () async {
             final result = await ref.read(getGenericProvider.future);
             return result.fold(
-                (l) => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l.message ?? "internetconnection").tr())),
+                (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l.message ?? "internetconnection").tr())),
                 (r) async {
               index != 1
                   ? showModalBottomSheet(
@@ -72,28 +72,19 @@ class GrantsGridView extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  grants[index]['image'],
+                  grants.value[index]['image'],
                   width: 100,
                   height: 100,
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  grants[index]['title'],
+                  grants.value[index]['title'],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  grants[index]['description'],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                  ),
-                ),
+                ).tr(),
               ],
             ),
           ),

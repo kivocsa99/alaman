@@ -5,10 +5,8 @@ import 'package:alaman/domain/alamanreqeust/alaman.request.model.dart';
 import 'package:alaman/domain/failures/api.failures.dart';
 import 'package:alaman/domain/trainingreqeust/model/training.request.model.dart';
 import 'package:alaman/domain/user/interface/i.beneficiary.repository.dart';
-import 'package:alaman/domain/usersetting/model/user.setting.model.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BeneficiaryRepository implements IBeneficiaryRepository {

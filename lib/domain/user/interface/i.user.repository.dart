@@ -26,6 +26,13 @@ abstract class IUserRepository {
   Future<Either<ApiFailures, List<ProductModel>>> getProducts();
   Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining();
   Future<Either<ApiFailures, List<AlamanRequestModel>>> getservices();
+  Future<Either<ApiFailures, Tuple2<List<String>, num>>>
+      getrecurringSchedule({
+    double? amount,
+    String? endate,
+    String? startDate,
+    String? donationfrequencyid,
+  });
 
   Future<Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>>
       searchBeneficiaries({

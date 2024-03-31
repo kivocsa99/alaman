@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class AuthField extends HookWidget {
   final TextEditingController? controller;
   final bool? obsecuretext;
@@ -77,7 +77,7 @@ class AuthField extends HookWidget {
               borderSide: BorderSide(color: Colors.red)),
           contentPadding:
               const EdgeInsets.only(left: 30, top: 10, bottom: 10, right: 30),
-          hintText: hint,
+          hintText: hint?.tr(),
           hintStyle: const TextStyle(
             color: Colors.black26,
             fontSize: 17,

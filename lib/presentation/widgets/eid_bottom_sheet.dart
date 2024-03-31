@@ -420,6 +420,7 @@ class EidBottomSheet extends HookConsumerWidget {
                                           context.router
                                               .push(LocationCheckerRoute(
                                             paymentMethod: 1,
+                                          recurring: 0,
                                             donationTypeId: 4,
                                             amount: sliderValue.value,
                                           ));

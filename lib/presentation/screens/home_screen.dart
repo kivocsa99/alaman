@@ -418,7 +418,7 @@ class HomeScreen extends HookConsumerWidget {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                              "news",
+                                                              "campaign",
                                                               style: Theme.of(
                                                                       context)
                                                                   .primaryTextTheme

@@ -11,7 +11,10 @@ import 'package:alaman/presentation/widgets/step_indicator.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart' as locale;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart' as easey;
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -61,6 +64,8 @@ class SadaqaBottomSheet extends HookConsumerWidget {
       "assets/coin4.png",
     ]);
     final coinsList = useState<List<double>>([25.0, 50.0, 75.0, 100.0]);
+        final startDate = useState("startdate".tr());
+    final endDate = useState("enddate".tr());
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -87,7 +92,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: StepIndicator(
-                        currentStep: currentStep.value, stepCount: 3),
+                        currentStep: currentStep.value, stepCount: 4),
                   ),
                 ),
                 AnimatedSwitcher(
@@ -336,7 +341,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                       height: 50,
                                       onTap: () async {
                                         currentStep.value =
-                                            currentStep.value + 1;
+                                         typeId.value==-1?  currentStep.value+2 :currentStep.value + 1;
                                       },
                                       color: const Color(0xffFFC629),
                                       child: isLoading.value == false
@@ -353,7 +358,295 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                   ),
                                 ],
                               )
-                            : Column(
+                            :(currentStep.value==2&&typeId.value!=-1)?Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () => currentStep.value =
+                                                currentStep.value - 1,
+                                            icon: const Icon(
+                                              Icons.arrow_back,
+                                              color: Color(0xff16437B),
+                                            ),
+                                          ),
+                                          Text(
+                                            "setup",
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    fontSize: 20,
+                                                    color:
+                                                        const Color(0xff16437B),
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ).tr(),
+                                          IconButton(
+                                            onPressed: () =>
+                                                context.router.pop(),
+                                            icon: const Icon(
+                                              Icons.close,
+                                              color: Color(0xff16437B),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Gap(40),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (_) => Container(
+                                                    height: 250,
+                                                    color: const Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 180,
+                                                          child:
+                                                              CupertinoDatePicker(
+                                                                  dateOrder:
+                                                                      DatePickerDateOrder
+                                                                          .dmy,
+                                                                  mode:
+                                                                      CupertinoDatePickerMode
+                                                                          .date,
+                                                                  initialDateTime:
+                                                                      DateTime
+                                                                          .now(),
+                                                                  minimumDate:
+                                                                      DateTime(
+                                                                          1980),
+                                                                  maximumDate:
+                                                                      DateTime
+                                                                          .now(),
+                                                                  onDateTimeChanged:
+                                                                      (val) async {
+                                                                    startDate
+                                                                        .value = easey.DateFormat(
+                                                                            'yyyy-MM-dd')
+                                                                        .format(
+                                                                            val);
+                                                                  }),
+                                                        ),
+
+                                                        // Close the modal
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .bottomCenter,
+                                                          child: SizedBox(
+                                                            height: 70,
+                                                            child:
+                                                                CupertinoButton(
+                                                              child: const Text(
+                                                                      'confirm',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Color(0xff18447B)))
+                                                                  .tr(),
+                                                              onPressed:
+                                                                  () async {
+                                                                startDate.value ==
+                                                                        "startdate"
+                                                                            .tr()
+                                                                    ? startDate
+                                                                        .value = easey.DateFormat(
+                                                                            'yyyy-MM-dd')
+                                                                        .format(
+                                                                            DateTime.now())
+                                                                    : null;
+                                                                context.router
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ));
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 30,
+                                              top: 10,
+                                              bottom: 10,
+                                              right: 10),
+                                          width: double.infinity,
+                                          height: 70,
+                                          alignment: Alignment.centerLeft,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15))),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                startDate.value,
+                                                style: const TextStyle(
+                                                  color: Colors.black26,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w800,
+                                                ),
+                                              ),
+                                              const Icon(
+                                                Icons.calendar_month,
+                                                color: Colors.black26,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (_) => Container(
+                                                    height: 250,
+                                                    color: const Color.fromARGB(
+                                                        255, 255, 255, 255),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 180,
+                                                          child:
+                                                              CupertinoDatePicker(
+                                                                  dateOrder:
+                                                                      DatePickerDateOrder
+                                                                          .dmy,
+                                                                  mode: CupertinoDatePickerMode
+                                                                      .date,
+                                                                  initialDateTime: DateTime
+                                                                          .now()
+                                                                      .add(const Duration(
+                                                                          seconds:
+                                                                              1)),
+                                                                  minimumDate:
+                                                                      DateTime
+                                                                          .now(),
+                                                                  maximumDate: DateTime
+                                                                          .now()
+                                                                      .add(Duration(
+                                                                          days: 365 *
+                                                                              5)),
+                                                                  onDateTimeChanged:
+                                                                      (val) async {
+                                                                    endDate
+                                                                        .value = easey.DateFormat(
+                                                                            'yyyy-MM-dd')
+                                                                        .format(
+                                                                            val);
+                                                                  }),
+                                                        ),
+
+                                                        // Close the modal
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .bottomCenter,
+                                                          child: SizedBox(
+                                                            height: 70,
+                                                            child:
+                                                                CupertinoButton(
+                                                              child: const Text(
+                                                                      'confirm',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Color(0xff18447B)))
+                                                                  .tr(),
+                                                              onPressed:
+                                                                  () async {
+                                                                endDate.value ==
+                                                                        "enddate"
+                                                                            .tr()
+                                                                    ? endDate.value = startDate
+                                                                        .value = easey.DateFormat(
+                                                                            'yyyy-MM-dd')
+                                                                        .format(
+                                                                            DateTime.now())
+                                                                    : null;
+                                                                context.router
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ));
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 30,
+                                              top: 10,
+                                              bottom: 10,
+                                              right: 10),
+                                          width: double.infinity,
+                                          height: 70,
+                                          alignment: Alignment.centerLeft,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15))),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                endDate.value,
+                                                style: const TextStyle(
+                                                  color: Colors.black26,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w800,
+                                                ),
+                                              ),
+                                              const Icon(
+                                                Icons.calendar_month,
+                                                color: Colors.black26,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      
+                                      const Gap(50),
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: AuthContainer(
+                                          raduis: 50,
+                                          height: 50,
+                                          onTap: () async {
+                                            if (startDate.value !=
+                                                    "startdate".tr() ||
+                                                endDate.value !=
+                                                    "enddate".tr()) {
+                                              currentStep.value =
+                                                  currentStep.value + 1;
+                                            }
+                                          },
+                                          color: const Color(0xffFFC629),
+                                          child: isLoading.value == false
+                                              ? Text(
+                                                  "next",
+                                                  style: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .titleSmall
+                                                      ?.copyWith(
+                                                          color: Colors.white),
+                                                ).tr()
+                                              : const CircularProgressIndicator(),
+                                        ),
+                                      ),
+                                    ],
+                                  ): Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 mainAxisSize: MainAxisSize.min,
@@ -364,7 +657,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                     children: [
                                       IconButton(
                                         onPressed: () => currentStep.value =
-                                            currentStep.value - 1,
+                                       typeId.value==-1?currentStep.value-2:   currentStep.value - 1,
                                         icon: const Icon(
                                           Icons.arrow_back,
                                           color: Color(0xff16437B),
@@ -448,7 +741,11 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                           context.router
                                               .push(LocationCheckerRoute(
                                             paymentMethod: 1,
+                                            endDate: endDate.value=="enddate".tr()?null:endDate.value,
+                                            startDate: startDate.value=="startdate".tr()?null:startDate.value,
+
                                             donationTypeId: 3,
+                                            donationFrequencyId: typeId.value==-1?null:typeId.value,
                                             recurring:
                                                 typeId.value == -1 ? 0 : 1,
                                             amount: sliderValue.value,
@@ -460,7 +757,10 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                                 InitDonationUseCaseInput(
                                                   paymentMethodId:
                                                       typeId1.value,
+                                                         endDate: endDate.value=="enddate".tr()?null:endDate.value,
+                                            startDate: startDate.value=="startdate".tr()?null:startDate.value,
                                                   donationTypeId: 3,
+                                                  donationFrequencyId:typeId.value==-1?null:typeId.value ,
                                                   isRecurring:
                                                       typeId.value == -1
                                                           ? 0

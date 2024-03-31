@@ -21,6 +21,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: BeneficiaryProfileScreen(
           key: args.key,
+          index: args.index,
           profileId: args.profileId,
         ),
       );
@@ -36,7 +37,10 @@ abstract class _$AppRouter extends RootStackRouter {
           age: args.age,
           scholarshipTypeId: args.scholarshipTypeId,
           isCorporate: args.isCorporate,
+          donationAmount: args.donationAmount,
           endAmount: args.endAmount,
+          sponsershipEnd: args.sponsershipEnd,
+          sponsershipSart: args.sponsershipSart,
           key: args.key,
         ),
       );
@@ -67,6 +71,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: LocationCheckerScreen(
           key: args.key,
           paymentMethod: args.paymentMethod,
+          beneficiaries: args.beneficiaries,
+          startDate: args.startDate,
+          endDate: args.endDate,
+          donationFrequencyId: args.donationFrequencyId,
           amount: args.amount,
           donationTypeId: args.donationTypeId,
           recurring: args.recurring,
@@ -86,14 +94,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     MainRoute.name: (routeData) {
-      final args =
-          routeData.argsAs<MainRouteArgs>(orElse: () => const MainRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: MainScreen(
-          key: args.key,
-          isOrdered: args.isOrdered,
-        ),
+        child: const MainScreen(),
       );
     },
     MarksHistoryRoute.name: (routeData) {
@@ -225,12 +228,14 @@ class BeneficiaryProfileRoute
     extends PageRouteInfo<BeneficiaryProfileRouteArgs> {
   BeneficiaryProfileRoute({
     Key? key,
+    required int? index,
     required String? profileId,
     List<PageRouteInfo>? children,
   }) : super(
           BeneficiaryProfileRoute.name,
           args: BeneficiaryProfileRouteArgs(
             key: key,
+            index: index,
             profileId: profileId,
           ),
           initialChildren: children,
@@ -245,16 +250,19 @@ class BeneficiaryProfileRoute
 class BeneficiaryProfileRouteArgs {
   const BeneficiaryProfileRouteArgs({
     this.key,
+    required this.index,
     required this.profileId,
   });
 
   final Key? key;
 
+  final int? index;
+
   final String? profileId;
 
   @override
   String toString() {
-    return 'BeneficiaryProfileRouteArgs{key: $key, profileId: $profileId}';
+    return 'BeneficiaryProfileRouteArgs{key: $key, index: $index, profileId: $profileId}';
   }
 }
 
@@ -268,7 +276,10 @@ class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
     required String age,
     required int scholarshipTypeId,
     bool? isCorporate,
+    int? donationAmount,
     int? endAmount,
+    int? sponsershipEnd,
+    int? sponsershipSart,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -280,7 +291,10 @@ class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
             age: age,
             scholarshipTypeId: scholarshipTypeId,
             isCorporate: isCorporate,
+            donationAmount: donationAmount,
             endAmount: endAmount,
+            sponsershipEnd: sponsershipEnd,
+            sponsershipSart: sponsershipSart,
             key: key,
           ),
           initialChildren: children,
@@ -300,7 +314,10 @@ class FilteredRouteArgs {
     required this.age,
     required this.scholarshipTypeId,
     this.isCorporate,
+    this.donationAmount,
     this.endAmount,
+    this.sponsershipEnd,
+    this.sponsershipSart,
     this.key,
   });
 
@@ -316,13 +333,19 @@ class FilteredRouteArgs {
 
   final bool? isCorporate;
 
+  final int? donationAmount;
+
   final int? endAmount;
+
+  final int? sponsershipEnd;
+
+  final int? sponsershipSart;
 
   final Key? key;
 
   @override
   String toString() {
-    return 'FilteredRouteArgs{genderId: $genderId, cityId: $cityId, educationalYearId: $educationalYearId, age: $age, scholarshipTypeId: $scholarshipTypeId, isCorporate: $isCorporate, endAmount: $endAmount, key: $key}';
+    return 'FilteredRouteArgs{genderId: $genderId, cityId: $cityId, educationalYearId: $educationalYearId, age: $age, scholarshipTypeId: $scholarshipTypeId, isCorporate: $isCorporate, donationAmount: $donationAmount, endAmount: $endAmount, sponsershipEnd: $sponsershipEnd, sponsershipSart: $sponsershipSart, key: $key}';
   }
 }
 
@@ -374,6 +397,10 @@ class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
   LocationCheckerRoute({
     Key? key,
     int? paymentMethod,
+    List<int>? beneficiaries,
+    String? startDate,
+    String? endDate,
+    int? donationFrequencyId,
     double? amount,
     int? donationTypeId,
     int? recurring,
@@ -383,6 +410,10 @@ class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
           args: LocationCheckerRouteArgs(
             key: key,
             paymentMethod: paymentMethod,
+            beneficiaries: beneficiaries,
+            startDate: startDate,
+            endDate: endDate,
+            donationFrequencyId: donationFrequencyId,
             amount: amount,
             donationTypeId: donationTypeId,
             recurring: recurring,
@@ -400,6 +431,10 @@ class LocationCheckerRouteArgs {
   const LocationCheckerRouteArgs({
     this.key,
     this.paymentMethod,
+    this.beneficiaries,
+    this.startDate,
+    this.endDate,
+    this.donationFrequencyId,
     this.amount,
     this.donationTypeId,
     this.recurring,
@@ -409,6 +444,14 @@ class LocationCheckerRouteArgs {
 
   final int? paymentMethod;
 
+  final List<int>? beneficiaries;
+
+  final String? startDate;
+
+  final String? endDate;
+
+  final int? donationFrequencyId;
+
   final double? amount;
 
   final int? donationTypeId;
@@ -417,7 +460,7 @@ class LocationCheckerRouteArgs {
 
   @override
   String toString() {
-    return 'LocationCheckerRouteArgs{key: $key, paymentMethod: $paymentMethod, amount: $amount, donationTypeId: $donationTypeId, recurring: $recurring}';
+    return 'LocationCheckerRouteArgs{key: $key, paymentMethod: $paymentMethod, beneficiaries: $beneficiaries, startDate: $startDate, endDate: $endDate, donationFrequencyId: $donationFrequencyId, amount: $amount, donationTypeId: $donationTypeId, recurring: $recurring}';
   }
 }
 
@@ -451,39 +494,16 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MainScreen]
-class MainRoute extends PageRouteInfo<MainRouteArgs> {
-  MainRoute({
-    Key? key,
-    bool? isOrdered = false,
-    List<PageRouteInfo>? children,
-  }) : super(
+class MainRoute extends PageRouteInfo<void> {
+  const MainRoute({List<PageRouteInfo>? children})
+      : super(
           MainRoute.name,
-          args: MainRouteArgs(
-            key: key,
-            isOrdered: isOrdered,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'MainRoute';
 
-  static const PageInfo<MainRouteArgs> page = PageInfo<MainRouteArgs>(name);
-}
-
-class MainRouteArgs {
-  const MainRouteArgs({
-    this.key,
-    this.isOrdered = false,
-  });
-
-  final Key? key;
-
-  final bool? isOrdered;
-
-  @override
-  String toString() {
-    return 'MainRouteArgs{key: $key, isOrdered: $isOrdered}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

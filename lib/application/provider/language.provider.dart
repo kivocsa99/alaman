@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,10 +10,12 @@ class LanguageHiveNotifier extends _$LanguageHiveNotifier {
   @override
   String? build() =>
       Hive.box("lan").isNotEmpty ? Hive.box("lan").get("lan") : "en";
-  void setLanguage(String language) async {
+  void setLanguage(BuildContext context, String language) async {
     var currentlanguage = getItemFromBox();
     currentlanguage = language;
+   await context.setLocale( Locale(language));
     await addItemToBox(currentlanguage);
+
     state = getItemFromBox();
   }
 

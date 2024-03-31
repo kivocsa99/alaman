@@ -105,6 +105,9 @@ class NewsBottomSheet extends HookConsumerWidget {
                     ).tr(),
                   ),
                 ),
+                          
+              if (href != null)
+                  const Gap(30),
             ],
           ),
         ),

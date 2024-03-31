@@ -28,7 +28,7 @@ class OnBoardingScreen extends HookConsumerWidget {
       child: Scaffold(
         body: ResponsiveWidget(
           child: Padding(
-            padding: const EdgeInsets.only(top: 50, bottom: 30),
+            padding: const EdgeInsets.only(top: 50, bottom: 10),
             child: ResponsiveRowColumn(
               layout: ResponsiveRowColumnType.COLUMN,
               columnMainAxisAlignment: MainAxisAlignment.start,
@@ -36,7 +36,7 @@ class OnBoardingScreen extends HookConsumerWidget {
                 ResponsiveRowColumnItem(
                   child: SizedBox(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height - 100,
+                    height: MediaQuery.of(context).size.height /1.2 ,
                     child: PageView.builder(
                       controller: pageController,
                       itemCount: 4,

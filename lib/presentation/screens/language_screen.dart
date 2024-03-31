@@ -36,17 +36,15 @@ class LanguageScreen extends HookConsumerWidget {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () async {
-                        selectedLanguage.value == "en"
-                            ? null
-                            : context
-                                .setLocale(const Locale('en'))
-                                .then((value) {
-                                selectedLanguage.value =
-                                    context.locale.languageCode;
-                                ref
-                                    .read(languageHiveNotifierProvider.notifier)
-                                    .setLanguage("en");
-                              });
+                        print(selectedLanguage.value);
+                        if (selectedLanguage.value == "en") {
+                          null;
+                        } else {
+                          ref
+                              .read(languageHiveNotifierProvider.notifier)
+                              .setLanguage(context, "en");
+                          selectedLanguage.value = context.locale.languageCode;
+                        }
                       },
                       child: ResponsiveRowColumn(
                         layout: ResponsiveRowColumnType.ROW,
@@ -86,17 +84,14 @@ class LanguageScreen extends HookConsumerWidget {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () async {
-                        selectedLanguage.value == "ar"
-                            ? null
-                            : await context
-                                .setLocale(const Locale('ar'))
-                                .then((value) {
-                                selectedLanguage.value =
-                                    context.locale.languageCode;
-                                ref
-                                    .read(languageHiveNotifierProvider.notifier)
-                                    .setLanguage("ar");
-                              });
+                        if (selectedLanguage.value == "ar") {
+                          null;
+                        } else {
+                          ref
+                              .read(languageHiveNotifierProvider.notifier)
+                              .setLanguage(context, "ar");
+                          selectedLanguage.value = context.locale.languageCode;
+                        }
                       },
                       child: ResponsiveRowColumn(
                         layout: ResponsiveRowColumnType.ROW,

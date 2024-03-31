@@ -260,6 +260,7 @@ class UserRepository implements IUserRepository {
       final result = await dio.get(finalUrl);
       print(result.requestOptions.uri);
       if (result.data['AZSVR'] == "SUCCESS") {
+        final refresh = await ref.refresh(getProfileProvider.future);
         return right(result.data);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
@@ -319,8 +320,8 @@ class UserRepository implements IUserRepository {
             data.map((e) => BeneficiaryModel.fromJson(e)).toList();
         String? nextUrl = map["Beneficiaries"]["next_page_url"];
         bool? iscriteria = map["search_adjusted"];
-        final Tuple3<List<BeneficiaryModel>, String?,bool?> finalData =
-            Tuple3(response, nextUrl,iscriteria);
+        final Tuple3<List<BeneficiaryModel>, String?, bool?> finalData =
+            Tuple3(response, nextUrl, iscriteria);
         return right(finalData);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
@@ -457,6 +458,46 @@ class UserRepository implements IUserRepository {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
       }
     } on DioException catch (error) {
+      final String reason = error.response!.data["Reason"];
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+          return left(ApiFailures.connectionTimeOut(message: reason));
+        case DioException.requestCancelled:
+          return left(ApiFailures.cancel(message: reason));
+        case DioExceptionType.badResponse:
+          return left(ApiFailures.noResponse(message: reason));
+        default:
+          return left(ApiFailures.noResponse(message: reason));
+      }
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, Tuple2<List<String>, num>>>
+      getrecurringSchedule(
+          {double? amount,
+          String? endate,
+          String? startDate,
+          String? donationfrequencyid}) async {
+    final userSetting = ref.read(settingHiveNotifierProvider);
+
+    try {
+      final result = await dio.get(
+          "https://aeservice.appchecker.net/api/v1/meps/getSchedule?total_amount=$amount&start_date=$startDate&end_date=$endate&donation_frequency_id=$donationfrequencyid&api_token=${userSetting!.token}");
+      print(result.requestOptions.uri);
+      if (result.data['AZSVR'] == "SUCCESS") {
+        Map<String, dynamic> map = result.data;
+        log(result.realUri.toString());
+        List<dynamic> data = map["Schedule"];
+        List<String>stringData = data.map((e) => e.toString()).toList();
+        num amount = map["AmountPerPayment"];
+        final Tuple2<List<String>, num> finaldata = Tuple2(stringData, amount);
+        return right(finaldata);
+      } else {
+        return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      print(error.requestOptions.uri);
       final String reason = error.response!.data["Reason"];
       switch (error.type) {
         case DioExceptionType.connectionTimeout:

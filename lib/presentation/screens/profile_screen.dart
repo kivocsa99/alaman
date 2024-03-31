@@ -40,6 +40,7 @@ class ProfileScreen extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
+          notMain: false,
           title: "profile",
           description: "yourprofile",
         ),

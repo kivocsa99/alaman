@@ -164,9 +164,7 @@ class SposnerScreen extends HookConsumerWidget {
                                 const Gap(10),
                               ],
                             ),
-                            HtmlWidget(locale == "en"
-                                ? model.bio ?? ""
-                                : model.bio_ar ?? ""),
+                         
                             Gap(15),
                             Container(
                               padding: const EdgeInsets.all(15),
@@ -178,12 +176,12 @@ class SposnerScreen extends HookConsumerWidget {
                                   color: const Color(0xffF9F9F9)),
                               child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.COLUMN,
-                                columnCrossAxisAlignment: locale == "en"
-                                    ? CrossAxisAlignment.end
-                                    : CrossAxisAlignment.start,
+                                columnCrossAxisAlignment:                                 
+                                    CrossAxisAlignment.start,
                                 children: [
                                   ResponsiveRowColumnItem(
                                       child: Text(
+
                                     "${"target".tr()}: ${model.donations_goal} ${"jod".tr()}",
                                     style: Theme.of(context)
                                         .primaryTextTheme
@@ -209,10 +207,8 @@ class SposnerScreen extends HookConsumerWidget {
                             ),
                             Gap(15),
                             Container(
-                              padding: const EdgeInsets.all(15),
-                              width: MediaQuery.of(context).size.width < 400
-                                  ? MediaQuery.of(context).size.width + 30
-                                  : MediaQuery.of(context).size.width + 20,
+                              padding: const EdgeInsets.all(5),
+                              width: double.infinity,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: const Color(0xffF9F9F9)),
@@ -233,12 +229,13 @@ class SposnerScreen extends HookConsumerWidget {
                                       ),
                                     ),
                                   ),
-                                  const ResponsiveRowColumnItem(child: Gap(30)),
+                                  const ResponsiveRowColumnItem(child: Gap(15)),
                                   ResponsiveRowColumnItem(
                                       child: ResponsiveRowColumn(
                                     layout: ResponsiveRowColumnType.COLUMN,
                                     columnMainAxisAlignment:
                                         MainAxisAlignment.center,
+                                        columnCrossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       ResponsiveRowColumnItem(
                                           child: Text(
@@ -249,15 +246,18 @@ class SposnerScreen extends HookConsumerWidget {
                                                 .educational_organization_name!,
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .titleMedium,
+                                            .bodyMedium!
+                                            .copyWith(
+                                                color: const Color(0xff16437B)),
                                       )),
                                       ResponsiveRowColumnItem(
                                           child: Text(
                                         model.specialization!,
-                                        style: Theme.of(context)
+                                        style:Theme.of(context)
                                             .primaryTextTheme
-                                            .titleMedium
-                                            ?.copyWith(fontSize: 20),
+                                            .bodyMedium!
+                                            .copyWith(
+                                                color: const Color(0xff16437B)),
                                       )),
                                     ],
                                   )),
@@ -305,17 +305,7 @@ class SposnerScreen extends HookConsumerWidget {
                                     columnMainAxisAlignment:
                                         MainAxisAlignment.center,
                                     children: [
-                                      ResponsiveRowColumnItem(
-                                          child: Text(
-                                        locale == "en"
-                                            ? model.name!
-                                            : model.name_ar!,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: const Color(0xff16437B)),
-                                      )),
+                                      
                                       ResponsiveRowColumnItem(
                                           child: Text(
                                         model.address!,
@@ -353,7 +343,8 @@ class SposnerScreen extends HookConsumerWidget {
                                                 Colors.grey.withOpacity(0.7),
                                             builder: (BuildContext ctx) {
                                               return SponserBottomSheet(
-                                                  id: profileById,
+
+                                                  id:int.parse(profileById),
                                                   endAmount:
                                                       endamount.toDouble(),
                                                   paymentMethods:

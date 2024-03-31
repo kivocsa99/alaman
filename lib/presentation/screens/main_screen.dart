@@ -9,15 +9,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+final isOrderedProvider = StateProvider<bool>((ref) => false);
 @RoutePage()
 class MainScreen extends HookConsumerWidget {
-  final bool? isOrdered;
-  const MainScreen({super.key, this.isOrdered = false});
+  const MainScreen({super.key,});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useEffect(() {
+    final isOrdered = ref.watch(isOrderedProvider);
+        useEffect(() {
       if (isOrdered == true) {
         // Show dialog if isOrdered is true
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -34,26 +34,27 @@ class MainScreen extends HookConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Request successful",
+                    "donepayment",
                     style: Theme.of(context)
                         .primaryTextTheme
                         .bodyMedium!
                         .copyWith(color: const Color(0xff16437B)),
-                  ),
+                  ).tr(),
                   AuthContainer(
                     raduis: 50,
                     height: 50,
                     onTap: () async {
+                      ref.read(isOrderedProvider.notifier).state = false;
                       context.router.pop();
                     },
                     color: const Color(0xffFFC629),
                     child: Text(
-                      "Back to Home Screen",
+                      "backhome",
                       style: Theme.of(context)
                           .primaryTextTheme
                           .titleSmall
                           ?.copyWith(color: Colors.white),
-                    ),
+                    ).tr(),
                   ),
                 ],
               ),

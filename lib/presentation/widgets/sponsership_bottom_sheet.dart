@@ -207,7 +207,8 @@ class SponserShipBottomSheet extends HookConsumerWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
-                                        onPressed: () => context.router.pop(),
+                                        onPressed: () =>   currentStep.value =
+                                            currentStep.value -1,
                                         icon: const Icon(
                                           Icons.arrow_back,
                                           color: Color(0xff16437B),
@@ -880,6 +881,12 @@ class SponserShipBottomSheet extends HookConsumerWidget {
                                           height: 50,
                                           onTap: () => context.router.push(
                                               FilteredRoute(
+                                                           donationAmount:
+                                                      sliderValue.value.toInt(),
+                                                  sponsershipEnd:
+                                                      endAmount!.toInt(),
+                                                  sponsershipSart:
+                                                      startAmount!.toInt(),
                                                   isCorporate: true,
                                                   genderId: genderId.value,
                                                   cityId: cityId.value,

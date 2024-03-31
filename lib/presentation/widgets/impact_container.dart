@@ -133,31 +133,35 @@ class ImpactContainer extends HookConsumerWidget {
             children: [
               ResponsiveRowColumnItem(
                   rowFlex: 1,
-                  child: Container(
-                    height: 35,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffFFC629),
-                      borderRadius: BorderRadius.circular(5),
+                  child: GestureDetector(
+                    onTap: ()=>context.router.push(BeneficiaryProfileRoute(index: 1,
+                        profileId: beneficiary!.id.toString())),
+                    child: Container(
+                      height: 35,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffFFC629),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        "impactpathway",
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .bodyMedium
+                            ?.copyWith(
+                              color: Colors.white,
+                              fontSize: 13,
+                            
+                            ),
+                      ).tr(),
                     ),
-                    child: Text(
-                      "impactpathway",
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .bodyMedium
-                          ?.copyWith(
-                            color: Colors.white,
-                            fontSize: 13,
-                            backgroundColor:
-                                const Color(0xffB2A1A1).withOpacity(0.3),
-                          ),
-                    ).tr(),
                   )),
               const ResponsiveRowColumnItem(child: Gap(5)),
               ResponsiveRowColumnItem(
                   rowFlex: 1,
                   child: GestureDetector(
                     onTap: () => context.router.push(BeneficiaryProfileRoute(
+                      index: 0,
                         profileId: beneficiary!.id.toString())),
                     child: Container(
                       height: 35,

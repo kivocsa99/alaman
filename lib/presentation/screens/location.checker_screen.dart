@@ -1,5 +1,6 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
+import 'package:alaman/presentation/screens/main_screen.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,18 @@ class LocationCheckerScreen extends HookConsumerWidget {
   final int? paymentMethod;
   final int? donationTypeId;
   final int? recurring;
-
+  final int? donationFrequencyId;
+  final String? startDate;
+  final String? endDate;
   final double? amount;
+  final List<int>?beneficiaries;
   const LocationCheckerScreen(
       {super.key,
       this.paymentMethod,
+      this.beneficiaries,
+      this.startDate,
+      this.endDate,
+      this.donationFrequencyId,
       this.amount,
       this.donationTypeId,
       this.recurring});
@@ -38,6 +46,10 @@ class LocationCheckerScreen extends HookConsumerWidget {
                   paymentMethodId: paymentMethod,
                   donationTypeId: donationTypeId,
                   isRecurring: recurring,
+                  donationFrequencyId: donationFrequencyId,
+                  endDate: endDate,
+                  startDate: startDate,
+                  beneficiaryIds: beneficiaries,
                   location: {
                     "lat": "${markpointer.value.latitude}",
                     "lng": "${markpointer.value.longitude}"
@@ -55,7 +67,8 @@ class LocationCheckerScreen extends HookConsumerWidget {
                       // Navigate to PaymentRoute
                       // First, pop the bottom sheet
                       // Then navigate to PaymentRoute
-                      context.router.replaceAll([MainRoute(isOrdered: true)]);
+                      ref.read(isOrderedProvider.notifier).state = true;
+                      context.router.replaceAll([const MainRoute()]);
                     },
                   ));
         },

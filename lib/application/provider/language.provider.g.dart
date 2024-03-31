@@ -7,7 +7,7 @@ part of 'language.provider.dart';
 // **************************************************************************
 
 String _$languageHiveNotifierHash() =>
-    r'351dd24032bce4b44e4a9ab062e86ba55bbe2208';
+    r'eed04771ddd27156f3a2d54342b345b9a7cab591';
 
 /// See also [LanguageHiveNotifier].
 @ProviderFor(LanguageHiveNotifier)

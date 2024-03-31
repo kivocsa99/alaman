@@ -18,6 +18,7 @@ class GrantsScreen extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
       appBar: CustomAppBar(
+        notMain: false,
           title: userSetting?.role == "Beneficiary"
               ? "grantsType"
               : "donationType",

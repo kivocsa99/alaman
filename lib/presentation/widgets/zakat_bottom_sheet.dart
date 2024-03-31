@@ -313,6 +313,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                       context.router.push(LocationCheckerRoute(
                                         paymentMethod: 1,
                                         donationTypeId: 2,
+                                        recurring: 0,
                                         amount: sliderValue.value,
                                       ));
                                     } else {

@@ -22,8 +22,10 @@ import 'package:responsive_framework/responsive_framework.dart';
 @RoutePage()
 class BeneficiaryProfileScreen extends HookConsumerWidget {
   final String? profileId;
+  final int?index;
   const BeneficiaryProfileScreen({
     super.key,
+    required this.index,
     required this.profileId,
   });
 
@@ -34,7 +36,7 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
         ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
     final setting = ref.read(settingHiveNotifierProvider);
 
-    final selectedIndex = useState(0);
+    final selectedIndex = useState(index);
     return ResponsiveWidget(
       child: SafeArea(
         child: Scaffold(
@@ -310,16 +312,7 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                             description:
                                                 "${locale == "en" ? model.name : model.name_ar}"),
                                         const Gap(10),
-                                        ProfileContainer(
-                                            title: "email",
-                                            description:
-                                                "${setting?.role != "Beneficiary" ? model.email : model.email}"),
-                                        const Gap(10),
-                                        ProfileContainer(
-                                            title: "phonenumber",
-                                            description:
-                                                "${setting?.role != "Beneficiary" ? model.phone : model.phone}"),
-                                        const Gap(10),
+                                    
                                       ],
                                     )
                                   : CustomPaint(

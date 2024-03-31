@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:alaman/application/provider/search.beneficiary.provider.dart';
 import 'package:alaman/domain/alamanreqeust/alaman.request.model.dart';
 import 'package:alaman/domain/failures/api.failures.dart';
 import 'package:alaman/domain/generic/model/generic.model.dart';
@@ -16,9 +17,26 @@ part 'user.repository.provider.g.dart';
 
 final userRepositoryProvider =
     Provider<IUserRepository>((ref) => UserRepository(ref: ref));
+final paginatedBeneficiariesNotifierProvider = StateNotifierProvider<
+    PaginatedBeneficiariesNotifier, PaginatedBeneficiariesState>((ref) {
+  return PaginatedBeneficiariesNotifier(ref.watch(userRepositoryProvider));
+});
 @riverpod
 Future<Either<ApiFailures, List<NewsModel>>> getNews(Ref ref) {
   return ref.watch(userRepositoryProvider).getNews();
+}
+
+@riverpod
+Future<Either<ApiFailures, Tuple2<List<String>, num>>> getSchedule(Ref ref,
+    {double? amount,
+    String? endate,
+    String? startDate,
+    String? donationfrequencyid}) {
+  return ref.watch(userRepositoryProvider).getrecurringSchedule(
+      amount: amount,
+      startDate: startDate,
+      endate: endate,
+      donationfrequencyid: donationfrequencyid);
 }
 
 @riverpod
@@ -58,7 +76,7 @@ Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining(Ref ref) {
 }
 
 @riverpod
-Future<Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?,bool?>>>
+Future<Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>>
     searchBeneficiaries(
   Ref ref, {
   int? genderId,

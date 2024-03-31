@@ -1,5 +1,6 @@
 import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
+import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/domain/city/model/city.model.dart';
 import 'package:alaman/domain/educationalyear/model/educationalyear.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
@@ -592,14 +593,22 @@ class DonationBottomSheet extends HookConsumerWidget {
                               child: AuthContainer(
                                 raduis: 50,
                                 height: 50,
-                                onTap: () => context.router.push(FilteredRoute(
-                                    genderId: genderId.value,
-                                    cityId: cityId.value,
-                                    educationalYearId: yearId.value,
-                                    age: age.value == "age".tr()
-                                        ? "18"
-                                        : age.value,
-                                    scholarshipTypeId: typeId.value)),
+                               onTap: () async {
+                                  final notifier = ref.read(
+                                      paginatedBeneficiariesNotifierProvider
+                                          .notifier);
+                                  notifier.resetState();
+                                  context.router.pop();
+                                  context.router.push(FilteredRoute(
+                                      genderId: genderId.value,
+                                      cityId: cityId.value,
+                                      
+                                      educationalYearId: yearId.value,
+                                      age: age.value == "age".tr()
+                                          ? "18"
+                                          : age.value,
+                                      scholarshipTypeId: typeId.value));
+                                },
                                 color: const Color(0xffFFC629),
                                 child: isLoading.value == false
                                     ? Text(

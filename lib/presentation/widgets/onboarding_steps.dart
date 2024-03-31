@@ -63,12 +63,10 @@ class OnBoardingSteps extends HookConsumerWidget {
                     style: Theme.of(context).primaryTextTheme.bodyMedium,
                   ),
                   onTap: () {
-                    context.setLocale(locale == "en"
-                        ? const Locale("ar")
-                        : const Locale("en"));
+               
                     ref
                         .read(languageHiveNotifierProvider.notifier)
-                        .setLanguage(locale == "en" ? "ar" : "en");
+                        .setLanguage(context,locale == "en" ? "ar" : "en");
                   },
                 ),
               ),

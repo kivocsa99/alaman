@@ -22,6 +22,211 @@ final getNewsProvider =
 
 typedef GetNewsRef
     = AutoDisposeFutureProviderRef<Either<ApiFailures, List<NewsModel>>>;
+String _$getScheduleHash() => r'2f49304f2b5a0f63f1fb6a432acfacb63823a006';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+/// See also [getSchedule].
+@ProviderFor(getSchedule)
+const getScheduleProvider = GetScheduleFamily();
+
+/// See also [getSchedule].
+class GetScheduleFamily
+    extends Family<AsyncValue<Either<ApiFailures, Tuple2<List<String>, num>>>> {
+  /// See also [getSchedule].
+  const GetScheduleFamily();
+
+  /// See also [getSchedule].
+  GetScheduleProvider call({
+    double? amount,
+    String? endate,
+    String? startDate,
+    String? donationfrequencyid,
+  }) {
+    return GetScheduleProvider(
+      amount: amount,
+      endate: endate,
+      startDate: startDate,
+      donationfrequencyid: donationfrequencyid,
+    );
+  }
+
+  @override
+  GetScheduleProvider getProviderOverride(
+    covariant GetScheduleProvider provider,
+  ) {
+    return call(
+      amount: provider.amount,
+      endate: provider.endate,
+      startDate: provider.startDate,
+      donationfrequencyid: provider.donationfrequencyid,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getScheduleProvider';
+}
+
+/// See also [getSchedule].
+class GetScheduleProvider extends AutoDisposeFutureProvider<
+    Either<ApiFailures, Tuple2<List<String>, num>>> {
+  /// See also [getSchedule].
+  GetScheduleProvider({
+    double? amount,
+    String? endate,
+    String? startDate,
+    String? donationfrequencyid,
+  }) : this._internal(
+          (ref) => getSchedule(
+            ref as GetScheduleRef,
+            amount: amount,
+            endate: endate,
+            startDate: startDate,
+            donationfrequencyid: donationfrequencyid,
+          ),
+          from: getScheduleProvider,
+          name: r'getScheduleProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getScheduleHash,
+          dependencies: GetScheduleFamily._dependencies,
+          allTransitiveDependencies:
+              GetScheduleFamily._allTransitiveDependencies,
+          amount: amount,
+          endate: endate,
+          startDate: startDate,
+          donationfrequencyid: donationfrequencyid,
+        );
+
+  GetScheduleProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.amount,
+    required this.endate,
+    required this.startDate,
+    required this.donationfrequencyid,
+  }) : super.internal();
+
+  final double? amount;
+  final String? endate;
+  final String? startDate;
+  final String? donationfrequencyid;
+
+  @override
+  Override overrideWith(
+    FutureOr<Either<ApiFailures, Tuple2<List<String>, num>>> Function(
+            GetScheduleRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetScheduleProvider._internal(
+        (ref) => create(ref as GetScheduleRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        amount: amount,
+        endate: endate,
+        startDate: startDate,
+        donationfrequencyid: donationfrequencyid,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<
+      Either<ApiFailures, Tuple2<List<String>, num>>> createElement() {
+    return _GetScheduleProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetScheduleProvider &&
+        other.amount == amount &&
+        other.endate == endate &&
+        other.startDate == startDate &&
+        other.donationfrequencyid == donationfrequencyid;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, amount.hashCode);
+    hash = _SystemHash.combine(hash, endate.hashCode);
+    hash = _SystemHash.combine(hash, startDate.hashCode);
+    hash = _SystemHash.combine(hash, donationfrequencyid.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetScheduleRef on AutoDisposeFutureProviderRef<
+    Either<ApiFailures, Tuple2<List<String>, num>>> {
+  /// The parameter `amount` of this provider.
+  double? get amount;
+
+  /// The parameter `endate` of this provider.
+  String? get endate;
+
+  /// The parameter `startDate` of this provider.
+  String? get startDate;
+
+  /// The parameter `donationfrequencyid` of this provider.
+  String? get donationfrequencyid;
+}
+
+class _GetScheduleProviderElement extends AutoDisposeFutureProviderElement<
+    Either<ApiFailures, Tuple2<List<String>, num>>> with GetScheduleRef {
+  _GetScheduleProviderElement(super.provider);
+
+  @override
+  double? get amount => (origin as GetScheduleProvider).amount;
+  @override
+  String? get endate => (origin as GetScheduleProvider).endate;
+  @override
+  String? get startDate => (origin as GetScheduleProvider).startDate;
+  @override
+  String? get donationfrequencyid =>
+      (origin as GetScheduleProvider).donationfrequencyid;
+}
+
 String _$deleteMyAccountHash() => r'02185772dff9473397d3da30a83fb378e8218957';
 
 /// See also [deleteMyAccount].
@@ -72,27 +277,6 @@ final getProfileProvider =
 typedef GetProfileRef
     = AutoDisposeFutureProviderRef<Either<ApiFailures, dynamic>>;
 String _$getProfileByIDHash() => r'de2cce6fafc562150307707bdcee71a77daa5c12';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
 
 /// See also [getProfileByID].
 @ProviderFor(getProfileByID)

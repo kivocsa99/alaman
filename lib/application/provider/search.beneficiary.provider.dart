@@ -1,47 +1,62 @@
 import 'package:alaman/application/provider/user.repository.provider.dart';
+import 'package:alaman/domain/user/interface/i.user.repository.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
+import 'package:alaman/infrastructure/user/user.repository.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'search.beneficiary.provider.g.dart';
+class PaginatedBeneficiariesNotifier
+    extends StateNotifier<PaginatedBeneficiariesState> {
+  final IUserRepository userRepository;
 
-@riverpod
-class PaginatedBeneficiaryNotifier extends _$PaginatedBeneficiaryNotifier {
-  @override
-  PaginatedBeneficiaryState build() => PaginatedBeneficiaryState.initial();
-  Future<void> fetchsearch({
-    int? genderId,
-    int? cityId,
-    int? educationalYearId,
-    String? age,
-    int? scholarshipTypeId,
-    bool isRefresh = false,
-  }) async {
-    if (isRefresh) {
-      state = PaginatedBeneficiaryState.initial();
+  PaginatedBeneficiariesNotifier(this.userRepository)
+      : super(const PaginatedBeneficiariesState());
+
+  Future<void> fetchBeneficiaries(
+      {int page = 1,
+      required int genderId,
+      required int cityId,
+      required int educationalYearId,
+      required String age,
+      required int scholarshipTypeId}) async {
+    if (state.hasReachedMax) return;
+
+    try {
+      final response = await userRepository.searchBeneficiaries(
+        genderId: genderId,
+        cityId: cityId,
+        educationalYearId: educationalYearId,
+        age: age,
+        scholarshipTypeId: scholarshipTypeId,
+      );
+
+      response.fold(
+        (l) => state = state.copyWith(errorMessage: l.toString()),
+        (r) {
+          final newData = List<BeneficiaryModel>.from(state.beneficiaries)
+            ..addAll(r.item1);
+          state = state.copyWith(
+            beneficiaries: newData,
+            hasReachedMax: r.item2 == null,
+            showDialog:
+                r.item3, // Assuming r.item3 is the bool controlling the dialog
+          );
+        },
+      );
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString());
     }
+  }
 
-    final response = await ref.read(userRepositoryProvider).searchBeneficiaries(
-          genderId: genderId,
-          cityId: cityId,
-          educationalYearId: educationalYearId,
-          age: age,
-          scholarshipTypeId: scholarshipTypeId,
-        );
+  void resetState() {
+    state = const PaginatedBeneficiariesState();
+  }
 
-    response.fold(
-      (failure) =>
-          state = state.copyWith(status: PaginatedBeneficiaryStatus.failure),
-      (news) {
-        state = state.copyWith(
-          status: PaginatedBeneficiaryStatus.success,
-          beneficiary: [...state.beneficiary, ...news.item1],
-          currentPage: state.currentPage + 1,
-          hasReachedMax: news.item2 == null
-              ? true
-              : false, // Assuming the API returns an empty list when there are no more pages
-        );
-      },
-    );
+  void resetDialogFlag() {
+    if (state.showDialog) {
+      state = state.copyWith(showDialog: false);
+    }
   }
 }
 
@@ -79,3 +94,33 @@ class PaginatedBeneficiaryState {
 }
 
 enum PaginatedBeneficiaryStatus { initial, success, failure }
+// paginated_beneficiaries_state.dart
+
+@immutable
+class PaginatedBeneficiariesState {
+  final List<BeneficiaryModel> beneficiaries;
+  final bool hasReachedMax;
+  final String? errorMessage;
+  final bool showDialog; // Add this line
+
+  const PaginatedBeneficiariesState({
+    this.beneficiaries = const [],
+    this.hasReachedMax = false,
+    this.errorMessage,
+    this.showDialog = false, // Initialize here
+  });
+
+  PaginatedBeneficiariesState copyWith({
+    List<BeneficiaryModel>? beneficiaries,
+    bool? hasReachedMax,
+    String? errorMessage,
+    bool? showDialog, // Add this line
+  }) {
+    return PaginatedBeneficiariesState(
+      beneficiaries: beneficiaries ?? this.beneficiaries,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      errorMessage: errorMessage ?? this.errorMessage,
+      showDialog: showDialog ?? this.showDialog, // Add this line
+    );
+  }
+}

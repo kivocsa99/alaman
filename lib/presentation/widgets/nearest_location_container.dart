@@ -15,8 +15,8 @@ class NearestLocation extends HookConsumerWidget {
   const NearestLocation({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     final generic = ref.watch(getGenericProvider);
     final currentPosition = useState<Position?>(null);
     final nearestBoothFuture = useFuture(
@@ -66,7 +66,7 @@ class NearestLocation extends HookConsumerWidget {
                 color: Colors.white, borderRadius: BorderRadius.circular(15)),
             child: ResponsiveRowColumn(
               layout: ResponsiveRowColumnType.ROW,
-              children: [
+              rowCrossAxisAlignment: CrossAxisAlignment.center,              children: [
                 ResponsiveRowColumnItem(
                     child: Stack(
                   alignment: Alignment.center,
@@ -94,17 +94,9 @@ class NearestLocation extends HookConsumerWidget {
                 ResponsiveRowColumnItem(
                     child: ResponsiveRowColumn(
                   layout: ResponsiveRowColumnType.COLUMN,
+                  columnMainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ResponsiveRowColumnItem(
-                        child: Text(
-                      locale == "en"
-                          ? nearestBooth.name!
-                          : nearestBooth.name_ar!,
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .bodyMedium!
-                          .copyWith(color: const Color(0xff16437B)),
-                    )),
+                    
                     ResponsiveRowColumnItem(
                         child: Text(
                       locale == "en"

@@ -61,6 +61,7 @@ class AuthField extends HookWidget {
         validator: validator,
         controller: controller,
         textInputAction: inputAction,
+           onTapOutside: (event) =>      FocusScope.of(context).unfocus(),  
         decoration: InputDecoration(
           border: InputBorder.none,
           suffixIcon: obsecuretext!

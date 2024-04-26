@@ -34,8 +34,10 @@ _$BeneficiaryModelImpl _$$BeneficiaryModelImplFromJson(
       contact_person_phone: json['contact_person_phone'] as String?,
       alaman_contact_person_id: json['alaman_contact_person_id'],
       alaman_join_date: json['alaman_join_date'] as String?,
-      educational_organization_name:
-          json['educational_organization_name'] as String?,
+      educational_organization: json['educational_organization'] == null
+          ? null
+          : StatusModel.fromJson(
+              json['educational_organization'] as Map<String, dynamic>),
       specialization: json['specialization'] as String?,
       place_of_residence: json['place_of_residence'],
       educational_year_id: json['educational_year_id'],
@@ -54,6 +56,9 @@ _$BeneficiaryModelImpl _$$BeneficiaryModelImplFromJson(
       created_at: json['created_at'] as String?,
       updated_at: json['updated_at'] as String?,
       deleted_at: json['deleted_at'] as String?,
+      social_id: json['social_id'] as String?,
+      apple_id: json['apple_id'] as String?,
+      google_id: json['google_id'] as String?,
       theme: json['theme'] as String?,
       theme_color: json['theme_color'] as String?,
       gender: json['gender'] == null
@@ -115,7 +120,7 @@ Map<String, dynamic> _$$BeneficiaryModelImplToJson(
       'contact_person_phone': instance.contact_person_phone,
       'alaman_contact_person_id': instance.alaman_contact_person_id,
       'alaman_join_date': instance.alaman_join_date,
-      'educational_organization_name': instance.educational_organization_name,
+      'educational_organization': instance.educational_organization,
       'specialization': instance.specialization,
       'place_of_residence': instance.place_of_residence,
       'educational_year_id': instance.educational_year_id,
@@ -133,6 +138,9 @@ Map<String, dynamic> _$$BeneficiaryModelImplToJson(
       'created_at': instance.created_at,
       'updated_at': instance.updated_at,
       'deleted_at': instance.deleted_at,
+      'social_id': instance.social_id,
+      'apple_id': instance.apple_id,
+      'google_id': instance.google_id,
       'theme': instance.theme,
       'theme_color': instance.theme_color,
       'gender': instance.gender,

@@ -22,22 +22,17 @@ class CityStep extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final locale = ref.watch(languageHiveNotifierProvider);
 
     final controller = FixedExtentScrollController();
     final box = Hive.box("register");
     final register = useState<UserRegistration>(box.getAt(0));
     final city = useState("city".tr());
     final cityId = useState(0);
-    final controller1 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller2 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller3 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller5 =
-        useAnimationController(duration: const Duration(seconds: 1));
+    final controller1 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller2 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller3 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller5 = useAnimationController(duration: const Duration(seconds: 1));
     useEffect(() {
       controller1.forward();
       controller2.forward();
@@ -60,14 +55,10 @@ class CityStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.2),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
             child: Text(
               "citytitle",
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .titleLarge
-                  ?.copyWith(color: Colors.black),
+              style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(color: Colors.black),
             ).tr(),
           ),
         )),
@@ -79,14 +70,11 @@ class CityStep extends HookConsumerWidget {
               position: Tween<Offset>(
                 begin: const Offset(0, 0.2),
                 end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
+              ).animate(CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
               child: Form(
                   key: formKey.value,
                   child: generic.maybeWhen(
-                    data: (data) => data.fold(
-                        (l) => Text(l.message ?? "internetconnection").tr(),
-                        (r) {
+                    data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
                       final cities = r.Cities;
                       return GestureDetector(
                         onTap: () async {
@@ -102,24 +90,15 @@ class CityStep extends HookConsumerWidget {
                                           child: CupertinoPicker(
                                               scrollController: controller,
                                               itemExtent: 45,
-                                              onSelectedItemChanged:
-                                                  (item) async {
-                                                city.value = locale == "en"
-                                                    ? cities[item].name!
-                                                    : cities[item].name_ar!;
+                                              onSelectedItemChanged: (item) async {
+                                                city.value = locale == "en" ? cities[item].name! : cities[item].name_ar!;
                                                 cityId.value = cities[item].id!;
-                                                register.value.cityId =
-                                                    cities[item].id!.toString();
-                                                await box.putAt(
-                                                    0, register.value);
+                                                register.value.cityId = cities[item].id!.toString();
+                                                await box.putAt(0, register.value);
                                               },
                                               children: cities!
                                                   .map((e) => Center(
-                                                        child: Text((locale ==
-                                                                    "en"
-                                                                ? e.name!
-                                                                : e.name_ar!)
-                                                            .toString()),
+                                                        child: Text((locale == "en" ? e.name! : e.name_ar!).toString()),
                                                       ))
                                                   .toList()),
                                         ),
@@ -130,22 +109,14 @@ class CityStep extends HookConsumerWidget {
                                             child: CupertinoButton(
                                               child: const Text(
                                                 'confirm',
-                                                style: TextStyle(
-                                                    color: Color(0xff18447B)),
+                                                style: TextStyle(color: Color(0xff18447B)),
                                               ).tr(),
                                               onPressed: () async {
-                                                if (controller.selectedItem ==
-                                                    0) {
-                                                  city.value = locale == "en"
-                                                      ? cities[0].name!
-                                                      : cities[0].name_ar!;
+                                                if (controller.selectedItem == 0) {
+                                                  city.value = locale == "en" ? cities[0].name! : cities[0].name_ar!;
                                                   cityId.value = cities[0].id!;
-                                                  register.value.cityId =
-                                                      cities[0].id!.toString();
-                                                  await box
-                                                      .putAt(0, register.value)
-                                                      .then((value) =>
-                                                          context.router.pop());
+                                                  register.value.cityId = cities[0].id!.toString();
+                                                  await box.putAt(0, register.value).then((value) => context.router.maybePop());
                                                 }
                                               },
                                             ),
@@ -156,16 +127,11 @@ class CityStep extends HookConsumerWidget {
                                   ));
                         },
                         child: Container(
-                          padding: const EdgeInsets.only(
-                              left: 30, top: 10, bottom: 10, right: 10),
+                          padding: const EdgeInsets.only(left: 30, top: 10, bottom: 10, right: 10),
                           width: double.infinity,
                           height: 70,
                           alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.blue, width: 2),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15))),
+                          decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Colors.blue, width: 2), borderRadius: const BorderRadius.all(Radius.circular(15))),
                           child: Text(
                             city.value,
                             style: TextStyle(
@@ -180,10 +146,7 @@ class CityStep extends HookConsumerWidget {
                     orElse: () => ShimmerAffect(
                       width: double.infinity,
                       height: 70,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue, width: 2),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15))),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.blue, width: 2), borderRadius: const BorderRadius.all(Radius.circular(15))),
                     ),
                   )),
             ),
@@ -197,8 +160,7 @@ class CityStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.2),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
             child: AuthContainer(
               raduis: 50,
               height: 60,
@@ -210,10 +172,7 @@ class CityStep extends HookConsumerWidget {
               color: const Color(0xffD2D3D6),
               child: Text(
                 "next",
-                style: Theme.of(context)
-                    .primaryTextTheme
-                    .titleSmall
-                    ?.copyWith(color: Colors.white),
+                style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
               ).tr(),
             ),
           ),
@@ -226,21 +185,15 @@ class CityStep extends HookConsumerWidget {
               position: Tween<Offset>(
                 begin: const Offset(0, 0.2),
                 end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
+              ).animate(CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
               child: AuthContainer(
                 raduis: 50,
                 height: 60,
-                onTap: () => ref
-                    .read(registrationNotifierProvider.notifier)
-                    .previousStep(),
+                onTap: () => ref.read(registrationNotifierProvider.notifier).previousStep(),
                 color: const Color(0xffD2D3D6),
                 child: Text(
                   "back",
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .titleSmall
-                      ?.copyWith(color: Colors.white),
+                  style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                 ).tr(),
               ),
             ),

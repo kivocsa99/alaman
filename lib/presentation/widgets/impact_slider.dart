@@ -17,10 +17,11 @@ class ImpactSlider extends HookConsumerWidget {
               final List<BeneficiaryModel> beneficiaries =
                   model.beneficiaries ?? [];
               return Container(
+                alignment:beneficiaries.isNotEmpty?null:Alignment.center ,
                 color: Colors.transparent,
-                height: 230,
+                height:beneficiaries.isNotEmpty? 230:100,
                 width: double.infinity,
-                child: ListView.builder(
+                child:beneficiaries.isEmpty?Text("You have no active beneficiaries") :ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),

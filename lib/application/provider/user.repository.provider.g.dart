@@ -22,7 +22,7 @@ final getNewsProvider =
 
 typedef GetNewsRef
     = AutoDisposeFutureProviderRef<Either<ApiFailures, List<NewsModel>>>;
-String _$getScheduleHash() => r'2f49304f2b5a0f63f1fb6a432acfacb63823a006';
+String _$checkPhoneNumberHash() => r'ecfc24ec86f82425c8fb9dfc8af557a2e6e546b0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -44,6 +44,175 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [checkPhoneNumber].
+@ProviderFor(checkPhoneNumber)
+const checkPhoneNumberProvider = CheckPhoneNumberFamily();
+
+/// See also [checkPhoneNumber].
+class CheckPhoneNumberFamily
+    extends Family<AsyncValue<Either<ApiFailures, String?>>> {
+  /// See also [checkPhoneNumber].
+  const CheckPhoneNumberFamily();
+
+  /// See also [checkPhoneNumber].
+  CheckPhoneNumberProvider call({
+    String? phone,
+    String? value,
+  }) {
+    return CheckPhoneNumberProvider(
+      phone: phone,
+      value: value,
+    );
+  }
+
+  @override
+  CheckPhoneNumberProvider getProviderOverride(
+    covariant CheckPhoneNumberProvider provider,
+  ) {
+    return call(
+      phone: provider.phone,
+      value: provider.value,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'checkPhoneNumberProvider';
+}
+
+/// See also [checkPhoneNumber].
+class CheckPhoneNumberProvider
+    extends AutoDisposeFutureProvider<Either<ApiFailures, String?>> {
+  /// See also [checkPhoneNumber].
+  CheckPhoneNumberProvider({
+    String? phone,
+    String? value,
+  }) : this._internal(
+          (ref) => checkPhoneNumber(
+            ref as CheckPhoneNumberRef,
+            phone: phone,
+            value: value,
+          ),
+          from: checkPhoneNumberProvider,
+          name: r'checkPhoneNumberProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$checkPhoneNumberHash,
+          dependencies: CheckPhoneNumberFamily._dependencies,
+          allTransitiveDependencies:
+              CheckPhoneNumberFamily._allTransitiveDependencies,
+          phone: phone,
+          value: value,
+        );
+
+  CheckPhoneNumberProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.phone,
+    required this.value,
+  }) : super.internal();
+
+  final String? phone;
+  final String? value;
+
+  @override
+  Override overrideWith(
+    FutureOr<Either<ApiFailures, String?>> Function(
+            CheckPhoneNumberRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CheckPhoneNumberProvider._internal(
+        (ref) => create(ref as CheckPhoneNumberRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        phone: phone,
+        value: value,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Either<ApiFailures, String?>>
+      createElement() {
+    return _CheckPhoneNumberProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CheckPhoneNumberProvider &&
+        other.phone == phone &&
+        other.value == value;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, phone.hashCode);
+    hash = _SystemHash.combine(hash, value.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin CheckPhoneNumberRef
+    on AutoDisposeFutureProviderRef<Either<ApiFailures, String?>> {
+  /// The parameter `phone` of this provider.
+  String? get phone;
+
+  /// The parameter `value` of this provider.
+  String? get value;
+}
+
+class _CheckPhoneNumberProviderElement
+    extends AutoDisposeFutureProviderElement<Either<ApiFailures, String?>>
+    with CheckPhoneNumberRef {
+  _CheckPhoneNumberProviderElement(super.provider);
+
+  @override
+  String? get phone => (origin as CheckPhoneNumberProvider).phone;
+  @override
+  String? get value => (origin as CheckPhoneNumberProvider).value;
+}
+
+String _$getMeetingHistoryHash() => r'29f3b61deccf74fecbbee0cd8ec5fcf80bec3e43';
+
+/// See also [getMeetingHistory].
+@ProviderFor(getMeetingHistory)
+final getMeetingHistoryProvider = AutoDisposeFutureProvider<
+    Either<ApiFailures, List<MeetingHistoryModel>>>.internal(
+  getMeetingHistory,
+  name: r'getMeetingHistoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getMeetingHistoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetMeetingHistoryRef = AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<MeetingHistoryModel>>>;
+String _$getScheduleHash() => r'2f49304f2b5a0f63f1fb6a432acfacb63823a006';
 
 /// See also [getSchedule].
 @ProviderFor(getSchedule)
@@ -458,6 +627,23 @@ final gettrainingProvider = AutoDisposeFutureProvider<
 
 typedef GettrainingRef = AutoDisposeFutureProviderRef<
     Either<ApiFailures, List<TrainingRequestModel>>>;
+String _$getTaxesRequestHash() => r'b2449e503daaf1260014235ba4f02b22eebed302';
+
+/// See also [getTaxesRequest].
+@ProviderFor(getTaxesRequest)
+final getTaxesRequestProvider =
+    AutoDisposeFutureProvider<Either<ApiFailures, dynamic>>.internal(
+  getTaxesRequest,
+  name: r'getTaxesRequestProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getTaxesRequestHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetTaxesRequestRef
+    = AutoDisposeFutureProviderRef<Either<ApiFailures, dynamic>>;
 String _$searchBeneficiariesHash() =>
     r'05ab4129f868563e6a80eecf4830523832baf849';
 

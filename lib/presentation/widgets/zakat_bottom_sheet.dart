@@ -14,34 +14,42 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ZaqatBottomSheet extends HookConsumerWidget {
   final List<PaymentMethodModel>? paymentMethods;
+  final bool? isEnabled;
   const ZaqatBottomSheet({
     required this.paymentMethods,
+    required this.isEnabled,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final locale = ref.watch(languageHiveNotifierProvider);
+
+    List<PaymentMethodModel> modifiableList = List.from(paymentMethods!);
+
+    if (isEnabled == false) {
+      // Remove two items based on your criteria.
+      // For example, removing the first two items:
+      if (modifiableList.length >= 2) {
+        modifiableList.removeAt(1); // Removes the first item
+        modifiableList.removeAt(1); // Removes the now first item, which was the second item
+      } else {
+        print("List has fewer than 2 items, cannot remove 2 items.");
+      }
+    }
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
     final isLoading = useState(false);
     final selectedIndex1 = useState(0);
     final currentStep = useState(0);
-    final type1 = useState(paymentMethods![selectedIndex1.value].name!);
-    final typeId1 = useState(paymentMethods![selectedIndex1.value].id!);
+    final type1 = useState(locale == "en" ? modifiableList[selectedIndex1.value].name! : modifiableList[selectedIndex1.value].name_ar!);
+    final typeId1 = useState(modifiableList[selectedIndex1.value].id!);
     final sliderValue = useState(10.0);
-    final imagesList = useState<List<String>>([
-      "assets/coin1.png",
-      "assets/coin2.png",
-      "assets/coin3.png",
-      "assets/coin4.png"
-    ]);
+    final imagesList = useState<List<String>>(["assets/coin1.png", "assets/coin2.png", "assets/coin3.png", "assets/coin4.png"]);
     final coinsList = useState<List<double>>([25.0, 50.0, 75.0, 100.0]);
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(50)),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
       height: MediaQuery.of(context).size.height * 0.75,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Form(
@@ -63,8 +71,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: StepIndicator(
-                        currentStep: currentStep.value, stepCount: 2),
+                    child: StepIndicator(currentStep: currentStep.value, stepCount: 2),
                   ),
                 ),
                 AnimatedSwitcher(
@@ -75,11 +82,10 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   IconButton(
-                                    onPressed: () => context.router.pop(),
+                                    onPressed: () => context.router.maybePop(),
                                     icon: const Icon(
                                       Icons.arrow_back,
                                       color: Color(0xff16437B),
@@ -88,16 +94,10 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                   Text(
                                     "zakatamount",
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                            fontSize: 20,
-                                            color: const Color(0xff16437B),
-                                            fontWeight: FontWeight.w500),
+                                    style: Theme.of(context).primaryTextTheme.bodyLarge?.copyWith(fontSize: 20, color: const Color(0xff16437B), fontWeight: FontWeight.w500),
                                   ).tr(),
                                   IconButton(
-                                    onPressed: () => context.router.pop(),
+                                    onPressed: () => context.router.maybePop(),
                                     icon: const Icon(
                                       Icons.close,
                                       color: Color(0xff16437B),
@@ -111,26 +111,15 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                 width: double.infinity,
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (context, index) =>
-                                      const Gap(10),
+                                  separatorBuilder: (context, index) => const Gap(10),
                                   shrinkWrap: true,
-                                  itemBuilder: (context, index) =>
-                                      GestureDetector(
-                                    onTap: () => sliderValue.value =
-                                        coinsList.value[index],
+                                  itemBuilder: (context, index) => GestureDetector(
+                                    onTap: () => sliderValue.value = coinsList.value[index],
                                     child: Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 20, left: 10, right: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          border: Border.all(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              width: 1)),
+                                      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1)),
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Image.asset(
                                             imagesList.value[index],
@@ -141,12 +130,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                           Text(
                                             "${coinsList.value[index].round()}  ${"jod".tr()}",
                                             textAlign: TextAlign.center,
-                                            style: Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                    color: const Color(
-                                                        0xff16437B)),
+                                            style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                                           ),
                                         ],
                                       ),
@@ -159,25 +143,17 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                               Text(
                                 "or",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium!
-                                    .copyWith(color: const Color(0xff16437B)),
+                                style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                               ).tr(),
                               const Gap(10),
                               Text(
                                 "slidefor",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium,
+                                style: Theme.of(context).primaryTextTheme.bodyMedium,
                               ).tr(),
                               const Gap(15),
                               Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        width: 1)),
+                                decoration: BoxDecoration(border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1)),
                                 height: 30,
                                 width: 100,
                                 alignment: Alignment.center,
@@ -190,8 +166,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                               const Gap(10),
                               SliderTheme(
                                 data: SliderTheme.of(context).copyWith(
-                                  thumbShape: SliderThumbImage(
-                                      Image.asset('assets/coin1.png')),
+                                  thumbShape: SliderThumbImage(Image.asset('assets/coin1.png')),
                                 ),
                                 child: Slider(
                                   value: sliderValue.value,
@@ -216,10 +191,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                   color: const Color(0xffFFC629),
                                   child: Text(
                                     "next",
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .titleSmall
-                                        ?.copyWith(color: Colors.white),
+                                    style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                                   ).tr(),
                                 ),
                               ),
@@ -230,12 +202,10 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   IconButton(
-                                    onPressed: () => currentStep.value =
-                                        currentStep.value - 1,
+                                    onPressed: () => currentStep.value = currentStep.value - 1,
                                     icon: const Icon(
                                       Icons.arrow_back,
                                       color: Color(0xff16437B),
@@ -244,16 +214,10 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                   Text(
                                     "choosepayment",
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            fontSize: 20,
-                                            color: const Color(0xff16437B),
-                                            fontWeight: FontWeight.bold),
+                                    style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(fontSize: 20, color: const Color(0xff16437B), fontWeight: FontWeight.bold),
                                   ).tr(),
                                   IconButton(
-                                    onPressed: () => context.router.pop(),
+                                    onPressed: () => context.router.maybePop(),
                                     icon: const Icon(
                                       Icons.close,
                                       color: Color(0xff16437B),
@@ -264,33 +228,20 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                               const Gap(40),
                               ListView.separated(
                                 physics: const NeverScrollableScrollPhysics(),
-                                separatorBuilder: (context, index) =>
-                                    const Gap(10),
+                                separatorBuilder: (context, index) => const Gap(10),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) => AuthContainer(
-                                  color: selectedIndex1.value == index
-                                      ? const Color(0xff2A7DE1)
-                                      : Colors.white,
+                                  color: selectedIndex1.value == index ? const Color(0xff2A7DE1) : Colors.white,
                                   height: 50,
                                   raduis: 40,
                                   onTap: () async {
                                     selectedIndex1.value = index;
-                                    type1.value = locale == "en"
-                                        ? paymentMethods![index].name!
-                                        : paymentMethods![index].name_ar!;
-                                    typeId1.value = paymentMethods![index].id!;
+                                    type1.value = locale == "en" ? modifiableList[index].name! : modifiableList[index].name_ar!;
+                                    typeId1.value = modifiableList[index].id!;
                                   },
                                   child: Text(
-                                    locale == "en"
-                                        ? paymentMethods![index].name!
-                                        : paymentMethods![index].name_ar!,
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                            color: selectedIndex1.value == index
-                                                ? Colors.white
-                                                : const Color(0xff16437B)),
+                                    locale == "en" ? modifiableList[index].name! : modifiableList[index].name_ar!,
+                                    style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: selectedIndex1.value == index ? Colors.white : const Color(0xff16437B)),
                                   ),
                                 ),
                                 itemCount: paymentMethods!.length,
@@ -303,13 +254,9 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                   height: 50,
                                   onTap: () async {
                                     isLoading.value = true;
-                                    if (typeId1.value ==
-                                        paymentMethods!
-                                            .firstWhere((element) =>
-                                                element.name == "Cash")
-                                            .id) {
+                                    if (typeId1.value == modifiableList.firstWhere((element) => element.name == "Cash").id) {
                                       isLoading.value = false;
-                                      context.router.pop();
+                                      context.router.maybePop();
                                       context.router.push(LocationCheckerRoute(
                                         paymentMethod: 1,
                                         donationTypeId: 2,
@@ -330,20 +277,15 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                           .then((value) => value.fold(
                                                 (l) async {
                                                   isLoading.value = false;
-                                                  context.router.pop();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(const SnackBar(
-                                                          content: Text(
-                                                              "error occured please try again")));
+                                                  context.router.maybePop();
+                                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("error occured please try again")));
                                                 },
                                                 (r) async {
                                                   isLoading.value = false;
 
-                                                  context.router.pop();
+                                                  context.router.maybePop();
 
-                                                  context.router.push(
-                                                      PaymentRoute(
-                                                          baseurl: r["url"]));
+                                                  context.router.push(PaymentRoute(baseurl: r["url"]));
                                                 },
                                               ));
                                       ;
@@ -353,10 +295,7 @@ class ZaqatBottomSheet extends HookConsumerWidget {
                                   child: isLoading.value == false
                                       ? Text(
                                           "next",
-                                          style: Theme.of(context)
-                                              .primaryTextTheme
-                                              .titleSmall
-                                              ?.copyWith(color: Colors.white),
+                                          style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                                         ).tr()
                                       : const CircularProgressIndicator(),
                                 ),
@@ -398,10 +337,8 @@ class SliderThumbImage extends SliderComponentShape {
     required double textScaleFactor,
     required Size sizeWithOverflow,
   }) {
-    final ImageStream imageStream =
-        image.image.resolve(const ImageConfiguration());
-    final ImageStreamListener listener =
-        ImageStreamListener((ImageInfo info, bool _) {
+    final ImageStream imageStream = image.image.resolve(const ImageConfiguration());
+    final ImageStreamListener listener = ImageStreamListener((ImageInfo info, bool _) {
       final image = info.image;
       final paint = Paint();
 

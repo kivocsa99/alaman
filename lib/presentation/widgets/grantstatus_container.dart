@@ -14,8 +14,8 @@ class GrantStatusContainer extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     final profile = ref.watch(getProfileProvider);
     return profile.when(
         data: (data) => data.fold((l) => Text(l.toString()), (r) {

@@ -1,3 +1,4 @@
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/presentation/widgets/request_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -27,6 +28,8 @@ class GrantsGridView extends HookConsumerWidget {
         'image': 'assets/training.png',
       },
     ]);
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

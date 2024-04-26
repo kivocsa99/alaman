@@ -22,14 +22,10 @@ class BirthdateStep extends HookConsumerWidget {
     final birthDate = useState("datehint".tr());
     final box = Hive.box("register");
     final register = useState<UserRegistration>(box.getAt(0));
-    final controller1 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller2 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller3 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller5 =
-        useAnimationController(duration: const Duration(seconds: 1));
+    final controller1 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller2 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller3 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller5 = useAnimationController(duration: const Duration(seconds: 1));
     useEffect(() {
       controller1.forward();
       controller2.forward();
@@ -51,14 +47,10 @@ class BirthdateStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.2),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
             child: Text(
               "birthdatetitle",
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .titleLarge
-                  ?.copyWith(color: Colors.black),
+              style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(color: Colors.black),
             ).tr(),
           ),
         )),
@@ -70,8 +62,7 @@ class BirthdateStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.2),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
             child: Form(
                 key: formKey.value,
                 child: GestureDetector(
@@ -92,12 +83,8 @@ class BirthdateStep extends HookConsumerWidget {
                                         minimumDate: DateTime(1980),
                                         maximumDate: DateTime.now(),
                                         onDateTimeChanged: (val) async {
-                                          birthDate.value =
-                                              DateFormat('yyyy-MM-dd')
-                                                  .format(val);
-                                          register.value.birthDate =
-                                              DateFormat('yyyy-MM-dd')
-                                                  .format(val);
+                                          birthDate.value = DateFormat('yyyy-MM-dd').format(val);
+                                          register.value.birthDate = DateFormat('yyyy-MM-dd').format(val);
                                           await box.putAt(0, register.value);
                                         }),
                                   ),
@@ -108,12 +95,9 @@ class BirthdateStep extends HookConsumerWidget {
                                     child: SizedBox(
                                       height: 70,
                                       child: CupertinoButton(
-                                        child: const Text('confirm',
-                                                style: TextStyle(
-                                                    color: Color(0xff18447B)))
-                                            .tr(),
+                                        child: const Text('confirm', style: TextStyle(color: Color(0xff18447B))).tr(),
                                         onPressed: () async {
-                                          context.router.pop();
+                                          context.router.maybePop();
                                         },
                                       ),
                                     ),
@@ -123,16 +107,11 @@ class BirthdateStep extends HookConsumerWidget {
                             ));
                   },
                   child: Container(
-                    padding: const EdgeInsets.only(
-                        left: 30, top: 10, bottom: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 30, top: 10, bottom: 10, right: 10),
                     width: double.infinity,
                     height: 70,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.blue, width: 2),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15))),
+                    decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Colors.blue, width: 2), borderRadius: const BorderRadius.all(Radius.circular(15))),
                     child: Text(
                       birthDate.value,
                       style: TextStyle(
@@ -153,8 +132,7 @@ class BirthdateStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.2),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
             child: AuthContainer(
               raduis: 50,
               height: 60,
@@ -166,10 +144,7 @@ class BirthdateStep extends HookConsumerWidget {
               color: const Color(0xffD2D3D6),
               child: Text(
                 "next",
-                style: Theme.of(context)
-                    .primaryTextTheme
-                    .titleSmall
-                    ?.copyWith(color: Colors.white),
+                style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
               ).tr(),
             ),
           ),
@@ -182,21 +157,15 @@ class BirthdateStep extends HookConsumerWidget {
               position: Tween<Offset>(
                 begin: const Offset(0, 0.2),
                 end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
+              ).animate(CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
               child: AuthContainer(
                 raduis: 50,
                 height: 60,
-                onTap: () => ref
-                    .read(registrationNotifierProvider.notifier)
-                    .previousStep(),
+                onTap: () => ref.read(registrationNotifierProvider.notifier).previousStep(),
                 color: const Color(0xffD2D3D6),
                 child: Text(
                   "back",
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .titleSmall
-                      ?.copyWith(color: Colors.white),
+                  style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                 ).tr(),
               ),
             ),

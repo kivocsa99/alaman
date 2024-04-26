@@ -33,8 +33,8 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     final generic = ref.watch(getGenericProvider);
     final profile = ref.watch(getProfileProvider);
     final userSetting = ref.watch(settingHiveNotifierProvider);
@@ -446,25 +446,7 @@ class HomeScreen extends HookConsumerWidget {
                                                                     ),
                                                               ),
                                                             ),
-                                                            Align(
-                                                              alignment: locale ==
-                                                                      "en"
-                                                                  ? Alignment
-                                                                      .bottomLeft
-                                                                  : Alignment
-                                                                      .bottomRight,
-                                                              child: Text(
-                                                                convertApiDate(e
-                                                                    .created_at!),
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .primaryTextTheme
-                                                                    .titleSmall
-                                                                    ?.copyWith(
-                                                                        color: Colors
-                                                                            .white),
-                                                              ),
-                                                            ),
+                                                            
                                                           ],
                                                         ),
                                                       )

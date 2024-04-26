@@ -4,10 +4,13 @@ import 'package:fpdart/fpdart.dart';
 
 abstract class IAuthRepository {
   Future<Either<ApiFailures, String>> signUpWithEmailAndPassword(
-      {required UserRegistration model});
+      {required UserRegistration model,String?appleToken,String?googleToken,String?authId});
   Future<Either<ApiFailures, String>> signInWithEmailAndPassword({
     required String phone,
     required String password,
+  });
+    Future<Either<ApiFailures, String>> checkSignedSocial({
+required String socialId,  String? appleToken,String?googleToken
   });
   Future<void> logOut();
 }

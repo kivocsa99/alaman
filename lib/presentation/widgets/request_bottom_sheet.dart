@@ -30,8 +30,8 @@ class RequestBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final locale = ref.watch(languageHiveNotifierProvider);
+
     final formKey = useState(GlobalKey<FormState>());
     final scrollcontroller = FixedExtentScrollController(initialItem: 0);
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
@@ -40,9 +40,7 @@ class RequestBottomSheet extends HookConsumerWidget {
     final date = useState("date".tr());
     final time = useState("time".tr());
     final isLoading = useState(false);
-    final availabe = useState(isProgram == false
-        ? "availableservices".tr()
-        : "availabletraining".tr());
+    final availabe = useState(isProgram == false ? "availableservices".tr() : "availabletraining".tr());
 
     return Padding(
       padding: EdgeInsets.only(
@@ -50,11 +48,7 @@ class RequestBottomSheet extends HookConsumerWidget {
       ),
       child: Container(
         width: double.infinity,
-        height: isProgram == false
-            ? (viewInsets > 0 ? null : MediaQuery.of(context).size.height * 0.6)
-            : (viewInsets > 0
-                ? null
-                : MediaQuery.of(context).size.height * 0.75),
+        height: isProgram == false ? (viewInsets > 0 ? null : MediaQuery.of(context).size.height * 0.6) : (viewInsets > 0 ? null : MediaQuery.of(context).size.height * 0.75),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
           key: formKey.value,
@@ -67,21 +61,13 @@ class RequestBottomSheet extends HookConsumerWidget {
                   Text(
                     isProgram == true ? 'reqtraining' : 'reqservice',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .primaryTextTheme
-                        .bodyLarge
-                        ?.copyWith(
-                            fontSize: 23, color: const Color(0xff16437B)),
+                    style: Theme.of(context).primaryTextTheme.bodyLarge?.copyWith(fontSize: 23, color: const Color(0xff16437B)),
                   ).tr(),
-                  Text("fillrequest",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).primaryTextTheme.bodyMedium)
-                      .tr(),
+                  Text("fillrequest", textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodyMedium).tr(),
                   const Gap(40),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.grey.withOpacity(0.5), width: 1),
+                      border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: ListTile(
@@ -102,31 +88,18 @@ class RequestBottomSheet extends HookConsumerWidget {
                                           if (isProgram) {
                                             final model = programs![value];
                                             id.value = model.id!;
-                                            date.value = convertApiDate(
-                                                model.date_from!);
+                                            date.value = convertApiDate(model.date_from!);
                                             time.value = model.time_from!;
-                                            availabe.value = locale == "en"
-                                                ? model.name!
-                                                : model.name_ar!;
+                                            availabe.value = locale == "en" ? model.name! : model.name_ar!;
                                           } else {
                                             final model = services![value];
                                             id.value = model.id!;
-                                            availabe.value = locale == "en"
-                                                ? model.name!
-                                                : model.name_ar!;
+                                            availabe.value = locale == "en" ? model.name! : model.name_ar!;
                                           }
                                         },
                                         children: isProgram == true
-                                            ? programs!
-                                                .map((e) => Text(locale == "en"
-                                                    ? e.name!
-                                                    : e.name_ar!))
-                                                .toList()
-                                            : services!
-                                                .map((e) => Text(locale == "en"
-                                                    ? e.name!
-                                                    : e.name_ar!))
-                                                .toList(),
+                                            ? programs!.map((e) => Text(locale == "en" ? e.name! : e.name_ar!)).toList()
+                                            : services!.map((e) => Text(locale == "en" ? e.name! : e.name_ar!)).toList(),
                                       ),
                                     ),
                                     Align(
@@ -138,29 +111,20 @@ class RequestBottomSheet extends HookConsumerWidget {
                                           if (id.value == -1) {
                                             if (isProgram) {
                                               id.value = programs![0].id!;
-                                              date.value = convertApiDate(
-                                                  programs![0].date_from!);
-                                              time.value =
-                                                  programs![0].time_from!;
-                                              availabe.value = locale == "en"
-                                                  ? programs![0].name!
-                                                  : programs![0].name_ar!;
+                                              date.value = convertApiDate(programs![0].date_from!);
+                                              time.value = programs![0].time_from!;
+                                              availabe.value = locale == "en" ? programs![0].name! : programs![0].name_ar!;
                                             } else {
                                               id.value = services![0].id!;
-                                              availabe.value = locale == "en"
-                                                  ? services![0].name!
-                                                  : services![0].name_ar!;
+                                              availabe.value = locale == "en" ? services![0].name! : services![0].name_ar!;
                                             }
                                           }
-                                          context.router.pop();
+                                          context.router.maybePop();
                                         },
                                         color: const Color(0xffFFC629),
                                         child: Text(
                                           "confirm",
-                                          style: Theme.of(context)
-                                              .primaryTextTheme
-                                              .titleSmall
-                                              ?.copyWith(color: Colors.white),
+                                          style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                                         ).tr(),
                                       ),
                                     )
@@ -181,8 +145,7 @@ class RequestBottomSheet extends HookConsumerWidget {
                   if (isProgram)
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.grey.withOpacity(0.5), width: 1),
+                        border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: ListTile(
@@ -200,8 +163,7 @@ class RequestBottomSheet extends HookConsumerWidget {
                   if (isProgram)
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.grey.withOpacity(0.5), width: 1),
+                        border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: ListTile(
@@ -236,66 +198,37 @@ class RequestBottomSheet extends HookConsumerWidget {
                         if (id.value != -1) {
                           isLoading.value = true;
                           if (isProgram) {
-                            ref
-                                .read(newTrainingRequestUseCaseProvider)
-                                .execute(NewTrainingRequestUseCaseInput(
-                                    id: id.value, notes: notes.value))
-                                .then((value) => value.fold((l) {
-                                      isLoading.value = false;
+                            ref.read(newTrainingRequestUseCaseProvider).execute(NewTrainingRequestUseCaseInput(id: id.value, notes: notes.value)).then((value) => value.fold((l) {
+                                  isLoading.value = false;
 
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(l.message ??
-                                                      "internetconnection")
-                                                  .tr()));
-                                    }, (r) {
-                                      isLoading.value = false;
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.message ?? "internetconnection").tr()));
+                                }, (r) {
+                                  isLoading.value = false;
 
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content:
-                                                  const Text("selectedtrainig")
-                                                      .tr()));
-                                      context.router.pop();
-                                    }));
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("selectedtrainig").tr()));
+                                  context.router.maybePop();
+                                }));
                           } else {
-                            ref
-                                .read(newAlamanRequestRequestUseCaseProvider)
-                                .execute(NewAlamanRequestRequestUseCaseInput(
-                                    id: id.value, notes: notes.value))
-                                .then((value) => value.fold((l) {
-                                      isLoading.value = false;
+                            ref.read(newAlamanRequestRequestUseCaseProvider).execute(NewAlamanRequestRequestUseCaseInput(id: id.value, notes: notes.value)).then((value) => value.fold((l) {
+                                  isLoading.value = false;
 
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(l.message ?? "")));
-                                    }, (r) {
-                                      isLoading.value = false;
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.message ?? "")));
+                                }, (r) {
+                                  isLoading.value = false;
 
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content:
-                                                  const Text("selectedservice")
-                                                      .tr()));
-                                      context.router.pop();
-                                    }));
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("selectedservice").tr()));
+                                  context.router.maybePop();
+                                }));
                           }
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(isProgram
-                                      ? "selecttraining"
-                                      : "selectservice")
-                                  .tr()));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isProgram ? "selecttraining" : "selectservice").tr()));
                         }
                       },
                       color: const Color(0xffFFC629),
                       child: isLoading.value == false
                           ? Text(
                               "sumbitreq",
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .titleSmall
-                                  ?.copyWith(color: Colors.black),
+                              style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.black),
                             ).tr()
                           : const CircularProgressIndicator(),
                     ),

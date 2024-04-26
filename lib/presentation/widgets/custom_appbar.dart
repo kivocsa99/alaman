@@ -9,8 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? tabbar;
   final bool? notMain;
   final bool? nonotification;
-  const CustomAppBar(
-      {super.key,this.notMain ,this.nonotification,required this.title, required this.description, this.tabbar});
+  const CustomAppBar({super.key, this.notMain, this.nonotification, required this.title, required this.description, this.tabbar});
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +20,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 1,
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
-      leading:notMain==null? Padding(
-        padding: const EdgeInsets.only(top: 12.0),
-        child: GestureDetector(
-          onTap: () => context.router.pop(),
-          child: const Icon(
-            Icons.arrow_back,
-            color: Color(0xff16437B),
-          ),
-        ),
-      ):const SizedBox.shrink(),
+      leading: notMain == null
+          ? Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: GestureDetector(
+                onTap: () => context.router.maybePop(),
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Color(0xff16437B),
+                ),
+              ),
+            )
+          : const SizedBox.shrink(),
       title: Padding(
         padding: const EdgeInsets.only(top: 12.0),
         child: Column(
@@ -38,36 +39,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 19, color: const Color(0xff16437B)),
+              style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(fontSize: 19, color: const Color(0xff16437B)),
             ).tr(),
-            Text(description,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).primaryTextTheme.bodyMedium)
-                .tr(),
+            Text(description, textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodyMedium).tr(),
           ],
         ),
       ),
       centerTitle: true,
-      actions:nonotification==true?null: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20.0, top: 12, left: 20),
-          child: Container(
-            height: 40,
-            width: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: const Color(0xffFFC629)),
-            child: const Icon(
-              FontAwesomeIcons.bell,
-              color: Colors.white,
-            ),
-          ),
-        )
-      ],
+      actions: nonotification == true
+          ? null
+          : [
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0, top: 12, left: 20),
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffFFC629)),
+                  child: const Icon(
+                    FontAwesomeIcons.bell,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
     );
   }
 

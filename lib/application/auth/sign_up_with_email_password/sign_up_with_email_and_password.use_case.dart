@@ -1,5 +1,6 @@
 import 'package:alaman/application/provider/auth.repository.provider.dart';
 import 'package:alaman/domain/auth/interface/i.auth.repository.dart';
+import 'package:flutter_map/flutter_map.dart';
 import "package:fpdart/fpdart.dart";
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,6 +23,10 @@ class SignUpWithEmailAndPasswordUseCase
   @override
   Future<Either<ApiFailures, String>> execute(input) async {
     return await _iAuthFacade!.signUpWithEmailAndPassword(
+      googleToken: input.googleId,
+      appleToken: input.appleId,
+      authId:input.socialId,
        model: input.model);
+
   }
 }

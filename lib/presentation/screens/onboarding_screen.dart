@@ -13,6 +13,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
 class OnBoardingScreen extends HookConsumerWidget {
@@ -21,8 +22,8 @@ class OnBoardingScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final box = ref.watch(settingHiveNotifierProvider);
-    final selectedIndex = useState(box == null ? 0 : 3);
-    final pageController = usePageController(initialPage: box == null ? 0 : 3);
+    final selectedIndex = useState(box?.isLoggedIn == null ? 0 : 3);
+    final pageController = usePageController(initialPage: box?.isLoggedIn == null ? 0 : 3);
 
     return SafeArea(
       child: Scaffold(
@@ -36,25 +37,18 @@ class OnBoardingScreen extends HookConsumerWidget {
                 ResponsiveRowColumnItem(
                   child: SizedBox(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height /1.2 ,
+                    height: MediaQuery.of(context).size.height < 800 ? MediaQuery.of(context).size.height - 100 : MediaQuery.of(context).size.height / 1.4,
                     child: PageView.builder(
                       controller: pageController,
                       itemCount: 4,
                       onPageChanged: (index) async {
                         selectedIndex.value = index;
                         if (selectedIndex.value == 2) {
-                          final usersetting = UserSettings()
-                            ..isFirstTime = true;
-                          ref
-                              .read(settingHiveNotifierProvider.notifier)
-                              .addItem(usersetting);
+                          final usersetting = UserSettings()..isFirstTime = true;
+                          ref.read(settingHiveNotifierProvider.notifier).addItem(usersetting);
                           final userRegister = UserRegistration();
-                          ref
-                              .read(registerHiveNotifierProvider.notifier)
-                              .addItem(userRegister);
-                          ref
-                              .read(loginHiveNotifierProvider.notifier)
-                              .addItem(userRegister);
+                          ref.read(registerHiveNotifierProvider.notifier).addItem(userRegister);
+                          ref.read(loginHiveNotifierProvider.notifier).addItem(userRegister);
                         }
                       },
                       itemBuilder: (context, index) {
@@ -63,26 +57,15 @@ class OnBoardingScreen extends HookConsumerWidget {
                                 index: index,
                                 next: () async {
                                   if (selectedIndex.value == 2) {
-                                    final usersetting = UserSettings()
-                                      ..isFirstTime = true;
-                                    ref
-                                        .read(settingHiveNotifierProvider
-                                            .notifier)
-                                        .addItem(usersetting);
+                                    final usersetting = UserSettings()..isFirstTime = true;
+                                    ref.read(settingHiveNotifierProvider.notifier).addItem(usersetting);
                                     final userRegister = UserRegistration();
-                                    ref
-                                        .read(registerHiveNotifierProvider
-                                            .notifier)
-                                        .addItem(userRegister);
-                                    ref
-                                        .read(
-                                            loginHiveNotifierProvider.notifier)
-                                        .addItem(userRegister);
+                                    ref.read(registerHiveNotifierProvider.notifier).addItem(userRegister);
+                                    ref.read(loginHiveNotifierProvider.notifier).addItem(userRegister);
                                   }
                                   if (selectedIndex.value < 3) {
                                     pageController.nextPage(
-                                      duration:
-                                          const Duration(milliseconds: 400),
+                                      duration: const Duration(milliseconds: 400),
                                       curve: Curves.easeInOut,
                                     );
                                   }
@@ -111,21 +94,13 @@ class OnBoardingScreen extends HookConsumerWidget {
                                   (index) => Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: AnimatedContainer(
-                                          duration:
-                                              const Duration(milliseconds: 500),
+                                          duration: const Duration(milliseconds: 500),
                                           height: 8,
                                           width: 80,
                                           decoration: BoxDecoration(
-                                              borderRadius: selectedIndex
-                                                          .value ==
-                                                      index
-                                                  ? BorderRadius.circular(25)
-                                                  : BorderRadius.circular(50),
+                                              borderRadius: selectedIndex.value == index ? BorderRadius.circular(25) : BorderRadius.circular(50),
                                               shape: BoxShape.rectangle,
-                                              color: selectedIndex.value ==
-                                                      index
-                                                  ? const Color(0xff5FBDFF)
-                                                  : const Color(0xffB8E2FF)),
+                                              color: selectedIndex.value == index ? const Color(0xff5FBDFF) : const Color(0xffB8E2FF)),
                                         ),
                                       )),
                             ),
@@ -134,12 +109,15 @@ class OnBoardingScreen extends HookConsumerWidget {
                           ResponsiveRowColumnItem(
                             child: ResponsiveRowColumn(
                               layout: ResponsiveRowColumnType.ROW,
-                              rowMainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 ResponsiveRowColumnItem(
                                   child: GestureDetector(
-                                    onTap: () => context.router.pop(),
+                                    onTap: () async {
+                                      if (!await launchUrl(Uri.parse("https://alamanfund.jo/app/terms/"))) {
+                                        throw Exception('Could not launch ');
+                                      }
+                                    },
                                     child: Container(
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -147,16 +125,16 @@ class OnBoardingScreen extends HookConsumerWidget {
                                         ),
                                         height: 40,
                                         width: 150,
-                                        child: Text("termsofuse",
-                                                style: Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .titleSmall)
-                                            .tr()),
+                                        child: Text("termsofuse", style: Theme.of(context).primaryTextTheme.titleSmall).tr()),
                                   ),
                                 ),
                                 ResponsiveRowColumnItem(
                                   child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () async {
+                                      if (!await launchUrl(Uri.parse("https://alamanfund.jo/app/privacy/"))) {
+                                        throw Exception('Could not launch ');
+                                      }
+                                    },
                                     child: Container(
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -164,11 +142,7 @@ class OnBoardingScreen extends HookConsumerWidget {
                                         ),
                                         height: 40,
                                         width: 150,
-                                        child: Text("privacypolicy",
-                                                style: Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .titleSmall)
-                                            .tr()),
+                                        child: Text("privacypolicy", style: Theme.of(context).primaryTextTheme.titleSmall).tr()),
                                   ),
                                 ),
                               ],

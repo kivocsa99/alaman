@@ -23,6 +23,9 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           index: args.index,
           profileId: args.profileId,
+          steps: args.steps,
+          name: args.name,
+          step: args.step,
         ),
       );
     },
@@ -40,7 +43,11 @@ abstract class _$AppRouter extends RootStackRouter {
           donationAmount: args.donationAmount,
           endAmount: args.endAmount,
           sponsershipEnd: args.sponsershipEnd,
+          donationFrequencyId: args.donationFrequencyId,
           sponsershipSart: args.sponsershipSart,
+          recuring: args.recuring,
+          startDate: args.startDate,
+          endDate: args.endDate,
           key: args.key,
         ),
       );
@@ -70,6 +77,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: LocationCheckerScreen(
           key: args.key,
+          notes: args.notes,
           paymentMethod: args.paymentMethod,
           beneficiaries: args.beneficiaries,
           startDate: args.startDate,
@@ -110,13 +118,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     MeetingHistoryRoute.name: (routeData) {
-      final args = routeData.argsAs<MeetingHistoryRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: MeetingHistoryScreen(
-          key: args.key,
-          marks: args.marks,
-        ),
+        child: const MeetingHistoryScreen(),
       );
     },
     OnBoardingRoute.name: (routeData) {
@@ -230,6 +234,9 @@ class BeneficiaryProfileRoute
     Key? key,
     required int? index,
     required String? profileId,
+    required List<StepsModel> steps,
+    required String? name,
+    required double? step,
     List<PageRouteInfo>? children,
   }) : super(
           BeneficiaryProfileRoute.name,
@@ -237,6 +244,9 @@ class BeneficiaryProfileRoute
             key: key,
             index: index,
             profileId: profileId,
+            steps: steps,
+            name: name,
+            step: step,
           ),
           initialChildren: children,
         );
@@ -252,6 +262,9 @@ class BeneficiaryProfileRouteArgs {
     this.key,
     required this.index,
     required this.profileId,
+    required this.steps,
+    required this.name,
+    required this.step,
   });
 
   final Key? key;
@@ -260,9 +273,15 @@ class BeneficiaryProfileRouteArgs {
 
   final String? profileId;
 
+  final List<StepsModel> steps;
+
+  final String? name;
+
+  final double? step;
+
   @override
   String toString() {
-    return 'BeneficiaryProfileRouteArgs{key: $key, index: $index, profileId: $profileId}';
+    return 'BeneficiaryProfileRouteArgs{key: $key, index: $index, profileId: $profileId, steps: $steps, name: $name, step: $step}';
   }
 }
 
@@ -279,7 +298,11 @@ class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
     int? donationAmount,
     int? endAmount,
     int? sponsershipEnd,
+    int? donationFrequencyId,
     int? sponsershipSart,
+    int? recuring,
+    String? startDate,
+    String? endDate,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -294,7 +317,11 @@ class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
             donationAmount: donationAmount,
             endAmount: endAmount,
             sponsershipEnd: sponsershipEnd,
+            donationFrequencyId: donationFrequencyId,
             sponsershipSart: sponsershipSart,
+            recuring: recuring,
+            startDate: startDate,
+            endDate: endDate,
             key: key,
           ),
           initialChildren: children,
@@ -317,7 +344,11 @@ class FilteredRouteArgs {
     this.donationAmount,
     this.endAmount,
     this.sponsershipEnd,
+    this.donationFrequencyId,
     this.sponsershipSart,
+    this.recuring,
+    this.startDate,
+    this.endDate,
     this.key,
   });
 
@@ -339,13 +370,21 @@ class FilteredRouteArgs {
 
   final int? sponsershipEnd;
 
+  final int? donationFrequencyId;
+
   final int? sponsershipSart;
+
+  final int? recuring;
+
+  final String? startDate;
+
+  final String? endDate;
 
   final Key? key;
 
   @override
   String toString() {
-    return 'FilteredRouteArgs{genderId: $genderId, cityId: $cityId, educationalYearId: $educationalYearId, age: $age, scholarshipTypeId: $scholarshipTypeId, isCorporate: $isCorporate, donationAmount: $donationAmount, endAmount: $endAmount, sponsershipEnd: $sponsershipEnd, sponsershipSart: $sponsershipSart, key: $key}';
+    return 'FilteredRouteArgs{genderId: $genderId, cityId: $cityId, educationalYearId: $educationalYearId, age: $age, scholarshipTypeId: $scholarshipTypeId, isCorporate: $isCorporate, donationAmount: $donationAmount, endAmount: $endAmount, sponsershipEnd: $sponsershipEnd, donationFrequencyId: $donationFrequencyId, sponsershipSart: $sponsershipSart, recuring: $recuring, startDate: $startDate, endDate: $endDate, key: $key}';
   }
 }
 
@@ -396,6 +435,7 @@ class LanguageRoute extends PageRouteInfo<void> {
 class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
   LocationCheckerRoute({
     Key? key,
+    String? notes,
     int? paymentMethod,
     List<int>? beneficiaries,
     String? startDate,
@@ -409,6 +449,7 @@ class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
           LocationCheckerRoute.name,
           args: LocationCheckerRouteArgs(
             key: key,
+            notes: notes,
             paymentMethod: paymentMethod,
             beneficiaries: beneficiaries,
             startDate: startDate,
@@ -430,6 +471,7 @@ class LocationCheckerRoute extends PageRouteInfo<LocationCheckerRouteArgs> {
 class LocationCheckerRouteArgs {
   const LocationCheckerRouteArgs({
     this.key,
+    this.notes,
     this.paymentMethod,
     this.beneficiaries,
     this.startDate,
@@ -441,6 +483,8 @@ class LocationCheckerRouteArgs {
   });
 
   final Key? key;
+
+  final String? notes;
 
   final int? paymentMethod;
 
@@ -460,7 +504,7 @@ class LocationCheckerRouteArgs {
 
   @override
   String toString() {
-    return 'LocationCheckerRouteArgs{key: $key, paymentMethod: $paymentMethod, beneficiaries: $beneficiaries, startDate: $startDate, endDate: $endDate, donationFrequencyId: $donationFrequencyId, amount: $amount, donationTypeId: $donationTypeId, recurring: $recurring}';
+    return 'LocationCheckerRouteArgs{key: $key, notes: $notes, paymentMethod: $paymentMethod, beneficiaries: $beneficiaries, startDate: $startDate, endDate: $endDate, donationFrequencyId: $donationFrequencyId, amount: $amount, donationTypeId: $donationTypeId, recurring: $recurring}';
   }
 }
 
@@ -546,40 +590,16 @@ class MarksHistoryRouteArgs {
 
 /// generated route for
 /// [MeetingHistoryScreen]
-class MeetingHistoryRoute extends PageRouteInfo<MeetingHistoryRouteArgs> {
-  MeetingHistoryRoute({
-    Key? key,
-    required List<MarksModel> marks,
-    List<PageRouteInfo>? children,
-  }) : super(
+class MeetingHistoryRoute extends PageRouteInfo<void> {
+  const MeetingHistoryRoute({List<PageRouteInfo>? children})
+      : super(
           MeetingHistoryRoute.name,
-          args: MeetingHistoryRouteArgs(
-            key: key,
-            marks: marks,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'MeetingHistoryRoute';
 
-  static const PageInfo<MeetingHistoryRouteArgs> page =
-      PageInfo<MeetingHistoryRouteArgs>(name);
-}
-
-class MeetingHistoryRouteArgs {
-  const MeetingHistoryRouteArgs({
-    this.key,
-    required this.marks,
-  });
-
-  final Key? key;
-
-  final List<MarksModel> marks;
-
-  @override
-  String toString() {
-    return 'MeetingHistoryRouteArgs{key: $key, marks: $marks}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

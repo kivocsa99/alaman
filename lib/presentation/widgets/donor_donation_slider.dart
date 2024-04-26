@@ -63,40 +63,56 @@ class DonorDonationSlider extends HookConsumerWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () async {
-                          showModalBottomSheet(
-                            context: context,
-                            backgroundColor: Colors.white,
-                            enableDrag: true,
-                            isScrollControlled: true,
-                            barrierColor: Colors.grey.withOpacity(0.7),
-                            builder: (BuildContext ctx) {
-                              return index == 0
-                                  ? DonationBottomSheet(
-                                      cities: r.Cities,
-                                      educationalYears: r.EducationalYears,
-                                      scholarships: r.ScholarshipTypes)
-                                  : index == 2
-                                      ? SadaqaBottomSheet(
-                                          paymentMethods: r.PaymentMethods,
-                                          donationFrequency:
-                                              r.DonationFrequencies!,
-                                          cities: r.Cities,
-                                          educationalYears: r.EducationalYears,
-                                        )
-                                      : index == 1
-                                          ? ZaqatBottomSheet(
-                                              paymentMethods: r.PaymentMethods,
-                                            )
-                                          : EidBottomSheet(
-                                              paymentMethods: r.PaymentMethods,
-                                              donationFrequency:
-                                                  r.DonationFrequencies!,
-                                              cities: r.Cities,
-                                              educationalYears:
-                                                  r.EducationalYears,
-                                            );
-                            },
-                          );
+                          (index == 3 && r.EidiehEnabled == false)
+                              ? null
+                              : showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  enableDrag: true,
+                                  isScrollControlled: true,
+                                  barrierColor: Colors.grey.withOpacity(0.7),
+                                  builder: (BuildContext ctx) {
+                                    return index == 0
+                                        ? DonationBottomSheet(
+                                            cities: r.Cities,
+                                            educationalYears:
+                                                r.EducationalYears,
+                                            scholarships: r.ScholarshipTypes)
+                                        : index == 2
+                                            ? SadaqaBottomSheet(
+                                                isEnabled:
+                                                    r.ONLINE_PAYMENT_ENABLED,
+                                                paymentMethods:
+                                                    r.PaymentMethods,
+                                                donationFrequency:
+                                                    r.DonationFrequencies!,
+                                                cities: r.Cities,
+                                                educationalYears:
+                                                    r.EducationalYears,
+                                              )
+                                            : (index == 3 &&
+                                                    r.EidiehEnabled == true)
+                                                ? EidBottomSheet(
+                                                    paymentMethods:
+                                                        r.PaymentMethods,
+                                                    isEnabled: r
+                                                        .ONLINE_PAYMENT_ENABLED,
+                                                    donationFrequency:
+                                                        r.DonationFrequencies!,
+                                                    cities: r.Cities,
+                                                    educationalYears:
+                                                        r.EducationalYears,
+                                                  )
+                                                : index == 1
+                                                    ? ZaqatBottomSheet(
+                                                        paymentMethods:
+                                                            r.PaymentMethods,
+                                                        isEnabled: r
+                                                            .ONLINE_PAYMENT_ENABLED,
+                                                      )
+                                                    : const SizedBox.shrink();
+                                  },
+                                );
                         },
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width / 2.3,
@@ -163,7 +179,7 @@ class DonorDonationSlider extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              if (r.EidiehEnabled! && index == 3)
+                              if (r.EidiehEnabled == false && index == 3)
                                 Positioned.fill(
                                   child: Container(
                                     decoration: BoxDecoration(

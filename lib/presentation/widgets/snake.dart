@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 
 //Copy this CustomPainter code to the Bottom of the File
 class RPSCustomPainter extends CustomPainter {
-  final int? step;
+  final double? step;
+  final String?alamanphaseName;
 
-  RPSCustomPainter({super.repaint, required this.step});
+
+
+  RPSCustomPainter({super.repaint, required this.step,required this.alamanphaseName});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -18087,9 +18090,7 @@ class RPSCustomPainter extends CustomPainter {
     path_116.close();
 
     Paint paint_116_fill = Paint()..style = PaintingStyle.fill;
-    paint_116_fill.color = step! >= 1
-        ? Color(0xff2a7de1).withOpacity(1.0)
-        : Color(0xffffc629).withOpacity(1.0);
+    paint_116_fill.color = Color(0xff2a7de1).withOpacity(1.0);
     canvas.drawPath(path_116, paint_116_fill);
 
     Path path_117 = Path();
@@ -18216,9 +18217,9 @@ class RPSCustomPainter extends CustomPainter {
     path_120.close();
 
     Paint paint_120_fill = Paint()..style = PaintingStyle.fill;
-    paint_120_fill.color = step! >= 1
+    paint_120_fill.color = step! > 2
         ? Color(0xff2a7de1).withOpacity(1.0)
-        : Color(0xffffc629).withOpacity(1.0);
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_120, paint_120_fill);
 
     Path path_121 = Path();
@@ -18345,9 +18346,9 @@ class RPSCustomPainter extends CustomPainter {
     path_124.close();
 
     Paint paint_124_fill = Paint()..style = PaintingStyle.fill;
-    paint_124_fill.color = step! >= 1
+    paint_124_fill.color = step! > 3
         ? Color(0xff2a7de1).withOpacity(1.0)
-        : Color(0xffffc629).withOpacity(1.0);
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_124, paint_124_fill);
 
     Path path_125 = Path();
@@ -18474,7 +18475,9 @@ class RPSCustomPainter extends CustomPainter {
     path_128.close();
 
     Paint paint_128_fill = Paint()..style = PaintingStyle.fill;
-    paint_128_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_128_fill.color = step! > 4
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_128, paint_128_fill);
 
     Path path_129 = Path();
@@ -18601,7 +18604,9 @@ class RPSCustomPainter extends CustomPainter {
     path_132.close();
 
     Paint paint_132_fill = Paint()..style = PaintingStyle.fill;
-    paint_132_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_132_fill.color = step! > 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_132, paint_132_fill);
 
     Path path_133 = Path();
@@ -18728,7 +18733,9 @@ class RPSCustomPainter extends CustomPainter {
     path_136.close();
 
     Paint paint_136_fill = Paint()..style = PaintingStyle.fill;
-    paint_136_fill.color = Color(0xff8dc9f7).withOpacity(1.0);
+    paint_136_fill.color = step! > 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_136, paint_136_fill);
 
     Path path_137 = Path();
@@ -18855,7 +18862,9 @@ class RPSCustomPainter extends CustomPainter {
     path_140.close();
 
     Paint paint_140_fill = Paint()..style = PaintingStyle.fill;
-    paint_140_fill.color = Color(0xff8dc9f7).withOpacity(1.0);
+    paint_140_fill.color = step! > 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_140, paint_140_fill);
 
     Path path_141 = Path();
@@ -18982,7 +18991,9 @@ class RPSCustomPainter extends CustomPainter {
     path_144.close();
 
     Paint paint_144_fill = Paint()..style = PaintingStyle.fill;
-    paint_144_fill.color = Color(0xff8dc9f7).withOpacity(1.0);
+    paint_144_fill.color = step! > 8
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_144, paint_144_fill);
 
     Path path_145 = Path();
@@ -19109,7 +19120,9 @@ class RPSCustomPainter extends CustomPainter {
     path_148.close();
 
     Paint paint_148_fill = Paint()..style = PaintingStyle.fill;
-    paint_148_fill.color = Color(0xff8dc9f7).withOpacity(1.0);
+    paint_148_fill.color = step! > 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_148, paint_148_fill);
 
     Path path_149 = Path();
@@ -19236,7 +19249,9 @@ class RPSCustomPainter extends CustomPainter {
     path_152.close();
 
     Paint paint_152_fill = Paint()..style = PaintingStyle.fill;
-    paint_152_fill.color = Color(0xff8dc9f7).withOpacity(1.0);
+    paint_152_fill.color = step! > 10
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_152, paint_152_fill);
 
     Path path_153 = Path();
@@ -19331,7 +19346,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_155, paint_155_stroke);
 
     Paint paint_156_fill = Paint()..style = PaintingStyle.fill;
-    paint_156_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_156_fill.color = step! >= 2
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3519799, size.height * 0.1849946),
@@ -19364,7 +19381,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_157, paint_157_stroke);
 
     Paint paint_158_fill = Paint()..style = PaintingStyle.fill;
-    paint_158_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_158_fill.color = step! >= 1
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.5364931, size.height * 0.1907098),
@@ -19397,7 +19416,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_159, paint_159_stroke);
 
     Paint paint_160_fill = Paint()..style = PaintingStyle.fill;
-    paint_160_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_160_fill.color = step! >= 1
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.5876217, size.height * 0.1649779),
@@ -19430,7 +19451,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_161, paint_161_stroke);
 
     Paint paint_162_fill = Paint()..style = PaintingStyle.fill;
-    paint_162_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_162_fill.color = step! >= 1
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6331927, size.height * 0.1449700),
@@ -19463,7 +19486,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_163, paint_163_stroke);
 
     Paint paint_164_fill = Paint()..style = PaintingStyle.fill;
-    paint_164_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_164_fill.color = step! >= 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7443464, size.height * 0.5079996),
@@ -19496,7 +19521,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_165, paint_165_stroke);
 
     Paint paint_166_fill = Paint()..style = PaintingStyle.fill;
-    paint_166_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_166_fill.color = step! >= 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7954750, size.height * 0.4822765),
@@ -19529,7 +19556,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_167, paint_167_stroke);
 
     Paint paint_168_fill = Paint()..style = PaintingStyle.fill;
-    paint_168_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_168_fill.color = step! >= 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.8410460, size.height * 0.4622598),
@@ -19562,7 +19591,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_169, paint_169_stroke);
 
     Paint paint_170_fill = Paint()..style = PaintingStyle.fill;
-    paint_170_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_170_fill.color = step! >= 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.8910652, size.height * 0.4365367),
@@ -19595,7 +19626,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_171, paint_171_stroke);
 
     Paint paint_172_fill = Paint()..style = PaintingStyle.fill;
-    paint_172_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_172_fill.color = step! >= 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffc629).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.5820640, size.height * 0.5899419),
@@ -19628,7 +19661,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_173, paint_173_stroke);
 
     Paint paint_174_fill = Paint()..style = PaintingStyle.fill;
-    paint_174_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_174_fill.color = step! >= 8
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.5398214, size.height * 0.7995662),
@@ -19661,7 +19696,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_175, paint_175_stroke);
 
     Paint paint_176_fill = Paint()..style = PaintingStyle.fill;
-    paint_176_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_176_fill.color = step! >= 10
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2975125, size.height * 0.9253373),
@@ -19694,7 +19731,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_177, paint_177_stroke);
 
     Paint paint_178_fill = Paint()..style = PaintingStyle.fill;
-    paint_178_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_178_fill.color = step! >= 10
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2274919, size.height * 0.9062806),
@@ -19727,7 +19766,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_179, paint_179_stroke);
 
     Paint paint_180_fill = Paint()..style = PaintingStyle.fill;
-    paint_180_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_180_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.9233018, size.height * 0.6890388),
@@ -19760,7 +19801,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_181, paint_181_stroke);
 
     Paint paint_182_fill = Paint()..style = PaintingStyle.fill;
-    paint_182_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_182_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.9399749, size.height * 0.7271523),
@@ -19793,7 +19836,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_183, paint_183_stroke);
 
     Paint paint_184_fill = Paint()..style = PaintingStyle.fill;
-    paint_184_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_184_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.8866170, size.height * 0.7595417),
@@ -19826,7 +19871,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_185, paint_185_stroke);
 
     Paint paint_186_fill = Paint()..style = PaintingStyle.fill;
-    paint_186_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_186_fill.color = step! >= 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6465373, size.height * 0.5575436),
@@ -19859,7 +19906,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_187, paint_187_stroke);
 
     Paint paint_188_fill = Paint()..style = PaintingStyle.fill;
-    paint_188_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_188_fill.color = step! >= 5
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6965461, size.height * 0.5318205),
@@ -19892,7 +19941,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_189, paint_189_stroke);
 
     Paint paint_190_fill = Paint()..style = PaintingStyle.fill;
-    paint_190_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_190_fill.color = step! >= 8
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7765831, size.height * 0.6938030),
@@ -19925,7 +19976,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_191, paint_191_stroke);
 
     Paint paint_192_fill = Paint()..style = PaintingStyle.fill;
-    paint_192_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_192_fill.color = step! >= 8
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6143007, size.height * 0.7757453),
@@ -19958,7 +20011,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_193, paint_193_stroke);
 
     Paint paint_194_fill = Paint()..style = PaintingStyle.fill;
-    paint_194_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_194_fill.color = step! >= 8
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6732059, size.height * 0.7471602),
@@ -19991,7 +20046,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_195, paint_195_stroke);
 
     Paint paint_196_fill = Paint()..style = PaintingStyle.fill;
-    paint_196_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_196_fill.color = step! >= 8
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7287828, size.height * 0.7176239),
@@ -20024,7 +20081,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_197, paint_197_stroke);
 
     Paint paint_198_fill = Paint()..style = PaintingStyle.fill;
-    paint_198_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_198_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.8288212, size.height * 0.7862247),
@@ -20057,7 +20116,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_199, paint_199_stroke);
 
     Paint paint_200_fill = Paint()..style = PaintingStyle.fill;
-    paint_200_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_200_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6832118, size.height * 0.8748422),
@@ -20090,7 +20151,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_201, paint_201_stroke);
 
     Paint paint_202_fill = Paint()..style = PaintingStyle.fill;
-    paint_202_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_202_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7254544, size.height * 0.9215242),
@@ -20123,7 +20186,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_203, paint_203_stroke);
 
     Paint paint_204_fill = Paint()..style = PaintingStyle.fill;
-    paint_204_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_204_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7187769, size.height * 0.9577356),
@@ -20156,7 +20221,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_205, paint_205_stroke);
 
     Paint paint_206_fill = Paint()..style = PaintingStyle.fill;
-    paint_206_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_206_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6576527, size.height * 0.9758413),
@@ -20189,7 +20256,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_207, paint_207_stroke);
 
     Paint paint_208_fill = Paint()..style = PaintingStyle.fill;
-    paint_208_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_208_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7254544, size.height * 0.8376798),
@@ -20222,7 +20291,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_209, paint_209_stroke);
 
     Paint paint_210_fill = Paint()..style = PaintingStyle.fill;
-    paint_210_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_210_fill.color = step! >= 9
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7810313, size.height * 0.8081436),
@@ -20255,7 +20326,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_211, paint_211_stroke);
 
     Paint paint_212_fill = Paint()..style = PaintingStyle.fill;
-    paint_212_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_212_fill.color = step! >= 10
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.4920316, size.height * 0.9186710),
@@ -20288,7 +20361,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_213, paint_213_stroke);
 
     Paint paint_214_fill = Paint()..style = PaintingStyle.fill;
-    paint_214_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_214_fill.color = step! >= 10
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3597565, size.height * 0.9139068),
@@ -20321,7 +20396,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_215, paint_215_stroke);
 
     Paint paint_216_fill = Paint()..style = PaintingStyle.fill;
-    paint_216_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_216_fill.color = step! >= 10
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.4297875, size.height * 0.9005653),
@@ -20354,7 +20431,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_217, paint_217_stroke);
 
     Paint paint_218_fill = Paint()..style = PaintingStyle.fill;
-    paint_218_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_218_fill.color = step! >= 2
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2930643, size.height * 0.1583116),
@@ -20387,7 +20466,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_219, paint_219_stroke);
 
     Paint paint_220_fill = Paint()..style = PaintingStyle.fill;
-    paint_220_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_220_fill.color = step! >= 2
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2352685, size.height * 0.1287754),
@@ -20420,7 +20501,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_221, paint_221_stroke);
 
     Paint paint_222_fill = Paint()..style = PaintingStyle.fill;
-    paint_222_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_222_fill.color = step! >= 2
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.1841399, size.height * 0.1040033),
@@ -20453,7 +20536,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_223, paint_223_stroke);
 
     Paint paint_224_fill = Paint()..style = PaintingStyle.fill;
-    paint_224_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_224_fill.color = step! >= 2
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.1218958, size.height * 0.09161289),
@@ -20486,9 +20571,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_225, paint_225_stroke);
 
     Paint paint_226_fill = Paint()..style = PaintingStyle.fill;
-    paint_226_fill.color = step! >= 1
+    paint_226_fill.color = step! >= 2
         ? Color(0xff2a7de1).withOpacity(1.0)
-        : Color(0xffffc629).withOpacity(1.0);
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.06742843, size.height * 0.1011413),
@@ -20521,7 +20606,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_227, paint_227_stroke);
 
     Paint paint_228_fill = Paint()..style = PaintingStyle.fill;
-    paint_228_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_228_fill.color = step! >= 2
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.04074946, size.height * 0.1392548),
@@ -20554,7 +20641,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_229, paint_229_stroke);
 
     Paint paint_230_fill = Paint()..style = PaintingStyle.fill;
-    paint_230_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_230_fill.color = step! >= 3
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.1719150, size.height * 0.2183439),
@@ -20587,7 +20676,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_231, paint_231_stroke);
 
     Paint paint_232_fill = Paint()..style = PaintingStyle.fill;
-    paint_232_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_232_fill.color = step! >= 3
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2352685, size.height * 0.2488312),
@@ -20620,7 +20711,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_233, paint_233_stroke);
 
     Paint paint_234_fill = Paint()..style = PaintingStyle.fill;
-    paint_234_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_234_fill.color = step! >= 3
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2975125, size.height * 0.2783674),
@@ -20653,7 +20746,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_235, paint_235_stroke);
 
     Paint paint_236_fill = Paint()..style = PaintingStyle.fill;
-    paint_236_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_236_fill.color = step! >= 3
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3597565, size.height * 0.3088546),
@@ -20686,7 +20781,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_237, paint_237_stroke);
 
     Paint paint_238_fill = Paint()..style = PaintingStyle.fill;
-    paint_238_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_238_fill.color = step! >= 3
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.4297875, size.height * 0.3441150),
@@ -20719,7 +20816,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_239, paint_239_stroke);
 
     Paint paint_240_fill = Paint()..style = PaintingStyle.fill;
-    paint_240_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_240_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.1185571, size.height * 0.6175760),
@@ -20752,7 +20851,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_241, paint_241_stroke);
 
     Paint paint_242_fill = Paint()..style = PaintingStyle.fill;
-    paint_242_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_242_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.05297430, size.height * 0.5823245),
@@ -20785,7 +20886,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_243, paint_243_stroke);
 
     Paint paint_244_fill = Paint()..style = PaintingStyle.fill;
-    paint_244_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_244_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.04741661, size.height * 0.5299184),
@@ -20818,7 +20921,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_245, paint_245_stroke);
 
     Paint paint_246_fill = Paint()..style = PaintingStyle.fill;
-    paint_246_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_246_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.08188256, size.height * 0.4937070),
@@ -20851,7 +20956,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_247, paint_247_stroke);
 
     Paint paint_248_fill = Paint()..style = PaintingStyle.fill;
-    paint_248_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_248_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.03853053, size.height * 0.4403498),
@@ -20884,7 +20991,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_249, paint_249_stroke);
 
     Paint paint_250_fill = Paint()..style = PaintingStyle.fill;
-    paint_250_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_250_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.1819106, size.height * 0.6480632),
@@ -20917,7 +21026,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_251, paint_251_stroke);
 
     Paint paint_252_fill = Paint()..style = PaintingStyle.fill;
-    paint_252_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_252_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2441649, size.height * 0.6775994),
@@ -20950,7 +21061,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_253, paint_253_stroke);
 
     Paint paint_254_fill = Paint()..style = PaintingStyle.fill;
-    paint_254_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_254_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3064090, size.height * 0.7080956),
@@ -20983,7 +21096,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_255, paint_255_stroke);
 
     Paint paint_256_fill = Paint()..style = PaintingStyle.fill;
-    paint_256_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_256_fill.color = step! >= 7
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3764296, size.height * 0.7433470),
@@ -21016,7 +21131,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_257, paint_257_stroke);
 
     Paint paint_258_fill = Paint()..style = PaintingStyle.fill;
-    paint_258_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_258_fill.color = step! >= 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3052995, size.height * 0.4908449),
@@ -21049,7 +21166,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_259, paint_259_stroke);
 
     Paint paint_260_fill = Paint()..style = PaintingStyle.fill;
-    paint_260_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_260_fill.color = step! >= 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2719534, size.height * 0.4508293),
@@ -21082,7 +21201,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_261, paint_261_stroke);
 
     Paint paint_262_fill = Paint()..style = PaintingStyle.fill;
-    paint_262_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_262_fill.color = step! >= 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2230437, size.height * 0.4279594),
@@ -21112,7 +21233,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_263, paint_263_fill);
 
     Paint paint_264_fill = Paint()..style = PaintingStyle.fill;
-    paint_264_fill.color = Color(0xffffe197).withOpacity(1.0);
+    paint_264_fill.color = step! >= 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.1719150, size.height * 0.4012853),
@@ -21169,7 +21292,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_266, paint_266_stroke);
 
     Paint paint_267_fill = Paint()..style = PaintingStyle.fill;
-    paint_267_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_267_fill.color = step! >= 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3019607, size.height * 0.5889908),
@@ -21202,7 +21327,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_268, paint_268_stroke);
 
     Paint paint_269_fill = Paint()..style = PaintingStyle.fill;
-    paint_269_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_269_fill.color = step! >= 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.3642048, size.height * 0.6194781),
@@ -21235,7 +21362,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_270, paint_270_stroke);
 
     Paint paint_271_fill = Paint()..style = PaintingStyle.fill;
-    paint_271_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_271_fill.color = step! >= 6
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.2652759, size.height * 0.5442110),
@@ -21268,7 +21397,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_272, paint_272_stroke);
 
     Paint paint_273_fill = Paint()..style = PaintingStyle.fill;
-    paint_273_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_273_fill.color = step! >= 4
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.6331927, size.height * 0.3441150),
@@ -21301,9 +21432,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_274, paint_274_stroke);
 
     Paint paint_275_fill = Paint()..style = PaintingStyle.fill;
-    paint_275_fill.color = step == 1
+    paint_275_fill.color = step! >= 4
         ? Color(0xff2a7de1).withOpacity(1.0)
-        : Color(0xffffc629).withOpacity(1.0);
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7032237, size.height * 0.3107656),
@@ -21336,7 +21467,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_276, paint_276_stroke);
 
     Paint paint_277_fill = Paint()..style = PaintingStyle.fill;
-    paint_277_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_277_fill.color = step! >= 4
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.7921467, size.height * 0.3060015),
@@ -21369,7 +21502,9 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path_278, paint_278_stroke);
 
     Paint paint_279_fill = Paint()..style = PaintingStyle.fill;
-    paint_279_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_279_fill.color = step! >= 4
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Color(0xffffe197).withOpacity(1.0);
     canvas.drawOval(
         Rect.fromCenter(
             center: Offset(size.width * 0.8743921, size.height * 0.3431639),
@@ -21457,7 +21592,32 @@ class RPSCustomPainter extends CustomPainter {
     Paint paint_281_fill = Paint()..style = PaintingStyle.fill;
     paint_281_fill.color = Color(0xffffffff).withOpacity(1.0);
     canvas.drawPath(path_281, paint_281_fill);
+    Rect boundingBox = path_281.getBounds();
 
+// Step 2: Create a Paragraph of text
+    ui.ParagraphBuilder pb = ui.ParagraphBuilder(ui.ParagraphStyle(
+      textAlign: TextAlign.center,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+      fontSize: 14.0,
+    ))
+      ..pushStyle(ui.TextStyle(color: Colors.black))
+      ..addText("${alamanphaseName}");
+
+    ui.ParagraphConstraints pc =
+        ui.ParagraphConstraints(width: boundingBox.width);
+    ui.Paragraph paragraph = pb.build()..layout(pc);
+
+// Step 3: Draw the paragraph inside the bounding box of your path
+// This example centers the text horizontally and vertically within the bounding box
+    final double textHeight = paragraph.height;
+    final double textWidth = paragraph.width;
+    final Offset textOffset = Offset(
+      boundingBox.left + (boundingBox.width - textWidth) / 2,
+      boundingBox.top + (boundingBox.height - textHeight) / 2,
+    );
+
+    canvas.drawParagraph(paragraph, textOffset);
     Path path_282 = Path();
     path_282.moveTo(size.width * 0.4313947, size.height * 0.1400814);
     path_282.cubicTo(
@@ -21733,7 +21893,9 @@ class RPSCustomPainter extends CustomPainter {
     path_284.close();
 
     Paint paint_284_fill = Paint()..style = PaintingStyle.fill;
-    paint_284_fill.color = Color(0xff2a7de1).withOpacity(1.0);
+    paint_284_fill.color = step! > 1
+        ? Color(0xff2a7de1).withOpacity(1.0)
+        : Colors.blueAccent.shade100;
     canvas.drawPath(path_284, paint_284_fill);
 
     Path path_285 = Path();
@@ -21856,40 +22018,10 @@ class RPSCustomPainter extends CustomPainter {
         Offset(size.width * 0.5132151, size.height * 0.1301353),
         Offset(size.width * 0.5125618, size.height * 0.1202780),
         paint_290_stroke);
-
-    Paint paint_291_stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.002073764;
-    paint_291_stroke.color = Color(0xff0e2947).withOpacity(1.0);
-    paint_291_stroke.strokeJoin = StrokeJoin.round;
-    canvas.drawLine(
-        Offset(size.width * 0.4234729, size.height * 0.2553286),
-        Offset(size.width * 0.4185477, size.height * 0.2649903),
-        paint_291_stroke);
-
-    Paint paint_292_stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.002073764;
-    paint_292_stroke.color = Color(0xff0e2947).withOpacity(1.0);
-    paint_292_stroke.strokeJoin = StrokeJoin.round;
-    canvas.drawLine(
-        Offset(size.width * 0.4194706, size.height * 0.2531154),
-        Offset(size.width * 0.4125131, size.height * 0.2575685),
-        paint_292_stroke);
-
-    Paint paint_293_stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.002073764;
-    paint_293_stroke.color = Color(0xff0e2947).withOpacity(1.0);
-    paint_293_stroke.strokeJoin = StrokeJoin.round;
-    canvas.drawLine(
-        Offset(size.width * 0.4256089, size.height * 0.2585284),
-        Offset(size.width * 0.4256400, size.height * 0.2659769),
-        paint_293_stroke);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+    return false;
   }
 }

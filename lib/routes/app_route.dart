@@ -1,5 +1,6 @@
 import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
 import 'package:alaman/domain/marks/model/marks.model.dart';
+import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/presentation/screens/beneficiary.profile_screen.dart';
 import 'package:alaman/presentation/screens/filtered_screen.dart';
@@ -38,7 +39,9 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-            initial: true, page: OnBoardingRoute.page, guards: [AuthGuard()]),
+            initial: false, page: OnBoardingRoute.page, guards: [AuthGuard()]),
+              AutoRoute(
+            initial: true, page: SplashRoute.page, ),
         AutoRoute(
             page: RegisterRoute.page,
             type: RouteType.custom(
@@ -106,6 +109,19 @@ class AppRouter extends _$AppRouter {
             )),
         AutoRoute(
             page: ProfileDetailsRoute.page,
+            type: RouteType.custom(
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, -1.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+            )),
+             AutoRoute(
+            page: MeetingHistoryRoute.page,
             type: RouteType.custom(
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) =>

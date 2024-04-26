@@ -4,20 +4,40 @@ import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 final isOrderedProvider = StateProvider<bool>((ref) => false);
+
 @RoutePage()
 class MainScreen extends HookConsumerWidget {
-  const MainScreen({super.key,});
+  const MainScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isOrdered = ref.watch(isOrderedProvider);
-        useEffect(() {
+    useEffect(() {
+      FirebaseMessaging.instance.getInitialMessage().then((message) {
+        print(message!.data);
+      });
+      FirebaseMessaging.onMessage.listen(
+        ((message) async {
+          print(message.data);
+        }),
+      );
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+        print(message.data);
+      });
+      
+      return null;
+    }, const []);
+    useEffect(() {
       if (isOrdered == true) {
         // Show dialog if isOrdered is true
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -35,25 +55,19 @@ class MainScreen extends HookConsumerWidget {
                 children: [
                   Text(
                     "donepayment",
-                    style: Theme.of(context)
-                        .primaryTextTheme
-                        .bodyMedium!
-                        .copyWith(color: const Color(0xff16437B)),
+                    style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                   ).tr(),
                   AuthContainer(
                     raduis: 50,
                     height: 50,
                     onTap: () async {
                       ref.read(isOrderedProvider.notifier).state = false;
-                      context.router.pop();
+                      context.router.maybePop();
                     },
                     color: const Color(0xffFFC629),
                     child: Text(
                       "backhome",
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .titleSmall
-                          ?.copyWith(color: Colors.white),
+                      style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                     ).tr(),
                   ),
                 ],
@@ -82,49 +96,36 @@ class MainScreen extends HookConsumerWidget {
             ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
-
-        return SafeArea(
-          child: Scaffold(
-            extendBody: true,
-            resizeToAvoidBottomInset: false,
-            body: child,
-            bottomNavigationBar: BottomNavigationBar(
-              showUnselectedLabels: true,
-              currentIndex: tabsRouter.activeIndex,
-              unselectedFontSize: 12,
-              selectedFontSize: 12,
-              onTap: tabsRouter.setActiveIndex,
-              items: userSetting?.role == "Beneficiary"
-                  ? [
-                      BottomNavigationBarItem(
-                          label: 'home'.tr(),
-                          icon: const Icon(
-                            Icons.home_outlined,
-                          )),
-                      BottomNavigationBarItem(
-                          label: 'grants'.tr(),
-                          icon: const Icon(Icons.diversity_1)),
-                      BottomNavigationBarItem(
-                          label: 'profile'.tr(),
-                          icon: const Icon(FontAwesomeIcons.user)),
-                    ]
-                  : [
-                      BottomNavigationBarItem(
-                          label: 'home'.tr(),
-                          icon: const Icon(
-                            Icons.home_outlined,
-                          )),
-                      BottomNavigationBarItem(
-                          label: 'donate'.tr(),
-                          icon: const Icon(Icons.diversity_1)),
-                      BottomNavigationBarItem(
-                          label: 'location'.tr(),
-                          icon: const Icon(Icons.location_on_outlined)),
-                      BottomNavigationBarItem(
-                          label: 'profile'.tr(),
-                          icon: const Icon(FontAwesomeIcons.user)),
-                    ],
-            ),
+        return Scaffold(
+          extendBody: true,
+          resizeToAvoidBottomInset: false,
+          body: child,
+          bottomNavigationBar: BottomNavigationBar(
+            showUnselectedLabels: true,
+            currentIndex: tabsRouter.activeIndex,
+            unselectedFontSize: 12,
+            selectedFontSize: 12,
+            onTap: tabsRouter.setActiveIndex,
+            items: userSetting?.role == "Beneficiary"
+                ? [
+                    BottomNavigationBarItem(
+                        label: 'home'.tr(),
+                        icon: const Icon(
+                          Icons.home_outlined,
+                        )),
+                    BottomNavigationBarItem(label: 'grants'.tr(), icon: const Icon(Icons.diversity_1)),
+                    BottomNavigationBarItem(label: 'profile'.tr(), icon: const Icon(FontAwesomeIcons.user)),
+                  ]
+                : [
+                    BottomNavigationBarItem(
+                        label: 'home'.tr(),
+                        icon: const Icon(
+                          Icons.home_outlined,
+                        )),
+                    BottomNavigationBarItem(label: 'donate'.tr(), icon: const Icon(Icons.diversity_1)),
+                    BottomNavigationBarItem(label: 'location'.tr(), icon: const Icon(Icons.location_on_outlined)),
+                    BottomNavigationBarItem(label: 'profile'.tr(), icon: const Icon(FontAwesomeIcons.user)),
+                  ],
           ),
         );
       },

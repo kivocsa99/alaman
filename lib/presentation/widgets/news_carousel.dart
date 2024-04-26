@@ -18,8 +18,8 @@ class NewsCarousel extends HookConsumerWidget {
     final state = ref.watch(paginatedNewsNotifierProvider);
     final notifier = ref.watch(paginatedNewsNotifierProvider.notifier);
     final carouselController = CarouselController();
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
 
     useEffect(() {
       notifier.fetchNews();
@@ -36,7 +36,6 @@ class NewsCarousel extends HookConsumerWidget {
       child: CarouselSlider(
           carouselController: carouselController,
           items: state.news.map((e) {
-            final date = convertApiDate(e.created_at!);
             return Container(
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -132,18 +131,7 @@ class NewsCarousel extends HookConsumerWidget {
                                   ),
                             ),
                           ),
-                          Align(
-                            alignment: locale == "en"
-                                ? Alignment.bottomLeft
-                                : Alignment.bottomRight,
-                            child: Text(
-                              date,
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .titleSmall
-                                  ?.copyWith(color: Colors.white),
-                            ),
-                          ),
+                        
                         ],
                       ),
                     )

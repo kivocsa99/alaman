@@ -26,6 +26,9 @@ mixin _$DonorModel {
   String? get email => throw _privateConstructorUsedError;
   String? get email_verified_at => throw _privateConstructorUsedError;
   String? get account_type => throw _privateConstructorUsedError;
+  String? get social_id => throw _privateConstructorUsedError;
+  String? get apple_id => throw _privateConstructorUsedError;
+  String? get google_id => throw _privateConstructorUsedError;
   bool? get active => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   String? get national_id_number => throw _privateConstructorUsedError;
@@ -92,6 +95,9 @@ abstract class $DonorModelCopyWith<$Res> {
       String? email,
       String? email_verified_at,
       String? account_type,
+      String? social_id,
+      String? apple_id,
+      String? google_id,
       bool? active,
       String? image,
       String? national_id_number,
@@ -159,6 +165,9 @@ class _$DonorModelCopyWithImpl<$Res, $Val extends DonorModel>
     Object? email = freezed,
     Object? email_verified_at = freezed,
     Object? account_type = freezed,
+    Object? social_id = freezed,
+    Object? apple_id = freezed,
+    Object? google_id = freezed,
     Object? active = freezed,
     Object? image = freezed,
     Object? national_id_number = freezed,
@@ -226,6 +235,18 @@ class _$DonorModelCopyWithImpl<$Res, $Val extends DonorModel>
       account_type: freezed == account_type
           ? _value.account_type
           : account_type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      social_id: freezed == social_id
+          ? _value.social_id
+          : social_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      apple_id: freezed == apple_id
+          ? _value.apple_id
+          : apple_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      google_id: freezed == google_id
+          ? _value.google_id
+          : google_id // ignore: cast_nullable_to_non_nullable
               as String?,
       active: freezed == active
           ? _value.active
@@ -450,6 +471,9 @@ abstract class _$$DonorModelImplCopyWith<$Res>
       String? email,
       String? email_verified_at,
       String? account_type,
+      String? social_id,
+      String? apple_id,
+      String? google_id,
       bool? active,
       String? image,
       String? national_id_number,
@@ -518,6 +542,9 @@ class __$$DonorModelImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? email_verified_at = freezed,
     Object? account_type = freezed,
+    Object? social_id = freezed,
+    Object? apple_id = freezed,
+    Object? google_id = freezed,
     Object? active = freezed,
     Object? image = freezed,
     Object? national_id_number = freezed,
@@ -585,6 +612,18 @@ class __$$DonorModelImplCopyWithImpl<$Res>
       account_type: freezed == account_type
           ? _value.account_type
           : account_type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      social_id: freezed == social_id
+          ? _value.social_id
+          : social_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      apple_id: freezed == apple_id
+          ? _value.apple_id
+          : apple_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      google_id: freezed == google_id
+          ? _value.google_id
+          : google_id // ignore: cast_nullable_to_non_nullable
               as String?,
       active: freezed == active
           ? _value.active
@@ -768,6 +807,9 @@ class _$DonorModelImpl extends _DonorModel {
       this.email,
       this.email_verified_at,
       this.account_type,
+      this.social_id,
+      this.apple_id,
+      this.google_id,
       this.active,
       this.image,
       this.national_id_number,
@@ -830,6 +872,12 @@ class _$DonorModelImpl extends _DonorModel {
   final String? email_verified_at;
   @override
   final String? account_type;
+  @override
+  final String? social_id;
+  @override
+  final String? apple_id;
+  @override
+  final String? google_id;
   @override
   final bool? active;
   @override
@@ -941,7 +989,7 @@ class _$DonorModelImpl extends _DonorModel {
 
   @override
   String toString() {
-    return 'DonorModel(id: $id, name: $name, phone: $phone, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_type: $donor_type, donor_donations: $donor_donations, donor_beneficiaries: $donor_beneficiaries, mous: $mous)';
+    return 'DonorModel(id: $id, name: $name, phone: $phone, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, social_id: $social_id, apple_id: $apple_id, google_id: $google_id, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization_name: $educational_organization_name, specialization: $specialization, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_type: $donor_type, donor_donations: $donor_donations, donor_beneficiaries: $donor_beneficiaries, mous: $mous)';
   }
 
   @override
@@ -957,6 +1005,12 @@ class _$DonorModelImpl extends _DonorModel {
                 other.email_verified_at == email_verified_at) &&
             (identical(other.account_type, account_type) ||
                 other.account_type == account_type) &&
+            (identical(other.social_id, social_id) ||
+                other.social_id == social_id) &&
+            (identical(other.apple_id, apple_id) ||
+                other.apple_id == apple_id) &&
+            (identical(other.google_id, google_id) ||
+                other.google_id == google_id) &&
             (identical(other.active, active) || other.active == active) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.national_id_number, national_id_number) ||
@@ -1018,8 +1072,7 @@ class _$DonorModelImpl extends _DonorModel {
                 other.donations_goal == donations_goal) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
-            (identical(other.updated_at, updated_at) ||
-                other.updated_at == updated_at) &&
+            (identical(other.updated_at, updated_at) || other.updated_at == updated_at) &&
             (identical(other.deleted_at, deleted_at) || other.deleted_at == deleted_at) &&
             (identical(other.theme, theme) || other.theme == theme) &&
             (identical(other.theme_color, theme_color) || other.theme_color == theme_color) &&
@@ -1041,6 +1094,9 @@ class _$DonorModelImpl extends _DonorModel {
         email,
         email_verified_at,
         account_type,
+        social_id,
+        apple_id,
+        google_id,
         active,
         image,
         national_id_number,
@@ -1107,6 +1163,9 @@ abstract class _DonorModel extends DonorModel {
       final String? email,
       final String? email_verified_at,
       final String? account_type,
+      final String? social_id,
+      final String? apple_id,
+      final String? google_id,
       final bool? active,
       final String? image,
       final String? national_id_number,
@@ -1166,6 +1225,12 @@ abstract class _DonorModel extends DonorModel {
   String? get email_verified_at;
   @override
   String? get account_type;
+  @override
+  String? get social_id;
+  @override
+  String? get apple_id;
+  @override
+  String? get google_id;
   @override
   bool? get active;
   @override

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "44588225737",
+    "project_id": "al-aman-283317",
+    "storage_bucket": "al-aman-283317.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44588225737:android:b8b33ca689bdaad5a56918",
+        "android_client_info": {
+          "package_name": "com.alamanfund.alaman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44588225737-5l0l7bbhonru04euho1r28f7g3fkhlra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBupD7l-EZ4QJYYfrGa6k-13UGYqsEewns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44588225737-5l0l7bbhonru04euho1r28f7g3fkhlra.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "44588225737-ds9m4quan6v0v9di19mpufb3l4k912cp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alamanfund.alaman"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

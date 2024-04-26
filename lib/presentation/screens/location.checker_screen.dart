@@ -1,14 +1,33 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
 import 'package:alaman/presentation/screens/main_screen.dart';
+import 'package:alaman/presentation/widgets/time_picker_bottom_sheet.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:latlong2/latlong.dart';
+
+
+Future<LatLng> getCurrentLocation() async {
+  LocationPermission permission = await Geolocator.checkPermission();
+
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      throw Exception('Location permissions are denied');
+    }
+  }
+  if (permission == LocationPermission.deniedForever) {
+    throw Exception('Location permissions are permanently denied');
+  }
+
+  Position position = await Geolocator.getCurrentPosition();
+  return LatLng(position.latitude, position.longitude);
+}
 
 @RoutePage()
 class LocationCheckerScreen extends HookConsumerWidget {
@@ -19,87 +38,47 @@ class LocationCheckerScreen extends HookConsumerWidget {
   final String? startDate;
   final String? endDate;
   final double? amount;
-  final List<int>?beneficiaries;
+  final List<int>? beneficiaries;
+  final String? notes;
   const LocationCheckerScreen(
-      {super.key,
-      this.paymentMethod,
-      this.beneficiaries,
-      this.startDate,
-      this.endDate,
-      this.donationFrequencyId,
-      this.amount,
-      this.donationTypeId,
-      this.recurring});
+      {super.key, this.notes, this.paymentMethod, this.beneficiaries, this.startDate, this.endDate, this.donationFrequencyId, this.amount, this.donationTypeId, this.recurring});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final markpointer = useState(const LatLng(31.9539, 35.9106));
+    final locationFuture = useMemoized(getCurrentLocation);
+    final snapshot = useFuture(locationFuture);
+
+    print(snapshot.data);
     final isLoading = useState(false);
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    if (snapshot.hasError) {
+      return Scaffold(body: Center(child: Text("Error fetching location: ${snapshot.error}")));
+    }
+    final markpointer = useState(snapshot.data ?? const LatLng(31.9539, 35.9106));
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          isLoading.value = true;
-          await ref
-              .read(initDonationUseCaseProvider)
-              .execute(
-                InitDonationUseCaseInput(
-                  paymentMethodId: paymentMethod,
-                  donationTypeId: donationTypeId,
-                  isRecurring: recurring,
-                  donationFrequencyId: donationFrequencyId,
-                  endDate: endDate,
-                  startDate: startDate,
-                  beneficiaryIds: beneficiaries,
-                  location: {
-                    "lat": "${markpointer.value.latitude}",
-                    "lng": "${markpointer.value.longitude}"
-                  },
-                  totalAmount: amount,
-                ),
-              )
-              .then((value) => value.fold(
-                    (l) async {
-                      // Handle error
-                      isLoading.value = false; // Hide loading indicator
-                    },
-                    (r) async {
-                      isLoading.value = false; // Hide loading indicator
-                      // Navigate to PaymentRoute
-                      // First, pop the bottom sheet
-                      // Then navigate to PaymentRoute
-                      ref.read(isOrderedProvider.notifier).state = true;
-                      context.router.replaceAll([const MainRoute()]);
-                    },
-                  ));
+          await showModalBottomSheet(context: context, builder:(context) => TimePickerBottomSheet(),);
         },
-        child: isLoading.value == false
-            ? const Icon(FontAwesomeIcons.check)
-            : const CircularProgressIndicator(),
+        child: isLoading.value == false ? const Icon(FontAwesomeIcons.check) : const CircularProgressIndicator(),
       ),
-      body: FlutterMap(
-        options: MapOptions(
-          onTap: (tapPosition, point) {
-            markpointer.value = point;
-          },
-          initialCenter: const LatLng(31.9539, 35.9106),
-          initialZoom: 10,
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: LatLng(markpointer.value.latitude, markpointer.value.longitude),
+          zoom: 15,
         ),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        markers: {
+          Marker(
+            markerId: MarkerId("currentLocation"),
+            position: LatLng(markpointer.value.latitude, markpointer.value.longitude),
           ),
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: markpointer.value,
-                child: const Icon(
-                  Icons.location_on,
-                  color: Colors.red,
-                ),
-              )
-            ],
-          ),
-        ],
+        },
+        onTap: (LatLng position) {
+          markpointer.value = position;
+        },
       ),
     );
   }

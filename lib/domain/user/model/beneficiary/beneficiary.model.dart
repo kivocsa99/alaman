@@ -7,9 +7,9 @@ import 'package:alaman/domain/gender/model/gender.model.dart';
 import 'package:alaman/domain/marks/model/marks.model.dart';
 import 'package:alaman/domain/scholarshipstatuses/model/scholarshipstatuses.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
+import 'package:alaman/domain/status/model/status.model.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.payment.model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'beneficiary.model.freezed.dart';
 part 'beneficiary.model.g.dart';
 
@@ -41,7 +41,7 @@ class BeneficiaryModel with _$BeneficiaryModel {
     String? contact_person_phone,
     dynamic alaman_contact_person_id,
     String? alaman_join_date,
-    String? educational_organization_name,
+    StatusModel? educational_organization,
     String? specialization,
     dynamic place_of_residence,
     dynamic educational_year_id,
@@ -59,6 +59,9 @@ class BeneficiaryModel with _$BeneficiaryModel {
     String? created_at,
     String? updated_at,
     String? deleted_at,
+    String? social_id,
+    String? apple_id,
+    String? google_id,
     String? theme,
     String? theme_color,
     GenderModel? gender,
@@ -71,6 +74,5 @@ class BeneficiaryModel with _$BeneficiaryModel {
     List<MarksModel>? marks,
   }) = _BeneficiaryModel;
   const BeneficiaryModel._();
-  factory BeneficiaryModel.fromJson(Map<String, dynamic> json) =>
-      _$BeneficiaryModelFromJson(json);
+  factory BeneficiaryModel.fromJson(Map<String, dynamic> json) => _$BeneficiaryModelFromJson(json);
 }

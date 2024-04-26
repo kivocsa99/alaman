@@ -28,8 +28,8 @@ class ProfileDetailsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     Random random = Random();
     int randomNumber = random.nextInt(3);
     final colorsList = useState<List<Color>>([
@@ -253,9 +253,11 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                               ).tr(),
                             ),
                           if (setting?.role == "Beneficiary")
-                            const ProfileContainer(
+                             ProfileContainer(
                                 title: "estimatedgraduation",
-                                description: "no data"),
+                                description: convertApiDate(
+                                 
+                                      model.alaman_join_date ?? "")),
                           if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(

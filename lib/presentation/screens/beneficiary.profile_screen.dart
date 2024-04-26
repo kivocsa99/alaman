@@ -1,7 +1,7 @@
-import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
+import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/presentation/widgets/beneficairy_bottom_sheet.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
@@ -14,28 +14,30 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 @RoutePage()
 class BeneficiaryProfileScreen extends HookConsumerWidget {
+  final List<StepsModel> steps;
   final String? profileId;
-  final int?index;
+  final int? index;
+  final String? name;
+  final double? step;
   const BeneficiaryProfileScreen({
     super.key,
     required this.index,
     required this.profileId,
+    required this.steps,
+    required this.name,
+    required this.step,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final beneficiary = ref.watch(getProfileByIDProvider(profileId: profileId));
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
-    final setting = ref.read(settingHiveNotifierProvider);
-
+    final locale = ref.watch(languageHiveNotifierProvider);
     final selectedIndex = useState(index);
     return ResponsiveWidget(
       child: SafeArea(
@@ -45,9 +47,9 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
             description: "beneficiaryprogress",
           ),
           body: beneficiary.when(
-              data: (data) => data.fold(
-                      (l) => Text(l.message ?? "internetconnection").tr(), (r) {
+              data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
                     final BeneficiaryModel model = r;
+
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListView(
@@ -66,8 +68,7 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                 ResponsiveRowColumnItem(
                                     child: ResponsiveRowColumn(
                                   layout: ResponsiveRowColumnType.ROW,
-                                  rowMainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     ResponsiveRowColumnItem(
                                         child: ResponsiveRowColumn(
@@ -84,29 +85,17 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                             ),
                                             child: model.image != null
                                                 ? CachedNetworkImage(
-                                                    imageUrl:
-                                                        "$storageUrl/${model.image}",
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        const Center(
-                                                            child:
-                                                                CircularProgressIndicator()),
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
-                                                    imageBuilder: (context,
-                                                        imageProvider) {
+                                                    imageUrl: "$storageUrl/${model.image}",
+                                                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                    imageBuilder: (context, imageProvider) {
                                                       return ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
+                                                        borderRadius: BorderRadius.circular(15),
                                                         child: Image(
                                                           image: imageProvider,
                                                           fit: BoxFit.fill,
-                                                          width:
-                                                              double.infinity,
-                                                          height:
-                                                              double.infinity,
+                                                          width: double.infinity,
+                                                          height: double.infinity,
                                                         ),
                                                       );
                                                     },
@@ -117,38 +106,21 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                                   ),
                                           ),
                                         ),
-                                        const ResponsiveRowColumnItem(
-                                            child: Gap(10)),
+                                        const ResponsiveRowColumnItem(child: Gap(10)),
                                         ResponsiveRowColumnItem(
                                             child: ResponsiveRowColumn(
-                                          layout:
-                                              ResponsiveRowColumnType.COLUMN,
-                                          columnCrossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          layout: ResponsiveRowColumnType.COLUMN,
+                                          columnCrossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             ResponsiveRowColumnItem(
                                                 child: Text(
-                                              locale == "en"
-                                                  ? model.name!
-                                                  : model.name_ar!,
-                                              style: Theme.of(context)
-                                                  .primaryTextTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                      color: const Color(
-                                                          0xff16437B)),
+                                              locale == "en" ? model.name! : model.name_ar!,
+                                              style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                                             )),
                                             ResponsiveRowColumnItem(
                                                 child: Text(
-                                              locale == "en"
-                                                  ? model
-                                                      .scholarship_type!.name!
-                                                  : model.scholarship_type!
-                                                      .name_ar!,
-                                              style: Theme.of(context)
-                                                  .primaryTextTheme
-                                                  .bodyMedium!
-                                                  .copyWith(fontSize: 12),
+                                              locale == "en" ? model.scholarship_type!.name! : model.scholarship_type!.name_ar!,
+                                              style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 12),
                                             )),
                                           ],
                                         )),
@@ -159,37 +131,22 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                 const ResponsiveRowColumnItem(child: Gap(30)),
                                 ResponsiveRowColumnItem(
                                     child: ProgressBar(
-                                        target:
-                                            model.donations_goal!.toDouble(),
-                                        currentProgress:
-                                            model.beneficiary_payments!.fold(
-                                                0.0,
-                                                (sum, current) =>
-                                                    sum +
-                                                    current.amount!
-                                                        .toDouble()))),
+                                        target: model.donations_goal!.toDouble(), currentProgress: model.beneficiary_payments!.fold(0.0, (sum, current) => sum + current.amount!.toDouble()))),
                                 const ResponsiveRowColumnItem(child: Gap(30)),
                                 ResponsiveRowColumnItem(
                                     child: ResponsiveRowColumn(
                                   layout: ResponsiveRowColumnType.ROW,
-                                  rowMainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     ResponsiveRowColumnItem(
                                         child: Text(
                                       "${"started".tr()}: ${convertApiDate(model.alaman_join_date!)} ",
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyMedium!
-                                          .copyWith(fontSize: 12),
+                                      style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 12),
                                     )),
                                     ResponsiveRowColumnItem(
                                         child: Text(
                                       "${"target".tr()}: ${formatNumber(model.donations_goal!)}  ${"jod".tr()}",
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyMedium!
-                                          .copyWith(fontSize: 12),
+                                      style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 12),
                                     ))
                                   ],
                                 )),
@@ -199,8 +156,7 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                           ResponsiveRowColumnItem(
                               child: ResponsiveRowColumn(
                             layout: ResponsiveRowColumnType.ROW,
-                            rowMainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ResponsiveRowColumnItem(
                                   rowFlex: 1,
@@ -211,20 +167,13 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         border: Border.all(width: .5),
-                                        color: selectedIndex.value == 1
-                                            ? const Color(0xffFFC629)
-                                            : Colors.white,
+                                        color: selectedIndex.value == 1 ? const Color(0xffFFC629) : Colors.white,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Text(
                                         "impactpathway",
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: selectedIndex.value == 1
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                        style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(
+                                              color: selectedIndex.value == 1 ? Colors.white : Colors.black,
                                               fontSize: 13,
                                             ),
                                       ).tr(),
@@ -240,46 +189,39 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         border: Border.all(width: .5),
-                                        color: selectedIndex.value == 0
-                                            ? const Color(0xffFFC629)
-                                            : Colors.white,
+                                        color: selectedIndex.value == 0 ? const Color(0xffFFC629) : Colors.white,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Text(
                                         "profile",
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontSize: 13,
-                                                color: selectedIndex.value == 0
-                                                    ? Colors.white
-                                                    : Colors.black),
+                                        style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(fontSize: 13, color: selectedIndex.value == 0 ? Colors.white : Colors.black),
                                       ).tr(),
                                     ),
                                   )),
                               const ResponsiveRowColumnItem(child: Gap(10)),
                               ResponsiveRowColumnItem(
                                   child: GestureDetector(
-                                onTap: () => showModalBottomSheet(
-                                  context: context,
-                                  backgroundColor: Colors.white,
-                                  showDragHandle: true,
-                                  isScrollControlled: true,
-                                  barrierColor: Colors.grey.withOpacity(0.7),
-                                  builder: (BuildContext context) {
-                                    return BeneficiaryBottomSheet(
-                                      marks: model.marks!,
-                                    );
-                                  },
-                                ),
+                                onTap: () async => await ref.read(getGenericProvider.future).then((value) => value.fold(
+                                    (l) => null,
+                                    (r) => showModalBottomSheet(
+                                          context: context,
+                                          backgroundColor: Colors.white,
+                                          showDragHandle: true,
+                                          isScrollControlled: true,
+                                          barrierColor: Colors.grey.withOpacity(0.7),
+                                          builder: (BuildContext context) {
+                                            return BeneficiaryBottomSheet(
+                                              marks: model.marks!,
+                                              methods: r.MeetingMethods!,
+                                              beneficiaryId: "${model.id}",
+                                            );
+                                          },
+                                        ))),
                                 child: Container(
                                   width: 30,
                                   height: 30,
                                   alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.blue),
+                                  decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
                                   child: Icon(
                                     Icons.more_horiz,
                                     color: Colors.white,
@@ -288,39 +230,35 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                               ))
                             ],
                           )),
+                          const Gap(50),
                           AnimatedSwitcher(
                               duration: const Duration(milliseconds: 500),
                               child: selectedIndex.value == 0
                                   ? Column(
                                       children: [
                                         Align(
-                                          alignment: locale == "en"
-                                              ? Alignment.centerLeft
-                                              : Alignment.centerRight,
+                                          alignment: locale == "en" ? Alignment.centerLeft : Alignment.centerRight,
                                           child: Text(
                                             "contactinfo",
-                                            style: Theme.of(context)
-                                                .primaryTextTheme
-                                                .titleSmall!
-                                                .copyWith(
-                                                    color: const Color(
-                                                        0xff16437B)),
+                                            style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: const Color(0xff16437B)),
                                           ).tr(),
                                         ),
-                                        ProfileContainer(
-                                            title: "fullname",
-                                            description:
-                                                "${locale == "en" ? model.name : model.name_ar}"),
+                                        const Gap(20),
+                                        ProfileContainer(title: "fullname", description: "${locale == "en" ? model.name : model.name_ar}"),
                                         const Gap(10),
-                                    
+                                        ProfileContainer(title: "sepcialization", description: "${model.specialization}"),
+                                        const Gap(10),
+                                        ProfileContainer(title: "joindate", description: convertApiDate(model.alaman_join_date ?? "")),
+                                        Gap(10),
+                                        ProfileContainer(title: "estimatedgraduation", description: convertApiDate(model.alaman_join_date ?? "")),
+                                        Gap(10),
+                                        ProfileContainer(title: "educationalorgname", description: locale=="en"? model.educational_organization!.name!:model.educational_organization!.name_ar!),
                                       ],
                                     )
                                   : CustomPaint(
                                       size: Size(
-                                          500,
-                                          (500 * 1.1665543377953818)
-                                              .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                                      painter: RPSCustomPainter(step: 0),
+                                          500, (500 * 1.1665543377953818).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                                      painter: RPSCustomPainter(step: step, alamanphaseName: name),
                                     ))
                         ],
                       ),

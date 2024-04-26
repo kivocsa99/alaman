@@ -11,8 +11,8 @@ class SponserShipGridView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final generic = ref.watch(getGenericProvider);
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     return generic.when(
         data: (data) => data.fold(
             (l) => Text(l.message ?? "check your internet connection"),

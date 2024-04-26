@@ -20,6 +20,9 @@ class DonorModel with _$DonorModel {
     String? email,
     String? email_verified_at,
     String? account_type,
+    String? social_id,
+    String? apple_id,
+    String? google_id,
     bool? active,
     String? image,
     String? national_id_number,
@@ -64,6 +67,5 @@ class DonorModel with _$DonorModel {
     List<MouModel>? mous,
   }) = _DonorModel;
   const DonorModel._();
-  factory DonorModel.fromJson(Map<String, dynamic> json) =>
-      _$DonorModelFromJson(json);
+  factory DonorModel.fromJson(Map<String, dynamic> json) => _$DonorModelFromJson(json);
 }

@@ -24,13 +24,16 @@ class UserSettingsAdapter extends TypeAdapter<UserSettings> {
       ..role = fields[5] as String?
       ..id = fields[6] as int?
       ..isavatar = fields[7] as bool?
-      ..language = fields[8] as String?;
+      ..language = fields[8] as String?
+      ..socialId = fields[9] as String?
+      ..googleToken = fields[10] as String?
+      ..appleToken = fields[11] as String?;
   }
 
   @override
   void write(BinaryWriter writer, UserSettings obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.token)
       ..writeByte(1)
@@ -46,7 +49,13 @@ class UserSettingsAdapter extends TypeAdapter<UserSettings> {
       ..writeByte(7)
       ..write(obj.isavatar)
       ..writeByte(8)
-      ..write(obj.language);
+      ..write(obj.language)
+      ..writeByte(9)
+      ..write(obj.socialId)
+      ..writeByte(10)
+      ..write(obj.googleToken)
+      ..writeByte(11)
+      ..write(obj.appleToken);
   }
 
   @override

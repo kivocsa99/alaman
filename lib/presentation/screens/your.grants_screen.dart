@@ -19,8 +19,8 @@ class YourGrantsScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final training = ref.watch(gettrainingProvider);
     final requests = ref.watch(getRequestsProvider);
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     final controller = usePageController();
     return ResponsiveWidget(
       child: SafeArea(

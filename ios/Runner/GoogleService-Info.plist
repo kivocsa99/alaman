@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>44588225737-ds9m4quan6v0v9di19mpufb3l4k912cp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.44588225737-ds9m4quan6v0v9di19mpufb3l4k912cp</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>44588225737-q5pdl4dip2ib63o469h929umdj996c34.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCPhXCh3YIkNhtFKICEbSz1d6XCT64prAs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>44588225737</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.alamanfund.alaman</string>
+	<key>PROJECT_ID</key>
+	<string>al-aman-283317</string>
+	<key>STORAGE_BUCKET</key>
+	<string>al-aman-283317.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:44588225737:ios:a63edacb1bd81499a56918</string>
+</dict>
+</plist>

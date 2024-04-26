@@ -13,8 +13,8 @@ class SponsershipSlider extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final generic = ref.watch(getGenericProvider);
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     return SizedBox(
       width: double.infinity,
       height: 150,

@@ -7,9 +7,7 @@ part 'hive.setting.provider.g.dart';
 @riverpod
 class SettingHiveNotifier extends _$SettingHiveNotifier {
   @override
-  UserSettings? build() => Hive.box("setting").isNotEmpty
-      ? Hive.box("setting").getAt(0)
-      : UserSettings();
+  UserSettings? build() => Hive.box("setting").isNotEmpty ? Hive.box("setting").getAt(0) : UserSettings();
 
   Future<void> addItem(UserSettings setting) async {
     try {
@@ -28,20 +26,15 @@ class SettingHiveNotifier extends _$SettingHiveNotifier {
 }
 
 UserSettings? getItemFromBox() {
-  final UserSettings? setting = Hive.box("setting").isNotEmpty
-      ? Hive.box('setting').getAt(0)
-      : UserSettings();
+  final UserSettings? setting = Hive.box("setting").isNotEmpty ? Hive.box('setting').getAt(0) : UserSettings();
 
   return setting;
 }
 
 Future<void> addItemToBox(UserSettings item) async {
-  return Hive.box('setting').isNotEmpty
-      ? await Hive.box('setting').putAt(0, item)
-      : await Hive.box('setting').add(item);
+  return Hive.box('setting').isNotEmpty ? await Hive.box('setting').putAt(0, item) : await Hive.box('setting').add(item);
 }
 
 Future<void> clearBox() async {
-  await Hive.box('setting').clear().then((value) => print(value));
-await Hive.box('setting').compact();
+  return await Hive.box('setting').putAt(0, UserSettings().isLoggedIn = true);
 }

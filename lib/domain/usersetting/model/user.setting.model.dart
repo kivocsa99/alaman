@@ -19,4 +19,10 @@ class UserSettings {
   bool? isavatar;
   @HiveField(8)
   String? language;
+  @HiveField(9)
+  String? socialId;
+    @HiveField(10)
+  String? googleToken;
+    @HiveField(11)
+  String? appleToken;
 }

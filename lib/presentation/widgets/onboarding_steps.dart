@@ -26,8 +26,8 @@ class OnBoardingSteps extends HookConsumerWidget {
       "onboardingdescription2".tr(),
       "onboardingdescription3".tr(),
     ];
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     final controller1 =
         useAnimationController(duration: const Duration(seconds: 1));
     final controller2 =

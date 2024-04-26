@@ -20,8 +20,8 @@ class MarksHistoryScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+
     List<MarksModel> modifiableList = List.from(marks);
     modifiableList.sort((a, b) {
       return b.id!.compareTo(a.id!);

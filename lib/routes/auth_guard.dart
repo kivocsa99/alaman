@@ -9,9 +9,8 @@ class AuthGuard extends AutoRouteGuard {
   AuthGuard();
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final UserSettings? settings =
-        settingBox.isNotEmpty ? settingBox.getAt(0) : null;
-
+    final UserSettings? settings = settingBox.isNotEmpty ? settingBox.getAt(0) : UserSettings();
+    print(settings);
     if (settings?.isLoggedIn == null || false) {
       resolver.next(true);
     } else {
@@ -26,10 +25,8 @@ class MainRouteGuard extends AutoRouteGuard {
   MainRouteGuard();
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final UserSettings settings =
-        settingBox.isNotEmpty ? settingBox.getAt(0) : UserSettings();
-    if ((settings.isavatar == null || false) &&
-        settings.role == "Beneficiary") {
+    final UserSettings settings = settingBox.isNotEmpty ? settingBox.getAt(0) : UserSettings();
+    if ((settings.isavatar == null || false) && settings.role == "Beneficiary") {
       print(settings.isavatar);
       print(settings.role);
       router.replaceAll([const SetAvatarRoute()]);

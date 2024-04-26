@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/registration.provider.dart';
+import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
@@ -127,9 +128,20 @@ class EmailStep extends HookConsumerWidget {
             child: AuthContainer(
               raduis: 50,
               height: 60,
-              onTap: () {
+              onTap: () async {
                 if (formKey.value.currentState!.validate()) {
-                  ref.read(registrationNotifierProvider.notifier).nextStep();
+                  await ref
+                      .read(checkPhoneNumberProvider(
+                              phone: register.value.email, value: "email")
+                          .future)
+                      .then((value) => value.fold(
+                          (l) => ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      "phoneegistered").tr())),
+                          (r) => ref
+                              .read(registrationNotifierProvider.notifier)
+                              .nextStep()));
                 }
               },
               color: const Color(0xffD2D3D6),

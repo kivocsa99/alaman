@@ -18,26 +18,17 @@ class NewsBottomSheet extends HookConsumerWidget {
   final String image;
   final String? href;
   final String createdAt;
-  const NewsBottomSheet(
-      {super.key,
-      required this.title,
-      required this.createdAt,
-      required this.titleAr,
-      required this.des,
-      required this.desAr,
-      required this.image,
-      this.href});
+  const NewsBottomSheet({super.key, required this.title, required this.createdAt, required this.titleAr, required this.des, required this.desAr, required this.image, this.href});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final locale = ref.watch(languageHiveNotifierProvider);
+
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
       width: double.infinity,
-      height:
-          (viewInsets > 0 ? null : MediaQuery.of(context).size.height * 0.8),
+      height: (viewInsets > 0 ? null : MediaQuery.of(context).size.height * 0.8),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
         child: Padding(
@@ -48,7 +39,7 @@ class NewsBottomSheet extends HookConsumerWidget {
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   icon: const Icon(Icons.close),
-                  onPressed: () => context.router.pop(),
+                  onPressed: () => context.router.maybePop(),
                 ),
               ),
               const Gap(10),
@@ -56,8 +47,7 @@ class NewsBottomSheet extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: CachedNetworkImage(
                   imageUrl: "$storageUrl$image",
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   imageBuilder: (context, imageProvider) {
                     return Image(
@@ -68,19 +58,7 @@ class NewsBottomSheet extends HookConsumerWidget {
                 ),
               ),
               const Gap(20),
-              Text(locale == "en" ? title : titleAr,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .bodyMedium!
-                      .copyWith(color: const Color(0xff16437B))),
-              const Gap(10),
-              Text(convertApiDate(createdAt),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .bodyMedium!
-                      .copyWith(color: const Color(0xff16437B))),
+              Text(locale == "en" ? title : titleAr, textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B))),
               const Gap(20),
               HtmlWidget(locale == "en" ? des : desAr),
               const Gap(20),
@@ -98,16 +76,11 @@ class NewsBottomSheet extends HookConsumerWidget {
                     color: const Color(0xffFFC629),
                     child: Text(
                       "View Campaign",
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .titleSmall
-                          ?.copyWith(color: Colors.white),
+                      style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                     ).tr(),
                   ),
                 ),
-                          
-              if (href != null)
-                  const Gap(30),
+              if (href != null) const Gap(30),
             ],
           ),
         ),

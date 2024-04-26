@@ -27,8 +27,8 @@ class ProfileScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(getProfileProvider);
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final locale = ref.watch(languageHiveNotifierProvider);
+
     final setting = ref.read(settingHiveNotifierProvider);
     Random random = Random();
     int randomNumber = random.nextInt(3);
@@ -45,8 +45,7 @@ class ProfileScreen extends HookConsumerWidget {
           description: "yourprofile",
         ),
         body: profile.when(
-            data: (data) => data.fold(
-                    (l) => Text(l.message ?? "internetconnection").tr(), (r) {
+            data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
                   var model = r;
                   return ResponsiveWidget(
                     child: Padding(
@@ -78,49 +77,31 @@ class ProfileScreen extends HookConsumerWidget {
                                               ? model.name!
                                               : model.name_ar!
                                           : model.User.name,
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                              color: const Color(0xff16437B)),
+                                      style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xff16437B)),
                                     ),
                                     const Gap(10),
-                                    if (setting?.role == "Beneficiary")
-                                      HtmlWidget(locale == "en"
-                                          ? model.bio ?? ""
-                                          : model.bio_ar ?? ""),
+                                    if (setting?.role == "Beneficiary") HtmlWidget(locale == "en" ? model.bio ?? "" : model.bio_ar ?? ""),
                                     if (setting?.role != "Beneficiary")
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20.0, vertical: 10),
+                                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                                         child: ResponsiveRowColumn(
                                           layout: ResponsiveRowColumnType.ROW,
-                                          rowMainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             ResponsiveRowColumnItem(
                                                 child: ResponsiveRowColumn(
-                                              columnMainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              layout: ResponsiveRowColumnType
-                                                  .COLUMN,
+                                              columnMainAxisAlignment: MainAxisAlignment.center,
+                                              layout: ResponsiveRowColumnType.COLUMN,
                                               children: [
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
-                                                  r.beneficiaries.length
-                                                      .toString(),
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyLarge,
+                                                  r.beneficiaries.length.toString(),
+                                                  style: Theme.of(context).primaryTextTheme.bodyLarge,
                                                 )),
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
                                                   "beneficiaries",
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyMedium,
+                                                  style: Theme.of(context).primaryTextTheme.bodyMedium,
                                                 ).tr()),
                                               ],
                                             )),
@@ -128,30 +109,22 @@ class ProfileScreen extends HookConsumerWidget {
                                                 child: Container(
                                               width: 2,
                                               height: 50,
-                                              color:
-                                                  Colors.grey.withOpacity(0.3),
+                                              color: Colors.grey.withOpacity(0.3),
                                             )),
                                             ResponsiveRowColumnItem(
                                                 child: ResponsiveRowColumn(
-                                              columnMainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              layout: ResponsiveRowColumnType
-                                                  .COLUMN,
+                                              columnMainAxisAlignment: MainAxisAlignment.center,
+                                              layout: ResponsiveRowColumnType.COLUMN,
                                               children: [
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
-                                                  r.User.total_donation_amount
-                                                      .toString(),
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyLarge,
+                                                  r.User.total_donation_amount.toString(),
+                                                  style: Theme.of(context).primaryTextTheme.bodyLarge,
                                                 )),
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
                                                   "totalgiving",
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyMedium,
+                                                  style: Theme.of(context).primaryTextTheme.bodyMedium,
                                                 ).tr()),
                                               ],
                                             )),
@@ -176,26 +149,16 @@ class ProfileScreen extends HookConsumerWidget {
                                         colors: [
                                           // Brighten function is not native, you'd have to implement it
                                           Colors.white,
-                                          colorsList.value[randomNumber]
-                                              .brighten(5)
-                                              .withOpacity(0.3),
+                                          colorsList.value[randomNumber].brighten(5).withOpacity(0.3),
                                         ],
                                       )),
                                   child: setting?.role == "Beneficiary"
                                       ? model!.image != null
                                           ? CachedNetworkImage(
-                                              imageUrl:
-                                                  "$storageUrl/${model.image}",
-                                              placeholder: (context, url) =>
-                                                  const Center(
-                                                      child:
-                                                          CircularProgressIndicator()),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                              imageBuilder:
-                                                  (context, imageProvider) =>
-                                                      Container(
+                                              imageUrl: "$storageUrl/${model.image}",
+                                              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                                              imageBuilder: (context, imageProvider) => Container(
                                                 width: 70,
                                                 height: 70,
                                                 decoration: BoxDecoration(
@@ -203,8 +166,7 @@ class ProfileScreen extends HookConsumerWidget {
                                                   image: DecorationImage(
                                                     image: imageProvider,
                                                     scale: 2.5,
-                                                    fit: BoxFit
-                                                        .contain, // Adjust to your needs
+                                                    fit: BoxFit.contain, // Adjust to your needs
                                                   ),
                                                 ),
                                               ),
@@ -220,15 +182,10 @@ class ProfileScreen extends HookConsumerWidget {
                           ),
                           const Gap(20),
                           AuthContainer(
-                            color: setting?.role == "Beneficiary"
-                                ? const Color(0xffFFC629)
-                                : const Color(0xff2A7DE1),
+                            color: setting?.role == "Beneficiary" ? const Color(0xffFFC629) : const Color(0xff2A7DE1),
                             height: 50,
                             raduis: 40,
-                            onTap: () => setting?.role == "Beneficiary"
-                                ? context.router.push(YourGrantsRoute())
-                                : context.router.push(YourBeneficiariesRoute(
-                                    beneficiary: r.beneficiaries)),
+                            onTap: () => setting?.role == "Beneficiary" ? context.router.push(YourGrantsRoute()) : context.router.push(YourBeneficiariesRoute(beneficiary: r.beneficiaries)),
                             alignment: Alignment.centerLeft,
                             child: Row(
                               children: [
@@ -243,25 +200,17 @@ class ProfileScreen extends HookConsumerWidget {
                                       : setting?.role == "Donor"
                                           ? "yourbeneficairies"
                                           : "manageagreement",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          color: Colors.white, fontSize: 16),
+                                  style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: Colors.white, fontSize: 16),
                                 ).tr()
                               ],
                             ),
                           ),
                           const Gap(20),
                           ListTile(
-                            onTap: () =>
-                                context.router.push(ProfileDetailsRoute()),
+                            onTap: () => context.router.push(ProfileDetailsRoute()),
                             title: Text(
                               "profiledetails",
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: const Color(0xff18447B)),
+                              style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff18447B)),
                             ).tr(),
                             leading: const Icon(
                               Icons.person,
@@ -294,15 +243,10 @@ class ProfileScreen extends HookConsumerWidget {
                           if (setting?.role != "Beneficiary") const Gap(10),
                           if (setting?.role != "Beneficiary")
                             ListTile(
-                              onTap: () => context.router.push(
-                                  PaymentHistoryRoute(
-                                      donationHistory: r.User.donor_donations)),
+                              onTap: () => context.router.push(PaymentHistoryRoute(donationHistory: r.User.donor_donations)),
                               title: Text(
                                 "paymenthistory",
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium
-                                    ?.copyWith(color: const Color(0xff18447B)),
+                                style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff18447B)),
                               ).tr(),
                               leading: const Icon(
                                 Icons.history,
@@ -315,14 +259,10 @@ class ProfileScreen extends HookConsumerWidget {
                             ),
                           const Gap(10),
                           ListTile(
-                            onTap: () async =>
-                                await context.router.push(LanguageRoute()),
+                            onTap: () async => await context.router.push(LanguageRoute()),
                             title: Text(
                               "language",
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: const Color(0xff18447B)),
+                              style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff18447B)),
                             ).tr(),
                             leading: const Icon(
                               Icons.language,
@@ -336,17 +276,13 @@ class ProfileScreen extends HookConsumerWidget {
                           const Gap(10),
                           ListTile(
                             onTap: () async {
-                              if (!await launchUrl(
-                                  Uri.parse("https://alamanfund.jo/contact"))) {
+                              if (!await launchUrl(Uri.parse("https://alamanfund.jo/contact"))) {
                                 throw Exception('Could not launch ');
                               }
                             },
                             title: Text(
                               "help",
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: const Color(0xff18447B)),
+                              style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff18447B)),
                             ).tr(),
                             leading: const Icon(
                               Icons.help,

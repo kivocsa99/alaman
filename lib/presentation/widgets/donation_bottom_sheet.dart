@@ -29,17 +29,15 @@ class DonationBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final locale = ref.watch(languageHiveNotifierProvider);
+
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
     final controller = FixedExtentScrollController();
     final isLoading = useState(false);
     final selectedIndex = useState(0);
     final currentStep = useState(0);
-    final type = useState(locale == "en"
-        ? scholarships![selectedIndex.value].name!
-        : scholarships![selectedIndex.value].name_ar!);
+    final type = useState(locale == "en" ? scholarships![selectedIndex.value].name! : scholarships![selectedIndex.value].name_ar!);
     final typeId = useState(scholarships![selectedIndex.value].id!);
     final year = useState("year".tr());
     final yearId = useState(0);
@@ -50,8 +48,7 @@ class DonationBottomSheet extends HookConsumerWidget {
     final age = useState("age".tr());
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(50)),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
       height: MediaQuery.of(context).size.height * 0.8,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Form(
@@ -73,8 +70,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: StepIndicator(
-                        currentStep: currentStep.value, stepCount: 2),
+                    child: StepIndicator(currentStep: currentStep.value, stepCount: 2),
                   ),
                 ),
                 AnimatedSwitcher(
@@ -88,7 +84,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 IconButton(
-                                  onPressed: () => context.router.pop(),
+                                  onPressed: () => context.router.maybePop(),
                                   icon: const Icon(
                                     Icons.arrow_back,
                                     color: Color(0xff16437B),
@@ -99,24 +95,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                                     Text(
                                       "ourprograms",
                                       textAlign: TextAlign.center,
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                              fontSize: 20,
-                                              color: const Color(0xff16437B),
-                                              fontWeight: FontWeight.w500),
+                                      style: Theme.of(context).primaryTextTheme.bodyLarge?.copyWith(fontSize: 20, color: const Color(0xff16437B), fontWeight: FontWeight.w500),
                                     ).tr(),
-                                    Text("choosegrant",
-                                            textAlign: TextAlign.center,
-                                            style: Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyMedium)
-                                        .tr(),
+                                    Text("choosegrant", textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodyMedium).tr(),
                                   ],
                                 ),
                                 IconButton(
-                                  onPressed: () => context.router.pop(),
+                                  onPressed: () => context.router.maybePop(),
                                   icon: const Icon(
                                     Icons.close,
                                     color: Color(0xff16437B),
@@ -127,34 +112,21 @@ class DonationBottomSheet extends HookConsumerWidget {
                             const Gap(40),
                             ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),
-                              separatorBuilder: (context, index) =>
-                                  const Gap(10),
+                              separatorBuilder: (context, index) => const Gap(10),
                               shrinkWrap: true,
                               itemBuilder: (context, index) => AuthContainer(
-                                color: selectedIndex.value == index
-                                    ? const Color(0xff2A7DE1)
-                                    : Colors.white,
+                                color: selectedIndex.value == index ? const Color(0xff2A7DE1) : Colors.white,
                                 height: 50,
                                 raduis: 40,
                                 onTap: () async {
                                   selectedIndex.value = index;
-                                  type.value = locale == "en"
-                                      ? scholarships![index].name!
-                                      : scholarships![index].name_ar!;
+                                  type.value = locale == "en" ? scholarships![index].name! : scholarships![index].name_ar!;
                                   typeId.value = scholarships![index].id!;
                                 },
                                 child: Text(
-                                  locale == "en"
-                                      ? scholarships![index].name!
-                                      : scholarships![index].name_ar!,
+                                  locale == "en" ? scholarships![index].name! : scholarships![index].name_ar!,
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          color: selectedIndex.value == index
-                                              ? Colors.white
-                                              : const Color(0xff16437B)),
+                                  style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: selectedIndex.value == index ? Colors.white : const Color(0xff16437B)),
                                 ),
                               ),
                               itemCount: scholarships!.length,
@@ -166,19 +138,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 raduis: 50,
                                 height: 50,
                                 onTap: () async {
-                                  currentStep.value != 1
-                                      ? currentStep.value =
-                                          currentStep.value + 1
-                                      : null;
+                                  currentStep.value != 1 ? currentStep.value = currentStep.value + 1 : null;
                                 },
                                 color: const Color(0xffFFC629),
                                 child: isLoading.value == false
                                     ? Text(
                                         "next",
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .titleSmall
-                                            ?.copyWith(color: Colors.white),
+                                        style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                                       ).tr()
                                     : const CircularProgressIndicator(),
                               ),
@@ -192,8 +158,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 IconButton(
-                                  onPressed: () =>
-                                      currentStep.value = currentStep.value - 1,
+                                  onPressed: () => currentStep.value = currentStep.value - 1,
                                   icon: const Icon(
                                     Icons.arrow_back,
                                     color: Color(0xff16437B),
@@ -204,24 +169,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                                     Text(
                                       "moredetails",
                                       textAlign: TextAlign.center,
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                              fontSize: 20,
-                                              color: const Color(0xff16437B),
-                                              fontWeight: FontWeight.w500),
+                                      style: Theme.of(context).primaryTextTheme.bodyLarge?.copyWith(fontSize: 20, color: const Color(0xff16437B), fontWeight: FontWeight.w500),
                                     ).tr(),
-                                    Text("fillfilters",
-                                            textAlign: TextAlign.center,
-                                            style: Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyMedium)
-                                        .tr(),
+                                    Text("fillfilters", textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodyMedium).tr(),
                                   ],
                                 ),
                                 IconButton(
-                                  onPressed: () => context.router.pop(),
+                                  onPressed: () => context.router.maybePop(),
                                   icon: const Icon(
                                     Icons.close,
                                     color: Color(0xff16437B),
@@ -237,9 +191,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                   child: Container(
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          width: 1),
+                                      border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: ListTile(
@@ -253,48 +205,34 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                     SizedBox(
                                                       height: 180,
                                                       child: CupertinoPicker(
-                                                          scrollController:
-                                                              controller,
+                                                          scrollController: controller,
                                                           itemExtent: 45,
-                                                          onSelectedItemChanged:
-                                                              (item) {
-                                                            age.value =
-                                                                (item + 18)
-                                                                    .toString();
+                                                          onSelectedItemChanged: (item) {
+                                                            age.value = (item + 18).toString();
                                                           },
-                                                          children:
-                                                              List.generate(
-                                                                  7,
-                                                                  (index) =>
-                                                                      Center(
-                                                                        child: Text((index +
-                                                                                18)
-                                                                            .toString()),
-                                                                      ))),
+                                                          children: List.generate(
+                                                              7,
+                                                              (index) => Center(
+                                                                    child: Text((index + 18).toString()),
+                                                                  ))),
                                                     ),
 
                                                     // Close the modal
                                                     Align(
-                                                      alignment: Alignment
-                                                          .bottomCenter,
+                                                      alignment: Alignment.bottomCenter,
                                                       child: SizedBox(
                                                         height: 70,
                                                         child: CupertinoButton(
                                                           child: const Text(
                                                             'confirm',
-                                                            style: TextStyle(
-                                                                color: Color(
-                                                                    0xff18447B)),
+                                                            style: TextStyle(color: Color(0xff18447B)),
                                                           ).tr(),
                                                           onPressed: () async {
-                                                            if (controller
-                                                                    .selectedItem ==
-                                                                0) {
+                                                            if (controller.selectedItem == 0) {
                                                               age.value = "18";
                                                             }
 
-                                                            context.router
-                                                                .pop();
+                                                            context.router.maybePop();
                                                           },
                                                         ),
                                                       ),
@@ -306,10 +244,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                         Icons.expand_more,
                                         color: Color(0xff18447B),
                                       ),
-                                      title: Text(age.value,
-                                          style: Theme.of(context)
-                                              .primaryTextTheme
-                                              .titleSmall),
+                                      title: Text(age.value, style: Theme.of(context).primaryTextTheme.titleSmall),
                                     ),
                                   ),
                                 ),
@@ -318,9 +253,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                   child: Container(
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          width: 1),
+                                      border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: ListTile(
@@ -336,54 +269,39 @@ class DonationBottomSheet extends HookConsumerWidget {
                                                 child: CupertinoPicker(
                                                   scrollController: controller,
                                                   itemExtent: 45,
-                                                  onSelectedItemChanged:
-                                                      (item) {
+                                                  onSelectedItemChanged: (item) {
                                                     if (item == 0) {
-                                                      gender.value =
-                                                          "male".tr();
+                                                      gender.value = "male".tr();
                                                       genderId.value = 1;
                                                     } else {
-                                                      gender.value =
-                                                          "female".tr();
+                                                      gender.value = "female".tr();
                                                       genderId.value = 2;
                                                     }
                                                   },
                                                   children: [
-                                                    Center(
-                                                        child:
-                                                            const Text("male")
-                                                                .tr()),
-                                                    Center(
-                                                        child:
-                                                            const Text("female")
-                                                                .tr()),
+                                                    Center(child: const Text("male").tr()),
+                                                    Center(child: const Text("female").tr()),
                                                   ],
                                                 ),
                                               ),
 
                                               // Close the modal
                                               Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
+                                                alignment: Alignment.bottomCenter,
                                                 child: SizedBox(
                                                   height: 70,
                                                   child: CupertinoButton(
                                                     child: const Text(
                                                       'confirm',
-                                                      style: TextStyle(
-                                                          color: Color(
-                                                              0xff18447B)),
+                                                      style: TextStyle(color: Color(0xff18447B)),
                                                     ).tr(),
                                                     onPressed: () async {
-                                                      if (controller
-                                                              .selectedItem ==
-                                                          0) {
-                                                        gender.value =
-                                                            "male".tr();
+                                                      if (controller.selectedItem == 0) {
+                                                        gender.value = "male".tr();
                                                         genderId.value = 1;
                                                       }
 
-                                                      context.router.pop();
+                                                      context.router.maybePop();
                                                     },
                                                   ),
                                                 ),
@@ -396,10 +314,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                         Icons.expand_more,
                                         color: Color(0xff18447B),
                                       ),
-                                      title: Text(gender.value,
-                                          style: Theme.of(context)
-                                              .primaryTextTheme
-                                              .titleSmall),
+                                      title: Text(gender.value, style: Theme.of(context).primaryTextTheme.titleSmall),
                                     ),
                                   ),
                                 ),
@@ -408,17 +323,13 @@ class DonationBottomSheet extends HookConsumerWidget {
                             const Gap(10),
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    width: 1),
+                                border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: ListTile(
                                 title: Text(
                                   type.value,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleSmall,
+                                  style: Theme.of(context).primaryTextTheme.titleSmall,
                                 ),
                                 trailing: const Icon(
                                   Icons.expand_more,
@@ -429,9 +340,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                             const Gap(10),
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    width: 1),
+                                border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: ListTile(
@@ -448,16 +357,12 @@ class DonationBottomSheet extends HookConsumerWidget {
                                             scrollController: controller,
                                             itemExtent: 45,
                                             onSelectedItemChanged: (item) {
-                                              city.value = locale == "en"
-                                                  ? cities![item].name!
-                                                  : cities![item].name_ar!;
+                                              city.value = locale == "en" ? cities![item].name! : cities![item].name_ar!;
                                               cityId.value = cities![item].id!;
                                             },
                                             children: cities!
                                                 .map((e) => Center(
-                                                      child: Text(locale == "en"
-                                                          ? e.name!
-                                                          : e.name_ar!),
+                                                      child: Text(locale == "en" ? e.name! : e.name_ar!),
                                                     ))
                                                 .toList(),
                                           ),
@@ -471,18 +376,14 @@ class DonationBottomSheet extends HookConsumerWidget {
                                             child: CupertinoButton(
                                               child: const Text(
                                                 'confirm',
-                                                style: TextStyle(
-                                                    color: Color(0xff18447B)),
+                                                style: TextStyle(color: Color(0xff18447B)),
                                               ).tr(),
                                               onPressed: () async {
-                                                if (controller.selectedItem ==
-                                                    0) {
-                                                  city.value = locale == "en"
-                                                      ? cities![0].name!
-                                                      : cities![0].name_ar!;
+                                                if (controller.selectedItem == 0) {
+                                                  city.value = locale == "en" ? cities![0].name! : cities![0].name_ar!;
                                                   cityId.value = cities![0].id!;
                                                 }
-                                                context.router.pop();
+                                                context.router.maybePop();
                                               },
                                             ),
                                           ),
@@ -493,9 +394,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 ),
                                 title: Text(
                                   city.value,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleSmall,
+                                  style: Theme.of(context).primaryTextTheme.titleSmall,
                                 ),
                                 trailing: const Icon(
                                   Icons.expand_more,
@@ -506,9 +405,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                             const Gap(10),
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    width: 1),
+                                border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: ListTile(
@@ -525,19 +422,12 @@ class DonationBottomSheet extends HookConsumerWidget {
                                             scrollController: controller,
                                             itemExtent: 45,
                                             onSelectedItemChanged: (item) {
-                                              year.value = locale == "en"
-                                                  ? educationalYears![item]
-                                                      .name!
-                                                  : educationalYears![item]
-                                                      .name_ar!;
-                                              yearId.value =
-                                                  educationalYears![item].id!;
+                                              year.value = locale == "en" ? educationalYears![item].name! : educationalYears![item].name_ar!;
+                                              yearId.value = educationalYears![item].id!;
                                             },
                                             children: educationalYears!
                                                 .map((e) => Center(
-                                                      child: Text(locale == "en"
-                                                          ? e.name!
-                                                          : e.name_ar!),
+                                                      child: Text(locale == "en" ? e.name! : e.name_ar!),
                                                     ))
                                                 .toList(),
                                           ),
@@ -551,22 +441,15 @@ class DonationBottomSheet extends HookConsumerWidget {
                                             child: CupertinoButton(
                                               child: const Text(
                                                 'confirm',
-                                                style: TextStyle(
-                                                    color: Color(0xff18447B)),
+                                                style: TextStyle(color: Color(0xff18447B)),
                                               ).tr(),
                                               onPressed: () async {
-                                                if (controller.selectedItem ==
-                                                    0) {
-                                                  year.value = locale == "en"
-                                                      ? educationalYears![0]
-                                                          .name!
-                                                      : educationalYears![0]
-                                                          .name_ar!;
-                                                  yearId.value =
-                                                      educationalYears![0].id!;
+                                                if (controller.selectedItem == 0) {
+                                                  year.value = locale == "en" ? educationalYears![0].name! : educationalYears![0].name_ar!;
+                                                  yearId.value = educationalYears![0].id!;
                                                 }
 
-                                                context.router.pop();
+                                                context.router.maybePop();
                                               },
                                             ),
                                           ),
@@ -577,9 +460,7 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 ),
                                 title: Text(
                                   year.value,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleSmall,
+                                  style: Theme.of(context).primaryTextTheme.titleSmall,
                                 ),
                                 trailing: const Icon(
                                   Icons.expand_more,
@@ -593,30 +474,23 @@ class DonationBottomSheet extends HookConsumerWidget {
                               child: AuthContainer(
                                 raduis: 50,
                                 height: 50,
-                               onTap: () async {
-                                  final notifier = ref.read(
-                                      paginatedBeneficiariesNotifierProvider
-                                          .notifier);
+                                onTap: () async {
+                                  final notifier = ref.read(paginatedBeneficiariesNotifierProvider.notifier);
                                   notifier.resetState();
-                                  context.router.pop();
+                                  context.router.maybePop();
                                   context.router.push(FilteredRoute(
                                       genderId: genderId.value,
                                       cityId: cityId.value,
-                                      
+                                      isCorporate: null,
                                       educationalYearId: yearId.value,
-                                      age: age.value == "age".tr()
-                                          ? "18"
-                                          : age.value,
+                                      age: age.value == "age".tr() ? "18" : age.value,
                                       scholarshipTypeId: typeId.value));
                                 },
                                 color: const Color(0xffFFC629),
                                 child: isLoading.value == false
                                     ? Text(
                                         "search",
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .titleSmall
-                                            ?.copyWith(color: Colors.white),
+                                        style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                                       ).tr()
                                     : const CircularProgressIndicator(),
                               ),

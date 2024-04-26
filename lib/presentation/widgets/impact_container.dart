@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:alaman/application/provider/language.provider.dart';
+import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -8,6 +9,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -18,8 +20,9 @@ class ImpactContainer extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+        final locale = ref.watch(languageHiveNotifierProvider);
+final stepName = useState("");
+final stepCount = useState(0.0);
     return Container(
       padding: const EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width < 400
@@ -134,8 +137,49 @@ class ImpactContainer extends HookConsumerWidget {
               ResponsiveRowColumnItem(
                   rowFlex: 1,
                   child: GestureDetector(
-                    onTap: ()=>context.router.push(BeneficiaryProfileRoute(index: 1,
-                        profileId: beneficiary!.id.toString())),
+                    onTap: ()async{  await ref.read(getGenericProvider.future).then((value) =>
+                        value.fold((l) => null, (r) async {
+                          var donationAmount = beneficiary!
+                              .beneficiary_payments!
+                              .fold(
+                                  0.0,
+                                  (sum, current) =>
+                                      sum + current.amount!.toDouble());
+
+                        
+                          for (var step in r.ScholarshipTypes!
+                              .firstWhere((element) =>
+                                  element.id ==
+                                  beneficiary!.scholarship_type_id)
+                              .steps!) {
+                            if (donationAmount >= step.amount!.toDouble()) {
+                              stepCount.value += 1.0; // Full step achieved
+                              donationAmount -= step.amount!.toDouble();
+                              stepName.value =
+                                  stepName.value =locale=="en"? step
+                                  .name!:step.name_ar!; // Update last fully achieved step
+                            } else if (donationAmount > 0) {
+                              // Check if there's any donation left for partial step
+                              stepCount.value += donationAmount /
+                                  step.amount!.toDouble(); // Partial step
+                              stepName.value =locale=="en"? step
+                                  .name!:step.name_ar!; // Update to current step as it's partially achieved
+                              break; // No further steps can be achieved
+                            }
+                          }
+                          context.router.push(BeneficiaryProfileRoute(
+                            name: stepName.value,
+                            step: stepCount.value,
+                              index: 1,
+                              steps: r.ScholarshipTypes!
+                                  .firstWhere((element) =>
+                                      element.id ==
+                                      beneficiary!.scholarship_type_id)
+                                  .steps!,
+                              profileId: beneficiary!.id.toString()));
+                               stepName.value="";
+                        stepCount.value=0.0;
+                        }));},
                     child: Container(
                       height: 35,
                       alignment: Alignment.center,
@@ -160,9 +204,52 @@ class ImpactContainer extends HookConsumerWidget {
               ResponsiveRowColumnItem(
                   rowFlex: 1,
                   child: GestureDetector(
-                    onTap: () => context.router.push(BeneficiaryProfileRoute(
-                      index: 0,
-                        profileId: beneficiary!.id.toString())),
+                    onTap: ()async {
+                      
+                    await ref.read(getGenericProvider.future).then((value) =>
+                        value.fold((l) => null, (r) async {
+                          var donationAmount = beneficiary!
+                              .beneficiary_payments!
+                              .fold(
+                                  0.0,
+                                  (sum, current) =>
+                                      sum + current.amount!.toDouble());
+
+                       
+                          for (var step in r.ScholarshipTypes!
+                              .firstWhere((element) =>
+                                  element.id ==
+                                  beneficiary!.scholarship_type_id)
+                              .steps!) {
+                            if (donationAmount >= step.amount!.toDouble()) {
+                              stepCount.value += 1.0; // Full step achieved
+                              donationAmount -= step.amount!.toDouble();
+                              stepName.value =
+                                  stepName.value =locale=="en"? step
+                                  .name!:step.name_ar!!; // Update last fully achieved step
+                            } else if (donationAmount > 0) {
+                              // Check if there's any donation left for partial step
+                              stepCount.value += donationAmount /
+                                  step.amount!.toDouble(); // Partial step
+                              stepName.value = stepName.value =locale=="en"? step
+                                  .name!:step.name_ar!; // Update to current step as it's partially achieved
+                              break; // No further steps can be achieved
+                            }
+                          }
+                          context.router.push(BeneficiaryProfileRoute(
+                            name: stepName.value,
+                            step: stepCount.value,
+                              index: 0,
+                              steps: r.ScholarshipTypes!
+                                  .firstWhere((element) =>
+                                      element.id ==
+                                      beneficiary!.scholarship_type_id)
+                                  .steps!,
+                              profileId: beneficiary!.id.toString()));
+                               stepName.value="";
+                        stepCount.value=0.0;
+                        }));
+                    },
                     child: Container(
                       height: 35,
                       alignment: Alignment.center,

@@ -32,8 +32,8 @@ class BeneficiaryListItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSelected = useState<bool>(initiallySelected);
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final locale = ref.watch(languageHiveNotifierProvider);
+
     useEffect(() {
       isSelected.value = initiallySelected;
       return null;
@@ -46,8 +46,7 @@ class BeneficiaryListItem extends HookConsumerWidget {
       const Color(0xff93C1E8),
     ]);
     return GestureDetector(
-      onTap: () => context.router.push(
-          SposnerRoute(isdonor: true, profileById: beneficiary.id.toString())),
+      onTap: () => context.router.push(SposnerRoute(isdonor: true, profileById: beneficiary.id.toString())),
       child: Container(
         width: double.infinity,
         height: 250.0,
@@ -68,19 +67,17 @@ class BeneficiaryListItem extends HookConsumerWidget {
               child: Container(
                 height: 60,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      stops: [0, 5],
-                      colors: [
-                        // Brighten function is not native, you'd have to implement it
-                        Colors.white,
-                        colorsList.value[randomNumber]
-                            .brighten(0)
-                            .withOpacity(0.3),
-                      ],
-                    ),
-                    ),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    stops: [0, 5],
+                    colors: [
+                      // Brighten function is not native, you'd have to implement it
+                      Colors.white,
+                      colorsList.value[randomNumber].brighten(0).withOpacity(0.3),
+                    ],
+                  ),
+                ),
               ),
             ),
             Positioned(
@@ -93,14 +90,14 @@ class BeneficiaryListItem extends HookConsumerWidget {
                     Text(
                       locale == "en" ? beneficiary.name! : beneficiary.name_ar!,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       beneficiary.address!,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ],
@@ -131,63 +128,46 @@ class BeneficiaryListItem extends HookConsumerWidget {
                 onChanged: (selected) {
                   if (selected == true) {
                     // Calculate the additional amount needed for this beneficiary.
-                    final additionalAmountNeeded = beneficiary.donations_goal! -
-                        beneficiary.beneficiary_payments!.fold(0.0,
-                            (sum, current) => sum + current.amount!.toDouble());
+                    final additionalAmountNeeded = beneficiary.donations_goal! - beneficiary.beneficiary_payments!.fold(0.0, (sum, current) => sum + current.amount!.toDouble());
                     // Check if selecting this beneficiary would exceed the total donation limit.
-                    if (currentTotalDonation + additionalAmountNeeded <=
-                        donationLimit) {
-                      isSelected.value =
-                          true; // Update the local state only if within the limit
-                      onSelectionChanged(
-                          true); // Notify the parent widget about the selection
+                    if (currentTotalDonation + additionalAmountNeeded <= donationLimit) {
+                      isSelected.value = true; // Update the local state only if within the limit
+                      onSelectionChanged(true); // Notify the parent widget about the selection
                     } else {
                       // Show a message if the donation limit would be exceeded.
                       showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (context) => AlertDialog(
-                                          title: SizedBox(
-                                            height: 100,
-                                            width: 100,
-                                            child: Lottie.asset(
-                                                "assets/money.json"),
-                                          ),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                "You have excedded the amount you specified",
-                                                style: Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                        color: const Color(
-                                                            0xff16437B)),
-                                              ),
-                                              AuthContainer(
-                                                raduis: 50,
-                                                height: 50,
-                                                onTap: () async {
-                                                  context.router.pop();
-                                                },
-                                                color: const Color(0xffFFC629),
-                                                child: Text(
-                                                  "back",
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .titleSmall
-                                                      ?.copyWith(
-                                                          color: Colors.white),
-                                                ).tr(),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  
-                   
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => AlertDialog(
+                          title: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Lottie.asset("assets/money.json"),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "You have excedded the amount you specified",
+                                style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
+                              ),
+                              AuthContainer(
+                                raduis: 50,
+                                height: 50,
+                                onTap: () async {
+                                  context.router.maybePop();
+                                },
+                                color: const Color(0xffFFC629),
+                                child: Text(
+                                  "back",
+                                  style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
+                                ).tr(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     // Always allow deselecting.
                     isSelected.value = false;

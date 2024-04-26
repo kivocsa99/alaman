@@ -23,10 +23,8 @@ class ChangeFieldBottomSheet extends HookConsumerWidget {
 
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(50)),
-      height:
-          (viewInsets > 0 ? null : MediaQuery.of(context).size.height * 0.6),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
+      height: (viewInsets > 0 ? null : MediaQuery.of(context).size.height * 0.6),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Form(
         key: formKey.value,
@@ -40,7 +38,7 @@ class ChangeFieldBottomSheet extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () => context.router.pop(),
+                      onPressed: () => context.router.maybePop(),
                       icon: const Icon(
                         Icons.arrow_back,
                         color: Color(0xff16437B),
@@ -49,16 +47,10 @@ class ChangeFieldBottomSheet extends HookConsumerWidget {
                     Text(
                       "${"change".tr()} ${"$field".tr()}",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .bodyMedium
-                          ?.copyWith(
-                              fontSize: 20,
-                              color: const Color(0xff16437B),
-                              fontWeight: FontWeight.bold),
+                      style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(fontSize: 20, color: const Color(0xff16437B), fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                      onPressed: () => context.router.pop(),
+                      onPressed: () => context.router.maybePop(),
                       icon: const Icon(
                         Icons.close,
                         color: Color(0xff16437B),
@@ -85,28 +77,20 @@ class ChangeFieldBottomSheet extends HookConsumerWidget {
                     height: 50,
                     onTap: () async {
                       isLoading.value = true;
-                      ref
-                          .read(changeFieldUseCaseProvider)
-                          .execute(ChangeFieldUseCaseInput(
-                              value: textValue.value, field: field!))
-                          .then((value) => value.fold((l) {
-                                isLoading.value = false;
-                                context.router.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(l.message ?? "")));
-                              }, (r) {
-                                isLoading.value = false;
-                                context.router.pop();
-                              }));
+                      ref.read(changeFieldUseCaseProvider).execute(ChangeFieldUseCaseInput(value: textValue.value, field: field!)).then((value) => value.fold((l) {
+                            isLoading.value = false;
+                            context.router.maybePop();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.message ?? "")));
+                          }, (r) {
+                            isLoading.value = false;
+                            context.router.maybePop();
+                          }));
                     },
                     color: const Color(0xffFFC629),
                     child: isLoading.value == false
                         ? Text(
                             "next",
-                            style: Theme.of(context)
-                                .primaryTextTheme
-                                .titleSmall
-                                ?.copyWith(color: Colors.white),
+                            style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
                           )
                         : const CircularProgressIndicator(),
                   ),
@@ -147,8 +131,7 @@ class SliderThumbImage extends SliderComponentShape {
     required Size sizeWithOverflow,
   }) {
     final ImageStream imageStream = image.image.resolve(ImageConfiguration());
-    final ImageStreamListener listener =
-        ImageStreamListener((ImageInfo info, bool _) {
+    final ImageStreamListener listener = ImageStreamListener((ImageInfo info, bool _) {
       final image = info.image;
       final paint = Paint();
 
@@ -165,10 +148,8 @@ class SliderThumbImage extends SliderComponentShape {
 
       context.canvas.drawImageRect(
         image,
-        Rect.fromLTWH(0, 0, image.width.toDouble(),
-            image.height.toDouble()), // Source rectangle
-        Rect.fromLTWH(imageOffset.dx, imageOffset.dy, newWidth,
-            newHeight), // Destination rectangle
+        Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()), // Source rectangle
+        Rect.fromLTWH(imageOffset.dx, imageOffset.dy, newWidth, newHeight), // Destination rectangle
         paint,
       );
     });

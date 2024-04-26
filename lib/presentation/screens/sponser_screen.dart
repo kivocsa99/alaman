@@ -21,14 +21,12 @@ import 'package:responsive_framework/responsive_framework.dart';
 class SposnerScreen extends HookConsumerWidget {
   final String profileById;
   final bool isdonor;
-  const SposnerScreen(
-      {super.key, required this.profileById, required this.isdonor});
+  const SposnerScreen({super.key, required this.profileById, required this.isdonor});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
-    final beneficiary =
-        ref.watch(getProfileByIDProvider(profileId: profileById));
+    final locale = ref.watch(languageHiveNotifierProvider);
+
+    final beneficiary = ref.watch(getProfileByIDProvider(profileId: profileById));
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(
@@ -36,23 +34,16 @@ class SposnerScreen extends HookConsumerWidget {
           description: "binificiaryprofile",
         ),
         body: beneficiary.when(
-            data: (data) => data.fold(
-                    (l) => Text(l.message ?? "internetconnection").tr(), (r) {
+            data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
                   final BeneficiaryModel model = r;
-                  final endamount = model.donations_goal! -
-                      (model.beneficiary_payments!.fold(0.0,
-                          (sum, current) => sum + current.amount!.toDouble()));
+                  final endamount = model.donations_goal! - (model.beneficiary_payments!.fold(0.0, (sum, current) => sum + current.amount!.toDouble()));
 
                   print(endamount);
                   return ResponsiveWidget(
                     child: Container(
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height - 100,
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50),
-                              topRight: Radius.circular(50))),
+                      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: ListView(
@@ -77,20 +68,10 @@ class SposnerScreen extends HookConsumerWidget {
                                     children: <Widget>[
                                       const Gap(30),
                                       Text(
-                                        locale == "en"
-                                            ? model.name!
-                                            : model.name_ar!,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                                color: const Color(0xff16437B)),
+                                        locale == "en" ? model.name! : model.name_ar!,
+                                        style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xff16437B)),
                                       ),
-                                      HtmlWidget(locale == "en"
-                                          ? model.bio ?? ""
-                                          : model.bio_ar ?? ""),
+                                      HtmlWidget(locale == "en" ? model.bio ?? "" : model.bio_ar ?? ""),
                                     ],
                                   ),
                                 ),
@@ -98,12 +79,9 @@ class SposnerScreen extends HookConsumerWidget {
                                   top: -30,
                                   child: CachedNetworkImage(
                                     imageUrl: "$storageUrl/${model.image}",
-                                    placeholder: (context, url) => const Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
+                                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    imageBuilder: (context, imageProvider) => Container(
                                       width: 70,
                                       height: 70,
                                       decoration: BoxDecoration(
@@ -111,8 +89,7 @@ class SposnerScreen extends HookConsumerWidget {
                                         image: DecorationImage(
                                           image: imageProvider,
                                           scale: 2.5,
-                                          fit: BoxFit
-                                              .contain, // Adjust to your needs
+                                          fit: BoxFit.contain, // Adjust to your needs
                                         ),
                                       ),
                                     ),
@@ -126,82 +103,51 @@ class SposnerScreen extends HookConsumerWidget {
                               children: [
                                 Text(
                                   "${model.birthdate}",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyMedium!
-                                      .copyWith(color: const Color(0xff2A7DE1)),
+                                  style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff2A7DE1)),
                                 ).tr(),
                                 const Gap(10),
                                 Container(
                                   width: 2,
                                   height: 30,
-                                  color:
-                                      const Color(0xff2A7DE1).withOpacity(0.5),
+                                  color: const Color(0xff2A7DE1).withOpacity(0.5),
                                 ),
                                 const Gap(10),
                                 Text(
                                   "${locale == "en" ? model.gender!.name : model.gender!.name_ar}",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyMedium!
-                                      .copyWith(color: const Color(0xff2A7DE1)),
+                                  style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff2A7DE1)),
                                 ),
                                 const Gap(10),
                                 Container(
                                   width: 2,
                                   height: 30,
-                                  color:
-                                      const Color(0xff2A7DE1).withOpacity(0.5),
+                                  color: const Color(0xff2A7DE1).withOpacity(0.5),
                                 ),
                                 const Gap(10),
                                 Text(
                                   "${locale == "en" ? model.city!.name : model.city!.name_ar}",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyMedium!
-                                      .copyWith(color: const Color(0xff2A7DE1)),
+                                  style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff2A7DE1)),
                                 ),
                                 const Gap(10),
                               ],
                             ),
-                         
                             Gap(15),
                             Container(
                               padding: const EdgeInsets.all(15),
-                              width: MediaQuery.of(context).size.width < 400
-                                  ? MediaQuery.of(context).size.width + 30
-                                  : MediaQuery.of(context).size.width + 20,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: const Color(0xffF9F9F9)),
+                              width: MediaQuery.of(context).size.width < 400 ? MediaQuery.of(context).size.width + 30 : MediaQuery.of(context).size.width + 20,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffF9F9F9)),
                               child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.COLUMN,
-                                columnCrossAxisAlignment:                                 
-                                    CrossAxisAlignment.start,
+                                columnCrossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ResponsiveRowColumnItem(
                                       child: Text(
-
                                     "${"target".tr()}: ${model.donations_goal} ${"jod".tr()}",
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            fontSize: 12,
-                                            color: const Color(0xff16437B)),
+                                    style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 12, color: const Color(0xff16437B)),
                                   )),
                                   const ResponsiveRowColumnItem(child: Gap(30)),
                                   ResponsiveRowColumnItem(
                                       child: ProgressBar(
-                                          target:
-                                              model.donations_goal!.toDouble(),
-                                          currentProgress:
-                                              model.beneficiary_payments!.fold(
-                                                  0.0,
-                                                  (sum, current) =>
-                                                      sum +
-                                                      current.amount!
-                                                          .toDouble()))),
+                                          target: model.donations_goal!.toDouble(), currentProgress: model.beneficiary_payments!.fold(0.0, (sum, current) => sum + current.amount!.toDouble()))),
                                 ],
                               ),
                             ),
@@ -209,9 +155,7 @@ class SposnerScreen extends HookConsumerWidget {
                             Container(
                               padding: const EdgeInsets.all(5),
                               width: double.infinity,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: const Color(0xffF9F9F9)),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffF9F9F9)),
                               child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.ROW,
                                 rowMainAxisAlignment: MainAxisAlignment.start,
@@ -220,9 +164,7 @@ class SposnerScreen extends HookConsumerWidget {
                                     child: Container(
                                       alignment: Alignment.center,
                                       padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: const Color(0xffFFC629)),
+                                      decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xffFFC629)),
                                       child: Image.asset(
                                         "assets/sponsership.png",
                                         scale: 5,
@@ -231,36 +173,27 @@ class SposnerScreen extends HookConsumerWidget {
                                   ),
                                   const ResponsiveRowColumnItem(child: Gap(15)),
                                   ResponsiveRowColumnItem(
+                                      rowFit: FlexFit.loose,
                                       child: ResponsiveRowColumn(
-                                    layout: ResponsiveRowColumnType.COLUMN,
-                                    columnMainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                        layout: ResponsiveRowColumnType.COLUMN,
+                                        columnMainAxisAlignment: MainAxisAlignment.center,
                                         columnCrossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      ResponsiveRowColumnItem(
-                                          child: Text(
-                                        locale == "en"
-                                            ? model
-                                                .educational_organization_name!
-                                            : model
-                                                .educational_organization_name!,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: const Color(0xff16437B)),
+                                        columnMainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ResponsiveRowColumnItem(
+                                              child: Text(
+                                            locale == "en" ? model.educational_organization!.name! : model.educational_organization!.name_ar!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
+                                          )),
+                                          ResponsiveRowColumnItem(
+                                              child: Text(
+                                            model.specialization!,
+                                            style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
+                                            overflow: TextOverflow.ellipsis,
+                                          )),
+                                        ],
                                       )),
-                                      ResponsiveRowColumnItem(
-                                          child: Text(
-                                        model.specialization!,
-                                        style:Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: const Color(0xff16437B)),
-                                      )),
-                                    ],
-                                  )),
                                 ],
                               ),
                             ),
@@ -269,9 +202,7 @@ class SposnerScreen extends HookConsumerWidget {
                               padding: const EdgeInsets.all(10),
                               width: double.infinity,
                               height: 80,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffF9F9F9),
-                                  borderRadius: BorderRadius.circular(15)),
+                              decoration: BoxDecoration(color: const Color(0xffF9F9F9), borderRadius: BorderRadius.circular(15)),
                               child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.ROW,
                                 children: [
@@ -300,23 +231,19 @@ class SposnerScreen extends HookConsumerWidget {
                                   )),
                                   const ResponsiveRowColumnItem(child: Gap(20)),
                                   ResponsiveRowColumnItem(
+                                      rowFit: FlexFit.loose,
                                       child: ResponsiveRowColumn(
-                                    layout: ResponsiveRowColumnType.COLUMN,
-                                    columnMainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    children: [
-                                      
-                                      ResponsiveRowColumnItem(
-                                          child: Text(
-                                        model.address!,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: const Color(0xff16437B)),
-                                      ))
-                                    ],
-                                  )),
+                                        layout: ResponsiveRowColumnType.COLUMN,
+                                        columnMainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          ResponsiveRowColumnItem(
+                                              child: Text(
+                                            model.address!,
+                                            style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
+                                            overflow: TextOverflow.ellipsis,
+                                          ))
+                                        ],
+                                      )),
                                 ],
                               ),
                             ),
@@ -326,40 +253,22 @@ class SposnerScreen extends HookConsumerWidget {
                                 color: const Color(0xffFFC629),
                                 height: 50,
                                 raduis: 40,
-                                onTap: () async => await ref
-                                    .read(getGenericProvider.future)
-                                    .then((value) => value.fold(
-                                        (l) => ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content:
-                                                    Text("internetconnection")
-                                                        .tr())),
-                                        (r) => showModalBottomSheet(
-                                            context: context,
-                                            backgroundColor: Colors.white,
-                                            enableDrag: true,
-                                            isScrollControlled: true,
-                                            barrierColor:
-                                                Colors.grey.withOpacity(0.7),
-                                            builder: (BuildContext ctx) {
-                                              return SponserBottomSheet(
-
-                                                  id:int.parse(profileById),
-                                                  endAmount:
-                                                      endamount.toDouble(),
-                                                  paymentMethods:
-                                                      r.PaymentMethods,
-                                                  donationFrequency:
-                                                      r.DonationFrequencies!);
-                                            }))),
+                                onTap: () async => await ref.read(getGenericProvider.future).then((value) => value.fold(
+                                    (l) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("internetconnection").tr())),
+                                    (r) => showModalBottomSheet(
+                                        context: context,
+                                        backgroundColor: Colors.white,
+                                        enableDrag: true,
+                                        isScrollControlled: true,
+                                        barrierColor: Colors.grey.withOpacity(0.7),
+                                        builder: (BuildContext ctx) {
+                                          return SponserBottomSheet(
+                                              id: int.parse(profileById), endAmount: endamount.toDouble(), paymentMethods: r.PaymentMethods, donationFrequency: r.DonationFrequencies!);
+                                        }))),
                                 alignment: Alignment.center,
                                 child: Text(
                                   "sponser",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          color: Colors.white, fontSize: 16),
+                                  style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: Colors.white, fontSize: 16),
                                 ).tr(),
                               )
                           ],

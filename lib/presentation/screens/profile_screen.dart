@@ -5,6 +5,8 @@ import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/presentation/screens/filtered_screen.dart';
+import 'package:alaman/presentation/screens/tax_details_screen.dart';
+import 'package:alaman/presentation/screens/tax_history_screen.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
@@ -246,6 +248,23 @@ class ProfileScreen extends HookConsumerWidget {
                               onTap: () => context.router.push(PaymentHistoryRoute(donationHistory: r.User.donor_donations)),
                               title: Text(
                                 "paymenthistory",
+                                style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff18447B)),
+                              ).tr(),
+                              leading: const Icon(
+                                Icons.history,
+                                color: Color(0xff18447B),
+                              ),
+                              trailing: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xff18447B),
+                              ),
+                            ),
+                          if (setting?.role != "Beneficiary") const Gap(10),
+                          if (setting?.role != "Beneficiary")
+                            ListTile(
+                              onTap: () => context.router.push(TaxHistoryRoute()),
+                              title: Text(
+                                "taxhistory",
                                 style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff18447B)),
                               ).tr(),
                               leading: const Icon(

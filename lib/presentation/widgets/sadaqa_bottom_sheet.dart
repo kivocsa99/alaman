@@ -62,7 +62,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
       "assets/coin4.png",
     ]);
     final scheduleDates = useState<List<String>>([]);
-    final scheduledAmount = useState<num>(0.0);
+    final scheduledAmount = useState("");
     final coinsList = useState<List<double>>([25.0, 50.0, 75.0, 100.0]);
     final startDate = useState("startdate".tr());
     final endDate = useState("enddate".tr());
@@ -526,7 +526,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                                   scheduleDates.value[index],
                                                   style: Theme.of(context).primaryTextTheme.titleSmall,
                                                 ),
-                                                trailing: Text("${scheduledAmount.value.round()}${"jd".tr()}"),
+                                                trailing: Text("${scheduledAmount.value}${"jd".tr()}"),
                                               ),
                                               itemCount: scheduleDates.value.length,
                                             ),

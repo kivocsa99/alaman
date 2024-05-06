@@ -6,6 +6,7 @@ import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
+import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,27 @@ class PhoneStep extends HookConsumerWidget {
             ),
           ),
         )),
+        if (isLogin == true) const ResponsiveRowColumnItem(child: Gap(10)),
+        if (isLogin == true)
+          ResponsiveRowColumnItem(
+              child: FadeTransition(
+            opacity: CurvedAnimation(parent: controller2, curve: Curves.easeIn),
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.2),
+                end: Offset.zero,
+              ).animate(CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
+              child: GestureDetector(
+                onTap: () async {
+                  context.router.push(ResetPasswordRoute());
+                },
+                child: Text(
+                  "forgotpassword",
+                  style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff2A7DE1)),
+                ).tr(),
+              ),
+            ),
+          )),
         const ResponsiveRowColumnItem(child: Gap(50)),
         ResponsiveRowColumnItem(
             child: FadeTransition(

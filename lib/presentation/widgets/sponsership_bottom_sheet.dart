@@ -65,7 +65,7 @@ class SponserShipBottomSheet extends HookConsumerWidget {
     final startDate = useState("startdate".tr());
     final endDate = useState("enddate".tr());
     final scheduleDates = useState<List<String>>([]);
-    final scheduledAmount = useState<num>(0.0);
+    final scheduledAmount = useState("");
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
@@ -568,7 +568,7 @@ class SponserShipBottomSheet extends HookConsumerWidget {
                                                       scheduleDates.value[index],
                                                       style: Theme.of(context).primaryTextTheme.titleSmall,
                                                     ),
-                                                    trailing: Text("${scheduledAmount.value.round()}${"jd".tr()}"),
+                                                    trailing: Text("${scheduledAmount.value}${"jd".tr()}"),
                                                   ),
                                                   itemCount: scheduleDates.value.length,
                                                 ),

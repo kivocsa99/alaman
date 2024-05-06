@@ -25,7 +25,6 @@ class PaymentHistoryScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(languageHiveNotifierProvider);
-
     List<DonorDonation> modifiableList = List.from(donationHistory);
     modifiableList.sort((a, b) {
       return b.id!.compareTo(a.id!);

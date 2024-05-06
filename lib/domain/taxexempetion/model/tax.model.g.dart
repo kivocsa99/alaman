@@ -12,7 +12,7 @@ _$TaxModelImpl _$$TaxModelImplFromJson(Map<String, dynamic> json) =>
       donor_id: json['donor_id'] as int?,
       user_id: json['user_id'] as int?,
       tax_exemption_status_id: json['tax_exemption_status_id'] as int?,
-      year: json['year'] as int?,
+      year: json['year'] as String?,
       notes: json['notes'] as String?,
       file: json['file'] as String?,
       status: json['status'] == null

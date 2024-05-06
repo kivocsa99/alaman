@@ -4,6 +4,7 @@ import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
 import 'package:alaman/domain/paymentmodel/model/payment.model.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
+import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,22 +14,22 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 @RoutePage()
 class PaymentDetailScreen extends HookConsumerWidget {
-  final DonorDonation history;
-  const PaymentDetailScreen({
-    super.key,
-    required this.history,
-  });
+  final DonorDonation? history;
+  final int? id;
+  const PaymentDetailScreen({super.key, this.history, this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final paymentHistory = useState<DonorDonation>(history);
-    final locale =
-        ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    final paymentHistory = useState<DonorDonation?>(history);
+
+    final locale = ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+
     return SafeArea(
       child: Scaffold(
-        appBar: const CustomAppBar(
+        appBar: CustomAppBar(
           title: "History",
           description: "Payment Details",
+          routing: id != null ? () => context.router.replaceAll([MainRoute()]) : null,
         ),
         body: ResponsiveWidget(
           child: Padding(
@@ -61,29 +62,21 @@ class PaymentDetailScreen extends HookConsumerWidget {
                               const ResponsiveRowColumnItem(child: Gap(10)),
                               ResponsiveRowColumnItem(
                                   child: Text(
-                                locale == "en"
-                                    ? history.type!.name!
-                                    : history.type!.name_ar!,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium!
-                                    .copyWith(color: const Color(0xff16437B)),
+                                locale == "en" ? history!.type!.name! : history!.type!.name_ar!,
+                                style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                               )),
                               const ResponsiveRowColumnItem(child: Gap(10)),
                               ResponsiveRowColumnItem(
                                   child: Text(
-                                "Total amount : ${history.total_amount} JD",
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium!,
+                                "Total amount : ${history!.total_amount} JD",
+                                style: Theme.of(context).primaryTextTheme.bodyMedium!,
                               ))
                             ],
                           )),
                           ResponsiveRowColumnItem(
                             child: Text(
-                              convertApiDate(history.created_at!),
-                              style:
-                                  Theme.of(context).primaryTextTheme.bodyMedium,
+                              convertApiDate(history!.created_at!),
+                              style: Theme.of(context).primaryTextTheme.bodyMedium,
                             ),
                           ),
                         ],
@@ -103,8 +96,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                         thickness: 1,
                       ),
                       itemBuilder: (context, index) {
-                        final PaymentModel model =
-                            paymentHistory.value.payments![index];
+                        final PaymentModel model = paymentHistory.value!.payments![index];
                         return Container(
                           padding: const EdgeInsets.all(15),
                           width: double.infinity,
@@ -119,44 +111,31 @@ class PaymentDetailScreen extends HookConsumerWidget {
                               ResponsiveRowColumnItem(
                                   child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.ROW,
-                                rowMainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   ResponsiveRowColumnItem(
                                       child: ResponsiveRowColumn(
                                     layout: ResponsiveRowColumnType.COLUMN,
-                                    columnCrossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    columnCrossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const ResponsiveRowColumnItem(
-                                          child: Gap(10)),
+                                      const ResponsiveRowColumnItem(child: Gap(10)),
                                       ResponsiveRowColumnItem(
                                           child: Text(
-                                        "Payment #${paymentHistory.value.payments![index].id}",
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: const Color(0xff16437B)),
+                                        "Payment #${paymentHistory.value!.payments![index].id}",
+                                        style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                                       )),
-                                      const ResponsiveRowColumnItem(
-                                          child: Gap(10)),
+                                      const ResponsiveRowColumnItem(child: Gap(10)),
                                       ResponsiveRowColumnItem(
                                           child: Text(
-                                        "Payment amount : ${paymentHistory.value.payments![index].amount} JD",
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyMedium!,
+                                        "Payment amount : ${paymentHistory.value!.payments![index].amount} JD",
+                                        style: Theme.of(context).primaryTextTheme.bodyMedium!,
                                       ))
                                     ],
                                   )),
                                   ResponsiveRowColumnItem(
                                     child: Text(
-                                      convertApiDate(
-                                          paymentHistory.value.payments![index].due_date!),
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyMedium,
+                                      convertApiDate(paymentHistory.value!.payments![index].due_date!),
+                                      style: Theme.of(context).primaryTextTheme.bodyMedium,
                                     ),
                                   ),
                                 ],
@@ -165,17 +144,12 @@ class PaymentDetailScreen extends HookConsumerWidget {
                               ResponsiveRowColumnItem(
                                   child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.ROW,
-                                rowMainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   ResponsiveRowColumnItem(
                                       child: Text(
                                     "Status : ${locale == "en" ? model.status!.name : model.status!.name_ar}",
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            color: const Color(0xff16437B)),
+                                    style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                                   )),
                                   ResponsiveRowColumnItem(
                                       child: model.status!.id == 1
@@ -191,17 +165,14 @@ class PaymentDetailScreen extends HookConsumerWidget {
                               )),
                               ResponsiveRowColumnItem(
                                   child: Text(
-                                "Provider refrence : ${paymentHistory.value.payments![index].provider_ref}",
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyMedium!
-                                    .copyWith(color: const Color(0xff16437B)),
+                                "Provider refrence : ${paymentHistory.value!.payments![index].provider_ref}",
+                                style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                               ))
                             ],
                           ),
                         );
                       },
-                      itemCount: paymentHistory.value.payments!.length,
+                      itemCount: paymentHistory.value!.payments!.length,
                     ))
               ],
             ),

@@ -16,16 +16,22 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
 
   BeneficiaryRepository({required this.ref});
   @override
-  Future<Either<ApiFailures, List<AlamanRequestModel>>> getAlamanReqeusts() async {
+  Future<Either<ApiFailures, dynamic>> getAlamanReqeusts({String? id}) async {
     final userSetting = ref.read(settingHiveNotifierProvider);
 
     try {
       final result = await dio.get("$baseUrl/alamanRequest/getRequests?api_token=${userSetting!.token}");
+
       if (result.data['AZSVR'] == "SUCCESS") {
-        Map<String, dynamic> map = result.data;
-        List<dynamic> data = map["AlamanRequests"];
-        List<AlamanRequestModel> response = data.map((e) => AlamanRequestModel.fromJson(e)).toList();
-        return right(response);
+        if (id != null) {
+          Map<String, dynamic> map = result.data;
+          List<dynamic> data = map["AlamanRequests"];
+          List<AlamanRequestModel> response = data.map((e) => AlamanRequestModel.fromJson(e)).toList();
+          return right(response);
+        } else {
+          AlamanRequestModel model = AlamanRequestModel.fromJson(result.data["AlamanRequests"]["1"]);
+          return right(model);
+        }
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
       }
@@ -35,16 +41,21 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
   }
 
   @override
-  Future<Either<ApiFailures, List<TrainingRequestModel>>> getTrainingReqeusts() async {
+  Future<Either<ApiFailures, dynamic>> getTrainingReqeusts({String? id}) async {
     final userSetting = ref.read(settingHiveNotifierProvider);
 
     try {
-      final result = await dio.get("$baseUrl/trainingRequest/getRequests?api_token=${userSetting!.token}");
+      final result = await dio.get(id == null ? "$baseUrl/trainingRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/trainingRequest/getRequests?id=$id&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
-        Map<String, dynamic> map = result.data;
-        List<dynamic> data = map["TrainingRequests"];
-        List<TrainingRequestModel> response = data.map((e) => TrainingRequestModel.fromJson(e)).toList();
-        return right(response);
+        if (id != null) {
+          Map<String, dynamic> map = result.data;
+          List<dynamic> data = map["TrainingRequests"];
+          List<TrainingRequestModel> response = data.map((e) => TrainingRequestModel.fromJson(e)).toList();
+          return right(response);
+        } else {
+          TrainingRequestModel model = TrainingRequestModel.fromJson(result.data["TrainingRequests"]["1"]);
+          return right(model);
+        }
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
       }

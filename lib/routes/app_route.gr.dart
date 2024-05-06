@@ -130,12 +130,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PaymentDetailRoute.name: (routeData) {
-      final args = routeData.argsAs<PaymentDetailRouteArgs>();
+      final args = routeData.argsAs<PaymentDetailRouteArgs>(
+          orElse: () => const PaymentDetailRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: PaymentDetailScreen(
           key: args.key,
           history: args.history,
+          id: args.id,
         ),
       );
     },
@@ -184,6 +186,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const RequestScreen(),
       );
     },
+    ResetPasswordRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ResetPasswordScreen(),
+      );
+    },
     SetAvatarRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -205,6 +213,24 @@ abstract class _$AppRouter extends RootStackRouter {
           profileById: args.profileById,
           isdonor: args.isdonor,
         ),
+      );
+    },
+    TaxDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<TaxDetailRouteArgs>(
+          orElse: () => const TaxDetailRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TaxDetailScreen(
+          key: args.key,
+          history: args.history,
+          id: args.id,
+        ),
+      );
+    },
+    TaxHistoryRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TaxHistoryScreen(),
       );
     },
     YourBeneficiariesRoute.name: (routeData) {
@@ -621,13 +647,15 @@ class OnBoardingRoute extends PageRouteInfo<void> {
 class PaymentDetailRoute extends PageRouteInfo<PaymentDetailRouteArgs> {
   PaymentDetailRoute({
     Key? key,
-    required DonorDonation history,
+    DonorDonation? history,
+    int? id,
     List<PageRouteInfo>? children,
   }) : super(
           PaymentDetailRoute.name,
           args: PaymentDetailRouteArgs(
             key: key,
             history: history,
+            id: id,
           ),
           initialChildren: children,
         );
@@ -641,16 +669,19 @@ class PaymentDetailRoute extends PageRouteInfo<PaymentDetailRouteArgs> {
 class PaymentDetailRouteArgs {
   const PaymentDetailRouteArgs({
     this.key,
-    required this.history,
+    this.history,
+    this.id,
   });
 
   final Key? key;
 
-  final DonorDonation history;
+  final DonorDonation? history;
+
+  final int? id;
 
   @override
   String toString() {
-    return 'PaymentDetailRouteArgs{key: $key, history: $history}';
+    return 'PaymentDetailRouteArgs{key: $key, history: $history, id: $id}';
   }
 }
 
@@ -787,6 +818,20 @@ class RequestRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ResetPasswordScreen]
+class ResetPasswordRoute extends PageRouteInfo<void> {
+  const ResetPasswordRoute({List<PageRouteInfo>? children})
+      : super(
+          ResetPasswordRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ResetPasswordRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SetAvatarScreen]
 class SetAvatarRoute extends PageRouteInfo<void> {
   const SetAvatarRoute({List<PageRouteInfo>? children})
@@ -855,6 +900,63 @@ class SposnerRouteArgs {
   String toString() {
     return 'SposnerRouteArgs{key: $key, profileById: $profileById, isdonor: $isdonor}';
   }
+}
+
+/// generated route for
+/// [TaxDetailScreen]
+class TaxDetailRoute extends PageRouteInfo<TaxDetailRouteArgs> {
+  TaxDetailRoute({
+    Key? key,
+    TaxModel? history,
+    int? id,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TaxDetailRoute.name,
+          args: TaxDetailRouteArgs(
+            key: key,
+            history: history,
+            id: id,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TaxDetailRoute';
+
+  static const PageInfo<TaxDetailRouteArgs> page =
+      PageInfo<TaxDetailRouteArgs>(name);
+}
+
+class TaxDetailRouteArgs {
+  const TaxDetailRouteArgs({
+    this.key,
+    this.history,
+    this.id,
+  });
+
+  final Key? key;
+
+  final TaxModel? history;
+
+  final int? id;
+
+  @override
+  String toString() {
+    return 'TaxDetailRouteArgs{key: $key, history: $history, id: $id}';
+  }
+}
+
+/// generated route for
+/// [TaxHistoryScreen]
+class TaxHistoryRoute extends PageRouteInfo<void> {
+  const TaxHistoryRoute({List<PageRouteInfo>? children})
+      : super(
+          TaxHistoryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TaxHistoryRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

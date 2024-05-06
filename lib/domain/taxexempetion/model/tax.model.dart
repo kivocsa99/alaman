@@ -13,7 +13,7 @@ class TaxModel with _$TaxModel {
     int? donor_id,
     int? user_id,
     int? tax_exemption_status_id,
-    int? year,
+    String? year,
     String? notes,
     String? file,
     StatusModel? status,

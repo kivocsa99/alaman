@@ -1,6 +1,7 @@
 import 'package:alaman/domain/donordonation/model/donor.donation.model.dart';
 import 'package:alaman/domain/marks/model/marks.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
+import 'package:alaman/domain/taxexempetion/model/tax.model.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
 import 'package:alaman/presentation/screens/beneficiary.profile_screen.dart';
 import 'package:alaman/presentation/screens/filtered_screen.dart';
@@ -21,9 +22,12 @@ import 'package:alaman/presentation/screens/profile_details_screen.dart';
 import 'package:alaman/presentation/screens/profile_screen.dart';
 import 'package:alaman/presentation/screens/register_screen.dart';
 import 'package:alaman/presentation/screens/request_screen.dart';
+import 'package:alaman/presentation/screens/reset_password_screen.dart';
 import 'package:alaman/presentation/screens/set.avatar_screen.dart';
 import 'package:alaman/presentation/screens/splash_screen.dart';
 import 'package:alaman/presentation/screens/sponser_screen.dart';
+import 'package:alaman/presentation/screens/tax_details_screen.dart';
+import 'package:alaman/presentation/screens/tax_history_screen.dart';
 import 'package:alaman/presentation/screens/your.grants_screen.dart';
 import 'package:alaman/presentation/screens/your_beneficiaries_sceen.dart';
 import 'package:alaman/routes/auth_guard.dart';
@@ -34,20 +38,18 @@ part 'app_route.gr.dart';
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')
 class AppRouter extends _$AppRouter {
   @override
-  RouteType get defaultRouteType =>
-      const RouteType.material(); //.cupertino, .adaptive ..etc
+  RouteType get defaultRouteType => const RouteType.material(); //.cupertino, .adaptive ..etc
   @override
   List<AutoRoute> get routes => [
+        AutoRoute(initial: false, page: OnBoardingRoute.page, guards: [AuthGuard()]),
         AutoRoute(
-            initial: false, page: OnBoardingRoute.page, guards: [AuthGuard()]),
-              AutoRoute(
-            initial: true, page: SplashRoute.page, ),
+          initial: true,
+          page: SplashRoute.page,
+        ),
         AutoRoute(
             page: RegisterRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -58,9 +60,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: LoginRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -71,9 +71,18 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: MarksHistoryRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, -1.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+            )),
+        AutoRoute(
+            page: ResetPasswordRoute.page,
+            type: RouteType.custom(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -84,9 +93,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: YourBeneficiariesRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -97,9 +104,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: BeneficiaryProfileRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -110,9 +115,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: ProfileDetailsRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -120,12 +123,10 @@ class AppRouter extends _$AppRouter {
                 child: FadeTransition(opacity: animation, child: child),
               ),
             )),
-             AutoRoute(
+        AutoRoute(
             page: MeetingHistoryRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -136,9 +137,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: PaymentRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -149,9 +148,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: LanguageRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -162,9 +159,29 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: FilteredRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, -1.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+            )),
+        AutoRoute(
+            page: TaxHistoryRoute.page,
+            type: RouteType.custom(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, -1.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+            )),
+        AutoRoute(
+            page: TaxDetailRoute.page,
+            type: RouteType.custom(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -175,9 +192,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: SposnerRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -188,9 +203,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: LocationCheckerRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -201,9 +214,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: PaymentHistoryRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -214,9 +225,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: PaymentDetailRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -227,9 +236,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: YourGrantsRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -240,9 +247,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
             page: SetAvatarRoute.page,
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,
@@ -269,9 +274,7 @@ class AppRouter extends _$AppRouter {
               )
             ],
             type: RouteType.custom(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0.0, -1.0),
                   end: Offset.zero,

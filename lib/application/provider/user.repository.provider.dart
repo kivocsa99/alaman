@@ -36,7 +36,7 @@ Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory(Ref ref
 }
 
 @riverpod
-Future<Either<ApiFailures, Tuple2<List<String>, num>>> getSchedule(Ref ref, {double? amount, String? endate, String? startDate, String? donationfrequencyid}) {
+Future<Either<ApiFailures, Tuple2<List<String>, String>>> getSchedule(Ref ref, {double? amount, String? endate, String? startDate, String? donationfrequencyid}) {
   return ref.watch(userRepositoryProvider).getrecurringSchedule(amount: amount, startDate: startDate, endate: endate, donationfrequencyid: donationfrequencyid);
 }
 
@@ -76,8 +76,8 @@ Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining(Ref ref) {
 }
 
 @riverpod
-Future<Either<ApiFailures, dynamic>> getTaxesRequest(Ref ref) {
-  return ref.watch(userRepositoryProvider).getTaxesRequest();
+Future<Either<ApiFailures, dynamic>> getTaxesRequest(Ref ref, {String? id}) {
+  return ref.watch(userRepositoryProvider).getTaxesRequest(id: id);
 }
 
 @riverpod

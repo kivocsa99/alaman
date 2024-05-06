@@ -12,6 +12,7 @@ import 'package:tuple/tuple.dart';
 
 abstract class IUserRepository {
   Future<Either<ApiFailures, dynamic>> getMyProfile();
+  Future<Either<ApiFailures, dynamic>> resetPassword({String? phone, String? nationalNumber});
   Future<Either<ApiFailures, dynamic>> deleteAccount();
   Future<Either<ApiFailures, dynamic>> cancelDonation({String? id});
   Future<Either<ApiFailures, dynamic>> newTaxRequest({String? notes, String? year});
@@ -38,7 +39,7 @@ abstract class IUserRepository {
 
   Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining();
   Future<Either<ApiFailures, List<AlamanRequestModel>>> getservices();
-  Future<Either<ApiFailures, Tuple2<List<String>, num>>> getrecurringSchedule({
+  Future<Either<ApiFailures, Tuple2<List<String>, String>>> getrecurringSchedule({
     double? amount,
     String? endate,
     String? startDate,

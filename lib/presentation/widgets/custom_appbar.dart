@@ -9,7 +9,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? tabbar;
   final bool? notMain;
   final bool? nonotification;
-  const CustomAppBar({super.key, this.notMain, this.nonotification, required this.title, required this.description, this.tabbar});
+  final VoidCallback? routing;
+  const CustomAppBar({super.key, this.routing, this.notMain, this.nonotification, required this.title, required this.description, this.tabbar});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: GestureDetector(
-                onTap: () => context.router.maybePop(),
+                onTap: routing ?? () => context.router.maybePop(),
                 child: const Icon(
                   Icons.arrow_back,
                   color: Color(0xff16437B),

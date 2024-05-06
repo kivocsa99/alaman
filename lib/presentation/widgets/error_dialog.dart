@@ -20,7 +20,7 @@ class ErrorDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            description.toString(),
+            description!,
             style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
           ).tr(),
           const Gap(20),

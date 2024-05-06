@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:alaman/application/provider/connection.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
@@ -24,17 +26,40 @@ class MainScreen extends HookConsumerWidget {
     final isOrdered = ref.watch(isOrderedProvider);
     useEffect(() {
       FirebaseMessaging.instance.getInitialMessage().then((message) {
-        print(message!.data);
+        if (message?.notification == null) {
+          null;
+        } else {
+          Map<String, dynamic> parsedJson = jsonDecode(message?.data["Type"]);
+          String type = parsedJson["related_data"]["Type"].toString().replaceAll("App\\Models\\", "");
+          String id = parsedJson["related_data"]["ID"].toString();
+          String status = parsedJson["related_data"]["StatusID"].toString();
+          String notificationId = parsedJson["related_data"]["NotificationID"].toString();
+        }
       });
       FirebaseMessaging.onMessage.listen(
         ((message) async {
-          print(message.data);
+          if (message.notification == null) {
+            null;
+          } else {
+            Map<String, dynamic> parsedJson = jsonDecode(message.data["Type"]);
+            String type = parsedJson["related_data"]["Type"].toString().replaceAll("App\\Models\\", "");
+            String id = parsedJson["related_data"]["ID"].toString();
+            String status = parsedJson["related_data"]["StatusID"].toString();
+            String notificationId = parsedJson["related_data"]["NotificationID"].toString();
+          }
         }),
       );
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-        print(message.data);
+        if (message.notification == null) {
+          null;
+        } else {
+          Map<String, dynamic> parsedJson = jsonDecode(message.data["Type"]);
+          String type = parsedJson["related_data"]["Type"].toString().replaceAll("App\\Models\\", "");
+          String id = parsedJson["related_data"]["ID"].toString();
+          String status = parsedJson["related_data"]["StatusID"].toString();
+          String notificationId = parsedJson["related_data"]["NotificationID"].toString();
+        }
       });
-      
       return null;
     }, const []);
     useEffect(() {

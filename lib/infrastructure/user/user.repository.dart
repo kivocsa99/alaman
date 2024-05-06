@@ -130,7 +130,6 @@ class UserRepository implements IUserRepository {
   @override
   Future<Either<ApiFailures, List<ProductModel>>> getProducts() async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
-
     try {
       final result = await dio.get("$baseUrl/misc/getProducts?page=1&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
@@ -340,7 +339,7 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, Tuple2<List<String>, num>>> getrecurringSchedule({double? amount, String? endate, String? startDate, String? donationfrequencyid}) async {
+  Future<Either<ApiFailures, Tuple2<List<String>, String>>> getrecurringSchedule({double? amount, String? endate, String? startDate, String? donationfrequencyid}) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
 
     try {
@@ -352,8 +351,8 @@ class UserRepository implements IUserRepository {
         log(result.realUri.toString());
         List<dynamic> data = map["Schedule"];
         List<String> stringData = data.map((e) => e.toString()).toList();
-        num amount = map["AmountPerPayment"];
-        final Tuple2<List<String>, num> finaldata = Tuple2(stringData, amount);
+        String amount = map["AmountPerPayment"];
+        final Tuple2<List<String>, String> finaldata = Tuple2(stringData, amount);
         return right(finaldata);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
@@ -441,7 +440,7 @@ class UserRepository implements IUserRepository {
       final result =
           await dio.get(id == null ? "$baseUrl/taxExemptionRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/taxExemptionRequest/getRequests?id=$id&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
-        if (id == null) {
+        if (id != null) {
           TaxModel response = TaxModel.fromJson(result.data["TaxExemptionRequests"]["1"]);
           return right(response);
         } else {
@@ -464,6 +463,7 @@ class UserRepository implements IUserRepository {
     try {
       final result = await dio.get("$baseUrl/taxExemptionRequest/placeRequest?year=$year&notes=$notes&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
+        final refresh = await ref!.refresh(getTaxesRequestProvider(id: null).future);
         return right("done");
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
@@ -495,6 +495,21 @@ class UserRepository implements IUserRepository {
   Future<Either<ApiFailures, dynamic>> updateToken({String? token, String? apitoken, String? id}) async {
     try {
       final result = await dio.get("$baseUrl/user/setFCMToken?imei=$id&fcm_token=$token&api_token=${apitoken}");
+      if (result.data['AZSVR'] == "SUCCESS") {
+        return right("done");
+      } else {
+        return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      return DioExceptionHandler.handleDioException(error);
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, dynamic>> resetPassword({String? phone, String? nationalNumber}) async {
+    final userSetting = ref!.read(settingHiveNotifierProvider);
+    try {
+      final result = await dio.get("$baseUrl/user/resetPassword?phone=$phone&national_id_number=$nationalNumber&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         return right("done");
       } else {

@@ -24,7 +24,7 @@ mixin _$TaxModel {
   int? get donor_id => throw _privateConstructorUsedError;
   int? get user_id => throw _privateConstructorUsedError;
   int? get tax_exemption_status_id => throw _privateConstructorUsedError;
-  int? get year => throw _privateConstructorUsedError;
+  String? get year => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
   String? get file => throw _privateConstructorUsedError;
   StatusModel? get status => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $TaxModelCopyWith<$Res> {
       int? donor_id,
       int? user_id,
       int? tax_exemption_status_id,
-      int? year,
+      String? year,
       String? notes,
       String? file,
       StatusModel? status,
@@ -104,7 +104,7 @@ class _$TaxModelCopyWithImpl<$Res, $Val extends TaxModel>
       year: freezed == year
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -158,7 +158,7 @@ abstract class _$$TaxModelImplCopyWith<$Res>
       int? donor_id,
       int? user_id,
       int? tax_exemption_status_id,
-      int? year,
+      String? year,
       String? notes,
       String? file,
       StatusModel? status,
@@ -213,7 +213,7 @@ class __$$TaxModelImplCopyWithImpl<$Res>
       year: freezed == year
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -271,7 +271,7 @@ class _$TaxModelImpl extends _TaxModel {
   @override
   final int? tax_exemption_status_id;
   @override
-  final int? year;
+  final String? year;
   @override
   final String? notes;
   @override
@@ -350,7 +350,7 @@ abstract class _TaxModel extends TaxModel {
       final int? donor_id,
       final int? user_id,
       final int? tax_exemption_status_id,
-      final int? year,
+      final String? year,
       final String? notes,
       final String? file,
       final StatusModel? status,
@@ -371,7 +371,7 @@ abstract class _TaxModel extends TaxModel {
   @override
   int? get tax_exemption_status_id;
   @override
-  int? get year;
+  String? get year;
   @override
   String? get notes;
   @override

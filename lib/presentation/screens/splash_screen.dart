@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // Check if the video has finished playing and if the widget is still mounted
       if (_controller.value.isCompleted && mounted) {
         final box = Hive.box("setting");
-        final UserSettings settings =  box.isNotEmpty ? box.getAt(0) : UserSettings();
+        final UserSettings settings = box.isNotEmpty ? box.getAt(0) : UserSettings();
 
         if (settings.token != null) {
           Future.sync(() => UserRepository().updateToken(token: token.toString(), apitoken: settings.token, id: id.toString()).then((value) {

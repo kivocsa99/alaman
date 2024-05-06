@@ -36,5 +36,6 @@ Future<void> addItemToBox(UserSettings item) async {
 }
 
 Future<void> clearBox() async {
-  return await Hive.box('setting').putAt(0, UserSettings().isLoggedIn = true);
+  await Hive.box('setting').clear();
+  await Hive.box('setting').compact();
 }

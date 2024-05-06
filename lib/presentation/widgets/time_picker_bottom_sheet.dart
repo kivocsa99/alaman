@@ -3,6 +3,7 @@ import 'package:alaman/application/donation/init_donation_use_case/init_donation
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/presentation/screens/main_screen.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
+import 'package:alaman/presentation/widgets/error_dialog.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart' as easy;
@@ -158,37 +159,49 @@ class TimePickerBottomSheet extends HookConsumerWidget {
                         raduis: 50,
                         height: 50,
                         onTap: () async {
-                          isLoading.value = true;
-                          await ref
-                              .read(initDonationUseCaseProvider)
-                              .execute(
-                                InitDonationUseCaseInput(
-                                  paymentMethodId: paymentMethod,
-                                  donationTypeId: donationTypeId,
-                                  isRecurring: recurring,
-                                  donationFrequencyId: donationFrequencyId,
-                                  endDate: endDate,
-                                  startDate: startDate,
-                                  notes: notes,
-                                  beneficiaryIds: beneficiaries,
-                                  location: {"lat": "${location?.latitude}", "lng": "${location?.longitude}"},
-                                  totalAmount: amount,
-                                ),
-                              )
-                              .then((value) => value.fold(
-                                    (l) async {
-                                      // Handle error
-                                      isLoading.value = false; // Hide loading indicator
-                                    },
-                                    (r) async {
-                                      isLoading.value = false; // Hide loading indicator
-                                      // Navigate to PaymentRoute
-                                      // First, pop the bottom sheet
-                                      // Then navigate to PaymentRoute
-                                      ref.read(isOrderedProvider.notifier).state = true;
-                                      context.router.replaceAll([const MainRoute()]);
-                                    },
-                                  ));
+                          if (time.value != "time".tr()) {
+                            {
+                              isLoading.value = true;
+                              await ref
+                                  .read(initDonationUseCaseProvider)
+                                  .execute(
+                                    InitDonationUseCaseInput(
+                                      paymentMethodId: paymentMethod,
+                                      donationTypeId: donationTypeId,
+                                      isRecurring: recurring,
+                                      donationFrequencyId: donationFrequencyId,
+                                      endDate: endDate,
+                                      startDate: startDate,
+                                      notes: "$notes\n${time.value}",
+                                      beneficiaryIds: beneficiaries,
+                                      location: {"lat": "${location?.latitude}", "lng": "${location?.longitude}"},
+                                      totalAmount: amount,
+                                    ),
+                                  )
+                                  .then((value) => value.fold(
+                                        (l) async {
+                                          // Handle error
+                                          isLoading.value = false; // Hide loading indicator
+                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.message ?? "internetconnection").tr()));
+                                        },
+                                        (r) async {
+                                          isLoading.value = false; // Hide loading indicator
+                                          // Navigate to PaymentRoute
+                                          // First, pop the bottom sheet
+                                          // Then navigate to PaymentRoute
+                                          ref.read(isOrderedProvider.notifier).state = true;
+                                          context.router.replaceAll([const MainRoute()]);
+                                        },
+                                      ));
+                            }
+                          } else {
+                            await showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => ErrorDialog(
+                                      description: "datecheck",
+                                    ));
+                          }
                         },
                         color: const Color(0xffFFC629),
                         child: isLoading.value == false

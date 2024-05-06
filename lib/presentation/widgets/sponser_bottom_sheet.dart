@@ -14,7 +14,6 @@ import 'package:easy_localization/easy_localization.dart' as locale;
 import 'package:easy_localization/easy_localization.dart' as easey;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -50,11 +49,11 @@ class SponserBottomSheet extends HookConsumerWidget {
     final endDate = useState("enddate".tr());
     final currentStep = useState(0);
     final scheduleDates = useState<List<String>>([]);
-    final scheduledAmount = useState<num>(0.0);
+    final scheduledAmount = useState("");
     final type = useState(locale == "en" ? donationFrequency[selectedIndex.value].name! : donationFrequency[selectedIndex.value].name_ar!);
     final typeId = useState(donationFrequency[selectedIndex.value].id!);
-    final type1 = useState(locale == "en" ? modifiableList2![selectedIndex1.value].name! : modifiableList2![selectedIndex1.value].name_ar!);
-    final typeId1 = useState(modifiableList2![selectedIndex1.value].id!);
+    final type1 = useState(locale == "en" ? modifiableList2[selectedIndex1.value].name! : modifiableList2[selectedIndex1.value].name_ar!);
+    final typeId1 = useState(modifiableList2[selectedIndex1.value].id!);
     final sliderValue = useState(10.0);
     final notes = useState("notes".tr());
     return Container(
@@ -429,7 +428,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                                   context: context,
                                                   barrierDismissible: false,
                                                   builder: (context) => ErrorDialog(
-                                                        description: "datecheck",
+                                                        description: "timecheck",
                                                       ));
                                             }
                                           },
@@ -483,7 +482,7 @@ class SponserBottomSheet extends HookConsumerWidget {
                                                   scheduleDates.value[index],
                                                   style: Theme.of(context).primaryTextTheme.titleSmall,
                                                 ),
-                                                trailing: Text("${scheduledAmount.value.round()}${"jd".tr()}"),
+                                                trailing: Text("${scheduledAmount.value}${"jd".tr()}"),
                                               ),
                                               itemCount: scheduleDates.value.length,
                                             ),
@@ -546,16 +545,16 @@ class SponserBottomSheet extends HookConsumerWidget {
                                               raduis: 40,
                                               onTap: () async {
                                                 selectedIndex1.value = index;
-                                                type1.value = locale == "en" ? modifiableList2![index].name! : modifiableList2![index].name_ar!;
-                                                typeId1.value = modifiableList2![index].id!;
+                                                type1.value = locale == "en" ? modifiableList2[index].name! : modifiableList2[index].name_ar!;
+                                                typeId1.value = modifiableList2[index].id!;
                                                 print("object");
                                               },
                                               child: Text(
-                                                locale == "en" ? modifiableList2![index].name! : modifiableList2![index].name_ar!,
+                                                locale == "en" ? modifiableList2[index].name! : modifiableList2[index].name_ar!,
                                                 style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: selectedIndex1.value == index ? Colors.white : const Color(0xff16437B)),
                                               ),
                                             ),
-                                            itemCount: modifiableList2!.length,
+                                            itemCount: modifiableList2.length,
                                           ),
                                           const Gap(50),
                                           Align(

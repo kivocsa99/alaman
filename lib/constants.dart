@@ -1,3 +1,5 @@
+import 'package:alaman/routes/app_route.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 const baseUrl = "https://eservices.alamanfund.jo/api/v1";
@@ -31,4 +33,17 @@ String formatNumber(int number) {
   return formatter.format(number);
 }
 
-
+PageRouteInfo? pageCase(String? type) {
+  switch (type) {
+    case "App\\Models\\TaxExemptionRequest":
+      return TaxDetailRoute();
+    case "App\\Models\\TaxExemptionRequest":
+      return TaxDetailRoute();
+    case "App\\Models\\TaxExemptionRequest":
+      return TaxDetailRoute();
+    case "App\\Models\\TaxExemptionRequest":
+      return TaxDetailRoute();
+    default:
+      return TaxDetailRoute();
+  }
+}

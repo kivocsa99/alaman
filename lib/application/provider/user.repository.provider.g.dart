@@ -212,15 +212,15 @@ final getMeetingHistoryProvider = AutoDisposeFutureProvider<
 
 typedef GetMeetingHistoryRef = AutoDisposeFutureProviderRef<
     Either<ApiFailures, List<MeetingHistoryModel>>>;
-String _$getScheduleHash() => r'2f49304f2b5a0f63f1fb6a432acfacb63823a006';
+String _$getScheduleHash() => r'ba799a2c41efb0aca661111c7216bce101fba867';
 
 /// See also [getSchedule].
 @ProviderFor(getSchedule)
 const getScheduleProvider = GetScheduleFamily();
 
 /// See also [getSchedule].
-class GetScheduleFamily
-    extends Family<AsyncValue<Either<ApiFailures, Tuple2<List<String>, num>>>> {
+class GetScheduleFamily extends Family<
+    AsyncValue<Either<ApiFailures, Tuple2<List<String>, String>>>> {
   /// See also [getSchedule].
   const GetScheduleFamily();
 
@@ -268,7 +268,7 @@ class GetScheduleFamily
 
 /// See also [getSchedule].
 class GetScheduleProvider extends AutoDisposeFutureProvider<
-    Either<ApiFailures, Tuple2<List<String>, num>>> {
+    Either<ApiFailures, Tuple2<List<String>, String>>> {
   /// See also [getSchedule].
   GetScheduleProvider({
     double? amount,
@@ -318,7 +318,7 @@ class GetScheduleProvider extends AutoDisposeFutureProvider<
 
   @override
   Override overrideWith(
-    FutureOr<Either<ApiFailures, Tuple2<List<String>, num>>> Function(
+    FutureOr<Either<ApiFailures, Tuple2<List<String>, String>>> Function(
             GetScheduleRef provider)
         create,
   ) {
@@ -341,7 +341,7 @@ class GetScheduleProvider extends AutoDisposeFutureProvider<
 
   @override
   AutoDisposeFutureProviderElement<
-      Either<ApiFailures, Tuple2<List<String>, num>>> createElement() {
+      Either<ApiFailures, Tuple2<List<String>, String>>> createElement() {
     return _GetScheduleProviderElement(this);
   }
 
@@ -367,7 +367,7 @@ class GetScheduleProvider extends AutoDisposeFutureProvider<
 }
 
 mixin GetScheduleRef on AutoDisposeFutureProviderRef<
-    Either<ApiFailures, Tuple2<List<String>, num>>> {
+    Either<ApiFailures, Tuple2<List<String>, String>>> {
   /// The parameter `amount` of this provider.
   double? get amount;
 
@@ -382,7 +382,7 @@ mixin GetScheduleRef on AutoDisposeFutureProviderRef<
 }
 
 class _GetScheduleProviderElement extends AutoDisposeFutureProviderElement<
-    Either<ApiFailures, Tuple2<List<String>, num>>> with GetScheduleRef {
+    Either<ApiFailures, Tuple2<List<String>, String>>> with GetScheduleRef {
   _GetScheduleProviderElement(super.provider);
 
   @override
@@ -627,23 +627,140 @@ final gettrainingProvider = AutoDisposeFutureProvider<
 
 typedef GettrainingRef = AutoDisposeFutureProviderRef<
     Either<ApiFailures, List<TrainingRequestModel>>>;
-String _$getTaxesRequestHash() => r'b2449e503daaf1260014235ba4f02b22eebed302';
+String _$getTaxesRequestHash() => r'3ca2186fcca8b210b09ec0bb1364b179369df5cf';
 
 /// See also [getTaxesRequest].
 @ProviderFor(getTaxesRequest)
-final getTaxesRequestProvider =
-    AutoDisposeFutureProvider<Either<ApiFailures, dynamic>>.internal(
-  getTaxesRequest,
-  name: r'getTaxesRequestProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getTaxesRequestHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const getTaxesRequestProvider = GetTaxesRequestFamily();
 
-typedef GetTaxesRequestRef
-    = AutoDisposeFutureProviderRef<Either<ApiFailures, dynamic>>;
+/// See also [getTaxesRequest].
+class GetTaxesRequestFamily
+    extends Family<AsyncValue<Either<ApiFailures, dynamic>>> {
+  /// See also [getTaxesRequest].
+  const GetTaxesRequestFamily();
+
+  /// See also [getTaxesRequest].
+  GetTaxesRequestProvider call({
+    String? id,
+  }) {
+    return GetTaxesRequestProvider(
+      id: id,
+    );
+  }
+
+  @override
+  GetTaxesRequestProvider getProviderOverride(
+    covariant GetTaxesRequestProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getTaxesRequestProvider';
+}
+
+/// See also [getTaxesRequest].
+class GetTaxesRequestProvider
+    extends AutoDisposeFutureProvider<Either<ApiFailures, dynamic>> {
+  /// See also [getTaxesRequest].
+  GetTaxesRequestProvider({
+    String? id,
+  }) : this._internal(
+          (ref) => getTaxesRequest(
+            ref as GetTaxesRequestRef,
+            id: id,
+          ),
+          from: getTaxesRequestProvider,
+          name: r'getTaxesRequestProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getTaxesRequestHash,
+          dependencies: GetTaxesRequestFamily._dependencies,
+          allTransitiveDependencies:
+              GetTaxesRequestFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  GetTaxesRequestProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final String? id;
+
+  @override
+  Override overrideWith(
+    FutureOr<Either<ApiFailures, dynamic>> Function(GetTaxesRequestRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetTaxesRequestProvider._internal(
+        (ref) => create(ref as GetTaxesRequestRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Either<ApiFailures, dynamic>>
+      createElement() {
+    return _GetTaxesRequestProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetTaxesRequestProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetTaxesRequestRef
+    on AutoDisposeFutureProviderRef<Either<ApiFailures, dynamic>> {
+  /// The parameter `id` of this provider.
+  String? get id;
+}
+
+class _GetTaxesRequestProviderElement
+    extends AutoDisposeFutureProviderElement<Either<ApiFailures, dynamic>>
+    with GetTaxesRequestRef {
+  _GetTaxesRequestProviderElement(super.provider);
+
+  @override
+  String? get id => (origin as GetTaxesRequestProvider).id;
+}
+
 String _$searchBeneficiariesHash() =>
     r'05ab4129f868563e6a80eecf4830523832baf849';
 

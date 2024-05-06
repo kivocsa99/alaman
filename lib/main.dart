@@ -71,7 +71,7 @@ void main() async {
     id = iosInfo.identifierForVendor.toString();
   }
 
-  token = await FirebaseMessaging.instance.getToken();
+  token = defaultTargetPlatform!= TargetPlatform.iOS? await FirebaseMessaging.instance.getToken():await FirebaseMessaging.instance.getAPNSToken() ;
 
   await Hive.initFlutter();
   Hive.registerAdapter(UserSettingsAdapter());

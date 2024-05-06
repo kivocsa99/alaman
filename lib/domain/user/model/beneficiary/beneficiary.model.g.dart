@@ -38,7 +38,9 @@ _$BeneficiaryModelImpl _$$BeneficiaryModelImplFromJson(
           ? null
           : StatusModel.fromJson(
               json['educational_organization'] as Map<String, dynamic>),
-      specialization: json['specialization'] as String?,
+      major: json['major'] == null
+          ? null
+          : StatusModel.fromJson(json['major'] as Map<String, dynamic>),
       place_of_residence: json['place_of_residence'],
       educational_year_id: json['educational_year_id'],
       birthdate: json['birthdate'] as String?,
@@ -121,7 +123,7 @@ Map<String, dynamic> _$$BeneficiaryModelImplToJson(
       'alaman_contact_person_id': instance.alaman_contact_person_id,
       'alaman_join_date': instance.alaman_join_date,
       'educational_organization': instance.educational_organization,
-      'specialization': instance.specialization,
+      'major': instance.major,
       'place_of_residence': instance.place_of_residence,
       'educational_year_id': instance.educational_year_id,
       'birthdate': instance.birthdate,

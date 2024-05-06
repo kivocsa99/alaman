@@ -77,6 +77,14 @@ class TaxDetailScreen extends HookConsumerWidget {
                                     style: Theme.of(context).primaryTextTheme.bodyMedium,
                                   ),
                                 ),
+                                  const ResponsiveRowColumnItem(child: Gap(10)),
+                                        ResponsiveRowColumnItem(
+                                          child: Text(
+                                            "${"status".tr()} : ${locale=="en"? history?.status!.name!:history?.status!.name_ar!}",
+                                            style: Theme.of(context).primaryTextTheme.bodyMedium,
+                                          ),
+                                        ),
+
                               ],
                             )),
                             if (history!.file != null)
@@ -130,6 +138,13 @@ class TaxDetailScreen extends HookConsumerWidget {
                                         ResponsiveRowColumnItem(
                                           child: Text(
                                             "Reaquested At : ${convertApiDate(history.created_at!)}",
+                                            style: Theme.of(context).primaryTextTheme.bodyMedium,
+                                          ),
+                                        ),
+                                         const ResponsiveRowColumnItem(child: Gap(10)),
+                                        ResponsiveRowColumnItem(
+                                          child: Text(
+                                            "${"status".tr()} : ${locale=="en"? history.status!.name!:history.status!.name_ar!}",
                                             style: Theme.of(context).primaryTextTheme.bodyMedium,
                                           ),
                                         ),

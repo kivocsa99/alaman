@@ -55,6 +55,7 @@
     "ewalletstatus": "حالة المحفظه الالكترونية",
     "typeofscholarship": "نوع المنحة الدراسية",
     "statusofscholarship": "حالة المنحة الدراسية",
+    "status":"الحالة",
     "insurance": "التأمين",
     "insurancedate": "تاريخ انتهاء التأمين",
     "joindate": "تاريخ الانضمام الى الأمان",

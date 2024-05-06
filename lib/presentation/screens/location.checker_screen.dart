@@ -59,9 +59,22 @@ class LocationCheckerScreen extends HookConsumerWidget {
     final markpointer = useState(snapshot.data ?? const LatLng(31.9539, 35.9106));
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await showModalBottomSheet(context: context, builder:(context) => TimePickerBottomSheet(),);
+          await showModalBottomSheet(context: context, builder:(context) => TimePickerBottomSheet(
+            paymentMethod: paymentMethod,
+            donationFrequencyId: donationFrequencyId,
+            donationTypeId: donationTypeId,
+            recurring: recurring,
+            startDate: startDate,
+            endDate: endDate,
+            amount: amount,
+            beneficiaries: beneficiaries,
+            notes: notes,
+            location: markpointer.value,
+
+          ),);
         },
         child: isLoading.value == false ? const Icon(FontAwesomeIcons.check) : const CircularProgressIndicator(),
       ),

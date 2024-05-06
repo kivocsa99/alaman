@@ -246,7 +246,7 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                         const Gap(20),
                                         ProfileContainer(title: "fullname", description: "${locale == "en" ? model.name : model.name_ar}"),
                                         const Gap(10),
-                                        ProfileContainer(title: "sepcialization", description: "${model.specialization}"),
+                                        ProfileContainer(title: "sepcialization", description: "${locale == "en"?model.major!.name:model.major!.name_ar!}"),
                                         const Gap(10),
                                         ProfileContainer(title: "joindate", description: convertApiDate(model.alaman_join_date ?? "")),
                                         Gap(10),

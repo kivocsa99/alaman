@@ -10,6 +10,11 @@
 		<string>This app needs access to location when open to determine which one of the donation booths is the nearest to you</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>This app needs access to location when open to determine which one of the donation booths is the nearest to you</string>
+		<key>LSApplicationQueriesSchemes</key>
+        <array>
+        <string>sms</string>
+        <string>tel</string>
+        </array>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>

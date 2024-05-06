@@ -8,6 +8,7 @@
     "reqfield": "This field is required",
     "validemail": "Please provide a valid email address",
     "continue": "Continue",
+    "status":"Status",
     "privacypolicy": "Privacy Policy",
     "taxhistory": "Tax history",
     "taxdetails": "Tax Details",

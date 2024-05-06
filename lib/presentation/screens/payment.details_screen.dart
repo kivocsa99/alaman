@@ -6,6 +6,7 @@ import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -70,6 +71,11 @@ class PaymentDetailScreen extends HookConsumerWidget {
                                   child: Text(
                                 "Total amount : ${history!.total_amount} JD",
                                 style: Theme.of(context).primaryTextTheme.bodyMedium!,
+                              )),
+                                ResponsiveRowColumnItem(
+                                  child: Text(
+                                "${"notes".tr()} : ${paymentHistory.value!.notes}",
+                                style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                               ))
                             ],
                           )),
@@ -152,7 +158,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                                     style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                                   )),
                                   ResponsiveRowColumnItem(
-                                      child: model.status!.id == 1
+                                      child: model.is_success == 1
                                           ? const Icon(
                                               Icons.done,
                                               color: Colors.green,
@@ -167,7 +173,8 @@ class PaymentDetailScreen extends HookConsumerWidget {
                                   child: Text(
                                 "Provider refrence : ${paymentHistory.value!.payments![index].provider_ref}",
                                 style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
-                              ))
+                              )),
+                            
                             ],
                           ),
                         );

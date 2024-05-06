@@ -161,7 +161,7 @@ class UserRepository implements IUserRepository {
   }) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
 
-    var queryParams = StringBuffer("$baseUrl/donation/initDonation?");
+    var queryParams = StringBuffer("$baseUrl/donation/initDonation?is_total_provided=0&");
 
     if (donationTypeId != null) {
       queryParams.write("donation_type_id=$donationTypeId&");
@@ -192,7 +192,7 @@ class UserRepository implements IUserRepository {
     queryParams.write("api_token=${userSetting?.token}");
 
     String finalUrl = queryParams.toString();
-
+    print(finalUrl);
     try {
       final result = await dio.get(finalUrl);
       print(result.requestOptions.uri);
@@ -341,7 +341,6 @@ class UserRepository implements IUserRepository {
   @override
   Future<Either<ApiFailures, Tuple2<List<String>, String>>> getrecurringSchedule({double? amount, String? endate, String? startDate, String? donationfrequencyid}) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
-
     try {
       final result = await dio.get(
           "https://aeservice.appchecker.net/api/v1/meps/getSchedule?total_amount=$amount&start_date=$startDate&end_date=$endate&donation_frequency_id=$donationfrequencyid&api_token=${userSetting!.token}");

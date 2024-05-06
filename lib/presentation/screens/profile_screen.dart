@@ -295,7 +295,7 @@ class ProfileScreen extends HookConsumerWidget {
                           const Gap(10),
                           ListTile(
                             onTap: () async {
-                              if (!await launchUrl(Uri.parse("https://alamanfund.jo/contact"))) {
+                              if (!await launchUrl(Uri.parse("tel://+96265664427"))) {
                                 throw Exception('Could not launch ');
                               }
                             },

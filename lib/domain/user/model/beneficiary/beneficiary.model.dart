@@ -42,7 +42,7 @@ class BeneficiaryModel with _$BeneficiaryModel {
     dynamic alaman_contact_person_id,
     String? alaman_join_date,
     StatusModel? educational_organization,
-    String? specialization,
+    StatusModel? major,
     dynamic place_of_residence,
     dynamic educational_year_id,
     String? birthdate,

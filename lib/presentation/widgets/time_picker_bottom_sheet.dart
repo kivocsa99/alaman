@@ -172,7 +172,7 @@ class TimePickerBottomSheet extends HookConsumerWidget {
                                       donationFrequencyId: donationFrequencyId,
                                       endDate: endDate,
                                       startDate: startDate,
-                                      notes: "$notes\n${time.value}",
+                                      notes: "$notes time : ${time.value}",
                                       beneficiaryIds: beneficiaries,
                                       location: {"lat": "${location?.latitude}", "lng": "${location?.longitude}"},
                                       totalAmount: amount,
@@ -199,7 +199,7 @@ class TimePickerBottomSheet extends HookConsumerWidget {
                                 context: context,
                                 barrierDismissible: false,
                                 builder: (context) => ErrorDialog(
-                                      description: "datecheck",
+                                      description: "timecheck",
                                     ));
                           }
                         },

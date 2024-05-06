@@ -188,7 +188,7 @@ class SposnerScreen extends HookConsumerWidget {
                                           )),
                                           ResponsiveRowColumnItem(
                                               child: Text(
-                                            model.specialization!,
+                                           locale=="en"? model.major!.name!:model.major!.name_ar!,
                                             style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                                             overflow: TextOverflow.ellipsis,
                                           )),

@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 @RoutePage()
 class TaxDetailScreen extends HookConsumerWidget {
   final TaxModel? history;
-  final int? id;
+  final String? id;
   const TaxDetailScreen({
     super.key,
     this.history,
@@ -27,6 +27,7 @@ class TaxDetailScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final taxById = ref.watch(getTaxesRequestProvider(id: id.toString()));
     final locale = ref.watch(languageHiveNotifierProvider.notifier).getLanguage();
+    print(id);
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
@@ -77,14 +78,13 @@ class TaxDetailScreen extends HookConsumerWidget {
                                     style: Theme.of(context).primaryTextTheme.bodyMedium,
                                   ),
                                 ),
-                                  const ResponsiveRowColumnItem(child: Gap(10)),
-                                        ResponsiveRowColumnItem(
-                                          child: Text(
-                                            "${"status".tr()} : ${locale=="en"? history?.status!.name!:history?.status!.name_ar!}",
-                                            style: Theme.of(context).primaryTextTheme.bodyMedium,
-                                          ),
-                                        ),
-
+                                const ResponsiveRowColumnItem(child: Gap(10)),
+                                ResponsiveRowColumnItem(
+                                  child: Text(
+                                    "${"status".tr()} : ${locale == "en" ? history?.status!.name! : history?.status!.name_ar!}",
+                                    style: Theme.of(context).primaryTextTheme.bodyMedium,
+                                  ),
+                                ),
                               ],
                             )),
                             if (history!.file != null)
@@ -141,10 +141,10 @@ class TaxDetailScreen extends HookConsumerWidget {
                                             style: Theme.of(context).primaryTextTheme.bodyMedium,
                                           ),
                                         ),
-                                         const ResponsiveRowColumnItem(child: Gap(10)),
+                                        const ResponsiveRowColumnItem(child: Gap(10)),
                                         ResponsiveRowColumnItem(
                                           child: Text(
-                                            "${"status".tr()} : ${locale=="en"? history.status!.name!:history.status!.name_ar!}",
+                                            "${"status".tr()} : ${locale == "en" ? history.status!.name! : history.status!.name_ar!}",
                                             style: Theme.of(context).primaryTextTheme.bodyMedium,
                                           ),
                                         ),

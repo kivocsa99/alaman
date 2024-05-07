@@ -13,6 +13,7 @@ import 'package:alaman/domain/failures/api.failures.dart';
 import 'package:alaman/domain/generic/model/generic.model.dart';
 import 'package:alaman/domain/meetinghistory/model/meeting.history.model.dart';
 import 'package:alaman/domain/news/model/news.model.dart';
+import 'package:alaman/domain/notifications/model/notifications.model.dart';
 import 'package:alaman/domain/product/model/product.model.dart';
 import 'package:alaman/domain/taxexempetion/model/tax.model.dart';
 import 'package:alaman/domain/trainingreqeust/model/training.request.model.dart';
@@ -440,7 +441,9 @@ class UserRepository implements IUserRepository {
           await dio.get(id == null ? "$baseUrl/taxExemptionRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/taxExemptionRequest/getRequests?id=$id&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         if (id != null) {
-          TaxModel response = TaxModel.fromJson(result.data["TaxExemptionRequests"]["1"]);
+          var keys = result.data['TaxExemptionRequests'].keys;
+
+          TaxModel response = TaxModel.fromJson(result.data["TaxExemptionRequests"][keys.first]);
           return right(response);
         } else {
           Map<String, dynamic> map = result.data;
@@ -511,6 +514,25 @@ class UserRepository implements IUserRepository {
       final result = await dio.get("$baseUrl/user/resetPassword?phone=$phone&national_id_number=$nationalNumber&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         return right("done");
+      } else {
+        return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      return DioExceptionHandler.handleDioException(error);
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, List<NotificationsModel>>> getNotificationsHistory() async {
+    final userSetting = ref!.read(settingHiveNotifierProvider);
+
+    try {
+      final result = await dio.get("$baseUrl/user/getNotificationsHistory?api_token=${userSetting!.token}");
+      if (result.data['AZSVR'] == "SUCCESS") {
+        Map<String, dynamic> map = result.data;
+        List<dynamic> data = map["Notifications"];
+        List<NotificationsModel> response = data.map((e) => NotificationsModel.fromJson(e)).toList();
+        return right(response);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
       }

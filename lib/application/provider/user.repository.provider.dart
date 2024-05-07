@@ -5,6 +5,7 @@ import 'package:alaman/domain/failures/api.failures.dart';
 import 'package:alaman/domain/generic/model/generic.model.dart';
 import 'package:alaman/domain/meetinghistory/model/meeting.history.model.dart';
 import 'package:alaman/domain/news/model/news.model.dart';
+import 'package:alaman/domain/notifications/model/notifications.model.dart';
 import 'package:alaman/domain/product/model/product.model.dart';
 import 'package:alaman/domain/trainingreqeust/model/training.request.model.dart';
 import 'package:alaman/domain/user/interface/i.user.repository.dart';
@@ -73,6 +74,11 @@ Future<Either<ApiFailures, List<AlamanRequestModel>>> getRequests(ref) {
 @riverpod
 Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining(Ref ref) {
   return ref.watch(userRepositoryProvider).gettraining();
+}
+
+@riverpod
+Future<Either<ApiFailures, List<NotificationsModel>>> getNotificationsHistory(Ref ref) {
+  return ref.watch(userRepositoryProvider).getNotificationsHistory();
 }
 
 @riverpod

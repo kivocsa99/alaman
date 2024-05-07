@@ -33,17 +33,11 @@ String formatNumber(int number) {
   return formatter.format(number);
 }
 
-PageRouteInfo? pageCase(String? type) {
+PageRouteInfo pageCase({String? type, String? id}) {
   switch (type) {
     case "App\\Models\\TaxExemptionRequest":
-      return TaxDetailRoute();
-    case "App\\Models\\TaxExemptionRequest":
-      return TaxDetailRoute();
-    case "App\\Models\\TaxExemptionRequest":
-      return TaxDetailRoute();
-    case "App\\Models\\TaxExemptionRequest":
-      return TaxDetailRoute();
+      return TaxDetailRoute(id: id);
     default:
-      return TaxDetailRoute();
+      return TaxDetailRoute(id: id);
   }
 }

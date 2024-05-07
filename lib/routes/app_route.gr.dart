@@ -123,6 +123,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MeetingHistoryScreen(),
       );
     },
+    NotificationsHistoryRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const NotificationsHistoryScreen(),
+      );
+    },
     OnBoardingRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -629,6 +635,20 @@ class MeetingHistoryRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [NotificationsHistoryScreen]
+class NotificationsHistoryRoute extends PageRouteInfo<void> {
+  const NotificationsHistoryRoute({List<PageRouteInfo>? children})
+      : super(
+          NotificationsHistoryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NotificationsHistoryRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [OnBoardingScreen]
 class OnBoardingRoute extends PageRouteInfo<void> {
   const OnBoardingRoute({List<PageRouteInfo>? children})
@@ -908,7 +928,7 @@ class TaxDetailRoute extends PageRouteInfo<TaxDetailRouteArgs> {
   TaxDetailRoute({
     Key? key,
     TaxModel? history,
-    int? id,
+    String? id,
     List<PageRouteInfo>? children,
   }) : super(
           TaxDetailRoute.name,
@@ -937,7 +957,7 @@ class TaxDetailRouteArgs {
 
   final TaxModel? history;
 
-  final int? id;
+  final String? id;
 
   @override
   String toString() {

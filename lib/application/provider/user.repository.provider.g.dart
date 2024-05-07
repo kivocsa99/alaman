@@ -627,6 +627,24 @@ final gettrainingProvider = AutoDisposeFutureProvider<
 
 typedef GettrainingRef = AutoDisposeFutureProviderRef<
     Either<ApiFailures, List<TrainingRequestModel>>>;
+String _$getNotificationsHistoryHash() =>
+    r'6e282f1f4cdbe6258406c4d6e738cdf1dd6d2bde';
+
+/// See also [getNotificationsHistory].
+@ProviderFor(getNotificationsHistory)
+final getNotificationsHistoryProvider = AutoDisposeFutureProvider<
+    Either<ApiFailures, List<NotificationsModel>>>.internal(
+  getNotificationsHistory,
+  name: r'getNotificationsHistoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getNotificationsHistoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetNotificationsHistoryRef = AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<NotificationsModel>>>;
 String _$getTaxesRequestHash() => r'3ca2186fcca8b210b09ec0bb1364b179369df5cf';
 
 /// See also [getTaxesRequest].

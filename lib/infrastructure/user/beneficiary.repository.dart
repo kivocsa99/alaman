@@ -23,13 +23,14 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
       final result = await dio.get("$baseUrl/alamanRequest/getRequests?api_token=${userSetting!.token}");
 
       if (result.data['AZSVR'] == "SUCCESS") {
-        if (id != null) {
+        if (id == null) {
           Map<String, dynamic> map = result.data;
           List<dynamic> data = map["AlamanRequests"];
           List<AlamanRequestModel> response = data.map((e) => AlamanRequestModel.fromJson(e)).toList();
           return right(response);
         } else {
-          AlamanRequestModel model = AlamanRequestModel.fromJson(result.data["AlamanRequests"]["1"]);
+          var keys = result.data['AlamanRequests'].keys;
+          AlamanRequestModel model = AlamanRequestModel.fromJson(result.data["AlamanRequests"][keys.first]);
           return right(model);
         }
       } else {
@@ -47,13 +48,14 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
     try {
       final result = await dio.get(id == null ? "$baseUrl/trainingRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/trainingRequest/getRequests?id=$id&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
-        if (id != null) {
+        if (id == null) {
           Map<String, dynamic> map = result.data;
           List<dynamic> data = map["TrainingRequests"];
           List<TrainingRequestModel> response = data.map((e) => TrainingRequestModel.fromJson(e)).toList();
           return right(response);
         } else {
-          TrainingRequestModel model = TrainingRequestModel.fromJson(result.data["TrainingRequests"]["1"]);
+          var keys = result.data['TrainingRequests'].keys;
+          TrainingRequestModel model = TrainingRequestModel.fromJson(result.data["TrainingRequests"][keys.first]);
           return right(model);
         }
       } else {

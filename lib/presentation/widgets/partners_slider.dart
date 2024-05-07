@@ -14,7 +14,7 @@ class PartnerSlider extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-        final locale = ref.watch(languageHiveNotifierProvider);
+    final locale = ref.watch(languageHiveNotifierProvider);
 
     return SizedBox(
       width: double.infinity,
@@ -24,41 +24,25 @@ class PartnerSlider extends HookConsumerWidget {
         separatorBuilder: (context, index) => const Gap(10),
         itemBuilder: (context, index) => GestureDetector(
           onTap: () async => {
-            if (!await launchUrl(Uri.parse(partners[index].href!)))
-              {throw Exception('Could not launch ${partners[index].href}')}
+            if (!await launchUrl(Uri.parse(partners[index].href!))) {throw Exception('Could not launch ${partners[index].href}')}
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey.withOpacity(0.5), width: 2),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30)),
+            decoration: BoxDecoration(border: Border.all(color: Colors.grey.withOpacity(0.5), width: 2), color: Colors.white, borderRadius: BorderRadius.circular(30)),
             child: ResponsiveRowColumn(
               layout: ResponsiveRowColumnType.ROW,
               rowMainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ResponsiveRowColumnItem(
-                    child: Container(
+                    child:  Container(
                   width: 70,
                   height: 70,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: Image.network(
-                                  "$storageUrl/${partners[index].image}")
-                              .image,
-                          fit: BoxFit.contain)),
+                  decoration: BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: Image.network("$storageUrl/${partners[index].image}").image, fit: BoxFit.contain)),
                 )),
                 ResponsiveRowColumnItem(
                     child: Text(
-                  locale == "en"
-                      ? partners[index].name!
-                      : partners[index].name_ar!,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .bodyMedium
-                      ?.copyWith(color: const Color(0xff16437B)),
+                  locale == "en" ? partners[index].name! : partners[index].name_ar!,
+                  style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff16437B)),
                 ))
               ],
             ),

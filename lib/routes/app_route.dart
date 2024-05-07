@@ -14,6 +14,7 @@ import 'package:alaman/presentation/screens/login_screen.dart';
 import 'package:alaman/presentation/screens/main_screen.dart';
 import 'package:alaman/presentation/screens/marks_screen.dart';
 import 'package:alaman/presentation/screens/meetings_history_screen.dart';
+import 'package:alaman/presentation/screens/notifications_screen.dart';
 import 'package:alaman/presentation/screens/onboarding_screen.dart';
 import 'package:alaman/presentation/screens/payment.details_screen.dart';
 import 'package:alaman/presentation/screens/payment.history_screen.dart';
@@ -81,6 +82,17 @@ class AppRouter extends _$AppRouter {
             )),
         AutoRoute(
             page: ResetPasswordRoute.page,
+            type: RouteType.custom(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, -1.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+            )),
+        AutoRoute(
+            page: NotificationsHistoryRoute.page,
             type: RouteType.custom(
               transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(

@@ -1,3 +1,4 @@
+import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -52,14 +53,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           : [
               Padding(
                 padding: const EdgeInsets.only(right: 20.0, top: 12, left: 20),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffFFC629)),
-                  child: const Icon(
-                    FontAwesomeIcons.bell,
-                    color: Colors.white,
+                child: GestureDetector(
+                  onTap: () {
+                    context.router.push(NotificationsHistoryRoute());
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffFFC629)),
+                    child: const Icon(
+                      FontAwesomeIcons.bell,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               )

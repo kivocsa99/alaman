@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class PaginatedBeneficiariesNotifier
-    extends StateNotifier<PaginatedBeneficiariesState> {
+class PaginatedBeneficiariesNotifier extends StateNotifier<PaginatedBeneficiariesState> {
   final IUserRepository userRepository;
 
   PaginatedBeneficiariesNotifier(this.userRepository)
@@ -20,7 +19,7 @@ class PaginatedBeneficiariesNotifier
       required int educationalYearId,
       required String age,
       required int scholarshipTypeId}) async {
-    if (state.hasReachedMax) return;
+    if (state.hasReachedMax || state.dialogHasBeenShown) return;
 
     try {
       final response = await userRepository.searchBeneficiaries(
@@ -39,8 +38,7 @@ class PaginatedBeneficiariesNotifier
           state = state.copyWith(
             beneficiaries: newData,
             hasReachedMax: r.item2 == null,
-            showDialog:
-                r.item3, // Assuming r.item3 is the bool controlling the dialog
+            showDialog: r.item3,
           );
         },
       );
@@ -49,78 +47,54 @@ class PaginatedBeneficiariesNotifier
     }
   }
 
-  void resetState() {
-    state = const PaginatedBeneficiariesState();
+  void markDialogAsShown() {
+    if (state.showDialog && !state.dialogHasBeenShown) {
+      state = state.copyWith(dialogHasBeenShown: true);
+    }
   }
 
   void resetDialogFlag() {
-    if (state.showDialog) {
-      state = state.copyWith(showDialog: false);
-    }
+    state = state.copyWith(showDialog: false);
+  }
+
+  void resetState() {
+    state = const PaginatedBeneficiariesState(); // Resets everything, including the dialog flags
   }
 }
-
-class PaginatedBeneficiaryState {
-  final List<BeneficiaryModel> beneficiary;
-  final int currentPage;
-  final bool hasReachedMax;
-  final PaginatedBeneficiaryStatus status;
-
-  PaginatedBeneficiaryState(
-      {required this.beneficiary,
-      required this.currentPage,
-      required this.hasReachedMax,
-      required this.status});
-
-  factory PaginatedBeneficiaryState.initial() => PaginatedBeneficiaryState(
-      beneficiary: [],
-      currentPage: 1,
-      hasReachedMax: false,
-      status: PaginatedBeneficiaryStatus.initial);
-
-  PaginatedBeneficiaryState copyWith({
-    List<BeneficiaryModel>? beneficiary,
-    int? currentPage,
-    bool? hasReachedMax,
-    PaginatedBeneficiaryStatus? status,
-  }) {
-    return PaginatedBeneficiaryState(
-      beneficiary: beneficiary ?? this.beneficiary,
-      currentPage: currentPage ?? this.currentPage,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      status: status ?? this.status,
-    );
-  }
-}
-
-enum PaginatedBeneficiaryStatus { initial, success, failure }
-// paginated_beneficiaries_state.dart
-
 @immutable
 class PaginatedBeneficiariesState {
   final List<BeneficiaryModel> beneficiaries;
   final bool hasReachedMax;
   final String? errorMessage;
-  final bool showDialog; // Add this line
+  final bool showDialog;
+  final bool dialogHasBeenShown; // Add this line
 
   const PaginatedBeneficiariesState({
     this.beneficiaries = const [],
     this.hasReachedMax = false,
     this.errorMessage,
-    this.showDialog = false, // Initialize here
+    this.showDialog = false,
+    this.dialogHasBeenShown = false, // Initialize here
   });
 
   PaginatedBeneficiariesState copyWith({
     List<BeneficiaryModel>? beneficiaries,
     bool? hasReachedMax,
     String? errorMessage,
-    bool? showDialog, // Add this line
+    bool? showDialog,
+    bool? dialogHasBeenShown, // Add this line
   }) {
     return PaginatedBeneficiariesState(
       beneficiaries: beneficiaries ?? this.beneficiaries,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       errorMessage: errorMessage ?? this.errorMessage,
-      showDialog: showDialog ?? this.showDialog, // Add this line
+      showDialog: showDialog ?? this.showDialog,
+      dialogHasBeenShown: dialogHasBeenShown ?? this.dialogHasBeenShown, // Add this line
     );
   }
 }
+
+
+enum PaginatedBeneficiaryStatus { initial, success, failure }
+// paginated_beneficiaries_state.dart
+

@@ -68,7 +68,7 @@ class TimePickerBottomSheet extends HookConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          onPressed: () => currentStep.value = currentStep.value - 1,
+                          onPressed: () => context.router.maybePop(),
                           icon: const Icon(
                             Icons.arrow_back,
                             color: Color(0xff16437B),
@@ -102,9 +102,8 @@ class TimePickerBottomSheet extends HookConsumerWidget {
                                         child: CupertinoDatePicker(
                                             dateOrder: DatePickerDateOrder.dmy,
                                             mode: CupertinoDatePickerMode.time,
-                                            initialDateTime: DateTime.now().add(const Duration(seconds: 1)),
-                                            minimumDate: DateTime.now(),
-                                            maximumDate: DateTime.now().add(const Duration(hours: 24)),
+                                            initialDateTime: DateTime.now(),
+                                           
                                             onDateTimeChanged: (val) async {
                                               time.value = easy.DateFormat('HH:mm:ss').format(val);
                                             }),

@@ -81,7 +81,7 @@ class PaymentDetailScreen extends HookConsumerWidget {
                           )),
                           ResponsiveRowColumnItem(
                             child: Text(
-                              convertApiDate(history!.created_at!),
+                              convertApiDate(history!.start_date??history!.created_at),
                               style: Theme.of(context).primaryTextTheme.bodyMedium,
                             ),
                           ),

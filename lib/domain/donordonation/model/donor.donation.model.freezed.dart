@@ -26,6 +26,8 @@ mixin _$DonorDonation {
   int? get payment_method_id => throw _privateConstructorUsedError;
   int? get donor_id => throw _privateConstructorUsedError;
   int? get mou_id => throw _privateConstructorUsedError;
+  String? get start_date => throw _privateConstructorUsedError;
+  String? get end_date => throw _privateConstructorUsedError;
   int? get is_recurring => throw _privateConstructorUsedError;
   num? get total_amount => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
@@ -59,6 +61,8 @@ abstract class $DonorDonationCopyWith<$Res> {
       int? payment_method_id,
       int? donor_id,
       int? mou_id,
+      String? start_date,
+      String? end_date,
       int? is_recurring,
       num? total_amount,
       String? location,
@@ -96,6 +100,8 @@ class _$DonorDonationCopyWithImpl<$Res, $Val extends DonorDonation>
     Object? payment_method_id = freezed,
     Object? donor_id = freezed,
     Object? mou_id = freezed,
+    Object? start_date = freezed,
+    Object? end_date = freezed,
     Object? is_recurring = freezed,
     Object? total_amount = freezed,
     Object? location = freezed,
@@ -134,6 +140,14 @@ class _$DonorDonationCopyWithImpl<$Res, $Val extends DonorDonation>
           ? _value.mou_id
           : mou_id // ignore: cast_nullable_to_non_nullable
               as int?,
+      start_date: freezed == start_date
+          ? _value.start_date
+          : start_date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      end_date: freezed == end_date
+          ? _value.end_date
+          : end_date // ignore: cast_nullable_to_non_nullable
+              as String?,
       is_recurring: freezed == is_recurring
           ? _value.is_recurring
           : is_recurring // ignore: cast_nullable_to_non_nullable
@@ -237,6 +251,8 @@ abstract class _$$DonorDonationImplCopyWith<$Res>
       int? payment_method_id,
       int? donor_id,
       int? mou_id,
+      String? start_date,
+      String? end_date,
       int? is_recurring,
       num? total_amount,
       String? location,
@@ -275,6 +291,8 @@ class __$$DonorDonationImplCopyWithImpl<$Res>
     Object? payment_method_id = freezed,
     Object? donor_id = freezed,
     Object? mou_id = freezed,
+    Object? start_date = freezed,
+    Object? end_date = freezed,
     Object? is_recurring = freezed,
     Object? total_amount = freezed,
     Object? location = freezed,
@@ -313,6 +331,14 @@ class __$$DonorDonationImplCopyWithImpl<$Res>
           ? _value.mou_id
           : mou_id // ignore: cast_nullable_to_non_nullable
               as int?,
+      start_date: freezed == start_date
+          ? _value.start_date
+          : start_date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      end_date: freezed == end_date
+          ? _value.end_date
+          : end_date // ignore: cast_nullable_to_non_nullable
+              as String?,
       is_recurring: freezed == is_recurring
           ? _value.is_recurring
           : is_recurring // ignore: cast_nullable_to_non_nullable
@@ -375,6 +401,8 @@ class _$DonorDonationImpl extends _DonorDonation {
       this.payment_method_id,
       this.donor_id,
       this.mou_id,
+      this.start_date,
+      this.end_date,
       this.is_recurring,
       this.total_amount,
       this.location,
@@ -406,6 +434,10 @@ class _$DonorDonationImpl extends _DonorDonation {
   final int? donor_id;
   @override
   final int? mou_id;
+  @override
+  final String? start_date;
+  @override
+  final String? end_date;
   @override
   final int? is_recurring;
   @override
@@ -448,7 +480,7 @@ class _$DonorDonationImpl extends _DonorDonation {
 
   @override
   String toString() {
-    return 'DonorDonation(id: $id, donation_type_id: $donation_type_id, donation_status_id: $donation_status_id, payment_method_id: $payment_method_id, donor_id: $donor_id, mou_id: $mou_id, is_recurring: $is_recurring, total_amount: $total_amount, location: $location, notes: $notes, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, type: $type, status: $status, payment_method: $payment_method, payments: $payments, beneficiaries: $beneficiaries)';
+    return 'DonorDonation(id: $id, donation_type_id: $donation_type_id, donation_status_id: $donation_status_id, payment_method_id: $payment_method_id, donor_id: $donor_id, mou_id: $mou_id, start_date: $start_date, end_date: $end_date, is_recurring: $is_recurring, total_amount: $total_amount, location: $location, notes: $notes, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, type: $type, status: $status, payment_method: $payment_method, payments: $payments, beneficiaries: $beneficiaries)';
   }
 
   @override
@@ -466,6 +498,10 @@ class _$DonorDonationImpl extends _DonorDonation {
             (identical(other.donor_id, donor_id) ||
                 other.donor_id == donor_id) &&
             (identical(other.mou_id, mou_id) || other.mou_id == mou_id) &&
+            (identical(other.start_date, start_date) ||
+                other.start_date == start_date) &&
+            (identical(other.end_date, end_date) ||
+                other.end_date == end_date) &&
             (identical(other.is_recurring, is_recurring) ||
                 other.is_recurring == is_recurring) &&
             (identical(other.total_amount, total_amount) ||
@@ -490,26 +526,29 @@ class _$DonorDonationImpl extends _DonorDonation {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      donation_type_id,
-      donation_status_id,
-      payment_method_id,
-      donor_id,
-      mou_id,
-      is_recurring,
-      total_amount,
-      location,
-      notes,
-      created_at,
-      updated_at,
-      deleted_at,
-      type,
-      status,
-      payment_method,
-      const DeepCollectionEquality().hash(_payments),
-      const DeepCollectionEquality().hash(_beneficiaries));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        donation_type_id,
+        donation_status_id,
+        payment_method_id,
+        donor_id,
+        mou_id,
+        start_date,
+        end_date,
+        is_recurring,
+        total_amount,
+        location,
+        notes,
+        created_at,
+        updated_at,
+        deleted_at,
+        type,
+        status,
+        payment_method,
+        const DeepCollectionEquality().hash(_payments),
+        const DeepCollectionEquality().hash(_beneficiaries)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -533,6 +572,8 @@ abstract class _DonorDonation extends DonorDonation {
       final int? payment_method_id,
       final int? donor_id,
       final int? mou_id,
+      final String? start_date,
+      final String? end_date,
       final int? is_recurring,
       final num? total_amount,
       final String? location,
@@ -562,6 +603,10 @@ abstract class _DonorDonation extends DonorDonation {
   int? get donor_id;
   @override
   int? get mou_id;
+  @override
+  String? get start_date;
+  @override
+  String? get end_date;
   @override
   int? get is_recurring;
   @override

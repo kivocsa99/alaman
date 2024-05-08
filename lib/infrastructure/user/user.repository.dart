@@ -438,8 +438,9 @@ class UserRepository implements IUserRepository {
     final userSetting = ref!.read(settingHiveNotifierProvider);
     try {
       final result =
+         
           await dio.get(id == null ? "$baseUrl/taxExemptionRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/taxExemptionRequest/getRequests?id=$id&api_token=${userSetting!.token}");
-      if (result.data['AZSVR'] == "SUCCESS") {
+     print(result.realUri); if (result.data['AZSVR'] == "SUCCESS") {
         if (id != null) {
           var keys = result.data['TaxExemptionRequests'].keys;
 

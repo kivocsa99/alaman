@@ -19,6 +19,8 @@ class DonorDonation with _$DonorDonation {
     int? payment_method_id,
     int? donor_id,
     int? mou_id,
+    String?start_date,
+    String?end_date,
     int? is_recurring,
     num? total_amount,
     String? location,

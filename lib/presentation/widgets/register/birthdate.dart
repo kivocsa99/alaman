@@ -80,7 +80,7 @@ class BirthdateStep extends HookConsumerWidget {
                                         dateOrder: DatePickerDateOrder.dmy,
                                         mode: CupertinoDatePickerMode.date,
                                         initialDateTime: DateTime.now(),
-                                        minimumDate: DateTime(1980),
+                                        minimumDate: DateTime(1900),
                                         maximumDate: DateTime.now(),
                                         onDateTimeChanged: (val) async {
                                           birthDate.value = DateFormat('yyyy-MM-dd').format(val);

@@ -1,11 +1,5 @@
 import 'package:alaman/application/auth/reset_password/reset_password_use_case.dart';
 import 'package:alaman/application/auth/reset_password/reset_password_use_case_input.dart';
-import 'package:alaman/application/provider/hive.login.provider.dart';
-import 'package:alaman/application/provider/hive.register.provider.dart';
-import 'package:alaman/application/provider/login.provider.dart';
-import 'package:alaman/application/provider/registration.provider.dart';
-import 'package:alaman/application/provider/user.repository.provider.dart';
-import 'package:alaman/domain/userregistration/user.registration.model.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/presentation/widgets/auth_field.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
@@ -15,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -98,7 +91,7 @@ class ResetPasswordScreen extends HookConsumerWidget {
                       end: Offset.zero,
                     ).animate(CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
                     child: AuthField(
-                      controller: controller,
+                      controller: nationalController,
                       validator: MultiValidator([
                         RequiredValidator(errorText: "reqfield".tr()),
                       ]),

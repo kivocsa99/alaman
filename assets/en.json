@@ -39,6 +39,7 @@
     "nametitle": "What is your\nfull name?",
     "fullname": "Full name",
     "new": "New",
+    "newspassword":"A new password will be sent to you",
     "notificationhistory": "Notifications History",
     "selecttypeerror": "Please select an account type",
     "typetitle": "Account\nType",

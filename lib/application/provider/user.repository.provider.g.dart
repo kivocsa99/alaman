@@ -195,23 +195,142 @@ class _CheckPhoneNumberProviderElement
   String? get value => (origin as CheckPhoneNumberProvider).value;
 }
 
-String _$getMeetingHistoryHash() => r'29f3b61deccf74fecbbee0cd8ec5fcf80bec3e43';
+String _$getMeetingHistoryHash() => r'fa9386ba96d07aae5a1d555e4fad303e8dd18e35';
 
 /// See also [getMeetingHistory].
 @ProviderFor(getMeetingHistory)
-final getMeetingHistoryProvider = AutoDisposeFutureProvider<
-    Either<ApiFailures, List<MeetingHistoryModel>>>.internal(
-  getMeetingHistory,
-  name: r'getMeetingHistoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getMeetingHistoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const getMeetingHistoryProvider = GetMeetingHistoryFamily();
 
-typedef GetMeetingHistoryRef = AutoDisposeFutureProviderRef<
-    Either<ApiFailures, List<MeetingHistoryModel>>>;
+/// See also [getMeetingHistory].
+class GetMeetingHistoryFamily
+    extends Family<AsyncValue<Either<ApiFailures, List<MeetingHistoryModel>>>> {
+  /// See also [getMeetingHistory].
+  const GetMeetingHistoryFamily();
+
+  /// See also [getMeetingHistory].
+  GetMeetingHistoryProvider call({
+    int? id,
+  }) {
+    return GetMeetingHistoryProvider(
+      id: id,
+    );
+  }
+
+  @override
+  GetMeetingHistoryProvider getProviderOverride(
+    covariant GetMeetingHistoryProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getMeetingHistoryProvider';
+}
+
+/// See also [getMeetingHistory].
+class GetMeetingHistoryProvider extends AutoDisposeFutureProvider<
+    Either<ApiFailures, List<MeetingHistoryModel>>> {
+  /// See also [getMeetingHistory].
+  GetMeetingHistoryProvider({
+    int? id,
+  }) : this._internal(
+          (ref) => getMeetingHistory(
+            ref as GetMeetingHistoryRef,
+            id: id,
+          ),
+          from: getMeetingHistoryProvider,
+          name: r'getMeetingHistoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getMeetingHistoryHash,
+          dependencies: GetMeetingHistoryFamily._dependencies,
+          allTransitiveDependencies:
+              GetMeetingHistoryFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  GetMeetingHistoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final int? id;
+
+  @override
+  Override overrideWith(
+    FutureOr<Either<ApiFailures, List<MeetingHistoryModel>>> Function(
+            GetMeetingHistoryRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetMeetingHistoryProvider._internal(
+        (ref) => create(ref as GetMeetingHistoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<
+      Either<ApiFailures, List<MeetingHistoryModel>>> createElement() {
+    return _GetMeetingHistoryProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetMeetingHistoryProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetMeetingHistoryRef on AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<MeetingHistoryModel>>> {
+  /// The parameter `id` of this provider.
+  int? get id;
+}
+
+class _GetMeetingHistoryProviderElement
+    extends AutoDisposeFutureProviderElement<
+        Either<ApiFailures, List<MeetingHistoryModel>>>
+    with GetMeetingHistoryRef {
+  _GetMeetingHistoryProviderElement(super.provider);
+
+  @override
+  int? get id => (origin as GetMeetingHistoryProvider).id;
+}
+
 String _$getScheduleHash() => r'ba799a2c41efb0aca661111c7216bce101fba867';
 
 /// See also [getSchedule].
@@ -595,38 +714,274 @@ final getProductsProvider =
 
 typedef GetProductsRef
     = AutoDisposeFutureProviderRef<Either<ApiFailures, List<ProductModel>>>;
-String _$getRequestsHash() => r'f164b3fbc481a2c46165e3acbc0b8854a13dfce3';
+String _$getRequestsHash() => r'e258543ebdbdf827d0a836967f4140bbea2e550a';
 
 /// See also [getRequests].
 @ProviderFor(getRequests)
-final getRequestsProvider = AutoDisposeFutureProvider<
-    Either<ApiFailures, List<AlamanRequestModel>>>.internal(
-  getRequests,
-  name: r'getRequestsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getRequestsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const getRequestsProvider = GetRequestsFamily();
 
-typedef GetRequestsRef = AutoDisposeFutureProviderRef<
-    Either<ApiFailures, List<AlamanRequestModel>>>;
-String _$gettrainingHash() => r'f0b93e4071e2a35e2cba1cd31cdf1ae5843b2b2d';
+/// See also [getRequests].
+class GetRequestsFamily
+    extends Family<AsyncValue<Either<ApiFailures, List<AlamanRequestModel>>>> {
+  /// See also [getRequests].
+  const GetRequestsFamily();
+
+  /// See also [getRequests].
+  GetRequestsProvider call({
+    String? id,
+  }) {
+    return GetRequestsProvider(
+      id: id,
+    );
+  }
+
+  @override
+  GetRequestsProvider getProviderOverride(
+    covariant GetRequestsProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getRequestsProvider';
+}
+
+/// See also [getRequests].
+class GetRequestsProvider extends AutoDisposeFutureProvider<
+    Either<ApiFailures, List<AlamanRequestModel>>> {
+  /// See also [getRequests].
+  GetRequestsProvider({
+    String? id,
+  }) : this._internal(
+          (ref) => getRequests(
+            ref as GetRequestsRef,
+            id: id,
+          ),
+          from: getRequestsProvider,
+          name: r'getRequestsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getRequestsHash,
+          dependencies: GetRequestsFamily._dependencies,
+          allTransitiveDependencies:
+              GetRequestsFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  GetRequestsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final String? id;
+
+  @override
+  Override overrideWith(
+    FutureOr<Either<ApiFailures, List<AlamanRequestModel>>> Function(
+            GetRequestsRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetRequestsProvider._internal(
+        (ref) => create(ref as GetRequestsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<
+      Either<ApiFailures, List<AlamanRequestModel>>> createElement() {
+    return _GetRequestsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetRequestsProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetRequestsRef on AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<AlamanRequestModel>>> {
+  /// The parameter `id` of this provider.
+  String? get id;
+}
+
+class _GetRequestsProviderElement extends AutoDisposeFutureProviderElement<
+    Either<ApiFailures, List<AlamanRequestModel>>> with GetRequestsRef {
+  _GetRequestsProviderElement(super.provider);
+
+  @override
+  String? get id => (origin as GetRequestsProvider).id;
+}
+
+String _$gettrainingHash() => r'4d01a05ef77f73d40be52a87b15a6b4acca07fa7';
 
 /// See also [gettraining].
 @ProviderFor(gettraining)
-final gettrainingProvider = AutoDisposeFutureProvider<
-    Either<ApiFailures, List<TrainingRequestModel>>>.internal(
-  gettraining,
-  name: r'gettrainingProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$gettrainingHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const gettrainingProvider = GettrainingFamily();
 
-typedef GettrainingRef = AutoDisposeFutureProviderRef<
-    Either<ApiFailures, List<TrainingRequestModel>>>;
+/// See also [gettraining].
+class GettrainingFamily extends Family<
+    AsyncValue<Either<ApiFailures, List<TrainingRequestModel>>>> {
+  /// See also [gettraining].
+  const GettrainingFamily();
+
+  /// See also [gettraining].
+  GettrainingProvider call({
+    String? id,
+  }) {
+    return GettrainingProvider(
+      id: id,
+    );
+  }
+
+  @override
+  GettrainingProvider getProviderOverride(
+    covariant GettrainingProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'gettrainingProvider';
+}
+
+/// See also [gettraining].
+class GettrainingProvider extends AutoDisposeFutureProvider<
+    Either<ApiFailures, List<TrainingRequestModel>>> {
+  /// See also [gettraining].
+  GettrainingProvider({
+    String? id,
+  }) : this._internal(
+          (ref) => gettraining(
+            ref as GettrainingRef,
+            id: id,
+          ),
+          from: gettrainingProvider,
+          name: r'gettrainingProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$gettrainingHash,
+          dependencies: GettrainingFamily._dependencies,
+          allTransitiveDependencies:
+              GettrainingFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  GettrainingProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final String? id;
+
+  @override
+  Override overrideWith(
+    FutureOr<Either<ApiFailures, List<TrainingRequestModel>>> Function(
+            GettrainingRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GettrainingProvider._internal(
+        (ref) => create(ref as GettrainingRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<
+      Either<ApiFailures, List<TrainingRequestModel>>> createElement() {
+    return _GettrainingProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GettrainingProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GettrainingRef on AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<TrainingRequestModel>>> {
+  /// The parameter `id` of this provider.
+  String? get id;
+}
+
+class _GettrainingProviderElement extends AutoDisposeFutureProviderElement<
+    Either<ApiFailures, List<TrainingRequestModel>>> with GettrainingRef {
+  _GettrainingProviderElement(super.provider);
+
+  @override
+  String? get id => (origin as GettrainingProvider).id;
+}
+
 String _$getNotificationsHistoryHash() =>
     r'6e282f1f4cdbe6258406c4d6e738cdf1dd6d2bde';
 
@@ -780,7 +1135,7 @@ class _GetTaxesRequestProviderElement
 }
 
 String _$searchBeneficiariesHash() =>
-    r'05ab4129f868563e6a80eecf4830523832baf849';
+    r'4f73617eb221f6adbb12abff0bc5b3d20e07d7dd';
 
 /// See also [searchBeneficiaries].
 @ProviderFor(searchBeneficiaries)

@@ -29,8 +29,7 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
           List<AlamanRequestModel> response = data.map((e) => AlamanRequestModel.fromJson(e)).toList();
           return right(response);
         } else {
-          var keys = result.data['AlamanRequests'].keys;
-          AlamanRequestModel model = AlamanRequestModel.fromJson(result.data["AlamanRequests"][keys.first]);
+          AlamanRequestModel model = AlamanRequestModel.fromJson(result.data["AlamanRequests"][0]);
           return right(model);
         }
       } else {
@@ -54,8 +53,7 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
           List<TrainingRequestModel> response = data.map((e) => TrainingRequestModel.fromJson(e)).toList();
           return right(response);
         } else {
-          var keys = result.data['TrainingRequests'].keys;
-          TrainingRequestModel model = TrainingRequestModel.fromJson(result.data["TrainingRequests"][keys.first]);
+          TrainingRequestModel model = TrainingRequestModel.fromJson(result.data["TrainingRequests"][0]);
           return right(model);
         }
       } else {

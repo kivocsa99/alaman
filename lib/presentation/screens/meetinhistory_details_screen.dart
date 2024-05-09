@@ -2,7 +2,6 @@ import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/meetinghistory/model/meeting.history.model.dart';
-import 'package:alaman/main.dart';
 import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -15,15 +14,17 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
-class MeetingHistoryScreen extends HookConsumerWidget {
-  const MeetingHistoryScreen({
+class MeetingHistoryScreenDetails extends HookConsumerWidget {
+  final int? id;
+  const MeetingHistoryScreenDetails({
+    this.id,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(languageHiveNotifierProvider);
-    final history = ref.watch(getMeetingHistoryProvider(id: null));
+    final history = ref.watch(getMeetingHistoryProvider(id: id));
     return SafeArea(
       child: Scaffold(
         appBar: const CustomAppBar(

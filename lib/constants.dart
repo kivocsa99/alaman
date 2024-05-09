@@ -35,8 +35,12 @@ String formatNumber(int number) {
 
 PageRouteInfo pageCase({String? type, String? id}) {
   switch (type) {
-    case "App\\Models\\TaxExemptionRequest":
+    case "TaxExemptionRequest":
       return TaxDetailRoute(id: id);
+    case "AlamanRequests":
+      return AlamanServicesRoute(id: id);
+    case "TrainingRequests":
+      return TrainingRequestRouteDetails(id: id);
     default:
       return TaxDetailRoute(id: id);
   }

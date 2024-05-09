@@ -1,5 +1,10 @@
 import 'dart:math';
-
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
 import 'package:alaman/constants.dart';
@@ -10,13 +15,7 @@ import 'package:alaman/presentation/widgets/custom_appbar.dart';
 import 'package:alaman/presentation/widgets/responsive_widget.dart';
 import 'package:alaman/presentation/widgets/selection_widget.dart';
 import 'package:alaman/routes/app_route.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:lottie/lottie.dart';
 
 @RoutePage()
 class FilteredScreen extends HookConsumerWidget {
@@ -34,26 +33,27 @@ class FilteredScreen extends HookConsumerWidget {
   final String? endDate;
   final int scholarshipTypeId;
   final int? donationFrequencyId;
-  const FilteredScreen(
-      {required this.genderId,
-      required this.cityId,
-      required this.educationalYearId,
-      required this.age,
-      required this.scholarshipTypeId,
-      this.isCorporate,
-      this.donationAmount,
-      this.endAmount,
-      this.sponsershipEnd,
-      this.donationFrequencyId,
-      this.sponsershipSart,
-      this.recuring,
-      this.startDate,
-      this.endDate,
-      super.key});
+
+  const FilteredScreen({
+    required this.genderId,
+    required this.cityId,
+    required this.educationalYearId,
+    required this.age,
+    required this.scholarshipTypeId,
+    this.isCorporate,
+    this.donationAmount,
+    this.endAmount,
+    this.sponsershipEnd,
+    this.donationFrequencyId,
+    this.sponsershipSart,
+    this.recuring,
+    this.startDate,
+    this.endDate,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print(donationAmount);
     final scrollController = useScrollController();
     final state = ref.watch(paginatedBeneficiariesNotifierProvider);
 
@@ -69,71 +69,26 @@ class FilteredScreen extends HookConsumerWidget {
       );
       return null;
     }, []);
-    if (state.showDialog) {
-      // Since we cannot directly invoke showDialog here without causing an error
-      // due to the build method's constraints, we schedule it post frame.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!ModalRoute.of(context)!.isCurrent) return; // Prevents dialog from appearing in a non-top route
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => AlertDialog(
-            title: SizedBox(
-              height: 100,
-              width: 100,
-              child: Lottie.asset("assets/nodata.json"),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "nobeneficaires",
-                  style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
-                ).tr(),
-                AuthContainer(
-                  raduis: 50,
-                  height: 50,
-                  onTap: () async {
-                    context.router.maybePop();
-                  },
-                  color: const Color(0xffFFC629),
-                  child: Text(
-                    "back",
-                    style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
-                  ).tr(),
-                ),
-              ],
-            ),
-          ),
-        );
-        // Remember to reset the flag if necessary to prevent repeated dialogs.
-        ref.read(paginatedBeneficiariesNotifierProvider.notifier).resetDialogFlag();
-      });
-    }
+
     useEffect(() {
       void onScroll() {
-        if (scrollController.position.atEdge) {
-          final isBottom = scrollController.position.pixels == scrollController.position.maxScrollExtent;
-          print(!state.hasReachedMax);
-          if (isBottom && !state.hasReachedMax) {
-            // Fetch more data here
-
-            ref.read(paginatedBeneficiariesNotifierProvider.notifier).fetchBeneficiaries(
-                  genderId: genderId,
-                  cityId: cityId,
-                  educationalYearId: educationalYearId,
-                  age: age,
-                  scholarshipTypeId: scholarshipTypeId,
-                );
-          }
+        if (scrollController.position.atEdge && scrollController.position.pixels == scrollController.position.maxScrollExtent && !state.hasReachedMax) {
+          ref.read(paginatedBeneficiariesNotifierProvider.notifier).fetchBeneficiaries(
+                genderId: genderId,
+                cityId: cityId,
+                educationalYearId: educationalYearId,
+                age: age,
+                scholarshipTypeId: scholarshipTypeId,
+                isNextPage: true,
+              );
         }
       }
 
       scrollController.addListener(onScroll);
       return () => scrollController.removeListener(onScroll);
     }, [scrollController]);
-    final locale = ref.watch(languageHiveNotifierProvider);
 
+    final locale = ref.watch(languageHiveNotifierProvider);
     Random random = Random();
     int randomNumber = random.nextInt(3);
     final colorsList = useState<List<Color>>([
@@ -144,8 +99,8 @@ class FilteredScreen extends HookConsumerWidget {
     final selectedBeneficiaries = useState<Map<String, bool>>({});
     final currentDonationTotal = useState<double>(0.0);
     final selectedBeneficiaryIds = useState<List<int>>([]);
-
     final isLoading = useState(false);
+
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: isCorporate != null
@@ -159,7 +114,6 @@ class FilteredScreen extends HookConsumerWidget {
                     final result = await ref.read(getGenericProvider.future);
                     return result.fold((l) {
                       isLoading.value = false;
-
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.message ?? "internetconnection").tr()));
                     }, (r) async {
                       isLoading.value = false;
@@ -204,51 +158,36 @@ class FilteredScreen extends HookConsumerWidget {
             controller: scrollController,
             itemCount: state.hasReachedMax ? state.beneficiaries.length : state.beneficiaries.length + 1,
             itemBuilder: (context, index) {
-              print(state.beneficiaries.length);
               if (index >= state.beneficiaries.length) {
                 return const Center(child: CircularProgressIndicator());
               }
-              final beneficaryItem = state.beneficiaries[index];
+              final beneficiary = state.beneficiaries[index];
 
-              void handleSelectionChanged(BeneficiaryModel beneficaryItem, bool isSelected) {
-                // Find the beneficiary to get its donation goal and current payments.
-                final beneficiary = beneficaryItem;
-                final donationGoal = beneficiary.donations_goal!.toDouble();
-                final currentPayments = beneficiary.beneficiary_payments!.fold(
-                  0.0,
-                  (sum, current) => sum + current.amount!.toDouble(),
-                );
+              void handleSelectionChanged(BeneficiaryModel beneficiaryItem, bool isSelected) {
+                final donationGoal = beneficiaryItem.donations_goal?.toDouble() ?? 0.0;
+                final currentPayments = beneficiaryItem.beneficiary_payments?.fold(0.0, (sum, current) => sum + (current.amount?.toDouble() ?? 0.0)) ?? 0.0;
                 final neededAmount = donationGoal - currentPayments;
-
-                // Calculate the new total if this beneficiary is selected.
                 final newTotalDonation = isSelected ? currentDonationTotal.value + neededAmount : currentDonationTotal.value - neededAmount;
 
-                // Check if selecting this beneficiary would exceed the donation amount.
                 if (newTotalDonation <= (donationAmount ?? double.infinity)) {
                   currentDonationTotal.value = newTotalDonation;
-
-                  // Update the map of selected beneficiaries.
                   selectedBeneficiaries.value = {
                     ...selectedBeneficiaries.value,
-                    beneficaryItem.id.toString(): isSelected,
+                    beneficiaryItem.id.toString(): isSelected,
                   };
-
-                  // Update the list of selected beneficiary IDs.
                   if (isSelected) {
-                    selectedBeneficiaryIds.value = [...selectedBeneficiaryIds.value, beneficaryItem.id];
+                    selectedBeneficiaryIds.value = [...selectedBeneficiaryIds.value, beneficiaryItem.id];
                   } else {
-                    selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficaryItem.id.toString()).toList();
+                    selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficiaryItem.id).toList();
                   }
                 } else if (!isSelected) {
-                  // Always allow deselection.
                   currentDonationTotal.value = newTotalDonation;
                   selectedBeneficiaries.value = {
                     ...selectedBeneficiaries.value,
-                    beneficaryItem.id.toString(): isSelected,
+                    beneficiaryItem.id.toString(): isSelected,
                   };
-                  selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficaryItem.id.toString()).toList();
+                  selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficiaryItem.id).toList();
                 } else {
-                  // Show an error message if the donation limit would be exceeded.
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -262,7 +201,7 @@ class FilteredScreen extends HookConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "You have excedded the amount you specified",
+                            "You have exceeded the amount you specified",
                             style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                           ),
                           AuthContainer(
@@ -286,7 +225,7 @@ class FilteredScreen extends HookConsumerWidget {
 
               return isCorporate == null
                   ? GestureDetector(
-                      onTap: () => context.router.push(SposnerRoute(profileById: beneficaryItem.id.toString(), isdonor: isCorporate ?? false)),
+                      onTap: () => context.router.push(SposnerRoute(profileById: beneficiary.id.toString(), isdonor: isCorporate ?? false)),
                       child: Container(
                         width: double.infinity,
                         height: 250.0,
@@ -299,7 +238,7 @@ class FilteredScreen extends HookConsumerWidget {
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Image.network(
-                                '$storageUrl/${beneficaryItem.image}', // Replace with your image URL or asset
+                                '$storageUrl/${beneficiary.image}',
                               ),
                             ),
                             Align(
@@ -312,9 +251,8 @@ class FilteredScreen extends HookConsumerWidget {
                                     end: Alignment.topCenter,
                                     stops: [0, 5],
                                     colors: [
-                                      // Brighten function is not native, you'd have to implement it
                                       Colors.white,
-                                      colorsList.value[randomNumber].brighten(0).withOpacity(0.3),
+                                      colorsList.value[randomNumber].withOpacity(0.3),
                                     ],
                                   ),
                                 ),
@@ -328,14 +266,14 @@ class FilteredScreen extends HookConsumerWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      locale == "en" ? beneficaryItem.name! : beneficaryItem.name_ar!,
+                                      locale == "en" ? beneficiary.name ?? 'Unknown Name' : beneficiary.name_ar ?? 'Unknown Name',
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
-                                      beneficaryItem.address!,
+                                      beneficiary.address ?? 'No Address',
                                       style: const TextStyle(
                                         color: Colors.black,
                                       ),
@@ -365,9 +303,9 @@ class FilteredScreen extends HookConsumerWidget {
                       ),
                     )
                   : BeneficiaryListItem(
-                      beneficiary: beneficaryItem,
-                      initiallySelected: selectedBeneficiaries.value[beneficaryItem.id] ?? false,
-                      onSelectionChanged: (isSelected) => handleSelectionChanged(beneficaryItem, isSelected!),
+                      beneficiary: beneficiary,
+                      initiallySelected: selectedBeneficiaries.value[beneficiary.id.toString()] ?? false,
+                      onSelectionChanged: (isSelected) => handleSelectionChanged(beneficiary, isSelected ?? false),
                       currentTotalDonation: currentDonationTotal.value,
                       donationLimit: donationAmount!.toDouble(),
                     );

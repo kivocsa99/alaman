@@ -26,21 +26,16 @@ class TypeStep extends HookConsumerWidget {
       "assets/corporate.svg",
     ]);
     final typeName = useState([
-      "beneficiary".tr(),
-      "donor".tr(),
-      "corporate".tr(),
+      "beneficiary",
+      "donor",
+      "corporate",
     ]);
     final selectedIndex = useState(5);
-    final controller1 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller2 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller3 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller4 =
-        useAnimationController(duration: const Duration(seconds: 1));
-    final controller5 =
-        useAnimationController(duration: const Duration(seconds: 1));
+    final controller1 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller2 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller3 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller4 = useAnimationController(duration: const Duration(seconds: 1));
+    final controller5 = useAnimationController(duration: const Duration(seconds: 1));
     useEffect(() {
       controller5.forward();
       controller1.forward();
@@ -61,8 +56,7 @@ class TypeStep extends HookConsumerWidget {
               position: Tween<Offset>(
                 begin: const Offset(0, 3),
                 end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
+              ).animate(CurvedAnimation(parent: controller5, curve: Curves.easeOut)),
               child: GestureDetector(
                 onTap: () {},
                 child: Container(
@@ -73,10 +67,7 @@ class TypeStep extends HookConsumerWidget {
                   ),
                   child: Text(
                     "Everyone is welcomed",
-                    style: Theme.of(context)
-                        .primaryTextTheme
-                        .titleSmall
-                        ?.copyWith(color: const Color(0xff2A7DE1)),
+                    style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: const Color(0xff2A7DE1)),
                   ),
                 ),
               ),
@@ -90,14 +81,10 @@ class TypeStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.5),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller1, curve: Curves.easeOut)),
             child: Text(
               "typetitle",
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .titleLarge
-                  ?.copyWith(color: Colors.black),
+              style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(color: Colors.black),
             ).tr(),
           ),
         )),
@@ -109,8 +96,7 @@ class TypeStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.5),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller2, curve: Curves.easeOut)),
             child: AuthField(
               hint: "acounttype".tr(),
               readOnly: true,
@@ -125,17 +111,12 @@ class TypeStep extends HookConsumerWidget {
               position: Tween<Offset>(
                 begin: const Offset(0, 0.5),
                 end: Offset.zero,
-              ).animate(
-                  CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
+              ).animate(CurvedAnimation(parent: controller3, curve: Curves.easeOut)),
               child: Container(
                 width: double.infinity,
                 // height: 150,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(width: 1, color: Colors.grey)),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(width: 1, color: Colors.grey)),
                 child: ListView.separated(
                   separatorBuilder: (context, index) => const Divider(
                     thickness: 2,
@@ -147,7 +128,7 @@ class TypeStep extends HookConsumerWidget {
                     leading: SvgPicture.asset(
                       typeIcon.value[index],
                     ),
-                    title: Text(typeName.value[index]),
+                    title: Text(typeName.value[index]).tr(),
                     trailing: selectedIndex.value == index
                         ? const Icon(
                             FontAwesomeIcons.check,
@@ -169,17 +150,14 @@ class TypeStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.5),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller4, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller4, curve: Curves.easeOut)),
             child: AuthContainer(
               raduis: 50,
               height: 60,
               onTap: () async {
                 if (selectedIndex.value != 5) {
                   register!.role = typeName.value[selectedIndex.value];
-                  ref
-                      .read(registerHiveNotifierProvider.notifier)
-                      .addItem(register);
+                  ref.read(registerHiveNotifierProvider.notifier).addItem(register);
                   ref.read(registrationNotifierProvider.notifier).nextStep();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -192,10 +170,7 @@ class TypeStep extends HookConsumerWidget {
               color: const Color(0xffD2D3D6),
               child: Text(
                 "next",
-                style: Theme.of(context)
-                    .primaryTextTheme
-                    .titleSmall
-                    ?.copyWith(color: Colors.white),
+                style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
               ).tr(),
             ),
           ),
@@ -208,21 +183,15 @@ class TypeStep extends HookConsumerWidget {
             position: Tween<Offset>(
               begin: const Offset(0, 0.5),
               end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: controller4, curve: Curves.easeOut)),
+            ).animate(CurvedAnimation(parent: controller4, curve: Curves.easeOut)),
             child: AuthContainer(
               raduis: 50,
               height: 60,
-              onTap: () => ref
-                  .read(registrationNotifierProvider.notifier)
-                  .previousStep(),
+              onTap: () => ref.read(registrationNotifierProvider.notifier).previousStep(),
               color: const Color(0xffD2D3D6),
               child: Text(
                 "back",
-                style: Theme.of(context)
-                    .primaryTextTheme
-                    .titleSmall
-                    ?.copyWith(color: Colors.white),
+                style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
               ).tr(),
             ),
           ),

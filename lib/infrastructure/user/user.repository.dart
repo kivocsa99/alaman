@@ -215,42 +215,28 @@ class UserRepository implements IUserRepository {
     int? educationalYearId,
     String? age,
     int? scholarshipTypeId,
+    int page = 1, // Ensure the page parameter is added
   }) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
 
-    // Start building the URL with the base path
     var queryParams = StringBuffer("$baseUrl/beneficiary/search?");
-
-    // Append each parameter if it's not null
     if (genderId != null) queryParams.write("gender_id=$genderId&");
     if (cityId != null) queryParams.write("city_id=$cityId&");
-    if (educationalYearId != null) {
-      queryParams.write("educational_year_id=$educationalYearId&");
-    }
+    if (educationalYearId != null) queryParams.write("educational_year_id=$educationalYearId&");
     if (age != null) queryParams.write("age=$age&");
-    if (scholarshipTypeId != null) {
-      queryParams.write("scholarship_type_id=$scholarshipTypeId&");
-    }
-
-    // Always append the token at the end
-    queryParams.write("api_token=${userSetting?.token}");
-
-    // Final URL
-    String finalUrl = queryParams.toString();
+    if (scholarshipTypeId != null) queryParams.write("scholarship_type_id=$scholarshipTypeId&");
+    queryParams.write("api_token=${userSetting?.token}&");
+    queryParams.write("page=$page"); // Include the current page in the query
 
     try {
-      final result = await dio.get(finalUrl);
-      log(result.requestOptions.uri.toString()); // Ensure logging is appropriate for your use case
-      if (result.data['AZSVR'] == "SUCCESS") {
-        Map<String, dynamic> map = result.data;
-        List<dynamic> data = map["Beneficiaries"]["data"];
-        List<BeneficiaryModel> response = data.map((e) => BeneficiaryModel.fromJson(e)).toList();
-        String? nextUrl = map["Beneficiaries"]["next_page_url"];
-        bool? iscriteria = map["search_adjusted"];
-        final Tuple3<List<BeneficiaryModel>, String?, bool?> finalData = Tuple3(response, nextUrl, iscriteria);
-        return right(finalData);
+      final response = await dio.get(queryParams.toString());
+      if (response.data['AZSVR'] == "SUCCESS") {
+        List<BeneficiaryModel> beneficiaries = (response.data['Beneficiaries']['data'] as List).map((e) => BeneficiaryModel.fromJson(e)).toList();
+        String? nextUrl = response.data['Beneficiaries']['next_page_url'];
+        bool? isCriteriaAdjusted = response.data['search_adjusted'];
+        return right(Tuple3(beneficiaries, nextUrl, isCriteriaAdjusted));
       } else {
-        return left(ApiFailures.authFailed(message: result.data['Reason']));
+        return left(ApiFailures.authFailed(message: response.data['Reason']));
       }
     } on DioException catch (error) {
       return DioExceptionHandler.handleDioException(error);
@@ -260,7 +246,6 @@ class UserRepository implements IUserRepository {
   @override
   Future<Either<ApiFailures, Tuple2<List<CampaignModel>, String?>>> getCampaigns({int page = 1}) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
-
     try {
       final result = await dio.get("$baseUrl/misc/getCampaigns?api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
@@ -280,11 +265,11 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, List<AlamanRequestModel>>> getservices() async {
+  Future<Either<ApiFailures, List<AlamanRequestModel>>> getservices({String? id}) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
 
     try {
-      final result = await dio.get("$baseUrl/alamanRequest/getRequests?api_token=${userSetting!.token}");
+      final result = await dio.get(id == null ? "$baseUrl/alamanRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/alamanRequest/getRequests?id=$id&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
         List<dynamic> data = map["AlamanRequests"];
@@ -299,11 +284,10 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining() async {
+  Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining({String? id}) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
-
     try {
-      final result = await dio.get("$baseUrl/trainingRequest/getRequests?api_token=${userSetting!.token}");
+      final result = await dio.get(id == null ? "$baseUrl/trainingRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/alamanRequest/getRequests?id=$id&api_token=${userSetting!.token}");
       print(result.requestOptions.uri);
       if (result.data['AZSVR'] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
@@ -415,11 +399,11 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory() async {
+  Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory({int? id}) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
 
     try {
-      final result = await dio.get("$baseUrl/followUpMeeting/getHistory?api_token=${userSetting!.token}");
+      final result = await dio.get(id == null ? "$baseUrl/followUpMeeting/getHistory?api_token=${userSetting!.token}" : "$baseUrl/followUpMeeting/getHistory?id=$id&api_token=${userSetting!.token}");
       if (result.data['AZSVR'] == "SUCCESS") {
         Map<String, dynamic> map = result.data;
         List<dynamic> data = map["FollowUpMeetingRequests"];
@@ -438,13 +422,11 @@ class UserRepository implements IUserRepository {
     final userSetting = ref!.read(settingHiveNotifierProvider);
     try {
       final result =
-         
           await dio.get(id == null ? "$baseUrl/taxExemptionRequest/getRequests?api_token=${userSetting!.token}" : "$baseUrl/taxExemptionRequest/getRequests?id=$id&api_token=${userSetting!.token}");
-     print(result.realUri); if (result.data['AZSVR'] == "SUCCESS") {
+      print(result.realUri);
+      if (result.data['AZSVR'] == "SUCCESS") {
         if (id != null) {
-          var keys = result.data['TaxExemptionRequests'].keys;
-
-          TaxModel response = TaxModel.fromJson(result.data["TaxExemptionRequests"][keys.first]);
+          TaxModel response = TaxModel.fromJson(result.data["TaxExemptionRequests"][0]);
           return right(response);
         } else {
           Map<String, dynamic> map = result.data;

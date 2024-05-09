@@ -3,6 +3,7 @@ import 'package:alaman/domain/marks/model/marks.model.dart';
 import 'package:alaman/domain/scholarshiptypes/model/scholarshiptypes.model.dart';
 import 'package:alaman/domain/taxexempetion/model/tax.model.dart';
 import 'package:alaman/domain/user/model/beneficiary/beneficiary.model.dart';
+import 'package:alaman/presentation/screens/alamanservice_details_screen.dart';
 import 'package:alaman/presentation/screens/beneficiary.profile_screen.dart';
 import 'package:alaman/presentation/screens/filtered_screen.dart';
 import 'package:alaman/presentation/screens/grants_screen.dart';
@@ -14,6 +15,7 @@ import 'package:alaman/presentation/screens/login_screen.dart';
 import 'package:alaman/presentation/screens/main_screen.dart';
 import 'package:alaman/presentation/screens/marks_screen.dart';
 import 'package:alaman/presentation/screens/meetings_history_screen.dart';
+import 'package:alaman/presentation/screens/meetinhistory_details_screen.dart';
 import 'package:alaman/presentation/screens/notifications_screen.dart';
 import 'package:alaman/presentation/screens/onboarding_screen.dart';
 import 'package:alaman/presentation/screens/payment.details_screen.dart';
@@ -29,6 +31,7 @@ import 'package:alaman/presentation/screens/splash_screen.dart';
 import 'package:alaman/presentation/screens/sponser_screen.dart';
 import 'package:alaman/presentation/screens/tax_details_screen.dart';
 import 'package:alaman/presentation/screens/tax_history_screen.dart';
+import 'package:alaman/presentation/screens/training_request_details_screen.dart';
 import 'package:alaman/presentation/screens/your.grants_screen.dart';
 import 'package:alaman/presentation/screens/your_beneficiaries_sceen.dart';
 import 'package:alaman/routes/auth_guard.dart';
@@ -93,6 +96,28 @@ class AppRouter extends _$AppRouter {
             )),
         AutoRoute(
             page: NotificationsHistoryRoute.page,
+            type: RouteType.custom(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, -1.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+            )),
+        AutoRoute(
+            page: MeetingHistoryRouteDetails.page,
+            type: RouteType.custom(
+              transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, -1.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+            )),
+        AutoRoute(
+            page: AlamanServicesRoute.page,
             type: RouteType.custom(
               transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
                 position: Tween<Offset>(

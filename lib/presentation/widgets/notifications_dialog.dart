@@ -7,9 +7,8 @@ import 'package:lottie/lottie.dart';
 
 class NotificationDialog extends HookConsumerWidget {
   final String? id;
-  final String? notificationId;
   final String? notificationType;
-  const NotificationDialog({this.notificationId, this.notificationType, super.key, this.id});
+  const NotificationDialog({this.notificationType, super.key, this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

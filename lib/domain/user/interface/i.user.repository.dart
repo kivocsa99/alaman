@@ -37,10 +37,10 @@ abstract class IUserRepository {
   });
   Future<Either<ApiFailures, String>> checkPhoneNumber({required String phone, required String? value});
   Future<Either<ApiFailures, List<ProductModel>>> getProducts();
-  Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory();
+  Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory({int? id});
 
-  Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining();
-  Future<Either<ApiFailures, List<AlamanRequestModel>>> getservices();
+  Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining({String? id});
+  Future<Either<ApiFailures, List<AlamanRequestModel>>> getservices({String? id});
   Future<Either<ApiFailures, Tuple2<List<String>, String>>> getrecurringSchedule({
     double? amount,
     String? endate,
@@ -54,6 +54,7 @@ abstract class IUserRepository {
     int? educationalYearId,
     String? age,
     int? scholarshipTypeId,
+    int page = 1, // Ensure the page parameter is added
   });
 
   Future<Either<ApiFailures, dynamic>> initDonations({

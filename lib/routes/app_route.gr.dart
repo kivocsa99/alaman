@@ -15,6 +15,17 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AlamanServicesRoute.name: (routeData) {
+      final args = routeData.argsAs<AlamanServicesRouteArgs>(
+          orElse: () => const AlamanServicesRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AlamanServicesScreen(
+          id: args.id,
+          key: args.key,
+        ),
+      );
+    },
     BeneficiaryProfileRoute.name: (routeData) {
       final args = routeData.argsAs<BeneficiaryProfileRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -121,6 +132,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const MeetingHistoryScreen(),
+      );
+    },
+    MeetingHistoryRouteDetails.name: (routeData) {
+      final args = routeData.argsAs<MeetingHistoryRouteDetailsArgs>(
+          orElse: () => const MeetingHistoryRouteDetailsArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MeetingHistoryScreenDetails(
+          id: args.id,
+          key: args.key,
+        ),
       );
     },
     NotificationsHistoryRoute.name: (routeData) {
@@ -239,6 +261,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const TaxHistoryScreen(),
       );
     },
+    TrainingRequestRouteDetails.name: (routeData) {
+      final args = routeData.argsAs<TrainingRequestRouteDetailsArgs>(
+          orElse: () => const TrainingRequestRouteDetailsArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TrainingRequestScreenDetails(
+          id: args.id,
+          key: args.key,
+        ),
+      );
+    },
     YourBeneficiariesRoute.name: (routeData) {
       final args = routeData.argsAs<YourBeneficiariesRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -256,6 +289,44 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AlamanServicesScreen]
+class AlamanServicesRoute extends PageRouteInfo<AlamanServicesRouteArgs> {
+  AlamanServicesRoute({
+    String? id,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AlamanServicesRoute.name,
+          args: AlamanServicesRouteArgs(
+            id: id,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AlamanServicesRoute';
+
+  static const PageInfo<AlamanServicesRouteArgs> page =
+      PageInfo<AlamanServicesRouteArgs>(name);
+}
+
+class AlamanServicesRouteArgs {
+  const AlamanServicesRouteArgs({
+    this.id,
+    this.key,
+  });
+
+  final String? id;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'AlamanServicesRouteArgs{id: $id, key: $key}';
+  }
 }
 
 /// generated route for
@@ -635,6 +706,45 @@ class MeetingHistoryRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MeetingHistoryScreenDetails]
+class MeetingHistoryRouteDetails
+    extends PageRouteInfo<MeetingHistoryRouteDetailsArgs> {
+  MeetingHistoryRouteDetails({
+    int? id,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MeetingHistoryRouteDetails.name,
+          args: MeetingHistoryRouteDetailsArgs(
+            id: id,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MeetingHistoryRouteDetails';
+
+  static const PageInfo<MeetingHistoryRouteDetailsArgs> page =
+      PageInfo<MeetingHistoryRouteDetailsArgs>(name);
+}
+
+class MeetingHistoryRouteDetailsArgs {
+  const MeetingHistoryRouteDetailsArgs({
+    this.id,
+    this.key,
+  });
+
+  final int? id;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'MeetingHistoryRouteDetailsArgs{id: $id, key: $key}';
+  }
+}
+
+/// generated route for
 /// [NotificationsHistoryScreen]
 class NotificationsHistoryRoute extends PageRouteInfo<void> {
   const NotificationsHistoryRoute({List<PageRouteInfo>? children})
@@ -977,6 +1087,45 @@ class TaxHistoryRoute extends PageRouteInfo<void> {
   static const String name = 'TaxHistoryRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TrainingRequestScreenDetails]
+class TrainingRequestRouteDetails
+    extends PageRouteInfo<TrainingRequestRouteDetailsArgs> {
+  TrainingRequestRouteDetails({
+    String? id,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TrainingRequestRouteDetails.name,
+          args: TrainingRequestRouteDetailsArgs(
+            id: id,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TrainingRequestRouteDetails';
+
+  static const PageInfo<TrainingRequestRouteDetailsArgs> page =
+      PageInfo<TrainingRequestRouteDetailsArgs>(name);
+}
+
+class TrainingRequestRouteDetailsArgs {
+  const TrainingRequestRouteDetailsArgs({
+    this.id,
+    this.key,
+  });
+
+  final String? id;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'TrainingRequestRouteDetailsArgs{id: $id, key: $key}';
+  }
 }
 
 /// generated route for

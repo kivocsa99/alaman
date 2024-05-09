@@ -1,4 +1,3 @@
-import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/constants.dart';
 import 'package:alaman/domain/partner/model/partner.model.dart';

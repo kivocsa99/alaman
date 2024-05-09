@@ -32,8 +32,8 @@ Future<Either<ApiFailures, String?>> checkPhoneNumber(Ref ref, {String? phone, S
 }
 
 @riverpod
-Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory(Ref ref) {
-  return ref.watch(userRepositoryProvider).getMeetingHistory();
+Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory(Ref ref, {int? id}) {
+  return ref.watch(userRepositoryProvider).getMeetingHistory(id: id);
 }
 
 @riverpod
@@ -67,13 +67,13 @@ Future<Either<ApiFailures, List<ProductModel>>> getProducts(Ref ref) {
 }
 
 @riverpod
-Future<Either<ApiFailures, List<AlamanRequestModel>>> getRequests(ref) {
-  return ref.watch(userRepositoryProvider).getservices();
+Future<Either<ApiFailures, List<AlamanRequestModel>>> getRequests(Ref ref, {String? id}) {
+  return ref.watch(userRepositoryProvider).getservices(id: id);
 }
 
 @riverpod
-Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining(Ref ref) {
-  return ref.watch(userRepositoryProvider).gettraining();
+Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining(Ref ref, {String? id}) {
+  return ref.watch(userRepositoryProvider).gettraining(id: id);
 }
 
 @riverpod
@@ -95,5 +95,5 @@ Future<Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>> sear
   String? age,
   int? scholarshipTypeId,
 }) {
-  return ref.watch(userRepositoryProvider).searchBeneficiaries(genderId: genderId, cityId: cityId, educationalYearId: educationalYearId, age: age, scholarshipTypeId: scholarshipTypeId);
+  return ref.watch(userRepositoryProvider).searchBeneficiaries(genderId: genderId!, cityId: cityId!, educationalYearId: educationalYearId!, age: age!, scholarshipTypeId: scholarshipTypeId!);
 }

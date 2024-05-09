@@ -17,9 +17,9 @@ class YourGrantsScreen extends HookConsumerWidget {
   const YourGrantsScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final training = ref.watch(gettrainingProvider);
-    final requests = ref.watch(getRequestsProvider);
-        final locale = ref.watch(languageHiveNotifierProvider);
+    final training = ref.watch(gettrainingProvider(id: null));
+    final requests = ref.watch(getRequestsProvider(id: null));
+    final locale = ref.watch(languageHiveNotifierProvider);
 
     final controller = usePageController();
     return ResponsiveWidget(
@@ -30,17 +30,14 @@ class YourGrantsScreen extends HookConsumerWidget {
             appBar: CustomAppBar(
               title: "view",
               description: "viewgrants",
-              tabbar: TabBar(
-                  labelColor: const Color(0xff16437B),
-                  indicatorColor: const Color(0xff16437B),
-                  tabs: [
-                    Tab(
-                      text: "training".tr(),
-                    ),
-                    Tab(
-                      text: "services".tr(),
-                    )
-                  ]),
+              tabbar: TabBar(labelColor: const Color(0xff16437B), indicatorColor: const Color(0xff16437B), tabs: [
+                Tab(
+                  text: "training".tr(),
+                ),
+                Tab(
+                  text: "services".tr(),
+                )
+              ]),
             ),
             body: TabBarView(
               children: [
@@ -57,39 +54,21 @@ class YourGrantsScreen extends HookConsumerWidget {
                                         width: double.infinity,
                                         height: 130,
                                         padding: const EdgeInsets.all(20),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
+                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
                                         child: ResponsiveRowColumn(
-                                          layout:
-                                              ResponsiveRowColumnType.COLUMN,
-                                          columnCrossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          columnMainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          layout: ResponsiveRowColumnType.COLUMN,
+                                          columnCrossAxisAlignment: CrossAxisAlignment.start,
+                                          columnMainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             ResponsiveRowColumnItem(
                                                 child: ResponsiveRowColumn(
-                                              layout:
-                                                  ResponsiveRowColumnType.ROW,
-                                              rowMainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              layout: ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
-                                                  locale == "en"
-                                                      ? r[index].program!.name!
-                                                      : r[index]
-                                                          .program!
-                                                          .name_ar!,
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(
-                                                          color: const Color(
-                                                              0xff16437B)),
+                                                  locale == "en" ? r[index].program!.name! : r[index].program!.name_ar!,
+                                                  style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff16437B)),
                                                 )),
                                                 const ResponsiveRowColumnItem(
                                                   child: Icon(
@@ -102,42 +81,23 @@ class YourGrantsScreen extends HookConsumerWidget {
                                             ResponsiveRowColumnItem(
                                                 child: Text(
                                               "",
-                                              style: Theme.of(context)
-                                                  .primaryTextTheme
-                                                  .titleSmall!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w400),
+                                              style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(fontWeight: FontWeight.w400),
                                             )),
                                             ResponsiveRowColumnItem(
                                                 child: ResponsiveRowColumn(
-                                              layout:
-                                                  ResponsiveRowColumnType.ROW,
-                                              rowMainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              layout: ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                ResponsiveRowColumnItem(
-                                                    child: Text(
-                                                        "${"orderhistory".tr()} :${convertApiDate(r[index].created_at!)}")),
+                                                ResponsiveRowColumnItem(child: Text("${"orderhistory".tr()} :${convertApiDate(r[index].created_at!)}")),
                                                 ResponsiveRowColumnItem(
                                                     child: Container(
                                                   alignment: Alignment.center,
                                                   height: 25,
                                                   width: 70,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.green,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30)),
+                                                  decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(30)),
                                                   child: Text(
-                                                    locale == "en"
-                                                        ? r[index].status!.name!
-                                                        : r[index]
-                                                            .status!
-                                                            .name_ar!,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
+                                                    locale == "en" ? r[index].status!.name! : r[index].status!.name_ar!,
+                                                    style: const TextStyle(color: Colors.white),
                                                   ),
                                                 ))
                                               ],
@@ -147,20 +107,15 @@ class YourGrantsScreen extends HookConsumerWidget {
                                       ),
                                     ),
                                   )
-                                : const Center(
-                                    child:
-                                        Text("you don't have any new Grants"));
+                                : const Center(child: Text("you don't have any new Grants"));
                           }),
                       error: (error, stacktrace) => Text(error.toString()),
                       loading: () => Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15)),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                             width: double.infinity,
                             height: 150,
                             child: ShimmerAffect(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(15)),
+                              decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(15)),
                             ),
                           )),
                 ),
@@ -177,37 +132,21 @@ class YourGrantsScreen extends HookConsumerWidget {
                                         width: double.infinity,
                                         height: 130,
                                         padding: const EdgeInsets.all(20),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
+                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
                                         child: ResponsiveRowColumn(
-                                          layout:
-                                              ResponsiveRowColumnType.COLUMN,
-                                          columnCrossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          columnMainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          layout: ResponsiveRowColumnType.COLUMN,
+                                          columnCrossAxisAlignment: CrossAxisAlignment.start,
+                                          columnMainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             ResponsiveRowColumnItem(
                                                 child: ResponsiveRowColumn(
-                                              layout:
-                                                  ResponsiveRowColumnType.ROW,
-                                              rowMainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              layout: ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 ResponsiveRowColumnItem(
                                                     child: Text(
-                                                  locale == "en"
-                                                      ? r[index].type!.name!
-                                                      : r[index].type!.name_ar!,
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(
-                                                          color: const Color(
-                                                              0xff16437B)),
+                                                  locale == "en" ? r[index].type!.name! : r[index].type!.name_ar!,
+                                                  style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(color: const Color(0xff16437B)),
                                                 )),
                                                 const ResponsiveRowColumnItem(
                                                   child: Icon(
@@ -220,42 +159,23 @@ class YourGrantsScreen extends HookConsumerWidget {
                                             ResponsiveRowColumnItem(
                                                 child: Text(
                                               "${"notes".tr()} : ${r[index].notes ?? ""}",
-                                              style: Theme.of(context)
-                                                  .primaryTextTheme
-                                                  .titleSmall!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w400),
+                                              style: Theme.of(context).primaryTextTheme.titleSmall!.copyWith(fontWeight: FontWeight.w400),
                                             )),
                                             ResponsiveRowColumnItem(
                                                 child: ResponsiveRowColumn(
-                                              layout:
-                                                  ResponsiveRowColumnType.ROW,
-                                              rowMainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              layout: ResponsiveRowColumnType.ROW,
+                                              rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                ResponsiveRowColumnItem(
-                                                    child: Text(
-                                                        "${"orderhistory".tr()} :${convertApiDate(r[index].created_at!)}")),
+                                                ResponsiveRowColumnItem(child: Text("${"orderhistory".tr()} :${convertApiDate(r[index].created_at!)}")),
                                                 ResponsiveRowColumnItem(
                                                     child: Container(
                                                   alignment: Alignment.center,
                                                   height: 25,
                                                   width: 70,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.green,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30)),
+                                                  decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(30)),
                                                   child: Text(
-                                                    locale == "en"
-                                                        ? r[index].status!.name!
-                                                        : r[index]
-                                                            .status!
-                                                            .name_ar!,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
+                                                    locale == "en" ? r[index].status!.name! : r[index].status!.name_ar!,
+                                                    style: const TextStyle(color: Colors.white),
                                                   ),
                                                 ))
                                               ],
@@ -265,20 +185,15 @@ class YourGrantsScreen extends HookConsumerWidget {
                                       ),
                                     ),
                                   )
-                                : const Center(
-                                    child:
-                                        Text("you don't have any new Grants"));
+                                : const Center(child: Text("you don't have any new Grants"));
                           }),
                       error: (error, stacktrace) => Text(error.toString()),
                       loading: () => Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15)),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                             width: double.infinity,
                             height: 150,
                             child: ShimmerAffect(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(15)),
+                              decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(15)),
                             ),
                           )),
                 )

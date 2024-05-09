@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:alaman/application/provider/connection.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
+import 'package:alaman/constants.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
+import 'package:alaman/presentation/widgets/notifications_dialog.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -34,6 +36,7 @@ class MainScreen extends HookConsumerWidget {
           String id = parsedJson["related_data"]["ID"].toString();
           String status = parsedJson["related_data"]["StatusID"].toString();
           String notificationId = parsedJson["related_data"]["NotificationID"].toString();
+          context.router.push(pageCase(type: type, id: id));
         }
       });
       FirebaseMessaging.onMessage.listen(
@@ -46,6 +49,13 @@ class MainScreen extends HookConsumerWidget {
             String id = parsedJson["related_data"]["ID"].toString();
             String status = parsedJson["related_data"]["StatusID"].toString();
             String notificationId = parsedJson["related_data"]["NotificationID"].toString();
+            return await showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) => NotificationDialog(
+                      notificationType: type,
+                      id: id,
+                    ));
           }
         }),
       );
@@ -58,6 +68,7 @@ class MainScreen extends HookConsumerWidget {
           String id = parsedJson["related_data"]["ID"].toString();
           String status = parsedJson["related_data"]["StatusID"].toString();
           String notificationId = parsedJson["related_data"]["NotificationID"].toString();
+          context.router.push(pageCase(type: type, id: id));
         }
       });
       return null;

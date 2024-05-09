@@ -1,3 +1,4 @@
+import 'package:alaman/constants.dart';
 import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
@@ -43,7 +44,9 @@ class NotificationDialog extends HookConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(FontAwesomeIcons.check),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.router.push(pageCase(type: notificationType, id: id));
+                  },
                   color: Colors.green,
                 ),
               ],

@@ -58,7 +58,6 @@ class PaginatedBeneficiariesNotifier extends StateNotifier<PaginatedBeneficiarie
       educationalYearId: educationalYearId,
       age: age,
       scholarshipTypeId: scholarshipTypeId,
-      page: currentPage,
     );
 
     response.fold(
@@ -74,8 +73,5 @@ class PaginatedBeneficiariesNotifier extends StateNotifier<PaginatedBeneficiarie
     );
   }
 
-  void resetState() {
-    currentPage = 1;
-    state = const PaginatedBeneficiariesState();
-  }
+
 }

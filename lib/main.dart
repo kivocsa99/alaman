@@ -64,15 +64,13 @@ void main() async {
 
   if (Platform.isAndroid) {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    id = androidInfo.serialNumber;
+    id = androidInfo.data;
     print(id);
   } else {
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
     id = iosInfo.identifierForVendor.toString();
   }
-
   token = await FirebaseMessaging.instance.getToken();
-
   await Hive.initFlutter();
   Hive.registerAdapter(UserSettingsAdapter());
   Hive.registerAdapter(UserRegistrationAdapter());

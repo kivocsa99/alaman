@@ -215,7 +215,6 @@ class UserRepository implements IUserRepository {
     int? educationalYearId,
     String? age,
     int? scholarshipTypeId,
-    int page = 1, // Ensure the page parameter is added
   }) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
 
@@ -226,7 +225,6 @@ class UserRepository implements IUserRepository {
     if (age != null) queryParams.write("age=$age&");
     if (scholarshipTypeId != null) queryParams.write("scholarship_type_id=$scholarshipTypeId&");
     queryParams.write("api_token=${userSetting?.token}&");
-    queryParams.write("page=$page"); // Include the current page in the query
 
     try {
       final response = await dio.get(queryParams.toString());
@@ -518,6 +516,22 @@ class UserRepository implements IUserRepository {
         return right(response);
       } else {
         return left(ApiFailures.authFailed(message: result.data['Reason']));
+      }
+    } on DioException catch (error) {
+      return DioExceptionHandler.handleDioException(error);
+    }
+  }
+
+  @override
+  Future<Either<ApiFailures, List<BeneficiaryModel>>> searchMoreBeneficiaries({String? url}) async {
+    try {
+      final response = await dio.get(url!);
+      if (response.data['AZSVR'] == "SUCCESS") {
+        List<BeneficiaryModel> beneficiaries = (response.data['Beneficiaries']['data'] as List).map((e) => BeneficiaryModel.fromJson(e)).toList();
+
+        return right(beneficiaries);
+      } else {
+        return left(ApiFailures.authFailed(message: response.data['Reason']));
       }
     } on DioException catch (error) {
       return DioExceptionHandler.handleDioException(error);

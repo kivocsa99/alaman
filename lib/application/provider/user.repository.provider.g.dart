@@ -1134,6 +1134,143 @@ class _GetTaxesRequestProviderElement
   String? get id => (origin as GetTaxesRequestProvider).id;
 }
 
+String _$searchMoreBeneficiariesHash() =>
+    r'15b191c7ea2e98162d40aca17c3beace0f260f9f';
+
+/// See also [searchMoreBeneficiaries].
+@ProviderFor(searchMoreBeneficiaries)
+const searchMoreBeneficiariesProvider = SearchMoreBeneficiariesFamily();
+
+/// See also [searchMoreBeneficiaries].
+class SearchMoreBeneficiariesFamily
+    extends Family<AsyncValue<Either<ApiFailures, List<BeneficiaryModel>>>> {
+  /// See also [searchMoreBeneficiaries].
+  const SearchMoreBeneficiariesFamily();
+
+  /// See also [searchMoreBeneficiaries].
+  SearchMoreBeneficiariesProvider call({
+    String? url,
+  }) {
+    return SearchMoreBeneficiariesProvider(
+      url: url,
+    );
+  }
+
+  @override
+  SearchMoreBeneficiariesProvider getProviderOverride(
+    covariant SearchMoreBeneficiariesProvider provider,
+  ) {
+    return call(
+      url: provider.url,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'searchMoreBeneficiariesProvider';
+}
+
+/// See also [searchMoreBeneficiaries].
+class SearchMoreBeneficiariesProvider extends AutoDisposeFutureProvider<
+    Either<ApiFailures, List<BeneficiaryModel>>> {
+  /// See also [searchMoreBeneficiaries].
+  SearchMoreBeneficiariesProvider({
+    String? url,
+  }) : this._internal(
+          (ref) => searchMoreBeneficiaries(
+            ref as SearchMoreBeneficiariesRef,
+            url: url,
+          ),
+          from: searchMoreBeneficiariesProvider,
+          name: r'searchMoreBeneficiariesProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$searchMoreBeneficiariesHash,
+          dependencies: SearchMoreBeneficiariesFamily._dependencies,
+          allTransitiveDependencies:
+              SearchMoreBeneficiariesFamily._allTransitiveDependencies,
+          url: url,
+        );
+
+  SearchMoreBeneficiariesProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.url,
+  }) : super.internal();
+
+  final String? url;
+
+  @override
+  Override overrideWith(
+    FutureOr<Either<ApiFailures, List<BeneficiaryModel>>> Function(
+            SearchMoreBeneficiariesRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SearchMoreBeneficiariesProvider._internal(
+        (ref) => create(ref as SearchMoreBeneficiariesRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        url: url,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Either<ApiFailures, List<BeneficiaryModel>>>
+      createElement() {
+    return _SearchMoreBeneficiariesProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SearchMoreBeneficiariesProvider && other.url == url;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, url.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin SearchMoreBeneficiariesRef on AutoDisposeFutureProviderRef<
+    Either<ApiFailures, List<BeneficiaryModel>>> {
+  /// The parameter `url` of this provider.
+  String? get url;
+}
+
+class _SearchMoreBeneficiariesProviderElement
+    extends AutoDisposeFutureProviderElement<
+        Either<ApiFailures, List<BeneficiaryModel>>>
+    with SearchMoreBeneficiariesRef {
+  _SearchMoreBeneficiariesProviderElement(super.provider);
+
+  @override
+  String? get url => (origin as SearchMoreBeneficiariesProvider).url;
+}
+
 String _$searchBeneficiariesHash() =>
     r'4f73617eb221f6adbb12abff0bc5b3d20e07d7dd';
 

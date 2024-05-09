@@ -55,32 +55,21 @@ class FilteredScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
-    final state = ref.watch(paginatedBeneficiariesNotifierProvider);
-
+    final state = ref.watch(searchBeneficiariesProvider(
+      genderId: genderId,
+      cityId: cityId,
+      educationalYearId: educationalYearId,
+      age: age,
+      scholarshipTypeId: scholarshipTypeId,
+    ));
+    final url = useState<String?>("");
     // Trigger initial data fetch if not already loaded.
+    final newlist = useState<List<BeneficiaryModel>>([]);
     useEffect(() {
-      final notifier = ref.read(paginatedBeneficiariesNotifierProvider.notifier);
-      notifier.fetchBeneficiaries(
-        genderId: genderId,
-        cityId: cityId,
-        educationalYearId: educationalYearId,
-        age: age,
-        scholarshipTypeId: scholarshipTypeId,
-      );
-      return null;
-    }, []);
-
-    useEffect(() {
-      void onScroll() {
-        if (scrollController.position.atEdge && scrollController.position.pixels == scrollController.position.maxScrollExtent && !state.hasReachedMax) {
-          ref.read(paginatedBeneficiariesNotifierProvider.notifier).fetchBeneficiaries(
-                genderId: genderId,
-                cityId: cityId,
-                educationalYearId: educationalYearId,
-                age: age,
-                scholarshipTypeId: scholarshipTypeId,
-                isNextPage: true,
-              );
+      void onScroll() async {
+        if (scrollController.position.atEdge && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+          final search = await ref.read(searchMoreBeneficiariesProvider(url: url.value).future);
+          return search.fold((l) => null, (r) => newlist.value = r);
         }
       }
 
@@ -100,7 +89,6 @@ class FilteredScreen extends HookConsumerWidget {
     final currentDonationTotal = useState<double>(0.0);
     final selectedBeneficiaryIds = useState<List<int>>([]);
     final isLoading = useState(false);
-
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: isCorporate != null
@@ -147,170 +135,176 @@ class FilteredScreen extends HookConsumerWidget {
             : null,
         appBar: const CustomAppBar(title: "donate", description: "choosebeneficiary"),
         body: ResponsiveWidget(
-          child: GridView.builder(
-            padding: const EdgeInsets.all(10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.8,
-            ),
-            controller: scrollController,
-            itemCount: state.hasReachedMax ? state.beneficiaries.length : state.beneficiaries.length + 1,
-            itemBuilder: (context, index) {
-              if (index >= state.beneficiaries.length) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final beneficiary = state.beneficiaries[index];
-
-              void handleSelectionChanged(BeneficiaryModel beneficiaryItem, bool isSelected) {
-                final donationGoal = beneficiaryItem.donations_goal?.toDouble() ?? 0.0;
-                final currentPayments = beneficiaryItem.beneficiary_payments?.fold(0.0, (sum, current) => sum + (current.amount?.toDouble() ?? 0.0)) ?? 0.0;
-                final neededAmount = donationGoal - currentPayments;
-                final newTotalDonation = isSelected ? currentDonationTotal.value + neededAmount : currentDonationTotal.value - neededAmount;
-
-                if (newTotalDonation <= (donationAmount ?? double.infinity)) {
-                  currentDonationTotal.value = newTotalDonation;
-                  selectedBeneficiaries.value = {
-                    ...selectedBeneficiaries.value,
-                    beneficiaryItem.id.toString(): isSelected,
-                  };
-                  if (isSelected) {
-                    selectedBeneficiaryIds.value = [...selectedBeneficiaryIds.value, beneficiaryItem.id];
-                  } else {
-                    selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficiaryItem.id).toList();
-                  }
-                } else if (!isSelected) {
-                  currentDonationTotal.value = newTotalDonation;
-                  selectedBeneficiaries.value = {
-                    ...selectedBeneficiaries.value,
-                    beneficiaryItem.id.toString(): isSelected,
-                  };
-                  selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficiaryItem.id).toList();
-                } else {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) => AlertDialog(
-                      title: SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: SvgPicture.asset("assets/try1.svg"),
+          child: state.when(
+              data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
+                    url.value = r.item2 ?? null;
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(10),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.8,
                       ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "You have exceeded the amount you specified",
-                            style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
-                          ),
-                          AuthContainer(
-                            raduis: 50,
-                            height: 50,
-                            onTap: () async {
-                              context.router.maybePop();
-                            },
-                            color: const Color(0xffFFC629),
-                            child: Text(
-                              "back",
-                              style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
-                            ).tr(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-              }
+                      controller: scrollController,
+                      itemCount: r.item2 == null ? r.item1.length : r.item1.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index >= r.item1.length) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        final beneficiary = r.item1[index];
 
-              return isCorporate == null
-                  ? GestureDetector(
-                      onTap: () => context.router.push(SposnerRoute(profileById: beneficiary.id.toString(), isdonor: isCorporate ?? false)),
-                      child: Container(
-                        width: double.infinity,
-                        height: 250.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: colorsList.value[randomNumber],
-                        ),
-                        child: Stack(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Image.network(
-                                '$storageUrl/${beneficiary.image}',
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    stops: [0, 5],
-                                    colors: [
-                                      Colors.white,
-                                      colorsList.value[randomNumber].withOpacity(0.3),
-                                    ],
-                                  ),
+                        void handleSelectionChanged(BeneficiaryModel beneficiaryItem, bool isSelected) {
+                          final donationGoal = beneficiaryItem.donations_goal?.toDouble() ?? 0.0;
+                          final currentPayments = beneficiaryItem.beneficiary_payments?.fold(0.0, (sum, current) => sum + (current.amount?.toDouble() ?? 0.0)) ?? 0.0;
+                          final neededAmount = donationGoal - currentPayments;
+                          final newTotalDonation = isSelected ? currentDonationTotal.value + neededAmount : currentDonationTotal.value - neededAmount;
+
+                          if (newTotalDonation <= (donationAmount ?? double.infinity)) {
+                            currentDonationTotal.value = newTotalDonation;
+                            selectedBeneficiaries.value = {
+                              ...selectedBeneficiaries.value,
+                              beneficiaryItem.id.toString(): isSelected,
+                            };
+                            if (isSelected) {
+                              selectedBeneficiaryIds.value = [...selectedBeneficiaryIds.value, beneficiaryItem.id];
+                            } else {
+                              selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficiaryItem.id).toList();
+                            }
+                          } else if (!isSelected) {
+                            currentDonationTotal.value = newTotalDonation;
+                            selectedBeneficiaries.value = {
+                              ...selectedBeneficiaries.value,
+                              beneficiaryItem.id.toString(): isSelected,
+                            };
+                            selectedBeneficiaryIds.value = selectedBeneficiaryIds.value.where((id) => id != beneficiaryItem.id).toList();
+                          } else {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => AlertDialog(
+                                title: SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: SvgPicture.asset("assets/try1.svg"),
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
                                     Text(
-                                      locale == "en" ? beneficiary.name ?? 'Unknown Name' : beneficiary.name_ar ?? 'Unknown Name',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      "You have exceeded the amount you specified",
+                                      style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                                     ),
-                                    Text(
-                                      beneficiary.address ?? 'No Address',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                      ),
+                                    AuthContainer(
+                                      raduis: 50,
+                                      height: 50,
+                                      onTap: () async {
+                                        context.router.maybePop();
+                                      },
+                                      color: const Color(0xffFFC629),
+                                      child: Text(
+                                        "back",
+                                        style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
+                                      ).tr(),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(10),
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
+                            );
+                          }
+                        }
+
+                        return isCorporate == null
+                            ? GestureDetector(
+                                onTap: () => context.router.push(SposnerRoute(profileById: beneficiary.id.toString(), isdonor: isCorporate ?? false)),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 250.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: colorsList.value[randomNumber],
+                                  ),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Image.network(
+                                          '$storageUrl/${beneficiary.image}',
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Container(
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topCenter,
+                                              stops: [0, 5],
+                                              colors: [
+                                                Colors.white,
+                                                colorsList.value[randomNumber].withOpacity(0.3),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                locale == "en" ? beneficiary.name ?? 'Unknown Name' : beneficiary.name_ar ?? 'Unknown Name',
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                beneficiary.address ?? 'No Address',
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 10,
+                                        right: 10,
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.search,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                child: const Icon(
-                                  Icons.search,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : BeneficiaryListItem(
-                      beneficiary: beneficiary,
-                      initiallySelected: selectedBeneficiaries.value[beneficiary.id.toString()] ?? false,
-                      onSelectionChanged: (isSelected) => handleSelectionChanged(beneficiary, isSelected ?? false),
-                      currentTotalDonation: currentDonationTotal.value,
-                      donationLimit: donationAmount!.toDouble(),
+                              )
+                            : BeneficiaryListItem(
+                                beneficiary: beneficiary,
+                                initiallySelected: selectedBeneficiaries.value[beneficiary.id.toString()] ?? false,
+                                onSelectionChanged: (isSelected) => handleSelectionChanged(beneficiary, isSelected ?? false),
+                                currentTotalDonation: currentDonationTotal.value,
+                                donationLimit: donationAmount!.toDouble(),
+                              );
+                      },
                     );
-            },
-          ),
+                  }),
+              error: (error, stackTrace) => Text(error.toString()),
+              loading: () => const CircularProgressIndicator()),
         ),
       ),
     );

@@ -476,7 +476,6 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 height: 50,
                                 onTap: () async {
                                   final notifier = ref.read(paginatedBeneficiariesNotifierProvider.notifier);
-                                  notifier.resetState();
                                   context.router.maybePop();
                                   context.router.push(FilteredRoute(
                                       genderId: genderId.value,

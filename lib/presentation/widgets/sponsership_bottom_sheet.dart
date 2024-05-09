@@ -916,8 +916,6 @@ class SponserShipBottomSheet extends HookConsumerWidget {
                                                   raduis: 50,
                                                   height: 50,
                                                   onTap: () {
-                                                    final notifier = ref.read(paginatedBeneficiariesNotifierProvider.notifier);
-                                                    notifier.resetState();
                                                     context.router.maybePop();
                                                     context.router.push(FilteredRoute(
                                                         startDate: startDate.value,

@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: "none"
 
-version: 3.2.3+1
+version: 3.2.5+1
 
 environment:
   sdk: ">=3.3.1 <4.0.0"
@@ -45,9 +45,9 @@ dependencies:
   lottie: ^3.1.0
   sign_in_with_apple: ^6.0.0
   google_sign_in: ^6.2.1
-  firebase_core: ^2.28.0
+  firebase_core: ^2.31.0
   video_player: ^2.8.4
-  firebase_messaging: ^14.8.0
+  firebase_messaging: ^14.9.2
   device_info_plus: ^10.0.1
   flutter_native_splash: ^2.4.0
   google_maps_flutter: ^2.2.8

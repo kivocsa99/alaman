@@ -87,7 +87,7 @@ Future<Either<ApiFailures, dynamic>> getTaxesRequest(Ref ref, {String? id}) {
 }
 
 @riverpod
-Future<Either<ApiFailures, List<BeneficiaryModel>>> searchMoreBeneficiaries(
+Future<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> searchMoreBeneficiaries(
   Ref ref, {
   String? url,
   }) {

@@ -64,12 +64,12 @@ class FilteredScreen extends HookConsumerWidget {
     ));
     final url = useState<String?>("");
     // Trigger initial data fetch if not already loaded.
-    final newlist = useState<List<BeneficiaryModel>>([]);
+    final benList = useState<List<BeneficiaryModel>>([]);
     useEffect(() {
       void onScroll() async {
         if (scrollController.position.atEdge && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
           final search = await ref.read(searchMoreBeneficiariesProvider(url: url.value).future);
-          return search.fold((l) => null, (r) => newlist.value = r);
+          return search.fold((l) => null, (r) => benList.value = [...benList.value, ...r]);
         }
       }
 
@@ -137,7 +137,9 @@ class FilteredScreen extends HookConsumerWidget {
         body: ResponsiveWidget(
           child: state.when(
               data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
-                    url.value = r.item2 ?? null;
+                    url.value = r.item2;
+                                          benList.value= [...benList.value, ...r.item1];
+
                     return GridView.builder(
                       padding: const EdgeInsets.all(10),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -147,12 +149,12 @@ class FilteredScreen extends HookConsumerWidget {
                         childAspectRatio: 0.8,
                       ),
                       controller: scrollController,
-                      itemCount: r.item2 == null ? r.item1.length : r.item1.length + 1,
+                      itemCount: r.item2 == null ? benList.value.length : benList.value.length + 1,
                       itemBuilder: (context, index) {
-                        if (index >= r.item1.length) {
+                        if (index >= benList.value.length) {
                           return const Center(child: CircularProgressIndicator());
                         }
-                        final beneficiary = r.item1[index];
+                        final beneficiary = benList.value[index];
 
                         void handleSelectionChanged(BeneficiaryModel beneficiaryItem, bool isSelected) {
                           final donationGoal = beneficiaryItem.donations_goal?.toDouble() ?? 0.0;

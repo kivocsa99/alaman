@@ -229,6 +229,7 @@ class UserRepository implements IUserRepository {
     try {
       final response = await dio.get(queryParams.toString());
       if (response.data['AZSVR'] == "SUCCESS") {
+        print(response.realUri);
         List<BeneficiaryModel> beneficiaries = (response.data['Beneficiaries']['data'] as List).map((e) => BeneficiaryModel.fromJson(e)).toList();
         String? nextUrl = response.data['Beneficiaries']['next_page_url'];
         bool? isCriteriaAdjusted = response.data['search_adjusted'];
@@ -523,13 +524,15 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, List<BeneficiaryModel>>> searchMoreBeneficiaries({String? url}) async {
+  Future<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> searchMoreBeneficiaries({String? url}) async {
     try {
       final response = await dio.get(url!);
-      if (response.data['AZSVR'] == "SUCCESS") {
-        List<BeneficiaryModel> beneficiaries = (response.data['Beneficiaries']['data'] as List).map((e) => BeneficiaryModel.fromJson(e)).toList();
 
-        return right(beneficiaries);
+      if (response.data['AZSVR'] == "SUCCESS") {
+        print(response.realUri);
+        List<BeneficiaryModel> beneficiaries = (response.data['Beneficiaries']['data'] as List).map((e) => BeneficiaryModel.fromJson(e)).toList();
+        String? nextUrl = response.data['Beneficiaries']['next_page_url'];
+        return right(Tuple2(beneficiaries,nextUrl));
       } else {
         return left(ApiFailures.authFailed(message: response.data['Reason']));
       }

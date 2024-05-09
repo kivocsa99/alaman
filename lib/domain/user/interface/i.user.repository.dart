@@ -38,7 +38,7 @@ abstract class IUserRepository {
   Future<Either<ApiFailures, String>> checkPhoneNumber({required String phone, required String? value});
   Future<Either<ApiFailures, List<ProductModel>>> getProducts();
   Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory({int? id});
-  Future<Either<ApiFailures, List<BeneficiaryModel>>> searchMoreBeneficiaries({
+  Future<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> searchMoreBeneficiaries({
     String? url,
   });
   Future<Either<ApiFailures, List<TrainingRequestModel>>> gettraining({String? id});

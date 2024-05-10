@@ -1,5 +1,6 @@
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.dart';
 import 'package:alaman/application/donation/init_donation_use_case/init_donation_use_case.input.dart';
+import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/presentation/screens/main_screen.dart';
 import 'package:alaman/presentation/widgets/time_picker_bottom_sheet.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -47,6 +48,7 @@ class LocationCheckerScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locationFuture = useMemoized(getCurrentLocation);
     final snapshot = useFuture(locationFuture);
+        final locale = ref.watch(languageHiveNotifierProvider);
 
     print(snapshot.data);
     final isLoading = useState(false);
@@ -59,7 +61,7 @@ class LocationCheckerScreen extends HookConsumerWidget {
     final markpointer = useState(snapshot.data ?? const LatLng(31.9539, 35.9106));
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      floatingActionButtonLocation:locale=="en"? FloatingActionButtonLocation.startDocked:FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await showModalBottomSheet(context: context, builder:(context) => TimePickerBottomSheet(

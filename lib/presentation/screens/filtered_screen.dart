@@ -152,7 +152,7 @@ class FilteredScreen extends HookConsumerWidget {
                         isFirstLoad.value = false; // Mark the initial load as done
                       });
                       print(r.item3);
-                      if (r.item3 == false) {
+                      if (r.item3 == true) {
                         WidgetsBinding.instance.addPostFrameCallback((_) async {
                           await showDialog(
                             context: context,

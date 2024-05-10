@@ -75,7 +75,7 @@ class TimePickerBottomSheet extends HookConsumerWidget {
                           ),
                         ),
                         Text(
-                          "Pick Time",
+                          "picktime",
                           textAlign: TextAlign.center,
                           style: Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(fontSize: 20, color: const Color(0xff16437B), fontWeight: FontWeight.bold),
                         ).tr(),

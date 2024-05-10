@@ -92,10 +92,12 @@ class MainScreen extends HookConsumerWidget {
                 child: SvgPicture.asset("assets/try1.svg"),
               ),
               content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     "donepayment",
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
                   ).tr(),
                   AuthContainer(

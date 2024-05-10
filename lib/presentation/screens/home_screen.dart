@@ -18,7 +18,6 @@ import 'package:alaman/presentation/widgets/sponsership_slider.dart';
 import 'package:alaman/routes/app_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +38,7 @@ class HomeScreen extends HookConsumerWidget {
     final generic = ref.watch(getGenericProvider);
     final profile = ref.watch(getProfileProvider);
     final userSetting = ref.watch(settingHiveNotifierProvider);
+    final notifications = ref.watch(getNotificationsHistoryProvider);
     final controller1 = useAnimationController(duration: const Duration(seconds: 2));
     final controller2 = useAnimationController(duration: const Duration(seconds: 2));
     final controller3 = useAnimationController(duration: const Duration(seconds: 2));
@@ -85,11 +85,12 @@ class HomeScreen extends HookConsumerWidget {
               data: (data) => data.fold(
                   (l) => null,
                   (r) => Padding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 10),
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Gap(10),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                 child: ResponsiveRowColumn(
@@ -132,15 +133,37 @@ class HomeScreen extends HookConsumerWidget {
                                       offset: const Offset(4, 0),
                                       child: GestureDetector(
                                         onTap: () => context.router.push(NotificationsHistoryRoute()),
-                                        child: Container(
-                                          height: 50,
-                                          width: 50,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffFFC629)),
-                                          child: const Icon(
-                                            FontAwesomeIcons.bell,
-                                            color: Colors.white,
-                                          ),
+                                        child: Stack(
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffFFC629)),
+                                              child: const Icon(
+                                                FontAwesomeIcons.bell,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Positioned(
+                                                right: -10,
+                                                top: -5,
+                                                child: Container(
+                                                    alignment: Alignment.center,
+                                                    height: 20,
+                                                    width: 20,
+                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.red),
+                                                    child: notifications.maybeWhen(
+                                                      orElse: () => Text(""),
+                                                      data: (data) => data.fold(
+                                                          (l) => Text("??"),
+                                                          (r) => Text(
+                                                                "${r.length}",
+                                                                style: TextStyle(color: Colors.white),
+                                                              )),
+                                                    )))
+                                          ],
                                         ),
                                       ),
                                     ))

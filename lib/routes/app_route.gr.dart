@@ -41,7 +41,8 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     FilteredRoute.name: (routeData) {
-      final args = routeData.argsAs<FilteredRouteArgs>();
+      final args = routeData.argsAs<FilteredRouteArgs>(
+          orElse: () => const FilteredRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: FilteredScreen(
@@ -392,11 +393,11 @@ class BeneficiaryProfileRouteArgs {
 /// [FilteredScreen]
 class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
   FilteredRoute({
-    required int genderId,
-    required int cityId,
-    required int educationalYearId,
-    required String age,
-    required int scholarshipTypeId,
+    int? genderId,
+    int? cityId,
+    int? educationalYearId,
+    String? age,
+    int? scholarshipTypeId,
     bool? isCorporate,
     int? donationAmount,
     int? endAmount,
@@ -438,11 +439,11 @@ class FilteredRoute extends PageRouteInfo<FilteredRouteArgs> {
 
 class FilteredRouteArgs {
   const FilteredRouteArgs({
-    required this.genderId,
-    required this.cityId,
-    required this.educationalYearId,
-    required this.age,
-    required this.scholarshipTypeId,
+    this.genderId,
+    this.cityId,
+    this.educationalYearId,
+    this.age,
+    this.scholarshipTypeId,
     this.isCorporate,
     this.donationAmount,
     this.endAmount,
@@ -455,15 +456,15 @@ class FilteredRouteArgs {
     this.key,
   });
 
-  final int genderId;
+  final int? genderId;
 
-  final int cityId;
+  final int? cityId;
 
-  final int educationalYearId;
+  final int? educationalYearId;
 
-  final String age;
+  final String? age;
 
-  final int scholarshipTypeId;
+  final int? scholarshipTypeId;
 
   final bool? isCorporate;
 

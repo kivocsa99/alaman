@@ -43,11 +43,11 @@ class SponserShipBottomSheet extends HookConsumerWidget {
     modifiableList.insert(0, const DonationFrequencyModel(id: -1, name: "One time donation", name_ar: "التبرع لمرة واحدة"));
 
     final year = useState("year".tr());
-    final yearId = useState(0);
+    final yearId = useState<int?>(null);
     final gender = useState("gender".tr());
-    final genderId = useState(0);
+    final genderId = useState<int?>(null);
     final city = useState("governate".tr());
-    final cityId = useState(0);
+    final cityId = useState<int?>(null);
     final age = useState("age".tr());
     final formKey = useState(GlobalKey<FormState>());
     var viewInsets = MediaQuery.of(context).viewInsets.bottom;
@@ -929,7 +929,7 @@ class SponserShipBottomSheet extends HookConsumerWidget {
                                                         genderId: genderId.value,
                                                         cityId: cityId.value,
                                                         educationalYearId: yearId.value,
-                                                        age: age.value == "age".tr() ? "18" : age.value,
+                                                        age: age.value == "age".tr() ? null : age.value,
                                                         scholarshipTypeId: typeId1.value));
                                                   },
                                                   color: const Color(0xffFFC629),

@@ -224,7 +224,7 @@ class UserRepository implements IUserRepository {
     if (educationalYearId != null) queryParams.write("educational_year_id=$educationalYearId&");
     if (age != null) queryParams.write("age=$age&");
     if (scholarshipTypeId != null) queryParams.write("scholarship_type_id=$scholarshipTypeId&");
-    queryParams.write("api_token=${userSetting?.token}&");
+    queryParams.write("api_token=${userSetting?.token}");
 
     try {
       final response = await dio.get(queryParams.toString());

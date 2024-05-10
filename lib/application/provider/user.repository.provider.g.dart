@@ -1135,15 +1135,15 @@ class _GetTaxesRequestProviderElement
 }
 
 String _$searchMoreBeneficiariesHash() =>
-    r'15b191c7ea2e98162d40aca17c3beace0f260f9f';
+    r'4e980fa9bebfc1f784b3ced3d35c230bc4d36349';
 
 /// See also [searchMoreBeneficiaries].
 @ProviderFor(searchMoreBeneficiaries)
 const searchMoreBeneficiariesProvider = SearchMoreBeneficiariesFamily();
 
 /// See also [searchMoreBeneficiaries].
-class SearchMoreBeneficiariesFamily
-    extends Family<AsyncValue<Either<ApiFailures, List<BeneficiaryModel>>>> {
+class SearchMoreBeneficiariesFamily extends Family<
+    AsyncValue<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>> {
   /// See also [searchMoreBeneficiaries].
   const SearchMoreBeneficiariesFamily();
 
@@ -1182,7 +1182,7 @@ class SearchMoreBeneficiariesFamily
 
 /// See also [searchMoreBeneficiaries].
 class SearchMoreBeneficiariesProvider extends AutoDisposeFutureProvider<
-    Either<ApiFailures, List<BeneficiaryModel>>> {
+    Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> {
   /// See also [searchMoreBeneficiaries].
   SearchMoreBeneficiariesProvider({
     String? url,
@@ -1217,8 +1217,8 @@ class SearchMoreBeneficiariesProvider extends AutoDisposeFutureProvider<
 
   @override
   Override overrideWith(
-    FutureOr<Either<ApiFailures, List<BeneficiaryModel>>> Function(
-            SearchMoreBeneficiariesRef provider)
+    FutureOr<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
+            Function(SearchMoreBeneficiariesRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -1236,7 +1236,8 @@ class SearchMoreBeneficiariesProvider extends AutoDisposeFutureProvider<
   }
 
   @override
-  AutoDisposeFutureProviderElement<Either<ApiFailures, List<BeneficiaryModel>>>
+  AutoDisposeFutureProviderElement<
+          Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
       createElement() {
     return _SearchMoreBeneficiariesProviderElement(this);
   }
@@ -1256,14 +1257,14 @@ class SearchMoreBeneficiariesProvider extends AutoDisposeFutureProvider<
 }
 
 mixin SearchMoreBeneficiariesRef on AutoDisposeFutureProviderRef<
-    Either<ApiFailures, List<BeneficiaryModel>>> {
+    Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> {
   /// The parameter `url` of this provider.
   String? get url;
 }
 
 class _SearchMoreBeneficiariesProviderElement
     extends AutoDisposeFutureProviderElement<
-        Either<ApiFailures, List<BeneficiaryModel>>>
+        Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>>
     with SearchMoreBeneficiariesRef {
   _SearchMoreBeneficiariesProviderElement(super.provider);
 
@@ -1272,7 +1273,7 @@ class _SearchMoreBeneficiariesProviderElement
 }
 
 String _$searchBeneficiariesHash() =>
-    r'4f73617eb221f6adbb12abff0bc5b3d20e07d7dd';
+    r'05ab4129f868563e6a80eecf4830523832baf849';
 
 /// See also [searchBeneficiaries].
 @ProviderFor(searchBeneficiaries)

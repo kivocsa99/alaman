@@ -19,10 +19,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class FilteredScreen extends HookConsumerWidget {
-  final int genderId;
-  final int cityId;
-  final int educationalYearId;
-  final String age;
+  final int? genderId;
+  final int? cityId;
+  final int? educationalYearId;
+  final String? age;
   final int? endAmount;
   final int? sponsershipEnd;
   final int? sponsershipSart;
@@ -31,15 +31,15 @@ class FilteredScreen extends HookConsumerWidget {
   final int? recuring;
   final String? startDate;
   final String? endDate;
-  final int scholarshipTypeId;
+  final int? scholarshipTypeId;
   final int? donationFrequencyId;
 
   const FilteredScreen({
-    required this.genderId,
-    required this.cityId,
-    required this.educationalYearId,
-    required this.age,
-    required this.scholarshipTypeId,
+    this.genderId,
+    this.cityId,
+    this.educationalYearId,
+    this.age,
+    this.scholarshipTypeId,
     this.isCorporate,
     this.donationAmount,
     this.endAmount,
@@ -63,19 +63,27 @@ class FilteredScreen extends HookConsumerWidget {
       scholarshipTypeId: scholarshipTypeId,
     ));
     final url = useState<String?>("");
+    final isFirstLoad = useState(true);
+
     // Trigger initial data fetch if not already loaded.
     final benList = useState<List<BeneficiaryModel>>([]);
     useEffect(() {
       void onScroll() async {
         if (scrollController.position.atEdge && scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-          final search = await ref.read(searchMoreBeneficiariesProvider(url: url.value).future);
-          return search.fold((l) => null, (r) => benList.value = [...benList.value, ...r]);
+          if (url.value != null) {
+            final search = await ref.read(searchMoreBeneficiariesProvider(url: url.value).future);
+            return search.fold((l) => null, (r) {
+              url.value = r.item2;
+              benList.value = [...benList.value, ...r.item1];
+              print(url.value);
+            });
+          }
         }
       }
 
-      scrollController.addListener(onScroll);
+      url.value != null ? scrollController.addListener(onScroll) : null;
       return () => scrollController.removeListener(onScroll);
-    }, [scrollController]);
+    }, [scrollController, url.value]);
 
     final locale = ref.watch(languageHiveNotifierProvider);
     Random random = Random();
@@ -137,8 +145,13 @@ class FilteredScreen extends HookConsumerWidget {
         body: ResponsiveWidget(
           child: state.when(
               data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
-                    url.value = r.item2;
-                                          benList.value= [...benList.value, ...r.item1];
+                    if (isFirstLoad.value) {
+                      data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
+                        url.value = r.item2;
+                        benList.value = r.item1;
+                        isFirstLoad.value = false; // Mark the initial load as done
+                      });
+                    }
 
                     return GridView.builder(
                       padding: const EdgeInsets.all(10),
@@ -149,11 +162,8 @@ class FilteredScreen extends HookConsumerWidget {
                         childAspectRatio: 0.8,
                       ),
                       controller: scrollController,
-                      itemCount: r.item2 == null ? benList.value.length : benList.value.length + 1,
+                      itemCount: benList.value.length,
                       itemBuilder: (context, index) {
-                        if (index >= benList.value.length) {
-                          return const Center(child: CircularProgressIndicator());
-                        }
                         final beneficiary = benList.value[index];
 
                         void handleSelectionChanged(BeneficiaryModel beneficiaryItem, bool isSelected) {
@@ -305,7 +315,7 @@ class FilteredScreen extends HookConsumerWidget {
                       },
                     );
                   }),
-              error: (error, stackTrace) => Text(error.toString()),
+              error: (error, stackTrace) => Text(stackTrace.toString()),
               loading: () => const CircularProgressIndicator()),
         ),
       ),

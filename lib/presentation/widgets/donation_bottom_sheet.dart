@@ -40,11 +40,11 @@ class DonationBottomSheet extends HookConsumerWidget {
     final type = useState(locale == "en" ? scholarships![selectedIndex.value].name! : scholarships![selectedIndex.value].name_ar!);
     final typeId = useState(scholarships![selectedIndex.value].id!);
     final year = useState("year".tr());
-    final yearId = useState(0);
+    final yearId = useState<int?>(null);
     final gender = useState("gender".tr());
-    final genderId = useState(0);
+    final genderId = useState<int?>(null);
     final city = useState("governate".tr());
-    final cityId = useState(0);
+    final cityId = useState<int?>(null);
     final age = useState("age".tr());
     return Container(
       width: double.infinity,
@@ -475,14 +475,14 @@ class DonationBottomSheet extends HookConsumerWidget {
                                 raduis: 50,
                                 height: 50,
                                 onTap: () async {
-                                  final notifier = ref.read(paginatedBeneficiariesNotifierProvider.notifier);
+                                  print("object");
                                   context.router.maybePop();
                                   context.router.push(FilteredRoute(
                                       genderId: genderId.value,
                                       cityId: cityId.value,
                                       isCorporate: null,
                                       educationalYearId: yearId.value,
-                                      age: age.value == "age".tr() ? "18" : age.value,
+                                      age: age.value == "age".tr() ? null : age.value,
                                       scholarshipTypeId: typeId.value));
                                 },
                                 color: const Color(0xffFFC629),

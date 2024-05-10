@@ -90,8 +90,8 @@ Future<Either<ApiFailures, dynamic>> getTaxesRequest(Ref ref, {String? id}) {
 Future<Either<ApiFailures, Tuple2<List<BeneficiaryModel>, String?>>> searchMoreBeneficiaries(
   Ref ref, {
   String? url,
-  }) {
-  return ref.watch(userRepositoryProvider).searchMoreBeneficiaries(url:url);
+}) {
+  return ref.watch(userRepositoryProvider).searchMoreBeneficiaries(url: url);
 }
 
 @riverpod
@@ -103,5 +103,5 @@ Future<Either<ApiFailures, Tuple3<List<BeneficiaryModel>, String?, bool?>>> sear
   String? age,
   int? scholarshipTypeId,
 }) {
-  return ref.watch(userRepositoryProvider).searchBeneficiaries(genderId: genderId!, cityId: cityId!, educationalYearId: educationalYearId!, age: age!, scholarshipTypeId: scholarshipTypeId!);
+  return ref.watch(userRepositoryProvider).searchBeneficiaries(genderId: genderId, cityId: cityId, educationalYearId: educationalYearId, age: age, scholarshipTypeId: scholarshipTypeId);
 }

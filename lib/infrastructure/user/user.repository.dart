@@ -532,7 +532,7 @@ class UserRepository implements IUserRepository {
         print(response.realUri);
         List<BeneficiaryModel> beneficiaries = (response.data['Beneficiaries']['data'] as List).map((e) => BeneficiaryModel.fromJson(e)).toList();
         String? nextUrl = response.data['Beneficiaries']['next_page_url'];
-        return right(Tuple2(beneficiaries,nextUrl));
+        return right(Tuple2(beneficiaries, nextUrl));
       } else {
         return left(ApiFailures.authFailed(message: response.data['Reason']));
       }

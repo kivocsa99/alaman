@@ -151,6 +151,44 @@ class FilteredScreen extends HookConsumerWidget {
                         benList.value = r.item1;
                         isFirstLoad.value = false; // Mark the initial load as done
                       });
+                      print(r.item3);
+                      if (r.item3 == false) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                          await showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => AlertDialog(
+                              title: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Lottie.asset("assets/nodata.json"),
+                              ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "nobeneficaires",
+                                    style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: const Color(0xff16437B)),
+                                  ).tr(),
+                                  AuthContainer(
+                                    raduis: 50,
+                                    height: 50,
+                                    onTap: () async {
+                                      context.router.maybePop();
+                                    },
+                                    color: const Color(0xffFFC629),
+                                    child: Text(
+                                      "back",
+                                      style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
+                                    ).tr(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                          // Remember to reset the flag if necessary to prevent repeated dialogs.
+                        });
+                      }
                     }
 
                     return GridView.builder(

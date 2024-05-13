@@ -331,7 +331,7 @@ class _GetMeetingHistoryProviderElement
   int? get id => (origin as GetMeetingHistoryProvider).id;
 }
 
-String _$getScheduleHash() => r'ba799a2c41efb0aca661111c7216bce101fba867';
+String _$getScheduleHash() => r'1ab4c13d958015ec8262cd39de1fccc435d4aa05';
 
 /// See also [getSchedule].
 @ProviderFor(getSchedule)
@@ -345,7 +345,7 @@ class GetScheduleFamily extends Family<
 
   /// See also [getSchedule].
   GetScheduleProvider call({
-    double? amount,
+    int? amount,
     String? endate,
     String? startDate,
     String? donationfrequencyid,
@@ -390,7 +390,7 @@ class GetScheduleProvider extends AutoDisposeFutureProvider<
     Either<ApiFailures, Tuple2<List<String>, String>>> {
   /// See also [getSchedule].
   GetScheduleProvider({
-    double? amount,
+    int? amount,
     String? endate,
     String? startDate,
     String? donationfrequencyid,
@@ -430,7 +430,7 @@ class GetScheduleProvider extends AutoDisposeFutureProvider<
     required this.donationfrequencyid,
   }) : super.internal();
 
-  final double? amount;
+  final int? amount;
   final String? endate;
   final String? startDate;
   final String? donationfrequencyid;
@@ -488,7 +488,7 @@ class GetScheduleProvider extends AutoDisposeFutureProvider<
 mixin GetScheduleRef on AutoDisposeFutureProviderRef<
     Either<ApiFailures, Tuple2<List<String>, String>>> {
   /// The parameter `amount` of this provider.
-  double? get amount;
+  int? get amount;
 
   /// The parameter `endate` of this provider.
   String? get endate;
@@ -505,7 +505,7 @@ class _GetScheduleProviderElement extends AutoDisposeFutureProviderElement<
   _GetScheduleProviderElement(super.provider);
 
   @override
-  double? get amount => (origin as GetScheduleProvider).amount;
+  int? get amount => (origin as GetScheduleProvider).amount;
   @override
   String? get endate => (origin as GetScheduleProvider).endate;
   @override

@@ -147,7 +147,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                           ),
                                           const SizedBox(height: 20),
                                           Text(
-                                            "${coinsList.value[index].round()}  ${"jod".tr()}",
+                                            "${coinsList.value[index].round().toInt()}  ${"jod".tr()}",
                                             textAlign: TextAlign.center,
                                             style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(color: Color(0xff16437B)),
                                           ),
@@ -178,7 +178,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                 alignment: Alignment.center,
                                 child: Center(
                                   child: Text(
-                                    sliderValue.value.round().toString(),
+                                    sliderValue.value.round().toInt().toString(),
                                   ),
                                 ),
                               ),
@@ -193,7 +193,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                   min: 1,
                                   max: 10000,
                                   divisions: 9999, // Optional: This enables discrete values
-                                  label: sliderValue.value.round().toString(),
+                                  label: sliderValue.value.round().toInt().toString(),
                                   onChanged: (value) {
                                     sliderValue.value = value;
                                   },
@@ -460,7 +460,7 @@ class SadaqaBottomSheet extends HookConsumerWidget {
                                             if (startDate.value != "startdate".tr() || endDate.value != "enddate".tr()) {
                                               isLoading.value = true;
                                               final schedule = await ref.read(
-                                                  getScheduleProvider(amount: sliderValue.value, donationfrequencyid: "${typeId.value}", endate: endDate.value, startDate: startDate.value).future);
+                                                  getScheduleProvider(amount: sliderValue.value.round(), donationfrequencyid: "${typeId.value}", endate: endDate.value, startDate: startDate.value).future);
                                               return schedule.fold((l) => isLoading.value = false, (r) {
                                                 isLoading.value = false;
                                                 scheduleDates.value = r.item1;

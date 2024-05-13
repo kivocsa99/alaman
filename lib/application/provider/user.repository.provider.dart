@@ -37,7 +37,7 @@ Future<Either<ApiFailures, List<MeetingHistoryModel>>> getMeetingHistory(Ref ref
 }
 
 @riverpod
-Future<Either<ApiFailures, Tuple2<List<String>, String>>> getSchedule(Ref ref, {double? amount, String? endate, String? startDate, String? donationfrequencyid}) {
+Future<Either<ApiFailures, Tuple2<List<String>, String>>> getSchedule(Ref ref, {int? amount, String? endate, String? startDate, String? donationfrequencyid}) {
   return ref.watch(userRepositoryProvider).getrecurringSchedule(amount: amount, startDate: startDate, endate: endate, donationfrequencyid: donationfrequencyid);
 }
 

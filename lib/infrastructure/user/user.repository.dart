@@ -323,7 +323,7 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<ApiFailures, Tuple2<List<String>, String>>> getrecurringSchedule({double? amount, String? endate, String? startDate, String? donationfrequencyid}) async {
+  Future<Either<ApiFailures, Tuple2<List<String>, String>>> getrecurringSchedule({int? amount, String? endate, String? startDate, String? donationfrequencyid}) async {
     final userSetting = ref!.read(settingHiveNotifierProvider);
     try {
       final result = await dio.get(

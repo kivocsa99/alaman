@@ -48,28 +48,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       centerTitle: true,
-      actions: nonotification == true
-          ? null
-          : [
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0, top: 12, left: 20),
-                child: GestureDetector(
-                  onTap: () {
-                    context.router.push(NotificationsHistoryRoute());
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffFFC629)),
-                    child: const Icon(
-                      FontAwesomeIcons.bell,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
-            ],
     );
   }
 

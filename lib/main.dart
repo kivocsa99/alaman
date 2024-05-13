@@ -64,7 +64,7 @@ void main() async {
 
   if (Platform.isAndroid) {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    id = androidInfo.data;
+    id = androidInfo.serialNumber;
     print(id);
   } else {
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;

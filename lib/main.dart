@@ -59,9 +59,7 @@ void main() async {
   if (!kIsWeb) {
     await setupFlutterNotifications();
   }
-
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
   if (Platform.isAndroid) {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     id = androidInfo.serialNumber;
@@ -78,6 +76,7 @@ void main() async {
   await Hive.openBox("register");
   await Hive.openBox("login");
   await Hive.openBox("lan");
+  await Hive.openBox('notification');
   runApp(EasyLocalization(supportedLocales: const [Locale('ar'), Locale('en')], path: 'assets', child: ProviderScope(child: MyAppScreen())));
 }
 

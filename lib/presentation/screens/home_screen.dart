@@ -1,4 +1,5 @@
 import 'package:alaman/application/provider/campaign.provider.dart';
+import 'package:alaman/application/provider/hive.notification.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
 import 'package:alaman/application/provider/language.provider.dart';
 import 'package:alaman/application/provider/user.repository.provider.dart';
@@ -39,6 +40,9 @@ class HomeScreen extends HookConsumerWidget {
     final profile = ref.watch(getProfileProvider);
     final userSetting = ref.watch(settingHiveNotifierProvider);
     final notifications = ref.watch(getNotificationsHistoryProvider);
+    final notifier1 = ref.watch(notificationHiveNotifierProvider.notifier);
+    final notificationCount = ref.watch(notificationHiveNotifierProvider);
+
     final controller1 = useAnimationController(duration: const Duration(seconds: 2));
     final controller2 = useAnimationController(duration: const Duration(seconds: 2));
     final controller3 = useAnimationController(duration: const Duration(seconds: 2));
@@ -132,7 +136,10 @@ class HomeScreen extends HookConsumerWidget {
                                       controller: controller1,
                                       offset: const Offset(4, 0),
                                       child: GestureDetector(
-                                        onTap: () => context.router.push(NotificationsHistoryRoute()),
+                                        onTap: () async {
+                                          notifier1.resetCount();
+                                          context.router.push(NotificationsHistoryRoute());
+                                        },
                                         child: Stack(
                                           clipBehavior: Clip.none,
                                           children: [
@@ -154,15 +161,7 @@ class HomeScreen extends HookConsumerWidget {
                                                     height: 20,
                                                     width: 20,
                                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.red),
-                                                    child: notifications.maybeWhen(
-                                                      orElse: () => Text(""),
-                                                      data: (data) => data.fold(
-                                                          (l) => Text("??"),
-                                                          (r) => Text(
-                                                                "${r.length}",
-                                                                style: TextStyle(color: Colors.white),
-                                                              )),
-                                                    )))
+                                                    child: Text("$notificationCount")))
                                           ],
                                         ),
                                       ),

@@ -49,10 +49,9 @@ class AuthRepository implements IAuthRepository {
     try {
       final result = await dio.get(
           "$baseUrl/user/register?name=${model.name}&phone=${model.phone}&password=${model.password}&account_type=${model.role}&national_id_number=${model.nationalIdNumber}&address=${model.address}&gender_id=${model.genderId}&email=${model.email}&city_id=${model.cityId}&birthdate=${model.birthDate}&social_id=${settings!.socialId}&google_token=${settings.googleToken}&apple_token=${settings.appleToken}");
-
+      print(result.realUri);
       if (result.data['AZSVR'] == "SUCCESS") {
         final userSettings = ref!.read(settingHiveNotifierProvider);
-
         userSettings!
           ..isLoggedIn = true
           ..role = result.data["AccountType"]

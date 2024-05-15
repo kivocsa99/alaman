@@ -19,16 +19,17 @@ class TypeStep extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final box = Hive.box("register");
-    final register = ref.watch(registerHiveNotifierProvider);
+    final register = useState<UserRegistration>(box.getAt(0));
+
     final typeIcon = useState([
       "assets/beneficiary.svg",
       "assets/donor.svg",
       "assets/corporate.svg",
     ]);
     final typeName = useState([
-      "beneficiary",
-      "donor",
-      "corporate",
+      "Beneficiary",
+      "Donor",
+      "Corporate",
     ]);
     final selectedIndex = useState(5);
     final controller1 = useAnimationController(duration: const Duration(seconds: 1));
@@ -36,6 +37,7 @@ class TypeStep extends HookConsumerWidget {
     final controller3 = useAnimationController(duration: const Duration(seconds: 1));
     final controller4 = useAnimationController(duration: const Duration(seconds: 1));
     final controller5 = useAnimationController(duration: const Duration(seconds: 1));
+    print(selectedIndex.value);
     useEffect(() {
       controller5.forward();
       controller1.forward();
@@ -156,8 +158,8 @@ class TypeStep extends HookConsumerWidget {
               height: 60,
               onTap: () async {
                 if (selectedIndex.value != 5) {
-                  register!.role = typeName.value[selectedIndex.value];
-                  ref.read(registerHiveNotifierProvider.notifier).addItem(register);
+                  register.value.role = typeName.value[selectedIndex.value];
+                  await box.putAt(0, register.value);
                   ref.read(registrationNotifierProvider.notifier).nextStep();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

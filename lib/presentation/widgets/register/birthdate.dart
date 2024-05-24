@@ -89,7 +89,7 @@ class BirthdateStep extends HookConsumerWidget {
                                         }),
                                   ),
 
-                                  // Close the modal
+                                  // Cl/=ose the modal
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: SizedBox(

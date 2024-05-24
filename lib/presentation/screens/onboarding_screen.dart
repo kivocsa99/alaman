@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alaman/application/provider/hive.login.provider.dart';
 import 'package:alaman/application/provider/hive.register.provider.dart';
 import 'package:alaman/application/provider/hive.setting.provider.dart';
@@ -9,8 +11,10 @@ import 'package:alaman/presentation/widgets/welcome_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,6 +29,44 @@ class OnBoardingScreen extends HookConsumerWidget {
     final selectedIndex = useState(box?.isLoggedIn == null ? 0 : 3);
     final pageController = usePageController(initialPage: box?.isLoggedIn == null ? 0 : 3);
 
+    useEffect(() {
+      Future<void> checkPermission() async {
+        if (Platform.isAndroid) {
+          LocationPermission permission = await Geolocator.checkPermission();
+          if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+            showDialog(
+              context: context,
+              builder: (BuildContext ctx) {
+                return AlertDialog(
+                  title: const Text('Location Permission Required'),
+                  content: const Text(
+                      'Al-aman fund app uses location to get the user to know the nearest booth location , to make the user able to send his location for cash pickup and to get know where are all the donation booths'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('Grant Permission'),
+                      onPressed: () async {
+                        ctx.router.maybePop();
+                        await Geolocator.requestPermission();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('Cancel'),
+                      onPressed: () {
+                        ctx.router.maybePop();
+                        SystemNavigator.pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        }
+      }
+
+      checkPermission();
+      return null;
+    }, []);
     return SafeArea(
       child: Scaffold(
         body: ResponsiveWidget(

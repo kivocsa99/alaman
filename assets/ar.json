@@ -6,8 +6,7 @@
     "onboardingdescription2": "تُدار تبرعاتك بشفافية\nومساءلة، مما يضمن\nنتائج ذات مغزى.",
     "onboardingdescription3": "انضم إلى مجتمعنا وكن\nمحفزاً للتغيير الإيجابي.",
     "continue": "أكمل",
-    "picktime":"اختر الوقت",
-
+    "picktime": "اختر الوقت",
     "language": "اللغة",
     "hello": "مرحبا",
     "notificationhistory": "سجل الاشعارات",
@@ -103,7 +102,7 @@
     "Corporate": "شركة",
     "nationalidtitle": "ما هو\nرقمك الوطني؟",
     "nationalid": "الرقم الوطني",
-    "birthdatetitle": "الرجاء ادخال الرقم الوطني",
+    "birthdatetitle": "الرجاء ادخال تاريخ الميلاد",
     "datehint": "التاريخ يوم/شهر/سنه",
     "citytitle": "الرجاء اختيار\nالمدينة",
     "city": "المدينة",

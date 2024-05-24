@@ -31,8 +31,6 @@ class MainScreen extends HookConsumerWidget {
         if (message?.notification == null) {
           null;
         } else {
-          print(message?.notification);
-          
           Map<String, dynamic> parsedJson = jsonDecode(message?.data["Type"]);
           String type = parsedJson["related_data"]["Type"].toString().replaceAll("App\\Models\\", "");
           String id = parsedJson["related_data"]["ID"].toString();
@@ -46,7 +44,6 @@ class MainScreen extends HookConsumerWidget {
           if (message.notification == null) {
             null;
           } else {
-            print(message.data);
             Map<String, dynamic> parsedJson = jsonDecode(message.data["Type"]);
             String type = parsedJson["related_data"]["Type"].toString().replaceAll("App\\Models\\", "");
             String id = parsedJson["related_data"]["ID"].toString();
@@ -66,8 +63,6 @@ class MainScreen extends HookConsumerWidget {
         if (message.notification == null) {
           null;
         } else {
-          print(message.notification);
-
           Map<String, dynamic> parsedJson = jsonDecode(message.data["Type"]);
           String type = parsedJson["related_data"]["Type"].toString().replaceAll("App\\Models\\", "");
           String id = parsedJson["related_data"]["ID"].toString();

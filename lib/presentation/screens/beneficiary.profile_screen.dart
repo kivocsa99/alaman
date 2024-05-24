@@ -49,7 +49,6 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
           body: beneficiary.when(
               data: (data) => data.fold((l) => Text(l.message ?? "internetconnection").tr(), (r) {
                     final BeneficiaryModel model = r;
-
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListView(
@@ -246,13 +245,13 @@ class BeneficiaryProfileScreen extends HookConsumerWidget {
                                         const Gap(20),
                                         ProfileContainer(title: "fullname", description: "${locale == "en" ? model.name : model.name_ar}"),
                                         const Gap(10),
-                                        ProfileContainer(title: "sepcialization", description: "${locale == "en"?model.major!.name:model.major!.name_ar!}"),
+                                        ProfileContainer(title: "sepcialization", description: "${locale == "en" ? model.major!.name : model.major!.name_ar!}"),
                                         const Gap(10),
                                         ProfileContainer(title: "joindate", description: convertApiDate(model.alaman_join_date ?? "")),
                                         Gap(10),
-                                        ProfileContainer(title: "estimatedgraduation", description: convertApiDate(model.alaman_join_date ?? "")),
+                                        ProfileContainer(title: "estimatedgraduation", description: convertApiDate(model.alaman_estimated_graduation_date ?? "")),
                                         Gap(10),
-                                        ProfileContainer(title: "educationalorgname", description: locale=="en"? model.educational_organization!.name!:model.educational_organization!.name_ar!),
+                                        ProfileContainer(title: "educationalorgname", description: locale == "en" ? model.educational_organization!.name! : model.educational_organization!.name_ar!),
                                       ],
                                     )
                                   : CustomPaint(

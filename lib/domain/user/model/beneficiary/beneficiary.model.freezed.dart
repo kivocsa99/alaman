@@ -44,6 +44,8 @@ mixin _$BeneficiaryModel {
   String? get contact_person => throw _privateConstructorUsedError;
   String? get contact_person_phone => throw _privateConstructorUsedError;
   dynamic get alaman_contact_person_id => throw _privateConstructorUsedError;
+  String? get alaman_estimated_graduation_date =>
+      throw _privateConstructorUsedError;
   String? get alaman_join_date => throw _privateConstructorUsedError;
   StatusModel? get educational_organization =>
       throw _privateConstructorUsedError;
@@ -120,6 +122,7 @@ abstract class $BeneficiaryModelCopyWith<$Res> {
       String? contact_person,
       String? contact_person_phone,
       dynamic alaman_contact_person_id,
+      String? alaman_estimated_graduation_date,
       String? alaman_join_date,
       StatusModel? educational_organization,
       StatusModel? major,
@@ -200,6 +203,7 @@ class _$BeneficiaryModelCopyWithImpl<$Res, $Val extends BeneficiaryModel>
     Object? contact_person = freezed,
     Object? contact_person_phone = freezed,
     Object? alaman_contact_person_id = freezed,
+    Object? alaman_estimated_graduation_date = freezed,
     Object? alaman_join_date = freezed,
     Object? educational_organization = freezed,
     Object? major = freezed,
@@ -330,6 +334,11 @@ class _$BeneficiaryModelCopyWithImpl<$Res, $Val extends BeneficiaryModel>
           ? _value.alaman_contact_person_id
           : alaman_contact_person_id // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      alaman_estimated_graduation_date: freezed ==
+              alaman_estimated_graduation_date
+          ? _value.alaman_estimated_graduation_date
+          : alaman_estimated_graduation_date // ignore: cast_nullable_to_non_nullable
+              as String?,
       alaman_join_date: freezed == alaman_join_date
           ? _value.alaman_join_date
           : alaman_join_date // ignore: cast_nullable_to_non_nullable
@@ -595,6 +604,7 @@ abstract class _$$BeneficiaryModelImplCopyWith<$Res>
       String? contact_person,
       String? contact_person_phone,
       dynamic alaman_contact_person_id,
+      String? alaman_estimated_graduation_date,
       String? alaman_join_date,
       StatusModel? educational_organization,
       StatusModel? major,
@@ -681,6 +691,7 @@ class __$$BeneficiaryModelImplCopyWithImpl<$Res>
     Object? contact_person = freezed,
     Object? contact_person_phone = freezed,
     Object? alaman_contact_person_id = freezed,
+    Object? alaman_estimated_graduation_date = freezed,
     Object? alaman_join_date = freezed,
     Object? educational_organization = freezed,
     Object? major = freezed,
@@ -811,6 +822,11 @@ class __$$BeneficiaryModelImplCopyWithImpl<$Res>
           ? _value.alaman_contact_person_id
           : alaman_contact_person_id // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      alaman_estimated_graduation_date: freezed ==
+              alaman_estimated_graduation_date
+          ? _value.alaman_estimated_graduation_date
+          : alaman_estimated_graduation_date // ignore: cast_nullable_to_non_nullable
+              as String?,
       alaman_join_date: freezed == alaman_join_date
           ? _value.alaman_join_date
           : alaman_join_date // ignore: cast_nullable_to_non_nullable
@@ -971,6 +987,7 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
       this.contact_person,
       this.contact_person_phone,
       this.alaman_contact_person_id,
+      this.alaman_estimated_graduation_date,
       this.alaman_join_date,
       this.educational_organization,
       this.major,
@@ -1059,6 +1076,8 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
   @override
   final dynamic alaman_contact_person_id;
   @override
+  final String? alaman_estimated_graduation_date;
+  @override
   final String? alaman_join_date;
   @override
   final StatusModel? educational_organization;
@@ -1141,7 +1160,7 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
 
   @override
   String toString() {
-    return 'BeneficiaryModel(id: $id, name: $name, name_ar: $name_ar, phone: $phone, bio: $bio, bio_ar: $bio_ar, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_join_date: $alaman_join_date, educational_organization: $educational_organization, major: $major, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, social_id: $social_id, apple_id: $apple_id, google_id: $google_id, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donation: $donor_donation, educational_year: $educational_year, scholarship_status: $scholarship_status, scholarship_type: $scholarship_type, beneficiary_payments: $beneficiary_payments, marks: $marks)';
+    return 'BeneficiaryModel(id: $id, name: $name, name_ar: $name_ar, phone: $phone, bio: $bio, bio_ar: $bio_ar, email: $email, email_verified_at: $email_verified_at, account_type: $account_type, active: $active, image: $image, national_id_number: $national_id_number, address: $address, gender_id: $gender_id, first_donation_date: $first_donation_date, total_donation_amount: $total_donation_amount, sector: $sector, account_source_id: $account_source_id, city_id: $city_id, commitment_method_id: $commitment_method_id, area: $area, contact_person: $contact_person, contact_person_phone: $contact_person_phone, alaman_contact_person_id: $alaman_contact_person_id, alaman_estimated_graduation_date: $alaman_estimated_graduation_date, alaman_join_date: $alaman_join_date, educational_organization: $educational_organization, major: $major, place_of_residence: $place_of_residence, educational_year_id: $educational_year_id, birthdate: $birthdate, e_wallet_number: $e_wallet_number, e_wallet_status: $e_wallet_status, scholarship_type_id: $scholarship_type_id, scholarship_status_id: $scholarship_status_id, scholarship_status_notes: $scholarship_status_notes, rent_expiration_date: $rent_expiration_date, insurance_covering: $insurance_covering, insurance_covering_from_date: $insurance_covering_from_date, insurance_covering_to_date: $insurance_covering_to_date, donations_goal: $donations_goal, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, social_id: $social_id, apple_id: $apple_id, google_id: $google_id, theme: $theme, theme_color: $theme_color, gender: $gender, city: $city, donor_donation: $donor_donation, educational_year: $educational_year, scholarship_status: $scholarship_status, scholarship_type: $scholarship_type, beneficiary_payments: $beneficiary_payments, marks: $marks)';
   }
 
   @override
@@ -1183,6 +1202,9 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
                 other.contact_person_phone == contact_person_phone) &&
             const DeepCollectionEquality().equals(
                 other.alaman_contact_person_id, alaman_contact_person_id) &&
+            (identical(other.alaman_estimated_graduation_date, alaman_estimated_graduation_date) ||
+                other.alaman_estimated_graduation_date ==
+                    alaman_estimated_graduation_date) &&
             (identical(other.alaman_join_date, alaman_join_date) ||
                 other.alaman_join_date == alaman_join_date) &&
             (identical(other.educational_organization, educational_organization) ||
@@ -1220,17 +1242,12 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
                 other.created_at == created_at) &&
             (identical(other.updated_at, updated_at) ||
                 other.updated_at == updated_at) &&
-            (identical(other.deleted_at, deleted_at) ||
-                other.deleted_at == deleted_at) &&
-            (identical(other.social_id, social_id) ||
-                other.social_id == social_id) &&
-            (identical(other.apple_id, apple_id) ||
-                other.apple_id == apple_id) &&
-            (identical(other.google_id, google_id) ||
-                other.google_id == google_id) &&
+            (identical(other.deleted_at, deleted_at) || other.deleted_at == deleted_at) &&
+            (identical(other.social_id, social_id) || other.social_id == social_id) &&
+            (identical(other.apple_id, apple_id) || other.apple_id == apple_id) &&
+            (identical(other.google_id, google_id) || other.google_id == google_id) &&
             (identical(other.theme, theme) || other.theme == theme) &&
-            (identical(other.theme_color, theme_color) ||
-                other.theme_color == theme_color) &&
+            (identical(other.theme_color, theme_color) || other.theme_color == theme_color) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.city, city) || other.city == city) &&
             (identical(other.donor_donation, donor_donation) || other.donor_donation == donor_donation) &&
@@ -1269,6 +1286,7 @@ class _$BeneficiaryModelImpl extends _BeneficiaryModel {
         contact_person,
         contact_person_phone,
         const DeepCollectionEquality().hash(alaman_contact_person_id),
+        alaman_estimated_graduation_date,
         alaman_join_date,
         educational_organization,
         major,
@@ -1344,6 +1362,7 @@ abstract class _BeneficiaryModel extends BeneficiaryModel {
       final String? contact_person,
       final String? contact_person_phone,
       final dynamic alaman_contact_person_id,
+      final String? alaman_estimated_graduation_date,
       final String? alaman_join_date,
       final StatusModel? educational_organization,
       final StatusModel? major,
@@ -1429,6 +1448,8 @@ abstract class _BeneficiaryModel extends BeneficiaryModel {
   String? get contact_person_phone;
   @override
   dynamic get alaman_contact_person_id;
+  @override
+  String? get alaman_estimated_graduation_date;
   @override
   String? get alaman_join_date;
   @override

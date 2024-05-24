@@ -18,7 +18,6 @@ class BeneficiaryRepository implements IBeneficiaryRepository {
   @override
   Future<Either<ApiFailures, dynamic>> getAlamanReqeusts({String? id}) async {
     final userSetting = ref.read(settingHiveNotifierProvider);
-
     try {
       final result = await dio.get("$baseUrl/alamanRequest/getRequests?api_token=${userSetting!.token}");
 

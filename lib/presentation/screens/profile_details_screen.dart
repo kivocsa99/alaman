@@ -257,7 +257,7 @@ class ProfileDetailsScreen extends HookConsumerWidget {
                                 title: "estimatedgraduation",
                                 description: convertApiDate(
                                  
-                                      model.alaman_join_date ?? "")),
+                                      model.alaman_estimated_graduation_date ?? "")),
                           if (setting?.role == "Beneficiary") const Gap(10),
                           if (setting?.role == "Beneficiary")
                             ProfileContainer(

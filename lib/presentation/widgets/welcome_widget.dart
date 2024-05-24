@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alaman/application/provider/auth.repository.provider.dart';
 import 'package:alaman/presentation/widgets/auth_container.dart';
 import 'package:alaman/routes/app_route.dart';
@@ -112,42 +114,43 @@ class WelcomeWidget extends HookConsumerWidget {
             ),
           )),
           const ResponsiveRowColumnItem(child: Gap(20)),
-          ResponsiveRowColumnItem(
-              child: FadeTransition(
-            opacity: CurvedAnimation(parent: controller6, curve: Curves.easeIn),
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 0.5),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(parent: controller6, curve: Curves.easeOut)),
-              child: AuthContainer(
-                raduis: 50,
-                height: 60,
-                onTap: () async {
-                  final credential = await SignInWithApple.getAppleIDCredential(
-                    scopes: [
-                      AppleIDAuthorizationScopes.email,
-                      AppleIDAuthorizationScopes.fullName,
-                    ],
-                  ).then((value) async {
-                    if (value.userIdentifier == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please authorize apple signin")));
-                    } else {
-                      ref
-                          .read(checkSocialProvider(socialId: value.userIdentifier!, appleToken: value.identityToken).future)
-                          .then((value) => value.fold((l) => context.router.push(RegisterRoute()), (r) => context.router.replaceAll([MainRoute()])));
-                    }
-                  });
-                },
-                color: Color(0xff0E2947),
-                child: Text(
-                  "applecontinue",
-                  style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
-                ).tr(),
+          if (Platform.isIOS)
+            ResponsiveRowColumnItem(
+                child: FadeTransition(
+              opacity: CurvedAnimation(parent: controller6, curve: Curves.easeIn),
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.5),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(parent: controller6, curve: Curves.easeOut)),
+                child: AuthContainer(
+                  raduis: 50,
+                  height: 60,
+                  onTap: () async {
+                    final credential = await SignInWithApple.getAppleIDCredential(
+                      scopes: [
+                        AppleIDAuthorizationScopes.email,
+                        AppleIDAuthorizationScopes.fullName,
+                      ],
+                    ).then((value) async {
+                      if (value.userIdentifier == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please authorize apple signin")));
+                      } else {
+                        ref
+                            .read(checkSocialProvider(socialId: value.userIdentifier!, appleToken: value.identityToken).future)
+                            .then((value) => value.fold((l) => context.router.push(RegisterRoute()), (r) => context.router.replaceAll([MainRoute()])));
+                      }
+                    });
+                  },
+                  color: Color(0xff0E2947),
+                  child: Text(
+                    "applecontinue",
+                    style: Theme.of(context).primaryTextTheme.titleSmall?.copyWith(color: Colors.white),
+                  ).tr(),
+                ),
               ),
-            ),
-          )),
-          const ResponsiveRowColumnItem(child: Gap(20)),
+            )),
+          if (Platform.isIOS) const ResponsiveRowColumnItem(child: Gap(20)),
           ResponsiveRowColumnItem(
               child: FadeTransition(
             opacity: CurvedAnimation(parent: controller6, curve: Curves.easeIn),

@@ -12,7 +12,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
 Future<LatLng> getCurrentLocation() async {
   LocationPermission permission = await Geolocator.checkPermission();
 
@@ -48,7 +47,7 @@ class LocationCheckerScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locationFuture = useMemoized(getCurrentLocation);
     final snapshot = useFuture(locationFuture);
-        final locale = ref.watch(languageHiveNotifierProvider);
+    final locale = ref.watch(languageHiveNotifierProvider);
 
     print(snapshot.data);
     final isLoading = useState(false);
@@ -61,26 +60,29 @@ class LocationCheckerScreen extends HookConsumerWidget {
     final markpointer = useState(snapshot.data ?? const LatLng(31.9539, 35.9106));
 
     return Scaffold(
-      floatingActionButtonLocation:locale=="en"? FloatingActionButtonLocation.startDocked:FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: locale == "en" ? FloatingActionButtonLocation.startDocked : FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await showModalBottomSheet(context: context, builder:(context) => TimePickerBottomSheet(
-            paymentMethod: paymentMethod,
-            donationFrequencyId: donationFrequencyId,
-            donationTypeId: donationTypeId,
-            recurring: recurring,
-            startDate: startDate,
-            endDate: endDate,
-            amount: amount,
-            beneficiaries: beneficiaries,
-            notes: notes,
-            location: markpointer.value,
-
-          ),);
+          await showModalBottomSheet(
+            context: context,
+            builder: (context) => TimePickerBottomSheet(
+              paymentMethod: paymentMethod,
+              donationFrequencyId: donationFrequencyId,
+              donationTypeId: donationTypeId,
+              recurring: recurring,
+              startDate: startDate,
+              endDate: endDate,
+              amount: amount,
+              beneficiaries: beneficiaries,
+              notes: notes,
+              location: markpointer.value,
+            ),
+          );
         },
         child: isLoading.value == false ? const Icon(FontAwesomeIcons.check) : const CircularProgressIndicator(),
       ),
       body: GoogleMap(
+        myLocationButtonEnabled: false,
         initialCameraPosition: CameraPosition(
           target: LatLng(markpointer.value.latitude, markpointer.value.longitude),
           zoom: 15,

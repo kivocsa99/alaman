@@ -4,6 +4,7 @@ import 'package:alaman/infrastructure/user/beneficiary.repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'beneficiary.repository.provider.g.dart';
 
 final beneficiaryRepositoryProvider = Provider<IBeneficiaryRepository>((ref) => BeneficiaryRepository(ref: ref));
 @riverpod

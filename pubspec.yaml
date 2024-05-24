@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: "none"
 
-version: 3.3.3+10
+version: 3.3.4+11
 
 environment:
   sdk: ">=3.3.1 <4.0.0"
@@ -65,7 +65,11 @@ dev_dependencies:
   json_serializable: ^6.7.1
   riverpod_generator: ^2.3.11
   riverpod_lint: ^2.3.9
-
+  flutter_launcher_icons: ^0.13.1
+flutter_icons:
+  android: true
+  ios: false # Set this to false since you only want to configure Android icons
+  image_path: "assets/amanlogo.png" # Path to your custom icon image
 flutter:
   uses-material-design: true
 

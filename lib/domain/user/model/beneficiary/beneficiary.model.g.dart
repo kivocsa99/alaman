@@ -33,6 +33,8 @@ _$BeneficiaryModelImpl _$$BeneficiaryModelImplFromJson(
       contact_person: json['contact_person'] as String?,
       contact_person_phone: json['contact_person_phone'] as String?,
       alaman_contact_person_id: json['alaman_contact_person_id'],
+      alaman_estimated_graduation_date:
+          json['alaman_estimated_graduation_date'] as String?,
       alaman_join_date: json['alaman_join_date'] as String?,
       educational_organization: json['educational_organization'] == null
           ? null
@@ -121,6 +123,8 @@ Map<String, dynamic> _$$BeneficiaryModelImplToJson(
       'contact_person': instance.contact_person,
       'contact_person_phone': instance.contact_person_phone,
       'alaman_contact_person_id': instance.alaman_contact_person_id,
+      'alaman_estimated_graduation_date':
+          instance.alaman_estimated_graduation_date,
       'alaman_join_date': instance.alaman_join_date,
       'educational_organization': instance.educational_organization,
       'major': instance.major,
